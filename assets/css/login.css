@@ -1,0 +1,65 @@
+/* 
+    Created on : 13/10/2016, 17:52:27
+    Author     : willfreire
+*/
+
+body {
+    background-color: #0D6579 !important;
+}
+
+.login-logo, .register-logo {
+    margin-bottom: 40px
+}
+
+.login-box-body {
+    box-shadow    : 0 0 5px rgba(0, 0, 0, 0.24);
+    border-radius : 10px
+}
+
+@media (max-width: 480px) {
+    .login-box {
+        width: 100%;
+    }
+    
+    .break_block {
+        margin-bottom: 30px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 559px) {
+    .login-box {
+        width: 90%;
+    }
+        
+    .break_block {
+        margin-bottom: 30px;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 767px) {
+    .login-box {
+        width: 75%;
+    }
+    
+    .break_block {
+        margin-bottom: 30px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .login-box {
+        width: 100%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .login-box {
+        width: 80%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .login-box {
+        width: 40%;
+    }
+}
