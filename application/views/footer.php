@@ -26,6 +26,8 @@
         <script src="<?=base_url('scripts/plugins/fastclick/fastclick.js')?>"></script>
         <!-- AdminLTE App -->
         <script src="<?=base_url('assets/dist/js/app.min.js')?>"></script>
+        <!-- BootBox -->
+        <script src="<?=base_url('scripts/lib/bootbox.min.js')?>"></script>
 
     </body>
 

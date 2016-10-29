@@ -96,8 +96,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?=base_url('./fornecedor/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+                    <li><a href="<?=base_url('./fornecedor/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
             <li class="treeview">

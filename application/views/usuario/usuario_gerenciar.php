@@ -87,6 +87,8 @@
                 ],
                 "processing": true,
                 "serverSide": true,
+                "iDisplayLength": 50,
+                "stripeClasses" : ['strip_grid_none', 'strip_grid'],
                 "ajax": {
                     url: '<?=base_url('./usuario/buscarUsuario')?>',
                     type: 'POST'

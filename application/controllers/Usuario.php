@@ -106,7 +106,7 @@ class Usuario extends CI_Controller
         $usuario->perfil = $this->input->post('perfil');
         $usuario->status = $this->input->post('status');
 
-        if ($usuario->nome != NULL & $usuario->email != NULL && $usuario->senha != NULL && $usuario->perfil != NULL && $usuario->status != NULL) {
+        if ($usuario->nome != NULL && $usuario->email != NULL && $usuario->senha != NULL && $usuario->perfil != NULL && $usuario->status != NULL) {
             $resposta = $this->Usuario_model->setUsuario($usuario);
         } else {
             $retorno->status = FALSE;
@@ -194,7 +194,7 @@ class Usuario extends CI_Controller
         $usuario->status  = $this->input->post('status');
         $usuario->alt_pwd = $this->input->post('alt_senha');
 
-        if ($usuario->id != NULL && $usuario->nome != NULL & $usuario->email != NULL && $usuario->perfil != NULL && $usuario->status != NULL) {
+        if ($usuario->id != NULL && $usuario->nome != NULL && $usuario->email != NULL && $usuario->perfil != NULL && $usuario->status != NULL) {
             $resposta = $this->Usuario_model->setUsuario($usuario);
         } else {
             $retorno->status = FALSE;

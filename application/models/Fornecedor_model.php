@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Usuario_model extends CI_Model {
+class Fornecedor_model extends CI_Model {
 
     # Propriedades
     public $draw;
@@ -21,34 +21,26 @@ class Usuario_model extends CI_Model {
     }
 
     /**
-     * Método responsável por cadastrar / editar um usuário
+     * Método responsável por cadastrar / editar um fornecedor
      *
-     * @method setUsuario
+     * @method setFornecedor
      * @param obj $valores Dados para cadastro / edicao
      * @access public
      * @return obj Status de ação
      */
-    public function setUsuario($valores)
+    public function setFornecedor($valores)
     {
         # Atribuir vars
         $retorno   = new stdClass();
         $dados     = array();
-        $timestamp = "%Y-%m-%d %H:%i:%s";
-        $data      = time();
 
-        $dados['nome']         = $valores->nome;
-        $dados['email']        = $valores->email;
-        $dados['id_perfil_fk'] = $valores->perfil;
+        $dados['fornecedor']   = $valores->nome;
         $dados['id_status_fk'] = $valores->status;
 
         if (isset($valores->id) && $valores->id != ""):
-            if ($valores->alt_pwd == "1" && $valores->senha != ""):
-                $dados['senha'] = sha1($valores->senha);
-            endif;
-
-            # Atualiza usuario
-            $this->db->where('id_usuario_pk', $valores->id);
-            $this->db->update('tb_usuario', $dados);
+            # Atualiza fornecedor
+            $this->db->where('id_fornecedor_pk', $valores->id);
+            $this->db->update('tb_fornecedor', $dados);
 
             if ($this->db->affected_rows() >= 0) {
                 $retorno->status = TRUE;
@@ -58,12 +50,8 @@ class Usuario_model extends CI_Model {
                 $retorno->msg    = "Houve um erro ao editar! Tente novamente...";
             }
         else:
-            $dados['senha']             = sha1($valores->senha);
-            $dados['id_usuario_cad_fk'] = $this->session->userdata('id_vt');
-            $dados['dt_hr_cad']         = mdate($timestamp, $data);
-
-            # Grava usuario
-            $this->db->insert('tb_usuario', $dados);
+            # Grava fornecedor
+            $this->db->insert('tb_fornecedor', $dados);
 
             if ($this->db->affected_rows() > 0) {
                 $retorno->status = TRUE;
@@ -79,14 +67,14 @@ class Usuario_model extends CI_Model {
     }
 
     /**
-     * Método responsável por pesquisar e buscar usuários
+     * Método responsável por pesquisar e buscar fornecedors
      *
-     * @method getUsuarios
+     * @method getFornecedors
      * @param obj $search Conjuntos de dados para realizar a pesquisa
      * @access public
-     * @return obj Lista de usuários
+     * @return obj Lista de fornecedors
      */
-    public function getUsuarios($search)
+    public function getFornecedors($search)
     {
         # Atribuir valores
         $this->draw      = $search->draw;
@@ -110,10 +98,9 @@ class Usuario_model extends CI_Model {
         endif;
 
         # Contar total de registros
-        $this->db->select('COUNT(u.id_usuario_pk) AS total');
-        $this->db->from('tb_usuario u');
-        $this->db->join('tb_perfil p', 'u.id_perfil_fk = p.id_perfil_pk', 'inner');
-        $this->db->join('tb_status s', 'u.id_status_fk = s.id_status_pk', 'inner');
+        $this->db->select('COUNT(f.id_fornecedor_pk) AS total');
+        $this->db->from('tb_fornecedor f');
+        $this->db->join('tb_status s', 'f.id_status_fk = s.id_status_pk', 'inner');
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
             $this->db->where($where);
@@ -126,11 +113,10 @@ class Usuario_model extends CI_Model {
             $this->recordsTotal = 0;
         endif;
 
-        # Consultar usuarios
-        $this->db->select('u.id_usuario_pk, u.nome, u.email, p.perfil, s.status');
-        $this->db->from('tb_usuario u');
-        $this->db->join('tb_perfil p', 'u.id_perfil_fk = p.id_perfil_pk', 'inner');
-        $this->db->join('tb_status s', 'u.id_status_fk = s.id_status_pk', 'inner');
+        # Consultar fornecedors
+        $this->db->select('f.id_fornecedor_pk, f.fornecedor, s.status');
+        $this->db->from('tb_fornecedor f');
+        $this->db->join('tb_status s', 'f.id_status_fk = s.id_status_pk', 'inner');
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
             $this->db->where($where);
@@ -141,24 +127,23 @@ class Usuario_model extends CI_Model {
         $resp_dados  = $query_dados->result();
 
         # Criar classe predefinida
-        $users = array();
+        $fornecs = array();
         if (!empty($resp_dados)):
 
             foreach ($resp_dados as $value):
                 # Botao
-                $url_edit = base_url('./usuario/editar/'.$value->id_usuario_pk);
-                $url_view = base_url('./usuario/ver/'.$value->id_usuario_pk);
-                $acao     = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Editar Usu&aacute;rio' onclick='Usuario.redirect(\"$url_edit\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
-                $acao     .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Usu&aacute;rio' onclick='Usuario.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
-                # $acao        .= "<button type='button' class='btn btn-danger btn-xs' title='Excluir Usu&aacute;rio' style='margin: 3px'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
+                $id_fornec = $value->id_fornecedor_pk;
+                $url_edit  = base_url('./fornecedor/editar/'.$id_fornec);
+                $url_view  = base_url('./fornecedor/ver/'.$id_fornec);
+                $acao      = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Editar Fornecedor' onclick='Fornecedor.redirect(\"$url_edit\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
+                $acao     .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Fornecedor' onclick='Fornecedor.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
+                $acao     .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Fornecedor' onclick='Fornecedor.del(\"$id_fornec\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
 
-                $user         = new stdClass();
-                $user->nome   = $value->nome;
-                $user->email  = $value->email;
-                $user->perfil = $value->perfil;
-                $user->status = $value->status;
-                $user->acao   = $acao;
-                $users[]      = $user;
+                $fornec             = new stdClass();
+                $fornec->fornecedor = $value->fornecedor;
+                $fornec->status     = $value->status;
+                $fornec->acao       = $acao;
+                $fornecs[]          = $fornec;
             endforeach;
 
         endif;
@@ -166,12 +151,40 @@ class Usuario_model extends CI_Model {
         $dados['draw']            = intval($this->draw);
         $dados['recordsTotal']    = $this->recordsTotal;
         $dados['recordsFiltered'] = $this->recordsTotal;
-        $dados['data']            = $users;
+        $dados['data']            = $fornecs;
 
         return $dados;
     }
 
+    /**
+     * Método de exclusão de um Fornecedor
+     *
+     * @method delFornecedor
+     * @access public
+     * @param integer $id Id do registro a ser excluído
+     * @return obj Status da ação
+     */
+    public function delFornecedor($id)
+    {
+        # Atribuir vars
+        $retorno = new stdClass();
+
+        # SQL
+        $this->db->where('id_fornecedor_pk', $id);
+        $this->db->delete('tb_fornecedor');
+
+        if ($this->db->affected_rows() > 0) {
+            $retorno->status = TRUE;
+            $retorno->msg    = "Exclus&atilde;o realizada com Sucesso!";
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao Excluir! Tente novamente...";
+        }
+
+        # retornar
+        return $retorno;
+    }
 }
 
-/* End of file usuario_model.php */
-/* Location: ./application/models/usuario_model.php */
+/* End of file fornecedor_model.php */
+/* Location: ./application/models/fornecedor_model.php */
