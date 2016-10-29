@@ -20,9 +20,10 @@ class Main extends CI_Controller
     public function index()
     {
         $this->load->view('header');
-        if ($this->session->userdata('usuario')):
-            $this->load->view('menu_gerenciador');
-            $this->load->view('gerenciador');
+        if ($this->session->userdata('user_vt')):
+            redirect(base_url("main/dashboard"));
+        elseif ($this->session->userdata('user_client')):
+            redirect(base_url("main/dashboard_client"));
         else:
             $this->load->view('login');
         endif;
@@ -30,55 +31,75 @@ class Main extends CI_Controller
     }
 
     /**
-     * Método para autenticação do usuário
+     * Método para autenticação de usuários da VT Card
      *
-     * @method login
+     * @method loginVT
      * @access public
      * @return void
      */
-    public function login()
+    public function loginVT()
     {
+        # Vars
+        $retorno = new stdClass();
+        $email   = $this->input->post('email');
+        $senha   = sha1($this->input->post('pwd_empresa'));
 
-        $usuario = $this->input->post('username');
-        $senha = sha1($this->input->post('password'));
-
-        $this->db->select('u.id_deops_user_pk, u.nome, u.login, u.id_perfil_fk, u.id_status_fk');
-        $this->db->from('tb_deops_user  u');
-        $this->db->where('login', $usuario);
-        $this->db->where('senha', $senha);
-        $this->db->where('id_status_fk', 1);
+        $this->db->select('u.id_usuario_pk, u.nome, u.email, u.id_perfil_fk, u.id_status_fk, p.perfil, DATE_FORMAT(u.dt_hr_cad, \'%d/%m/%Y\') AS dt_cad');
+        $this->db->from('tb_usuario  u');
+        $this->db->join('tb_perfil p', 'u.id_perfil_fk = p.id_perfil_pk', 'inner');
+        $this->db->where('u.email', $email);
+        $this->db->where('u.senha', $senha);
+        $this->db->where('u.id_status_fk', 1);
         $user = $this->db->get()->result();
 
         if (count($user) === 1)
         {
+            $first_name = explode(" ", $user[0]->nome);
+
             $dados = array(
-                'id' => $user[0]->id_deops_user_pk,
-                'usuario' => $user[0]->nome,
-                'login' => $user[0]->login,
-                'perfil' => $user[0]->id_perfil_fk
+                'id_vt'        => $user[0]->id_usuario_pk,
+                'user_vt'      => $user[0]->nome,
+                'user_st'      => is_array($first_name) ? $first_name[0] : $user[0]->nome,
+                'email_vt'     => $user[0]->email,
+                'id_perfil_vt' => $user[0]->id_perfil_fk,
+                'perfil_vt'    => $user[0]->perfil,
+                'dt_cad_vt'    => $user[0]->dt_cad
             );
             $this->session->set_userdata($dados);
-            redirect(base_url("/"));
+
+            $retorno->status = TRUE;
+            $retorno->msg    = "OK";
+            $retorno->url    = base_url("main/dashboard");
         }
         else
         {
-            redirect(base_url("main/erroLogin"));
+            $retorno->status = FALSE;
+            $retorno->msg    = "E-mail e/ou Senha Inv&aacute;lida!";
+            $retorno->url    = "";
         }
+
+        print json_encode($retorno);
     }
 
     /**
-     * Método principal para carregar a tela de login
-     * informando a mensagem de erro
+     * Método load Dashboard da VT Card
      *
-     * @method erroLogin
+     * @method dashboard
      * @access public
      * @return void
      */
-    public function erroLogin()
+    public function dashboard()
     {
-        $data['msg'] = array("Usu&aacute;rio e/ou Senha Incorretos!");
-        $this->load->view('header');
-        $this->load->view('login', $data);
+        $data           = array();
+        $data['titulo'] = "Dashboard";
+
+        $this->load->view('header', $data);
+        # Validar acesso
+        if (!empty($this->session->userdata('user_vt'))):
+            $this->load->view('dashboard');
+        else:
+            redirect(base_url("/"));
+        endif;
         $this->load->view('footer');
     }
 

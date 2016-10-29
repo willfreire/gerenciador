@@ -5,6 +5,70 @@ Login = {
      **/
     main: function () {
 
+        // Login VT Card
+        $('#frm_login_empresa').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Informe seu <strong>E-MAIL</strong>'
+                        },
+                        emailAddress: {
+                            message: 'Digite um endere&ccedil;o de <strong>E-MAIL</strong> v&aacute;lido'
+                        }
+                    }
+                },
+                pwd_empresa: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Digite sua <strong>Senha</strong>'
+                        },
+                        stringLength: {
+                            min: 8,
+                            max: 100,
+                            message: 'Sua <strong>Senha</strong> deve ter no m&iacute;nimo <strong>8</strong> caracteres'
+                        }
+                    }
+                }
+            }
+
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+            var url = "./main/loginVT";
+
+            // Use Ajax to submit form data
+            $.post(url, frm, function (data) {
+                if (data.status === true) {
+                    //modalMsg("MENSAGEM", data.msg, false, false);
+                    // Limpar Formulario
+                    $('#frm_login_empresa').each(function () {
+                        this.reset();
+                    });
+                    $('#frm_login_empresa').bootstrapValidator('resetForm', true);
+                    Login.redirect("./main/dashboard");
+                } else {
+                    Login.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                }
+
+                $('#btn_acc_empresa').removeAttr('disabled');
+            }, 'json');
+
+        });
+
     },
     
     /*!

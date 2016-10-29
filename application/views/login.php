@@ -1,10 +1,10 @@
-<!-- CSS Login -->
-<link rel="stylesheet" href="<?=base_url('assets/css/login.css')?>">
-
-<!-- JS Login -->
-<script src="<?=base_url('scripts/js/login.js')?>"></script>
-
 <body class="hold-transition login-page">
+
+    <!-- CSS Login -->
+    <link rel="stylesheet" href="<?=base_url('assets/css/login.css')?>">
+
+    <!-- JS Login -->
+    <script src="<?=base_url('scripts/js/login.js')?>"></script>
 
     <div class="login-box container-fluid">
         
@@ -32,7 +32,7 @@
                                 <a href="#">Esqueci minha senha</a><br>
                             </div>
                             <div class="col-xs-4">
-                                <button type="submit" class="btn btn-primary btn-block btn-flat">Acessar</button>
+                                <button type="submit" class="btn btn-primary btn-block btn-flat" id="btn_acc_empresa">Acessar</button>
                             </div>
                         </div>
                     </form>
