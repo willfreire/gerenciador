@@ -28,6 +28,8 @@
         <script src="<?=base_url('assets/dist/js/app.min.js')?>"></script>
         <!-- BootBox -->
         <script src="<?=base_url('scripts/lib/bootbox.min.js')?>"></script>
+        <!-- Jquery Mask -->
+        <script src="<?=base_url('scripts/plugins/mask/jquery.mask.js')?>"></script>
 
     </body>
 

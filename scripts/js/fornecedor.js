@@ -10,17 +10,6 @@ Fornecedor = {
             Fornecedor.redirect('../gerenciar');
         });
 
-        // Habilitar campo senha
-        $("#alt_senha").click(function(){
-            if ($("#alt_senha:checked").val() === "1") {
-                $("#senha_usuario").removeAttr('disabled');
-                Fornecedor.setFocus('senha_usuario');
-            } else {
-                $("#senha_usuario").val('');
-                $("#senha_usuario").attr('disabled', 'disabled');
-            }
-        });
-
         // Fornecedor Cadastrar
         $('#frm_cad_fornec_vt').bootstrapValidator({
             feedbackIcons: {

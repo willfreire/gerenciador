@@ -59,7 +59,7 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="col-xs-12 col-sm-10 col-md-9 col-lg-8">
                                                 <label for="email_usuario">E-mail<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <input type="text" class="form-control" id="email_usuario" name="email_usuario" placeholder="E-mail" maxlength="250" required="true">

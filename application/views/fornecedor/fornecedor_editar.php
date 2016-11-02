@@ -43,7 +43,7 @@ $id_status = isset($fornecedor[0]->id_status_fk) ? $fornecedor[0]->id_status_fk 
 
                     <div class="col-xs-12">
 
-                        <div class="container-fluid box box-primary" id="box-frm-user">
+                        <div class="container-fluid box box-primary" id="box-frm-fornec">
 
                             <div class="box-header with-border">
                                 <span class="text-danger">*</span> Campo com preenchimento obrigat&oacute;rio
@@ -58,7 +58,7 @@ $id_status = isset($fornecedor[0]->id_status_fk) ? $fornecedor[0]->id_status_fk 
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <label for="nome_fornecedor">Fornecedor<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <input type="text" class="form-control" id="nome_fornecedor" name="nome_fornecedor" placeholder="Nome" maxlength="250" required="true" autofocus="true" value="<?=$nome?>" autocomplete="off">
+                                                    <input type="text" class="form-control" id="nome_fornecedor" name="nome_fornecedor" placeholder="Fornecedor" maxlength="250" required="true" autofocus="true" value="<?=$nome?>" autocomplete="off">
                                                 </div>
                                             </div>
                                         </div>

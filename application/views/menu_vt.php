@@ -108,8 +108,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?=base_url('./mailing/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+                    <li><a href="<?=base_url('./mailing/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -120,14 +120,13 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?=base_url('./prospeccao/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+                    <li><a href="<?=base_url('./prospeccao/cadastrar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
             <li>
                 <a href="<?=base_url('./main/logoff')?>"><i class="fa fa-sign-out"></i> <span>Sair</span></a>
             </li>
-            <li><a href="../../documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
         </ul>
     </section>
     <!-- /.sidebar -->

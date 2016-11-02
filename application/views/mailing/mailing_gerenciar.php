@@ -1,10 +1,10 @@
 <body class="hold-transition skin-blue sidebar-mini">
 
-    <!-- CSS Fornecedor -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/fornecedor.css') ?>">
+    <!-- CSS Mailing -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/mailing.css') ?>">
 
-    <!-- JS Fornecedor -->
-    <script src="<?= base_url('scripts/js/fornecedor.js') ?>"></script>
+        <!-- JS Mailing -->
+    <script src="<?= base_url('scripts/js/mailing.js') ?>"></script>
 
     <div class="wrapper">
 
@@ -16,13 +16,13 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Gerenciamento de Fornecedores
+                    Gerenciamento de Mailings
                 </h1>
                 <ol class="breadcrumb">
                     <li>
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li class="active">Fornecedores</li>
+                    <li class="active">Mailings</li>
                 </ol>
             </section>
 
@@ -37,18 +37,22 @@
 
                             <div class="box-body">
 
-                                <table id="tbl_fornec_vt" class="display" width="100%" cellspacing="0">
+                                <table id="tbl_mail_vt" class="display" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Fornecedor</th>
-                                            <th class="col-xs-2">Status</th>
+                                            <th>CNPJ</th>
+                                            <th class="col-xs-2">Raz&atilde;o Social</th>
+                                            <th>Telefone</th>
+                                            <th>E-mail</th>
                                             <th class="col-xs-2">A&ccedil;&atilde;o</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Fornecedor</th>
-                                            <th class="col-xs-2">Status</th>
+                                            <th>CNPJ</th>
+                                            <th class="col-xs-2">Raz&atilde;o Social</th>
+                                            <th>Telefone</th>
+                                            <th>E-mail</th>
                                             <th class="col-xs-2">A&ccedil;&atilde;o</th>
                                         </tr>
                                     </tfoot>
@@ -73,19 +77,21 @@
 
     <script>
         $(document).ready(function () {
-            $('#tbl_fornec_vt').DataTable({
+            $('#tbl_mail_vt').DataTable({
                 "columns": [
-                    {data: "fornecedor"},
-                    {data: "status"},
+                    {data: "cnpj"},
+                    {data: "razao_social"},
+                    {data: "telefone"},
+                    {data: "email"},
                     {data: "acao", searchable: false, orderable: false}
                 ],
                 "processing"     : true,
                 "serverSide"     : true,
-                retrieve         : true,
+                "retrieve"       : true,
                 "iDisplayLength" : 50,
                 "stripeClasses"  : ['strip_grid_none', 'strip_grid'],
                 "ajax": {
-                    url: '<?=base_url('./fornecedor/buscarFornecedor')?>',
+                    url: '<?=base_url('./mailing/buscarMailing')?>',
                     type: 'POST'
                 },
                 "language": {
