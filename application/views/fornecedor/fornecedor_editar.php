@@ -30,7 +30,7 @@ $id_status = isset($fornecedor[0]->id_status_fk) ? $fornecedor[0]->id_status_fk 
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('./fornecedor') ?>"><i class="fa fa-user" aria-hidden="true"></i> Fornecedores</a>
+                        <a href="<?= base_url('./fornecedor') ?>"><i class="fa fa-building" aria-hidden="true"></i> Fornecedores</a>
                     </li>
                     <li class="active">Editar</li>
                 </ol>
@@ -84,7 +84,7 @@ $id_status = isset($fornecedor[0]->id_status_fk) ? $fornecedor[0]->id_status_fk 
 
                                 <div class="box-footer">
                                     <input type="hidden" id="id_fornecedor" name="id_fornecedor" value="<?=$id?>">
-                                    <button type="submit" id="btn_cad_user_vt" name="btn_edit_fornec_vt" class="btn btn-primary">Alterar</button>
+                                    <button type="submit" id="btn_edit_fornec_vt" name="btn_edit_fornec_vt" class="btn btn-primary">Alterar</button>
                                     <button type="button" id="btn_back" name="btn_back" class="btn btn-danger">Voltar</button>
                                 </div>
                             </form>

@@ -23,7 +23,7 @@
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('./mailing') ?>"><i class="fa fa-user" aria-hidden="true"></i> Mailings</a>
+                        <a href="<?= base_url('./mailing') ?>"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Mailings</a>
                     </li>
                     <li class="active">Cadastrar</li>
                 </ol>
@@ -204,7 +204,7 @@
                                 </div>
 
                                 <div class="box-footer">
-                                    <button type="submit" id="btn_cad_user_vt" name="btn_cad_mail_vt" class="btn btn-primary">Cadastrar</button>
+                                    <button type="submit" id="btn_cad_mail_vt" name="btn_cad_mail_vt" class="btn btn-primary">Cadastrar</button>
                                     <button type="reset" id="limpar" name="limpar" class="btn btn-danger">Limpar</button>
                                 </div>
 

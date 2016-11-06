@@ -23,7 +23,7 @@
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('./fornecedor') ?>"><i class="fa fa-user" aria-hidden="true"></i> Fornecedores</a>
+                        <a href="<?= base_url('./fornecedor') ?>"><i class="fa fa-building" aria-hidden="true"></i> Fornecedores</a>
                     </li>
                     <li class="active">Cadastrar</li>
                 </ol>
@@ -76,7 +76,7 @@
                                 </div>
 
                                 <div class="box-footer">
-                                    <button type="submit" id="btn_cad_user_vt" name="btn_cad_fornec_vt" class="btn btn-primary">Cadastrar</button>
+                                    <button type="submit" id="btn_cad_fornec_vt" name="btn_cad_fornec_vt" class="btn btn-primary">Cadastrar</button>
                                     <button type="reset" id="limpar" name="limpar" class="btn btn-danger">Limpar</button>
                                 </div>
                             </form>

@@ -35,7 +35,7 @@ $status = isset($status[0]->status) ? $status[0]->status : "";
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('./fornecedor') ?>"><i class="fa fa-user" aria-hidden="true"></i> Fornecedores</a>
+                        <a href="<?= base_url('./fornecedor') ?>"><i class="fa fa-building" aria-hidden="true"></i> Fornecedores</a>
                     </li>
                     <li class="active">Visualizar</li>
                 </ol>

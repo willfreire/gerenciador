@@ -44,7 +44,7 @@ $site         = isset($mailing[0]->site) ? "<a href='http://{$mailing[0]->site}'
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('./mailing') ?>"><i class="fa fa-user" aria-hidden="true"></i> Mailings</a>
+                        <a href="<?= base_url('./mailing') ?>"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Mailings</a>
                     </li>
                     <li class="active">Visualizar</li>
                 </ol>

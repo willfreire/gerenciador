@@ -1,10 +1,10 @@
 <body class="hold-transition skin-blue sidebar-mini">
 
-    <!-- CSS Mailing -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/mailing.css') ?>">
+    <!-- CSS Prospeccao -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/prospeccao.css') ?>">
 
-        <!-- JS Mailing -->
-    <script src="<?= base_url('scripts/js/mailing.js') ?>"></script>
+        <!-- JS Prospeccao -->
+    <script src="<?= base_url('scripts/js/prospeccao.js') ?>"></script>
 
     <div class="wrapper">
 
@@ -16,13 +16,13 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Gerenciamento de Mailings
+                    Gerenciamento de Prospec&ccedil;&otilde;es
                 </h1>
                 <ol class="breadcrumb">
                     <li>
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li class="active"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Mailings</li>
+                    <li class="active"><i class="fa fa-bar-chart" aria-hidden="true"></i> Prospec&ccedil;&otilde;es</li>
                 </ol>
             </section>
 
@@ -37,23 +37,25 @@
 
                             <div class="box-body">
 
-                                <table id="tbl_mail_vt" class="display" width="100%" cellspacing="0">
+                                <table id="tbl_prospec_vt" class="display" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>CNPJ</th>
-                                            <th class="col-xs-2">Raz&atilde;o Social</th>
-                                            <th>Telefone</th>
-                                            <th>E-mail</th>
-                                            <th class="col-xs-2">A&ccedil;&atilde;o</th>
+                                            <th>Raz&atilde;o Social</th>
+                                            <th>Benef&iacute;cio</th>
+                                            <th>Contato</th>
+                                            <th>Taxa</th>
+                                            <th>Aceitou Proposta?</th>
+                                            <th>A&ccedil;&atilde;o</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>CNPJ</th>
-                                            <th class="col-xs-2">Raz&atilde;o Social</th>
-                                            <th>Telefone</th>
-                                            <th>E-mail</th>
-                                            <th class="col-xs-2">A&ccedil;&atilde;o</th>
+                                            <th>Raz&atilde;o Social</th>
+                                            <th>Benef&iacute;cio</th>
+                                            <th>Contato</th>
+                                            <th>Taxa</th>
+                                            <th>Aceitou Proposta?</th>
+                                            <th>A&ccedil;&atilde;o</th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -77,12 +79,13 @@
 
     <script>
         $(document).ready(function () {
-            $('#tbl_mail_vt').DataTable({
+            $('#tbl_prospec_vt').DataTable({
                 "columns": [
-                    {data: "cnpj"},
                     {data: "razao_social"},
-                    {data: "telefone"},
-                    {data: "email"},
+                    {data: "descricao"},
+                    {data: "contato"},
+                    {data: "taxa"},
+                    {data: "aceitou_proposta"},
                     {data: "acao", searchable: false, orderable: false}
                 ],
                 "processing"     : true,
@@ -91,7 +94,7 @@
                 "iDisplayLength" : 50,
                 "stripeClasses"  : ['strip_grid_none', 'strip_grid'],
                 "ajax": {
-                    url: '<?=base_url('./mailing/buscarMailing')?>',
+                    url: '<?=base_url('./prospeccao/buscarProspeccao')?>',
                     type: 'POST'
                 },
                 "language": {

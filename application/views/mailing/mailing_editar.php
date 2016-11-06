@@ -40,7 +40,7 @@ $site         = isset($mailing[0]->site) ? $mailing[0]->site : "";
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('./mailing') ?>"><i class="fa fa-user" aria-hidden="true"></i> Mailings</a>
+                        <a href="<?= base_url('./mailing') ?>"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Mailings</a>
                     </li>
                     <li class="active">Editar</li>
                 </ol>
@@ -222,7 +222,7 @@ $site         = isset($mailing[0]->site) ? $mailing[0]->site : "";
 
                                 <div class="box-footer">
                                     <input type="hidden" id="id_mailing" name="id_mailing" value="<?= $id ?>">
-                                    <button type="submit" id="btn_cad_user_vt" name="btn_edit_mail_vt" class="btn btn-primary">Alterar</button>
+                                    <button type="submit" id="btn_edit_mail_vt" name="btn_edit_mail_vt" class="btn btn-primary">Alterar</button>
                                     <button type="button" id="btn_back" name="btn_back" class="btn btn-danger">Voltar</button>
                                 </div>
                             </form>

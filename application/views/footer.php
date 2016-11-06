@@ -30,6 +30,8 @@
         <script src="<?=base_url('scripts/lib/bootbox.min.js')?>"></script>
         <!-- Jquery Mask -->
         <script src="<?=base_url('scripts/plugins/mask/jquery.mask.js')?>"></script>
+        <!-- Mask Money -->
+        <script src="<?=base_url('scripts/plugins/jquery-maskmoney/jquery.maskMoney.min.js') ?>"></script>
 
     </body>
 

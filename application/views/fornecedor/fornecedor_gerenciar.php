@@ -22,7 +22,7 @@
                     <li>
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li class="active">Fornecedores</li>
+                    <li class="active"><i class="fa fa-building" aria-hidden="true"></i> Fornecedores</li>
                 </ol>
             </section>
 
