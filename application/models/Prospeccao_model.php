@@ -33,6 +33,7 @@ class Prospeccao_model extends CI_Model {
         # Atribuir vars
         $retorno   = new stdClass();
         $dados     = array();
+        $mail      = array();
         $timestamp = "%Y-%m-%d %H:%i:%s";
         $data      = time();
 
@@ -50,6 +51,15 @@ class Prospeccao_model extends CI_Model {
         $dados['taxa']                 = $valores->taxa;
         $dados['aceitou_proposta']     = $valores->aceitou_proposta;
         $dados['observacao']           = $valores->obs;
+        
+        # Se Cliente aceitou proposta
+        if ($valores->aceitou_proposta === "s"):
+            $mail['cliente'] = $valores->aceitou_proposta;
+
+            # Atualiza Mailing
+            $this->db->where('id_mailing_pk', $valores->mailing);
+            $this->db->update('tb_mailing', $mail);            
+        endif;
 
         if (isset($valores->id) && $valores->id != ""):
             $dados['id_usuario_alt_fk'] = $this->session->userdata('id_vt');
@@ -158,10 +168,10 @@ class Prospeccao_model extends CI_Model {
                 $id_prospec = $value->id_prospeccao_pk;
                 $url_edit   = base_url('./prospeccao/editar/'.$id_prospec);
                 $url_view   = base_url('./prospeccao/ver/'.$id_prospec);
-                $acao       = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Editar Prospec&ccedi;&atilde;o' onclick='Prospeccao.redirect(\"$url_edit\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
-                $acao      .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Prospec&ccedi;&atilde;o' onclick='Prospeccao.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
+                $acao       = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Editar Prospec&ccedil;&atilde;o' onclick='Prospeccao.redirect(\"$url_edit\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
+                $acao      .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Prospec&ccedil;&atilde;o' onclick='Prospeccao.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
                 if ($this->session->userdata('id_perfil_vt') == "1"):
-                    $acao.= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='ExcluirProspec&ccedi;&atilde;o' onclick='Prospeccao.del(\"$id_prospec\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
+                    $acao.= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Prospec&ccedil;&atilde;o' onclick='Prospeccao.del(\"$id_prospec\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
                 endif;
 
                 $prospeccao                   = new stdClass();

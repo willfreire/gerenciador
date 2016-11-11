@@ -105,10 +105,10 @@
                                                 <label for="status">Status<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="status" id="status" value="1" checked> Ativo
+                                                        <input type="radio" name="status" id="status" value="1" checked> <div class="radio-position">Ativo</div>
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="status" id="status" value="2"> Inativo
+                                                        <input type="radio" name="status" id="status" value="2"> <div class="radio-position">Inativo</div>
                                                     </label>
                                                 </div>
                                             </div>

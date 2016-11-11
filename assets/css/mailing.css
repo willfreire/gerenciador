@@ -24,6 +24,10 @@
     background-color: #FFFFFF;
 }
 
+.radio-position {
+    margin-top: 5px;
+}
+
 @media (max-width: 480px) {
     #box-frm-mail {
         width: 100%;

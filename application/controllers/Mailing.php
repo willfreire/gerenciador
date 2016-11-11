@@ -164,7 +164,8 @@ class Mailing extends CI_Controller
         $data['estado'] = $this->db->get('tb_estado')->result();
 
         # Sql para Cidade
-        $this->db->where('id_estado_fk', 26);
+        $id_estado = isset($data['mailing'][0]->id_estado_fk) ? $data['mailing'][0]->id_estado_fk : NULL;
+        $this->db->where('id_estado_fk', $id_estado);
         $this->db->order_by('cidade');
         $data['cidade'] = $this->db->get('tb_cidade')->result();
 

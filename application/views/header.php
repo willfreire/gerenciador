@@ -27,6 +27,8 @@
         <link rel="stylesheet" href="<?=base_url('scripts/plugins/iCheck/square/blue.css')?>">
         <!-- DataTables -->
         <link rel="stylesheet" href="<?=base_url('scripts/plugins/datatables/dataTables.bootstrap.css')?>">
+        <!-- Datepicker -->
+        <link rel="stylesheet" href="<?=base_url('scripts/plugins/datepicker/datepicker3.css')?>">
         
         <!-- JavaScripts -->
         <!-- jQuery 2.2.3 -->

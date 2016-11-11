@@ -5,6 +5,10 @@ Login = {
      **/
     main: function () {
 
+        // Mascara
+        Login.onlyNumber('cnpj');
+        $("#cnpj").mask('99.999.999/9999-99');
+        
         // Login VT Card
         $('#frm_login_empresa').bootstrapValidator({
             feedbackIcons: {
@@ -66,6 +70,74 @@ Login = {
 
                 $('#btn_acc_empresa').removeAttr('disabled');
             }, 'json');
+
+        });
+
+        // Login Cliente
+        $('#frm_login_cliente').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                cnpj: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Informe seu <strong>CNPJ</strong>'
+                        },
+			vat: {
+			    country: 'BR',
+			    message: 'Digite um <strong>CNPJ</strong> v&aacute;lido'
+			}
+                    }
+                },
+                pwd_cliente: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Digite sua <strong>Senha</strong>'
+                        },
+                        stringLength: {
+                            min: 8,
+                            max: 100,
+                            message: 'Sua <strong>Senha</strong> deve ter no m&iacute;nimo <strong>8</strong> caracteres'
+                        }
+                    }
+                }
+            }
+
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+            var url = "./main/loginVT";
+            
+            Login.modalMsg("MENSAGEM", "Em Desenvolvimento", false, false);
+
+            $('#btn_acc_client').removeAttr('disabled');
+            // Use Ajax to submit form data
+            /* $.post(url, frm, function (data) {
+                if (data.status === true) {
+                    //Login.modalMsg("MENSAGEM", data.msg, false, false);
+                    // Limpar Formulario
+                    $('#frm_login_empresa').each(function () {
+                        this.reset();
+                    });
+                    $('#frm_login_empresa').bootstrapValidator('resetForm', true);
+                    Login.redirect("./main/dashboard");
+                } else {
+                    Login.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                }
+
+                $('#btn_acc_empresa').removeAttr('disabled');
+            }, 'json'); */
 
         });
 

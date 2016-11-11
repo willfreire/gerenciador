@@ -48,7 +48,7 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6">
+                                            <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4">
                                                 <label for="cnpj">CNPJ<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="CNPJ" maxlength="18" value="" required="true" autofocus="true">
@@ -167,7 +167,7 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-8 col-sm-5 col-md-5 col-lg-4">
+                                            <div class="col-xs-9 col-sm-5 col-md-5 col-lg-4">
                                                 <label for="tel">Telefone<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <input type="text" class="form-control" id="tel" name="tel" placeholder="(ddd) + n&uacute;mero" maxlength="15" required="true">

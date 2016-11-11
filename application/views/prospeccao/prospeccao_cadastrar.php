@@ -115,7 +115,7 @@
                                                     if (is_array($meio_social)):
                                                         foreach ($meio_social as $value):
                                                             echo "<label class='radio-inline'>
-                                                                    <input type='radio' name='meio_social' id='meio_social' value='{$value->id_meio_social_pk}'> {$value->meio_social}
+                                                                    <input type='radio' name='meio_social' id='meio_social' value='{$value->id_meio_social_pk}'> <div class='radio-position'>{$value->meio_social}</div>
                                                                 </label>";
                                                         endforeach;
                                                     endif;
@@ -174,7 +174,7 @@
                                                     if (is_array($muda_fornecedor)):
                                                         foreach ($muda_fornecedor as $value):
                                                             echo "<label class='radio-inline'>
-                                                                    <input type='radio' name='muda_fornecedor' id='muda_fornecedor_{$value->id_muda_fornec_pk}' value='{$value->id_muda_fornec_pk}'> {$value->mudaria_fornecedor}
+                                                                    <input type='radio' name='muda_fornecedor' id='muda_fornecedor_{$value->id_muda_fornec_pk}' value='{$value->id_muda_fornec_pk}'> <div class='radio-position'>{$value->mudaria_fornecedor}</div>
                                                                 </label>";
                                                         endforeach;
                                                     endif;
@@ -204,7 +204,7 @@
                                                     if (is_array($nao_interesse)):
                                                         foreach ($nao_interesse as $value):
                                                             echo "<label class='radio-inline'>
-                                                                    <input type='radio' name='nao_interesse' id='nao_interesse_{$value->id_nao_interesse_pk}' value='{$value->id_nao_interesse_pk}'> {$value->nao_interesse}
+                                                                    <input type='radio' name='nao_interesse' id='nao_interesse_{$value->id_nao_interesse_pk}' value='{$value->id_nao_interesse_pk}'> <div class='radio-position'>{$value->nao_interesse}</div>
                                                                 </label>";
                                                         endforeach;
                                                     endif;
@@ -239,10 +239,10 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
-                                                <label for="taxa">Taxa Negociada</label>
+                                                <label for="taxa_adm">Taxa Negociada</label>
                                                 <div class="controls">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control vl_percent" id="taxa" name="taxa" placeholder="0.00" maxlength="6" value="0.00">
+                                                        <input type="text" class="form-control vl_percent" id="taxa_adm" name="taxa_adm" placeholder="0.00" maxlength="6" value="0.00">
                                                         <span class="input-group-addon"><i class="fa fa-percent"></i></span>
                                                     </div>
                                                 </div>
@@ -256,13 +256,13 @@
                                                 <label for="aceitou_proposta">Proposta Aceita?<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="s"> Sim
+                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="s"> <div class="radio-position">Sim</div>
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="n"> N&atilde;o
+                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="n"> <div class="radio-position">N&atilde;o</div>
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="e"> Em Negocia&ccedil;&atilde;o
+                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="e"> <div class="radio-position">Em Negocia&ccedil;&atilde;o</div>
                                                     </label>
                                                 </div>
                                             </div>

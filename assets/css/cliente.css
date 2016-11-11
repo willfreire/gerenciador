@@ -1,9 +1,9 @@
 /* 
-    Created on : 26/10/2016
+    Created on : 08/11/2016
     Author     : William Freire
 */
 
-#box-frm-user {
+#box-frm-mail {
     width: 60%;
 }
 
@@ -29,7 +29,7 @@
 }
 
 @media (max-width: 480px) {
-    #box-frm-user {
+    #box-frm-mail {
         width: 100%;
     }
     
@@ -40,7 +40,7 @@
 }
 
 @media (min-width: 481px) and (max-width: 559px) {
-    #box-frm-user {
+    #box-frm-mail {
         width: 100%;
     }
     
@@ -51,7 +51,7 @@
 }
 
 @media (min-width: 600px) and (max-width: 767px) {
-    #box-frm-user {
+    #box-frm-mail {
         width: 100%;
     }
     
@@ -61,7 +61,7 @@
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-    #box-frm-user {
+    #box-frm-mail {
         width: 90%;
     }
     
@@ -71,7 +71,7 @@
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
-    #box-frm-user {
+    #box-frm-mail {
         width: 80%;
     }
     

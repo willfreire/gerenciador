@@ -16,6 +16,10 @@ body {
     border-radius : 10px
 }
 
+.radio-position {
+    margin-top: 5px;
+}
+
 @media (max-width: 480px) {
     .login-box {
         width: 100%;

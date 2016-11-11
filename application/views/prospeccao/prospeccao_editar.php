@@ -138,7 +138,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                                         foreach ($meio_social as $value):
                                                             $check = $id_meio_social == $value->id_meio_social_pk ? "checked='checked'" : "";
                                                             echo "<label class='radio-inline'>
-                                                                    <input type='radio' name='meio_social' id='meio_social' value='{$value->id_meio_social_pk}' $check> {$value->meio_social}
+                                                                    <input type='radio' name='meio_social' id='meio_social' value='{$value->id_meio_social_pk}' $check> <div class='radio-position'>{$value->meio_social}</div>
                                                                 </label>";
                                                         endforeach;
                                                     endif;
@@ -200,7 +200,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                                         foreach ($muda_fornecedor as $value):
                                                             $check = $id_muda_fornec == $value->id_muda_fornec_pk ? "checked='checked'" : "";
                                                             echo "<label class='radio-inline'>
-                                                                    <input type='radio' name='muda_fornecedor' id='muda_fornecedor_{$value->id_muda_fornec_pk}' value='{$value->id_muda_fornec_pk}' $check> {$value->mudaria_fornecedor}
+                                                                    <input type='radio' name='muda_fornecedor' id='muda_fornecedor_{$value->id_muda_fornec_pk}' value='{$value->id_muda_fornec_pk}' $check> <div class='radio-position'>{$value->mudaria_fornecedor}</div>
                                                                 </label>";
                                                         endforeach;
                                                     endif;
@@ -231,7 +231,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                                         foreach ($nao_interesse as $value):
                                                             $check = $id_nao_interesse == $value->id_nao_interesse_pk ? "checked='checked'" : "";
                                                             echo "<label class='radio-inline'>
-                                                                    <input type='radio' name='nao_interesse' id='nao_interesse_{$value->id_nao_interesse_pk}' value='{$value->id_nao_interesse_pk}' $check> {$value->nao_interesse}
+                                                                    <input type='radio' name='nao_interesse' id='nao_interesse_{$value->id_nao_interesse_pk}' value='{$value->id_nao_interesse_pk}' $check> <div class='radio-position'>{$value->nao_interesse}</div>
                                                                 </label>";
                                                         endforeach;
                                                     endif;
@@ -283,13 +283,13 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                                 <label for="aceitou_proposta">Proposta Aceita?<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="s" <?=$aceitou_proposta == "s" ? "checked='checked'" : ""?>> Sim
+                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="s" <?=$aceitou_proposta == "s" ? "checked='checked'" : ""?>> <div class="radio-position">Sim</div>
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="n" <?=$aceitou_proposta == "n" ? "checked='checked'" : ""?>> N&atilde;o
+                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="n" <?=$aceitou_proposta == "n" ? "checked='checked'" : ""?>> <div class="radio-position">N&atilde;o</div>
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="e" <?=$aceitou_proposta == "e" ? "checked='checked'" : ""?>> Em Negocia&ccedil;&atilde;o
+                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="e" <?=$aceitou_proposta == "e" ? "checked='checked'" : ""?>> <div class="radio-position">Em Negocia&ccedil;&atilde;o</div>
                                                     </label>
                                                 </div>
                                             </div>

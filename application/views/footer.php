@@ -32,6 +32,11 @@
         <script src="<?=base_url('scripts/plugins/mask/jquery.mask.js')?>"></script>
         <!-- Mask Money -->
         <script src="<?=base_url('scripts/plugins/jquery-maskmoney/jquery.maskMoney.min.js') ?>"></script>
+        <!-- Pwd Gen -->
+        <script src="<?=base_url('scripts/plugins/pwd-gen/pGenerator.js') ?>"></script>
+        <!-- Datepicker -->
+        <script src="<?=base_url('scripts/plugins/datepicker/bootstrap-datepicker.js') ?>"></script>
+        <script src="<?=base_url('scripts/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js') ?>"></script>
 
     </body>
 

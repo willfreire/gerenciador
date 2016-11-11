@@ -55,7 +55,7 @@
                                 <a href="#">Esqueci minha senha</a><br>
                             </div>
                             <div class="col-xs-4">
-                                <button type="submit" class="btn btn-primary btn-block btn-flat">Acessar</button>
+                                <button type="submit" class="btn btn-primary btn-block btn-flat" id="btn_acc_client">Acessar</button>
                             </div>
                         </div>
                     </form>
