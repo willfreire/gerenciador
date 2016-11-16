@@ -36,7 +36,7 @@
 
                     <div class="col-xs-12">
 
-                        <div class="container-fluid box box-primary" id="box-frm-mail">
+                        <div class="container-fluid box box-primary" id="box-frm-client">
 
                             <div class="box-header with-border">
                                 <span class="text-danger">*</span> Campo com preenchimento obrigat&oacute;rio

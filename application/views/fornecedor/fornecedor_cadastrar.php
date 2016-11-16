@@ -62,7 +62,7 @@
                                             <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
                                                 <label for="status">Status<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <label class="ioio-inline">
+                                                    <label class="radio-inline">
                                                         <input type="radio" name="status" id="status" value="1" checked> <div class="radio-position">Ativo</div>
                                                     </label>
                                                     <label class="radio-inline">

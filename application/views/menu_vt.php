@@ -62,20 +62,31 @@
             <li>
                 <a href="<?=base_url('./main/dashboard')?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
             </li>
-            <?php if ($this->session->userdata('id_perfil_vt') == "1"): ?>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-user" aria-hidden="true"></i> <span>Usu&aacute;rios</span>
+                    <i class="fa fa-bus" aria-hidden="true"></i> <span>Benef&iacute;cios</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./usuario/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./usuario/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?=base_url('./beneficio/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+                    <li><a href="<?=base_url('./beneficio/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
-            <?php elseif ($this->session->userdata('id_perfil_vt') == "2"): ?>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users" aria-hidden="true"></i> <span>Clientes</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?=base_url('./cliente/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+                    <li><a href="<?=base_url('./cliente/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                </ul>
+            </li>
+            <?php if ($this->session->userdata('id_perfil_vt') == "2"): ?>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-user" aria-hidden="true"></i> <span>Dados Cadastrais</span>
@@ -114,6 +125,17 @@
             </li>
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-list" aria-hidden="true"></i> <span>Pedidos</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:alert('Em Desenvolvimento')"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-bar-chart" aria-hidden="true"></i> <span>Prospec&ccedil;&atilde;o</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -124,18 +146,20 @@
                     <li><a href="<?=base_url('./prospeccao/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
+            <?php if ($this->session->userdata('id_perfil_vt') == "1"): ?>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-users" aria-hidden="true"></i> <span>Clientes</span>
+                    <i class="fa fa-user" aria-hidden="true"></i> <span>Usu&aacute;rios</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./cliente/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./cliente/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?=base_url('./usuario/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+                    <li><a href="<?=base_url('./usuario/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
+            <?php endif; ?>
             <li>
                 <a href="<?=base_url('./main/logoff')?>"><i class="fa fa-sign-out"></i> <span>Sair</span></a>
             </li>

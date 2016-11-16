@@ -305,7 +305,9 @@ class Cliente_model extends CI_Model {
                 $url_view  = base_url('./cliente/ver/'.$id_client);
                 $acao      = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Editar Cliente' onclick='Cliente.redirect(\"$url_edit\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
                 $acao     .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Cliente' onclick='Cliente.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
-                $acao     .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Cliente' onclick='Cliente.del(\"$id_client\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
+                if ($this->session->userdata('id_perfil_vt') == "1"):
+                    $acao .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Cliente' onclick='Cliente.del(\"$id_client\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
+                endif;
 
                 $cliente             = new stdClass();
                 $cliente->cnpj       = $value->cnpj;

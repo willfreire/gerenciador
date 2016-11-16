@@ -27,10 +27,10 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
 <body class="hold-transition skin-blue sidebar-mini">
 
     <!-- CSS Mailing -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/mailing.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/prospeccao.css') ?>">
 
     <!-- JS Mailing -->
-    <script src="<?= base_url('scripts/js/mailing.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/prospeccao.js') ?>"></script>
 
     <div class="wrapper">
 
