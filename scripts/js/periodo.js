@@ -1,46 +1,46 @@
-Login = {
+Periodo = {
 
     /*!
      * @description Chamada dos principais métodos
      **/
     main: function () {
 
-        // Mascara
-        Login.onlyNumber('cnpj');
-        $("#cnpj").mask('99.999.999/9999-99');
+        // Botao voltar
+        $('#btn_back').click(function(){
+            Periodo.redirect('../gerenciar');
+        });
         
-        // Login VT Card
-        $('#frm_login_empresa').bootstrapValidator({
+        // Mascara
+        Periodo.onlyNumber('qtd_dia');
+
+        // Periodo Cadastrar
+        $('#frm_cad_period').bootstrapValidator({
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
                 invalid: 'glyphicon glyphicon-remove',
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                email: {
+                nome_periodo: {
                     validators: {
                         notEmpty: {
-                            message: 'Informe seu <strong>E-MAIL</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>PER&Iacute;ODO</strong>'
                         },
-                        emailAddress: {
-                            message: 'Digite um endere&ccedil;o de <strong>E-MAIL</strong> v&aacute;lido'
+                        stringLength: {
+                            min: 2,
+                            max: 20,
+                            message: 'O campo <strong>PER&Iacute;ODO</strong> deve ter entre <strong>2</strong> e <strong>20</strong> caracteres'
                         }
                     }
                 },
-                pwd_empresa: {
+                qtd_dia: {
                     validators: {
                         notEmpty: {
-                            message: 'Digite sua <strong>Senha</strong>'
-                        },
-                        stringLength: {
-                            min: 8,
-                            max: 100,
-                            message: 'Sua <strong>Senha</strong> deve ter no m&iacute;nimo <strong>8</strong> caracteres'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE DE DIAS</strong>'
                         }
                     }
                 }
             }
-
         }).on('success.form.bv', function (e) {
             // Prevent form submission
             e.preventDefault();
@@ -52,60 +52,49 @@ Login = {
             var bv = $form.data('bootstrapValidator');
 
             var frm = $form.serialize();
-            var url = "./main/loginVT";
+            var url = "./create";
 
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
                 if (data.status === true) {
-                    //modalMsg("MENSAGEM", data.msg, false, false);
-                    // Limpar Formulario
-                    $('#frm_login_empresa').each(function () {
-                        this.reset();
-                    });
-                    $('#frm_login_empresa').bootstrapValidator('resetForm', true);
-                    Login.redirect("./main/dashboard");
+                    Periodo.modalMsg("MENSAGEM", data.msg, false, './gerenciar');
                 } else {
-                    Login.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                    Periodo.modalMsg("Aten&ccedil;&atilde;o", data.msg);
                 }
 
-                $('#btn_acc_empresa').removeAttr('disabled');
+                $('#btn_cad_period').removeAttr('disabled');
             }, 'json');
 
         });
 
-        // Login Cliente
-        $('#frm_login_cliente').bootstrapValidator({
+        // Periodo Editar
+        $('#frm_edit_period').bootstrapValidator({
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
                 invalid: 'glyphicon glyphicon-remove',
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                cnpj: {
+                nome_periodo: {
                     validators: {
                         notEmpty: {
-                            message: 'Informe seu <strong>CNPJ</strong>'
-                        },
-			vat: {
-			    country: 'BR',
-			    message: 'Digite um <strong>CNPJ</strong> v&aacute;lido'
-			}
-                    }
-                },
-                pwd_cliente: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Digite sua <strong>Senha</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>PER&Iacute;ODO</strong>'
                         },
                         stringLength: {
-                            min: 8,
-                            max: 100,
-                            message: 'Sua <strong>Senha</strong> deve ter no m&iacute;nimo <strong>8</strong> caracteres'
+                            min: 2,
+                            max: 20,
+                            message: 'O campo <strong>PER&Iacute;ODO</strong> deve ter entre <strong>2</strong> e <strong>20</strong> caracteres'
+                        }
+                    }
+                },
+                qtd_dia: {
+                    validators: {
+                        notEmpty: {
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE DE DIAS</strong>'
                         }
                     }
                 }
             }
-
         }).on('success.form.bv', function (e) {
             // Prevent form submission
             e.preventDefault();
@@ -117,29 +106,23 @@ Login = {
             var bv = $form.data('bootstrapValidator');
 
             var frm = $form.serialize();
-            var url = "./main/loginClient";
+            var url = "../update";
 
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
                 if (data.status === true) {
-                    //Login.modalMsg("MENSAGEM", data.msg, false, false);
-                    // Limpar Formulario
-                    $('#frm_login_empresa').each(function () {
-                        this.reset();
-                    });
-                    $('#frm_login_empresa').bootstrapValidator('resetForm', true);
-                    Login.redirect("./main/dashboard_client");
+                    Periodo.modalMsg("MENSAGEM", data.msg, false, '../gerenciar');
                 } else {
-                    Login.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                    Periodo.modalMsg("Aten&ccedil;&atilde;o", data.msg);
                 }
 
-                $('#btn_acc_empresa').removeAttr('disabled');
+                $('#btn_edit_period').removeAttr('disabled');
             }, 'json');
 
         });
 
     },
-    
+
     /*!
      * @description Método para abrir modal de mensagem
      **/
@@ -151,18 +134,52 @@ Login = {
 
 	if (focus) {
 	    $("#msg_modal").on('hidden.bs.modal', function (e) {
-		Login.setFocus(focus);
+		Periodo.setFocus(focus);
 		e.preventDefault();
 	    });
 	}
 
 	if (redirect) {
 	    $("#msg_modal").on('hidden.bs.modal', function (e) {
-		Login.redirect(redirect);
+		Periodo.redirect(redirect);
 		e.preventDefault();
 	    });
 	}
 
+    },
+
+    /*!
+     * @description Método para exclusao de um registro
+     **/
+    del: function(id) {
+        bootbox.dialog({
+            message: "<i class='fa fa-exclamation-triangle'></i> Deseja realmente <strong>Excluir</strong> esse Per&iacute;odo?",
+            title: "ATEN&Ccedil;&Atilde;O",
+            buttons: {
+                success: {
+                    label: "Cancelar",
+                    className: "btn-primary"
+                },
+                danger: {
+                    label: "Excluir",
+                    className: "btn-danger",
+                    callback: function() {
+                        // Excluir registro
+                        $.post('./delete', {
+                            id: id
+                        },function(data){
+                            if (data.status === true) {
+                                Periodo.modalMsg("MENSAGEM", data.msg, false, false);
+                                // Reload grid
+                                $('#tbl_period').DataTable().ajax.reload();
+                            } else {
+                                Periodo.modalMsg("ATEN&Ccedil;&Atilde;O", data.msg, false, false);
+                            }
+                        }, 'json');
+                    }
+                }
+            }
+        });
     },
 
     /*!
@@ -204,5 +221,5 @@ Login = {
 };
 
 $(document).ready(function () {
-    Login.main();
+    Periodo.main();
 });
