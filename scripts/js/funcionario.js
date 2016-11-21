@@ -1,4 +1,4 @@
-Cliente = {
+Funcionario = {
 
     /*!
      * @description Chamada dos principais métodos
@@ -22,95 +22,17 @@ Cliente = {
 
         // Botao voltar
         $('#btn_back').click(function(){
-            Cliente.redirect('../gerenciar');
-        });
-
-        // Habilitar campo senha
-        $("#alt_senha").click(function(){
-            if ($("#alt_senha:checked").val() === "1") {
-                $("#senha_cliente").removeAttr('disabled');
-                $("#gen_pwd").removeClass('hidden');
-                Cliente.setFocus('senha_cliente');
-            } else {
-                $("#senha_cliente").val('');
-                $("#senha_cliente").attr('disabled', 'disabled');
-                $("#gen_pwd").addClass('hidden');
-            }
-        });
-
-	// Habilitar/Ocultar Mailing
-        $("input[name='importar_prospec']").change(function() {
-            var vl = $("input[name='importar_prospec']:checked").val();
-            if (vl === "1") {
-                $("#div_prospec").removeClass("hidden");
-                Cliente.setFocus('empr_prospec');
-            } else {
-                $("#div_prospec").addClass("hidden");
-                $("#empr_prospec").val('');
-            }
-        });
-
-        // Importar dados
-        $("#empr_prospec").change(function(){
-            var id_mail = $(this).val();
-            if (id_mail !== "") {
-                $.post('/'+pathproj+'/cliente/importMailing', {
-                    id : id_mail
-                }, function(data){
-                    if (data.status === true) {
-                        // Cliente.modalMsg("MENSAGEM", data.msg, false, false);
-                        var cnpj      = (data.mail[0].cnpj) ? data.mail[0].cnpj : "";
-                        $("#cnpj").val(cnpj);
-                        var razao     = (data.mail[0].razao_social) ? data.mail[0].razao_social : "";
-                        $("#razao_social").val(razao);
-                        var endereco  = (data.mail[0].endereco) ? data.mail[0].endereco : "";
-                        $("#endereco").val(endereco);
-                        var numero    = (data.mail[0].numero) ? data.mail[0].numero : "";
-                        $("#numero").val(numero);
-                        var comple    = (data.mail[0].complemento) ? data.mail[0].complemento : "";
-                        $("#complemento").val(comple);
-                        var bairro    = (data.mail[0].bairro) ? data.mail[0].bairro : "";
-                        $("#bairro").val(bairro);
-                        var cep       = (data.mail[0].cep) ? data.mail[0].cep : "";
-                        $("#cep").val(cep);
-                        var id_cidade = (data.mail[0].id_cidade_fk) ? data.mail[0].id_cidade_fk : "";
-                        $("#cidade").val(id_cidade);
-                        var id_estado = (data.mail[0].id_estado_fk) ? data.mail[0].id_estado_fk : "";
-                        $("#estado").val(id_estado);
-                        var telefone  = (data.mail[0].telefone) ? data.mail[0].telefone : "";
-                        $("#estado").val(id_estado);
-                        var email     = (data.mail[0].email) ? data.mail[0].email : "";
-                        $("#email").val(email);
-                        var contato   = (data.mail[0].contato) ? data.mail[0].contato : "";
-                        $("#nome_contato").val(contato);
-                        var taxa      = (data.mail[0].taxa) ? data.mail[0].taxa : "";
-                        $("#taxa_adm").val(taxa);
-                    } else {
-                        Cliente.modalMsg("ATEN&Ccedil;&Atilde;O", data.msg, false, false);
-                    }
-                }, 'json');
-            }
-        });
-
-	// Habilitar/Ocultar Empresa Matriz
-        $("input[name='tp_empresa']").change(function() {
-            var vl = $("input[name='tp_empresa']:checked").val();
-            if (vl === "2") {
-                $("#div_matriz").removeClass("hidden");
-                Cliente.setFocus('matriz');
-            } else {
-                $("#div_matriz").addClass("hidden");
-                $("#matriz").val('');
-            }
+            Funcionario.redirect('../gerenciar');
         });
 
         // Mascara
         $("#cep").mask('99999-999');
-        Cliente.onlyNumber('cnpj');
-        $("#cnpj").mask('99.999.999/9999-99');
+        Funcionario.onlyNumber('cpf');
+        $("#cpf").mask('999.999.999-99');
         $("#tel").mask("(99) 9999-99990");
         $("#dt_nasc").mask("99/99/9999");
-        Cliente.onlyNumber('tel');
+        $("#dt_exped").mask("99/99/9999");
+        Funcionario.onlyNumber('tel');
         $("#tel").blur(function(){
             var num_tel = $(this).val().length;
             if (num_tel > 14) {
@@ -120,11 +42,6 @@ Cliente = {
                 $("#tel").unmask();
                 $("#tel").mask("(99) 9999-99990");
             }
-        });
-        $("#taxa_adm").maskMoney();
-        $("#taxa_entrega").maskMoney({
-            thousands : '.',
-            decimal   : ','
         });
 
         // Calendario
@@ -138,18 +55,18 @@ Cliente = {
         $("#estado").change(function(){
             var id_estado = $(this).val();
             if (id_estado !== "") {
-                $.post('/'+pathproj+'/cliente/getCities', {
+                $.post('/'+pathproj+'/funcionario/getCities', {
                     id : id_estado
                 }, function(data){
                     if (data.status === true) {
-                        // Cliente.modalMsg("MENSAGEM", data.msg, false, false);
+                        // Funcionario.modalMsg("MENSAGEM", data.msg, false, false);
                         var option = "<option value=''>Selecione</option>";
                         $.each(data.cities, function(key, value){
                             option += "<option value='"+value.id_cidade_pk+"'>"+value.cidade+"</option>";
                         });
                         $("#cidade").html(option);
                     } else {
-                        Cliente.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                        Funcionario.modalMsg("Aten&ccedil;&atilde;o", data.msg);
                         var option = "<option value=''>"+data.msg+"</option>";
                         $("#cidade").html(option);
                     }
@@ -157,8 +74,8 @@ Cliente = {
             }
         });
 
-        // Cliente Cadastrar
-        $('#frm_cad_client_vt').bootstrapValidator({
+        // Funcionario Cadastrar
+        $('#frm_cad_func').bootstrapValidator({
             excluded: [':disabled'],
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
@@ -166,97 +83,102 @@ Cliente = {
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                importar_prospec: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>IMPORTAR DADOS</strong>'
-			}
-		    }
-		},
-                empr_prospec: {
-		    validators: {
-			callback: {
-			    callback: function (value, validator, $field) {
-				var import_pros = $('input[type=radio][name=importar_prospec]:checked').val();
-				if (import_pros === "1" && value === "") {
-				    return {
-					valid   : false,
-					message : '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>EMPRESA DA PROSPEC&Ccedil;&Atilde;O</strong>'
-				    };
-				}
-				return true;
-			    }
-			}
-		    }
-		},
-                tp_empresa: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>TIPO DE EMPRESA</strong>'
-			}
-		    }
-		},
-                cnpj: {
+                cpf: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>CNPJ</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>CPF</strong>'
                         },
-			vat: {
+                        id: {
 			    country: 'BR',
-			    message: 'Digite um <strong>CNPJ</strong> v&aacute;lido'
+			    message: 'Digite um <strong>CPF</strong> v&aacute;lido'
 			}
                     }
                 },
-                razao_social: {
+                nome_func: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>RAZ&Atilde;O SOCIAL</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>NOME</strong>'
                         },
                         stringLength: {
                             min: 2,
                             max: 250,
-                            message: 'O campo <strong>RAZ&Atilde;O SOCIAL</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
+                            message: 'O campo <strong>NOME</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
                         }
                     }
                 },
-                atividade: {
+                dt_nasc: {
 		    validators: {
+                        stringLength: {
+			    min: 10,
+			    max: 10,
+			    message: 'Informe uma <strong>DATA DE NASCIMENTO</strong> v&aacute;lida'
+			},
 			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>RAMO DE ATIVIDADE</strong>'
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>DATA DE NASCIMENTO</strong>'
 			}
 		    }
 		},
-                email: {
+                sexo: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>SEXO</strong>'
+			}
+		    }
+		},
+                estado_civil: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>ESTADO CIVIL</strong>'
+			}
+		    }
+		},
+                rg: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>E-MAIL</strong>'
-                        },
-                        emailAddress: {
-                            message: 'Digite um endere&ccedil;o de <strong>E-MAIL</strong> v&aacute;lido'
-                        }
-                    }
-                },
-                tel: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>TELEFONE</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>RG</strong>'
                         },
                         stringLength: {
-                            min: 14,
+                            min: 4,
                             max: 15,
-                            message: 'O campo <strong>TELEFONE</strong> deve ter entre <strong>10</strong> e <strong>11</strong> n&uacute;meros'
+                            message: 'O campo <strong>RG</strong> deve ter entre <strong>4</strong> e <strong>15</strong> caracteres'
                         }
                     }
                 },
-                senha_cliente: {
+                dt_exped: {
+		    validators: {
+                        stringLength: {
+			    min: 10,
+			    max: 10,
+			    message: 'Informe uma <strong>DATA DE EXPEDI&Ccedil;&Atilde;O</strong> v&aacute;lida'
+			},
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>DATA DE NASCIMENTO</strong>'
+			}
+		    }
+		},
+                orgao_exped: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>&Oacute;RG&Atilde;O EXPEDIDOR</strong>'
+			}
+		    }
+		},
+                uf_exped: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>UF</strong>'
+			}
+		    }
+		},
+                nome_mae: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>SENHA</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>NOME DA M&Atilde;E</strong>'
                         },
                         stringLength: {
-                            min: 8,
-                            max: 50,
-                            message: 'O campo <strong>SENHA</strong> deve ter entre <strong>8</strong> e <strong>50</strong> caracteres'
+                            min: 2,
+                            max: 250,
+                            message: 'O campo <strong>NOME DA M&Atilde;E</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
                         }
                     }
                 },
@@ -264,13 +186,6 @@ Cliente = {
 		    validators: {
 			notEmpty: {
 			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>STATUS</strong>'
-			}
-		    }
-		},
-                tp_endereco: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>TIPO DE ENDERE&Ccedil;O</strong>'
 			}
 		    }
 		},
@@ -336,28 +251,11 @@ Cliente = {
 			}
 		    }
 		},
-                resp_receb: {
+                matricula: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>RESPONS&Aacute;VEL PELO RECEBIMENTO</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>MATR&Iacute;CULA</strong>'
                         },
-                        stringLength: {
-                            min: 4,
-                            max: 250,
-                            message: 'O campo <strong>RESPONS&Aacute;VEL PELO RECEBIMENTO</strong> deve ter entre <strong>4</strong> e <strong>250</strong> caracteres'
-                        }
-                    }
-                },
-                nome_contato: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>NOME DO CONTATO</strong>'
-                        },
-                        stringLength: {
-                            min: 4,
-                            max: 250,
-                            message: 'O campo <strong>NOME DO CONTATO</strong> deve ter entre <strong>4</strong> e <strong>250</strong> caracteres'
-                        }
                     }
                 },
                 depto: {
@@ -374,42 +272,27 @@ Cliente = {
 			}
 		    }
 		},
-                sexo: {
+                periodo: {
 		    validators: {
 			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>SEXO</strong>'
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PER&Iacute;ODO</strong>'
 			}
 		    }
 		},
-                dt_nasc: {
-		    validators: {
-                        stringLength: {
-			    min: 10,
-			    max: 10,
-			    message: 'Informe uma <strong>DATA DE NASCIMENTO</strong> v&aacute;lida!'
-			},
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>DATA DE NASCIMENTO</strong>'
-			}
-		    }
-		},
-                resp_compra: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>RESPONS&Aacute;VEL PELA COMPRA</strong>'
-			}
-		    }
-		},
-                email_pri_contato: {
+                email_func: {
                     validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>E-MAIL PRINCIPAL</strong>'
-                        },
                         emailAddress: {
-                            message: 'Digite um endere&ccedil;o de <strong>E-MAIL PRINCIPAL</strong> v&aacute;lido'
+                            message: 'Digite um endere&ccedil;o de <strong>E-MAIL</strong> v&aacute;lido'
                         }
                     }
-                }
+                },
+                ender_empresa: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>ENDERE&Ccedil;O DA EMPRESA</strong>'
+			}
+		    }
+		}
             }
         }).on('error.field.bv', function(e, data) {
             // data.element --> The field element
@@ -438,96 +321,120 @@ Cliente = {
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
                 if (data.status === true) {
-                    Cliente.modalMsg("MENSAGEM", data.msg, false, './gerenciar');
+                    Funcionario.modalMsg("MENSAGEM", data.msg, false, './gerenciar');
                 } else {
-                    Cliente.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                    Funcionario.modalMsg("Aten&ccedil;&atilde;o", data.msg);
                 }
 
-                $('#btn_cad_client_vt').removeAttr('disabled');
+                $('#btn_cad_func').removeAttr('disabled');
             }, 'json');
 
         });
 
-        // Cliente Editar
-        $('#frm_edit_client_vt').bootstrapValidator({
+        // Funcionario Editar
+        $('#frm_edit_func').bootstrapValidator({
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
                 invalid: 'glyphicon glyphicon-remove',
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                tp_empresa: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>TIPO DE EMPRESA</strong>'
-			}
-		    }
-		},
-                cnpj: {
+                cpf: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>CNPJ</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>CPF</strong>'
                         },
-			vat: {
+                        id: {
 			    country: 'BR',
-			    message: 'Digite um <strong>CNPJ</strong> v&aacute;lido'
+			    message: 'Digite um <strong>CPF</strong> v&aacute;lido'
 			}
                     }
                 },
-                razao_social: {
+                nome_func: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>RAZ&Atilde;O SOCIAL</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>NOME</strong>'
                         },
                         stringLength: {
                             min: 2,
                             max: 250,
-                            message: 'O campo <strong>RAZ&Atilde;O SOCIAL</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
+                            message: 'O campo <strong>NOME</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
                         }
                     }
                 },
-                atividade: {
+                dt_nasc: {
 		    validators: {
+                        stringLength: {
+			    min: 10,
+			    max: 10,
+			    message: 'Informe uma <strong>DATA DE NASCIMENTO</strong> v&aacute;lida'
+			},
 			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>RAMO DE ATIVIDADE</strong>'
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>DATA DE NASCIMENTO</strong>'
 			}
 		    }
 		},
-                email: {
+                sexo: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>SEXO</strong>'
+			}
+		    }
+		},
+                estado_civil: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>ESTADO CIVIL</strong>'
+			}
+		    }
+		},
+                rg: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>E-MAIL</strong>'
-                        },
-                        emailAddress: {
-                            message: 'Digite um endere&ccedil;o de <strong>E-MAIL</strong> v&aacute;lido'
-                        }
-                    }
-                },
-                tel: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>TELEFONE</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>RG</strong>'
                         },
                         stringLength: {
-                            min: 14,
+                            min: 4,
                             max: 15,
-                            message: 'O campo <strong>TELEFONE</strong> deve ter entre <strong>10</strong> e <strong>11</strong> n&uacute;meros'
+                            message: 'O campo <strong>RG</strong> deve ter entre <strong>4</strong> e <strong>15</strong> caracteres'
                         }
                     }
                 },
-                senha_cliente: {
+                dt_exped: {
+		    validators: {
+                        stringLength: {
+			    min: 10,
+			    max: 10,
+			    message: 'Informe uma <strong>DATA DE EXPEDI&Ccedil;&Atilde;O</strong> v&aacute;lida'
+			},
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>DATA DE NASCIMENTO</strong>'
+			}
+		    }
+		},
+                orgao_exped: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>&Oacute;RG&Atilde;O EXPEDIDOR</strong>'
+			}
+		    }
+		},
+                uf_exped: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>UF</strong>'
+			}
+		    }
+		},
+                nome_mae: {
                     validators: {
-                        callback: {
-                            callback: function (value, validator, $field) {
-                                var alt_pwd = $('#alt_senha').is(':checked');
-                                if (alt_pwd === true && value.length < 8) {
-                                    return {
-                                        valid   : false,
-                                        message : 'O campo <strong>SENHA</strong> deve ter entre <strong>8</strong> e <strong>50</strong> caracteres'
-                                    };
-                                }
-                                return true;
-                            }
+                        notEmpty: {
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>NOME DA M&Atilde;E</strong>'
+                        },
+                        stringLength: {
+                            min: 2,
+                            max: 250,
+                            message: 'O campo <strong>NOME DA M&Atilde;E</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
                         }
                     }
                 },
@@ -535,13 +442,6 @@ Cliente = {
 		    validators: {
 			notEmpty: {
 			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>STATUS</strong>'
-			}
-		    }
-		},
-                tp_endereco: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>TIPO DE ENDERE&Ccedil;O</strong>'
 			}
 		    }
 		},
@@ -607,28 +507,11 @@ Cliente = {
 			}
 		    }
 		},
-                resp_receb: {
+                matricula: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>RESPONS&Aacute;VEL PELO RECEBIMENTO</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>MATR&Iacute;CULA</strong>'
                         },
-                        stringLength: {
-                            min: 4,
-                            max: 250,
-                            message: 'O campo <strong>RESPONS&Aacute;VEL PELO RECEBIMENTO</strong> deve ter entre <strong>4</strong> e <strong>250</strong> caracteres'
-                        }
-                    }
-                },
-                nome_contato: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>NOME DO CONTATO</strong>'
-                        },
-                        stringLength: {
-                            min: 4,
-                            max: 250,
-                            message: 'O campo <strong>NOME DO CONTATO</strong> deve ter entre <strong>4</strong> e <strong>250</strong> caracteres'
-                        }
                     }
                 },
                 depto: {
@@ -645,42 +528,27 @@ Cliente = {
 			}
 		    }
 		},
-                sexo: {
+                periodo: {
 		    validators: {
 			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>SEXO</strong>'
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PER&Iacute;ODO</strong>'
 			}
 		    }
 		},
-                dt_nasc: {
-		    validators: {
-                        stringLength: {
-			    min: 10,
-			    max: 10,
-			    message: 'Informe uma <strong>DATA DE NASCIMENTO</strong> v&aacute;lida!'
-			},
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>DATA DE NASCIMENTO</strong>'
-			}
-		    }
-		},
-                resp_compra: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>RESPONS&Aacute;VEL PELA COMPRA</strong>'
-			}
-		    }
-		},
-                email_pri_contato: {
+                email_func: {
                     validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>E-MAIL PRINCIPAL</strong>'
-                        },
                         emailAddress: {
-                            message: 'Digite um endere&ccedil;o de <strong>E-MAIL PRINCIPAL</strong> v&aacute;lido'
+                            message: 'Digite um endere&ccedil;o de <strong>E-MAIL</strong> v&aacute;lido'
                         }
                     }
-                }
+                },
+                ender_empresa: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>ENDERE&Ccedil;O DA EMPRESA</strong>'
+			}
+		    }
+		}
             }
         }).on('success.form.bv', function (e) {
             // Prevent form submission
@@ -698,12 +566,12 @@ Cliente = {
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
                 if (data.status === true) {
-                    Cliente.modalMsg("MENSAGEM", data.msg, false, '../gerenciar');
+                    Funcionario.modalMsg("MENSAGEM", data.msg, false, '../gerenciar');
                 } else {
-                    Cliente.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                    Funcionario.modalMsg("Aten&ccedil;&atilde;o", data.msg);
                 }
 
-                $('#btn_edit_client_vt').removeAttr('disabled');
+                $('#btn_edit_func').removeAttr('disabled');
             }, 'json');
 
         });
@@ -711,8 +579,8 @@ Cliente = {
         // Gerar senha
         $('#gen_pwd').pGenerator({
             'bind'            : 'click',
-            'passwordElement' : '#senha_cliente',
-            'displayElement'  : '#senha_cliente',
+            'passwordElement' : '#senha_funcionario',
+            'displayElement'  : '#senha_funcionario',
             'passwordLength'  : 8,
             'uppercase'       : true,
             'lowercase'       : true,
@@ -735,14 +603,14 @@ Cliente = {
 
 	if (focus) {
 	    $("#msg_modal").on('hidden.bs.modal', function (e) {
-		Cliente.setFocus(focus);
+		Funcionario.setFocus(focus);
 		e.preventDefault();
 	    });
 	}
 
 	if (redirect) {
 	    $("#msg_modal").on('hidden.bs.modal', function (e) {
-		Cliente.redirect(redirect);
+		Funcionario.redirect(redirect);
 		e.preventDefault();
 	    });
 	}
@@ -754,7 +622,7 @@ Cliente = {
      **/
     del: function(id) {
         bootbox.dialog({
-            message: "<i class='fa fa-exclamation-triangle'></i> Deseja realmente <strong>Excluir</strong> esse Cliente?",
+            message: "<i class='fa fa-exclamation-triangle'></i> Deseja realmente <strong>Excluir</strong> esse Funcion&aacute;rio?",
             title: "ATEN&Ccedil;&Atilde;O",
             buttons: {
                 success: {
@@ -770,11 +638,11 @@ Cliente = {
                             id: id
                         },function(data){
                             if (data.status === true) {
-                                Cliente.modalMsg("MENSAGEM", data.msg, false, false);
+                                Funcionario.modalMsg("MENSAGEM", data.msg, false, false);
                                 // Reload grid
-                                $('#tbl_client_vt').DataTable().ajax.reload();
+                                $('#tbl_func').DataTable().ajax.reload();
                             } else {
-                                Cliente.modalMsg("ATEN&Ccedil;&Atilde;O", data.msg, false, false);
+                                Funcionario.modalMsg("ATEN&Ccedil;&Atilde;O", data.msg, false, false);
                             }
                         }, 'json');
                     }
@@ -822,5 +690,5 @@ Cliente = {
 };
 
 $(document).ready(function () {
-    Cliente.main();
+    Funcionario.main();
 });
