@@ -37,6 +37,9 @@
         <!-- Datepicker -->
         <script src="<?=base_url('scripts/plugins/datepicker/bootstrap-datepicker.js') ?>"></script>
         <script src="<?=base_url('scripts/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js') ?>"></script>
+        <!-- Select2 -->
+        <script src="<?=base_url('scripts/plugins/select2/select2.full.min.js') ?>"></script>
+        <script src="<?=base_url('scripts/plugins/select2/i18n/pt-BR.js') ?>"></script>
 
     </body>
 

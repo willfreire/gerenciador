@@ -24,24 +24,24 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="hidden-xs"><?=$this->session->userdata('user_st_client')?></span>
+                        <span class="hidden-xs"><?= $this->session->userdata('user_st_client') ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
                             <p>
-                                <strong><?=$this->session->userdata('user_client')?><br></strong>
-                                <strong>Perfil:</strong> <?=$this->session->userdata('tipo_client')?>
-                                <small><strong>Data de Cadastro:</strong> <?=$this->session->userdata('dt_cad_client')?></small>
+                                <strong><?= $this->session->userdata('user_client') ?><br></strong>
+                                <strong>Perfil:</strong> <?= $this->session->userdata('tipo_client') ?>
+                                <small><strong>Data de Cadastro:</strong> <?= $this->session->userdata('dt_cad_client') ?></small>
                             </p>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="<?=base_url('./empresa/ver/'.$this->session->userdata('id_client'))?>" class="btn btn-success btn-flat">Dados Cadastrais</a>
+                                <a href="<?= base_url('./empresa/ver/' . $this->session->userdata('id_client')) ?>" class="btn btn-success btn-flat">Dados Cadastrais</a>
                             </div>
                             <div class="pull-right">
-                                <a href="<?=base_url('./main/logoff')?>" class="btn btn-danger btn-flat">Sair</a>
+                                <a href="<?= base_url('./main/logoff') ?>" class="btn btn-danger btn-flat">Sair</a>
                             </div>
                         </li>
                     </ul>
@@ -60,7 +60,7 @@
         <ul class="sidebar-menu">
             <li class="header">MENU PRINCIPAL</li>
             <li>
-                <a href="<?=base_url('./main/dashboard')?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
             </li>
             <li class="treeview">
                 <a href="#">
@@ -70,7 +70,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./empresa/editar/'.$this->session->userdata('id_client'))?>"><i class="fa fa-circle-o"></i> Editar</a></li>
+                    <li><a href="<?= base_url('./empresa/editar/' . $this->session->userdata('id_client')) ?>"><i class="fa fa-circle-o"></i> Editar</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -81,8 +81,20 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./funcionario/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./funcionario/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?= base_url('./funcionario/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+                    <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-credit-card" aria-hidden="true"></i> <span>Benef&iacute;cio - Cart&atilde;o</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?= base_url('./beneficiocartao/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+                    <li><a href="<?= base_url('./beneficiocartao/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -93,8 +105,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./pedido/solicitar')?>"><i class="fa fa-circle-o"></i> Solicitar</a></li>
-                    <li><a href="<?=base_url('./pedido/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?= base_url('./pedido/solicitar') ?>"><i class="fa fa-circle-o"></i> Solicitar</a></li>
+                    <li><a href="<?= base_url('./pedido/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -105,12 +117,12 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./periodo/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./periodo/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?= base_url('./periodo/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+                    <li><a href="<?= base_url('./periodo/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
             <li>
-                <a href="<?=base_url('./main/logoff')?>"><i class="fa fa-sign-out"></i> <span>Sair</span></a>
+                <a href="<?= base_url('./main/logoff') ?>"><i class="fa fa-sign-out"></i> <span>Sair</span></a>
             </li>
         </ul>
     </section>
