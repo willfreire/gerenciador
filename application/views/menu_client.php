@@ -106,7 +106,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="<?= base_url('./pedido/solicitar') ?>"><i class="fa fa-circle-o"></i> Solicitar</a></li>
-                    <li><a href="<?= base_url('./pedido/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?= base_url('./pedido/acompanhar') ?>"><i class="fa fa-circle-o"></i> Acompanhar</a></li>
                 </ul>
             </li>
             <li class="treeview">

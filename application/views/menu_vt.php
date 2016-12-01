@@ -131,7 +131,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="javascript:alert('Em Desenvolvimento')"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?= base_url('./pedido/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
             <li class="treeview">

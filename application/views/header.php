@@ -29,6 +29,8 @@
         <link rel="stylesheet" href="<?=base_url('scripts/plugins/datatables/dataTables.bootstrap.css')?>">
         <!-- Datepicker -->
         <link rel="stylesheet" href="<?=base_url('scripts/plugins/datepicker/datepicker3.css')?>">
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="<?=base_url('scripts/plugins/daterangepicker/daterangepicker.css')?>">
         <!-- Select2 -->
         <link rel="stylesheet" href="<?=base_url('scripts/plugins/select2/select2.min.css')?>">
         
