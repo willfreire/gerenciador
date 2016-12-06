@@ -142,6 +142,50 @@ class Prospeccao extends CI_Controller
         $prospeccao->contato             = $this->input->post('contato');
         $prospeccao->taxa                = $this->input->post('taxa');
         $prospeccao->aceitou_proposta    = $this->input->post('aceitou_proposta');
+        $prospeccao->dt_retorno          = isset($_POST['dt_retorno']) && $_POST['dt_retorno'] != "" ? explode('/', $_POST['dt_retorno']) : NULL;
+        $prospeccao->obs                 = $this->input->post('obs');
+
+        if ($prospeccao->mailing != NULL && $prospeccao->item_beneficio != NULL && $prospeccao->fornecedor != NULL && $prospeccao->meio_social != NULL &&
+            $prospeccao->atividade != NULL && $prospeccao->contato != NULL && $prospeccao->aceitou_proposta != NULL) {
+            $resposta = $this->Prospeccao_model->setProspeccao($prospeccao);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao cadastrar! Tente novamente...";
+            $resposta        = $retorno;
+        }
+
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método de cadastrar / editar prospeccao
+     *
+     * @method doProspec
+     * @access public
+     * @return obj Status da ação
+     */
+    public function doProspec()
+    {
+        $prospeccao = new stdClass();
+        $retorno    = new stdClass();
+        $resposta   = "";
+
+        $prospeccao->id                  = $this->input->post('id_prospec');
+        $prospeccao->mailing             = $this->input->post('mailing');
+        $prospeccao->item_beneficio      = $this->input->post('item_beneficio');
+        $prospeccao->fornecedor          = $this->input->post('fornecedor');
+        $prospeccao->meio_social         = $this->input->post('meio_social');
+        $prospeccao->dist_beneficio      = $this->input->post('dist_beneficio');
+        $prospeccao->atividade           = $this->input->post('atividade');
+        $prospeccao->muda_fornecedor     = $this->input->post('muda_fornecedor');
+        $prospeccao->muda_fornec_outro   = $this->input->post('muda_fornec_outro');
+        $prospeccao->nao_interesse       = $this->input->post('nao_interesse');
+        $prospeccao->nao_interesse_outro = $this->input->post('nao_interesse_outro');
+        $prospeccao->contato             = $this->input->post('contato');
+        $prospeccao->taxa                = $this->input->post('taxa');
+        $prospeccao->aceitou_proposta    = $this->input->post('aceitou_proposta');
+        $prospeccao->dt_retorno          = isset($_POST['dt_retorno']) && $_POST['dt_retorno'] != "" ? explode('/', $_POST['dt_retorno']) : NULL;
         $prospeccao->obs                 = $this->input->post('obs');
 
         if ($prospeccao->mailing != NULL && $prospeccao->item_beneficio != NULL && $prospeccao->fornecedor != NULL && $prospeccao->meio_social != NULL &&
@@ -262,6 +306,7 @@ class Prospeccao extends CI_Controller
         $prospeccao->contato             = $this->input->post('contato');
         $prospeccao->taxa                = $this->input->post('taxa');
         $prospeccao->aceitou_proposta    = $this->input->post('aceitou_proposta');
+        $prospeccao->dt_retorno          = isset($_POST['dt_retorno']) && $_POST['dt_retorno'] != "" ? explode('/', $_POST['dt_retorno']) : NULL;
         $prospeccao->obs                 = $this->input->post('obs');
 
         if ($prospeccao->id != NULL && $prospeccao->mailing != NULL && $prospeccao->item_beneficio != NULL && $prospeccao->fornecedor != NULL && $prospeccao->meio_social != NULL &&

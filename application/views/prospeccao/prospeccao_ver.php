@@ -16,6 +16,7 @@ $nao_interesse_outro = isset($prospeccao[0]->nao_interesse_outro) ? $prospeccao[
 $contato             = isset($prospeccao[0]->contato) ? $prospeccao[0]->contato : "";
 $taxa                = isset($prospeccao[0]->taxa) ? $prospeccao[0]->taxa : "0.00";
 $aceitou_proposta    = isset($prospeccao[0]->aceitou_proposta) && $prospeccao[0]->aceitou_proposta === "s" ? "Sim" : ($prospeccao[0]->aceitou_proposta === "e" ? "Em Negocia&ccedil;&atilde;o" : "N&atilde;o");
+$dt_retorno          = isset($prospeccao[0]->dt_retorno) ? explode("-", $prospeccao[0]->dt_retorno) : "";
 $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->observacao : "";
 ?>
 <style>
@@ -121,6 +122,10 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Proposta Aceita?</strong></div>
                                     <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$aceitou_proposta?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Data de Retorno</strong></div>
+                                    <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=is_array($dt_retorno) ? $dt_retorno[2].'/'.$dt_retorno[1].'/'.$dt_retorno[0] : ''?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Observa&ccedil;&atilde;o</strong></div>

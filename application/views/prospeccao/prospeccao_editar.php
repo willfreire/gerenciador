@@ -14,6 +14,7 @@ $nao_interesse_outro = isset($prospeccao[0]->nao_interesse_outro) ? $prospeccao[
 $contato             = isset($prospeccao[0]->contato) ? $prospeccao[0]->contato : "";
 $taxa                = isset($prospeccao[0]->taxa) ? $prospeccao[0]->taxa : "0.00";
 $aceitou_proposta    = isset($prospeccao[0]->aceitou_proposta) ? $prospeccao[0]->aceitou_proposta : "";
+$dt_retorno          = isset($prospeccao[0]->dt_retorno) ? explode("-", $prospeccao[0]->dt_retorno) : "";
 $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->observacao : "";
 ?>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -70,13 +71,13 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                                 <label for="mailing">Empresa (Mailing)<span class="text-danger">*</span></label>
                                                 <input type="hidden" id="id_mailing" name="id_mailing" value="<?=$id_mailing?>">
                                                 <div class="controls">
-                                                    <select class="form-control" name="mailing" id="mailing" required="true" autofocus="true" disabled>
+                                                    <select class="form-control select2" name="mailing" id="mailing" required="true" autofocus="true" disabled>
                                                         <option value="">Selecione</option>
                                                         <?php
                                                         if (is_array($mailing)):
                                                             foreach ($mailing as $value):
                                                                 $sel = $id_mailing == $value->id_mailing_pk ? "selected='selected'" : "";
-                                                                echo "<option value='$value->id_mailing_pk' $sel>$value->razao_social</option>";
+                                                                echo "<option value='$value->id_mailing_pk' $sel>$value->id_mailing_pk - $value->razao_social</option>";
                                                             endforeach;
                                                         endif;
                                                         ?>
@@ -91,13 +92,13 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="item_beneficio">Benef&iacute;cios<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <select class="form-control" name="item_beneficio" id="item_beneficio" required="true">
+                                                    <select class="form-control select2" name="item_beneficio" id="item_beneficio" required="true">
                                                         <option value="">Selecione</option>
                                                         <?php
                                                         if (is_array($item_beneficio)):
                                                             foreach ($item_beneficio as $value):
                                                                 $sel = $id_item_beneficio == $value->id_item_beneficio_pk ? "selected='selected'" : "";
-                                                                echo "<option value='$value->id_item_beneficio_pk' $sel>$value->descricao</option>";
+                                                                echo "<option value='$value->id_item_beneficio_pk' $sel>$value->id_item_beneficio_pk - $value->descricao</option>";
                                                             endforeach;
                                                         endif;
                                                         ?>
@@ -112,7 +113,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="fornecedor">Fornecedor<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <select class="form-control" name="fornecedor" id="fornecedor" required="true">
+                                                    <select class="form-control select2" name="fornecedor" id="fornecedor" required="true">
                                                         <option value="">Selecione</option>
                                                         <?php
                                                         if (is_array($fornecedor)):
@@ -174,7 +175,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="atividade">Ramo de Atividade<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <select class="form-control" name="atividade" id="atividade" required="true">
+                                                    <select class="form-control select2" name="atividade" id="atividade" required="true">
                                                         <option value="">Selecione</option>
                                                         <?php
                                                         if (is_array($atividade)):
@@ -291,6 +292,17 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                                     <label class="radio-inline">
                                                         <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="e" <?=$aceitou_proposta == "e" ? "checked='checked'" : ""?>> <div class="radio-position">Em Negocia&ccedil;&atilde;o</div>
                                                     </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-9 col-sm-5 col-md-5 col-lg-4">
+                                                <label for="dt_retorno">Data de Retorno</label>
+                                                <div class="controls">
+                                                    <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_retorno" id="dt_retorno" placeholder="dd/mm/aaaa" value="<?=is_array($dt_retorno) ? $dt_retorno[2].'/'.$dt_retorno[1].'/'.$dt_retorno[0] : ''?>" maxlength="10" required="true">
                                                 </div>
                                             </div>
                                         </div>

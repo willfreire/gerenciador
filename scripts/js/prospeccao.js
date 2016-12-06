@@ -25,8 +25,17 @@ Prospeccao = {
             Prospeccao.redirect('../gerenciar');
         });
 
+        // Calendario
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'pt-BR',
+            clearBtn: true
+        });
+
         // Mascara
         $(".vl_percent").maskMoney();
+        $(".select2").select2();
+        $("#dt_retorno").mask("99/99/9999");
 
 	// Habilitar/Ocultar Muda Fornecedor
         $("input[name='muda_fornecedor']").change(function() {

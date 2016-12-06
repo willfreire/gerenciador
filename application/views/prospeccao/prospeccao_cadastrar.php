@@ -51,12 +51,12 @@
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="mailing">Empresa (Mailing)<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <select class="form-control" name="mailing" id="mailing" required="true" autofocus="true">
+                                                    <select class="form-control select2" name="mailing" id="mailing" required="true" autofocus="true">
                                                         <option value="">Selecione</option>
                                                         <?php
                                                         if (is_array($mailing)):
                                                             foreach ($mailing as $value):
-                                                                echo "<option value='$value->id_mailing_pk'>$value->razao_social</option>";
+                                                                echo "<option value='$value->id_mailing_pk'>$value->id_mailing_pk - $value->razao_social</option>";
                                                             endforeach;
                                                         endif;
                                                         ?>
@@ -71,12 +71,12 @@
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="item_beneficio">Benef&iacute;cios<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <select class="form-control" name="item_beneficio" id="item_beneficio" required="true">
+                                                    <select class="form-control select2" name="item_beneficio" id="item_beneficio" required="true">
                                                         <option value="">Selecione</option>
                                                         <?php
                                                         if (is_array($item_beneficio)):
                                                             foreach ($item_beneficio as $value):
-                                                                echo "<option value='$value->id_item_beneficio_pk'>$value->descricao</option>";
+                                                                echo "<option value='$value->id_item_beneficio_pk'>$value->id_item_beneficio_pk - $value->descricao</option>";
                                                             endforeach;
                                                         endif;
                                                         ?>
@@ -91,7 +91,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="fornecedor">Fornecedor<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <select class="form-control" name="fornecedor" id="fornecedor" required="true">
+                                                    <select class="form-control select2" name="fornecedor" id="fornecedor" required="true">
                                                         <option value="">Selecione</option>
                                                         <?php
                                                         if (is_array($fornecedor)):
@@ -150,7 +150,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="atividade">Ramo de Atividade<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <select class="form-control" name="atividade" id="atividade" required="true">
+                                                    <select class="form-control select2" name="atividade" id="atividade" required="true">
                                                         <option value="">Selecione</option>
                                                         <?php
                                                         if (is_array($atividade)):
@@ -264,6 +264,17 @@
                                                     <label class="radio-inline">
                                                         <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="e"> <div class="radio-position">Em Negocia&ccedil;&atilde;o</div>
                                                     </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-9 col-sm-5 col-md-5 col-lg-4">
+                                                <label for="dt_retorno">Data de Retorno</label>
+                                                <div class="controls">
+                                                    <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_retorno" id="dt_retorno" placeholder="dd/mm/aaaa" value="" maxlength="10" required="true">
                                                 </div>
                                             </div>
                                         </div>

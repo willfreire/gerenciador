@@ -24,7 +24,7 @@ Mailing = {
         $('#btn_back').click(function(){
             Mailing.redirect('../gerenciar');
         });
-        
+
         // Mascara
         $("#cep").mask('99999-999');
         Mailing.onlyNumber('cnpj');
@@ -41,7 +41,14 @@ Mailing = {
                 $("#tel").mask("(99) 9999-99990");
             }
         });
-        
+
+        // Calendario
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'pt-BR',
+            clearBtn: true
+        });
+
         // Busca Cidade por Estado
         $("#estado").change(function(){
             var id_estado = $(this).val();
@@ -349,6 +356,168 @@ Mailing = {
 
         });
 
+        /* Prospeccao */
+	// Habilitar/Ocultar Muda Fornecedor
+        $("input[name='muda_fornecedor']").change(function() {
+            var vl = $("input[name='muda_fornecedor']:checked").val();
+            if (vl === "4") {
+                $("#row_muda_fornec").removeClass("hidden");
+                Mailing.setFocus('muda_fornec_outro');
+            } else {
+                $("#row_muda_fornec").addClass("hidden");
+                $("#muda_fornec_outro").val('');
+            }
+        });
+
+	// Habilitar/Ocultar Não Interesse
+        $("input[name='nao_interesse']").change(function() {
+            var vl = $("input[name='nao_interesse']:checked").val();
+            if (vl === "6") {
+                $("#row_nao_interesse").removeClass("hidden");
+                Mailing.setFocus('nao_interesse_outro');
+            } else {
+                $("#row_nao_interesse").addClass("hidden");
+                $("#nao_interesse_outro").val('');
+            }
+        });
+
+        // Limpar validacao
+        $("#modal_prospec").on('hidden.bs.modal', function() {
+            // Limpar Validacao
+            $('#frm_cad_prospec_vt').bootstrapValidator('resetForm', true);
+        });
+
+        // Prospeccao
+        $('#frm_cad_prospec_vt').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                mailing: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>EMPRESA</strong>'
+			}
+		    }
+		},
+                item_beneficio: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>BENEF&Iacute;CIOS</strong>'
+			}
+		    }
+		},
+                fornecedor: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>FORNECEDOR</strong>'
+			}
+		    }
+		},
+                meio_social: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>COMO CONHECEU A VTCARDS?</strong>'
+			}
+		    }
+		},
+                atividade: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>RAMO DE ATIVIDADE</strong>'
+			}
+		    }
+		},
+                muda_fornec_outro: {
+                    validators: {
+                        stringLength: {
+                            min: 2,
+                            max: 250,
+                            message: 'O campo <strong>OUTROS MOTIVOS PARA MUDAN&Ccedil;A</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
+                        },
+                        callback: {
+                            callback: function (value, validator, $field) {
+                                var muda = $('#muda_fornecedor_4').is(':checked');
+                                if (muda === true && value === "") {
+                                    return {
+                                        valid: false,
+                                        message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>OUTROS MOTIVOS PARA MUDAN&Ccedil;A</strong>'
+                                    };
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                },
+                nao_interesse_outro: {
+                    validators: {
+                        stringLength: {
+                            min: 2,
+                            max: 250,
+                            message: 'O campo <strong>OUTROS MOTIVOS DO N&Atilde;O INTERESSE</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
+                        },
+                        callback: {
+                            callback: function (value, validator, $field) {
+                                var interesse = $('#nao_interesse_6').is(':checked');
+                                if (interesse === true && value === "") {
+                                    return {
+                                        valid: false,
+                                        message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>OUTROS MOTIVOS DO N&Atilde;O INTERESSE</strong>'
+                                    };
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                },
+                contato: {
+                    validators: {
+                        notEmpty: {
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>CONTATO</strong>'
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 250,
+                            message: 'O campo <strong>Contato</strong> deve ter entre <strong>4</strong> e <strong>250</strong> caracteres'
+                        }
+                    }
+                },
+                aceitou_proposta: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PROPOSTA ACEITA</strong>'
+			}
+		    }
+		}
+            }
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+            var url = "../prospeccao/doProspec";
+
+            // Use Ajax to submit form data
+            $.post(url, frm, function (data) {
+                if (data.status === true) {
+                    Mailing.modalMsg("MENSAGEM", data.msg, false, './gerenciar');
+                } else {
+                    Mailing.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                }
+
+                $('#btn_cad_prospec_vt').removeAttr('disabled');
+            }, 'json');
+
+        });
+
     },
 
     /*!
@@ -444,7 +613,186 @@ Mailing = {
 		    || ((e.keyCode >= 48) && (e.keyCode <= 57))))
 		e.preventDefault(); // Números
 	});
-    }
+    },
+
+    /*!
+     * @description Método para abrir modal do status
+     **/
+    modalProspec: function(title)
+    {
+        $("#title_modal_prospec").html(title);
+        $("#modal_prospec").modal('show');
+        window.setTimeout(function(){
+            $(".select2").select2({
+                dropdownParent: $("#modal_prospec")
+            });
+        }, 2000);
+    },
+
+    /*!
+     * @description Método para cadastrar Prospeccao
+     **/
+    abrirProspeccao: function(id_mailing, id_prospec)
+    {
+        // Abrir modal
+        Mailing.modalProspec("Prospec&ccedil;&atilde;o");
+        $("#mailing").val(id_mailing);
+        $("#id_prospec").val(id_prospec);
+        
+        window.setTimeout(function(){
+            if (id_prospec) {
+            $.ajax({
+                type     : "POST",
+                url      : "./getProspec",
+                async    : false,
+                dataType : "json",
+                data : {
+                    id_prospec: id_prospec
+                },
+                success: function(data){
+                    if (data.status === true) {
+                        var item_benef = (data.dados[0].id_item_beneficio_fk) ? data.dados[0].id_item_beneficio_fk : '';
+                        $('#item_beneficio').val(item_benef);
+                        var id_fornec  = (data.dados[0].id_fornecedor_fk) ? data.dados[0].id_fornecedor_fk : '';
+                        $('#fornecedor').val(id_fornec);
+                        var meio_social  = (data.dados[0].id_meio_social_fk) ? data.dados[0].id_meio_social_fk : '';
+                        $("input[type=radio][name=meio_social][value='"+meio_social+"']").attr('checked', 'checked');
+                        var id_dist_benef = (data.dados[0].id_dist_beneficio_fk) ? data.dados[0].id_dist_beneficio_fk : '';
+                        $('#dist_beneficio').val(id_dist_benef);
+                        var id_atividade = (data.dados[0].id_ramo_atividade_fk) ? data.dados[0].id_ramo_atividade_fk : '';
+                        $('#atividade').val(id_atividade);
+                        var id_muda_fornec = (data.dados[0].id_muda_fornec_fk) ? data.dados[0].id_muda_fornec_fk : '';
+                        $("input[type=radio][name=muda_fornecedor][value='"+id_muda_fornec+"']").attr('checked', 'checked');
+                        var muda_fornec_outro = (data.dados[0].muda_fornec_outro) ? data.dados[0].muda_fornec_outro : '';
+                        $('#muda_fornec_outro').val(muda_fornec_outro);
+                        if (muda_fornec_outro) {
+                            $("#row_muda_fornec").removeClass('hidden');
+                        } else {
+                            $("#row_muda_fornec").addClass('hidden');
+                        }
+                        var id_nao_interesse = (data.dados[0].id_nao_interesse_fk) ? data.dados[0].id_nao_interesse_fk : '';
+                        $("input[type=radio][name=nao_interesse][value='"+id_nao_interesse+"']").attr('checked', 'checked');
+                        var nao_interesse_outro = (data.dados[0].nao_interesse_outro) ? data.dados[0].nao_interesse_outro : '';
+                        $('#nao_interesse_outro').val(nao_interesse_outro);
+                        if (nao_interesse_outro) {
+                            $("#row_nao_interesse").removeClass('hidden');
+                        } else {
+                            $("#row_nao_interesse").addClass('hidden');
+                        }
+                        var contato = (data.dados[0].contato) ? data.dados[0].contato : '';
+                        $('#contato').val(contato);
+                        var taxa = (data.dados[0].taxa) ? data.dados[0].taxa : '';
+                        $('#taxa_adm').val(taxa);
+                        var aceitou = (data.dados[0].aceitou_proposta) ? data.dados[0].aceitou_proposta : '';
+                        $("input[type=radio][name=aceitou_proposta][value='"+aceitou+"']").attr('checked', 'checked');
+                        var aceitou = (data.dados[0].dt_retorno) ? (data.dados[0].dt_retorno).split('-') : '';
+                        $('#dt_retorno').val((aceitou) ? aceitou[2]+'/'+aceitou[1]+'/'+aceitou[0] : '');
+                        var obs = (data.dados[0].observacao) ? data.dados[0].observacao : '';
+                        $('#obs').val(obs);
+                    } else {
+                        $('#item_beneficio').val('');
+                        $('#fornecedor').val('');
+                        $("input[type=radio][name=meio_social]").removeAttr('checked');
+                        $('#dist_beneficio').val('');
+                        $('#atividade').val('');
+                        $("input[type=radio][name=muda_fornecedor]").removeAttr('checked');
+                        $('#muda_fornec_outro').val('');
+                        $("#row_muda_fornec").addClass('hidden');
+                        $("input[type=radio][name=nao_interesse]").removeAttr('checked');
+                        $('#nao_interesse_outro').val('');
+                        $("#row_nao_interesse").addClass('hidden');
+                        $('#contato').val('');
+                        $('#taxa').val('');
+                        $("input[type=radio][name=aceitou_proposta]").removeAttr('checked');
+                        $('#dt_retorno').val('');
+                        $('#obs').val('');
+                    }
+                },
+                error: function(){
+                    $('#item_beneficio').val('');
+                    $('#fornecedor').val('');
+                    $("input[type=radio][name=meio_social]").removeAttr('checked');
+                    $('#dist_beneficio').val('');
+                    $('#atividade').val('');
+                    $("input[type=radio][name=muda_fornecedor]").removeAttr('checked');
+                    $('#muda_fornec_outro').val('');
+                    $("#row_muda_fornec").addClass('hidden');
+                    $("input[type=radio][name=nao_interesse]").removeAttr('checked');
+                    $('#nao_interesse_outro').val('');
+                    $("#row_nao_interesse").addClass('hidden');
+                    $('#contato').val('');
+                    $('#taxa').val('');
+                    $("input[type=radio][name=aceitou_proposta]").removeAttr('checked');
+                    $('#dt_retorno').val('');
+                    $('#obs').val('');
+                }
+            });
+            
+            /* $.post('./getProspec', {
+                id_prospec: id_prospec
+            }, function(data){
+                if (data.status === true) {
+                    var item_benef = (data.dados[0].id_item_beneficio_fk) ? data.dados[0].id_item_beneficio_fk : '';
+                    $('#item_beneficio').val(item_benef);
+                    var id_fornec  = (data.dados[0].id_fornecedor_fk) ? data.dados[0].id_fornecedor_fk : '';
+                    $('#fornecedor').val(id_fornec);
+                    var meio_social  = (data.dados[0].id_meio_social_fk) ? data.dados[0].id_meio_social_fk : '';
+                    $("input[type=radio][name=meio_social][value='"+meio_social+"']").attr('checked', 'checked');
+                    var id_dist_benef = (data.dados[0].id_dist_beneficio_fk) ? data.dados[0].id_dist_beneficio_fk : '';
+                    $('#dist_beneficio').val(id_dist_benef);
+                    var id_atividade = (data.dados[0].id_ramo_atividade_fk) ? data.dados[0].id_ramo_atividade_fk : '';
+                    $('#atividade').val(id_atividade);
+                    var id_muda_fornec = (data.dados[0].id_muda_fornec_fk) ? data.dados[0].id_muda_fornec_fk : '';
+                    $("input[type=radio][name=muda_fornecedor][value='"+id_muda_fornec+"']").attr('checked', 'checked');
+                    var muda_fornec_outro = (data.dados[0].muda_fornec_outro) ? data.dados[0].muda_fornec_outro : '';
+                    $('#muda_fornec_outro').val(muda_fornec_outro);
+                    if (muda_fornec_outro) {
+                        $("#row_muda_fornec").removeClass('hidden');
+                    } else {
+                        $("#row_muda_fornec").addClass('hidden');
+                    }
+                    var id_nao_interesse = (data.dados[0].id_nao_interesse_fk) ? data.dados[0].id_nao_interesse_fk : '';
+                    $("input[type=radio][name=nao_interesse][value='"+id_nao_interesse+"']").attr('checked', 'checked');
+                    var nao_interesse_outro = (data.dados[0].nao_interesse_outro) ? data.dados[0].nao_interesse_outro : '';
+                    $('#nao_interesse_outro').val(nao_interesse_outro);
+                    if (nao_interesse_outro) {
+                        $("#row_nao_interesse").removeClass('hidden');
+                    } else {
+                        $("#row_nao_interesse").addClass('hidden');
+                    }
+                    var contato = (data.dados[0].contato) ? data.dados[0].contato : '';
+                    $('#contato').val(contato);
+                    var taxa = (data.dados[0].taxa) ? data.dados[0].taxa : '';
+                    $('#taxa').val(taxa);
+                    var aceitou = (data.dados[0].aceitou_proposta) ? data.dados[0].aceitou_proposta : '';
+                    $("input[type=radio][name=aceitou_proposta][value='"+aceitou+"']").attr('checked', 'checked');
+                    var aceitou = (data.dados[0].dt_retorno) ? (data.dados[0].dt_retorno).split('-') : '';
+                    $('#dt_retorno').val((aceitou) ? aceitou[2]+'/'+aceitou[1]+'/'+aceitou[0] : '');
+                    var obs = (data.dados[0].observacao) ? data.dados[0].observacao : '';
+                    $('#obs').val(obs);
+                }
+            }, 'json'); */
+            
+        } else {
+            $('#item_beneficio').val('');
+            $('#fornecedor').val('');
+            $("input[type=radio][name=meio_social]").removeAttr('checked');
+            $('#dist_beneficio').val('');
+            $('#atividade').val('');
+            $("input[type=radio][name=muda_fornecedor]").removeAttr('checked');
+            $('#muda_fornec_outro').val('');
+            $("#row_muda_fornec").addClass('hidden');
+            $("input[type=radio][name=nao_interesse]").removeAttr('checked');
+            $('#nao_interesse_outro').val('');
+            $("#row_nao_interesse").addClass('hidden');
+            $('#contato').val('');
+            $('#taxa').val('');
+            $("input[type=radio][name=aceitou_proposta]").removeAttr('checked');
+            $('#dt_retorno').val('');
+            $('#obs').val('');
+        }
+        }, 1000);
+    },
 
 };
 

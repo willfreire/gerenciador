@@ -30,8 +30,55 @@ class Mailing extends CI_Controller
         # Titulo da pagina
         $header['titulo'] = "Gerenciamento de Mailings";
 
+        # Sql Mailing
+        # Selecionar ids dos mailings
+        /* $this->db->select("id_mailing_fk");
+        $this->db->from("tb_prospeccao");
+        $ids_prospec = $this->db->get()->result();
+
+        $where_not = array();
+        if (!empty($ids_prospec)):
+            foreach ($ids_prospec as $value):
+                $where_not[] = $value->id_mailing_fk;
+            endforeach;
+        endif; */
+
+        $this->db->select("DISTINCT(m.id_mailing_pk), m.razao_social");
+        $this->db->from("tb_mailing m");
+        $this->db->from("tb_prospeccao p", "m.id_mailing_pk = p.id_mailing_fk", "left");
+        # $this->db->where_not_in('m.id_mailing_pk', $where_not);
+        $this->db->order_by('m.razao_social');
+        $data['mailing'] = $this->db->get()->result();
+
+        # Sql Item Beneficio
+        $this->db->order_by('descricao');
+        $data['item_beneficio'] = $this->db->get('tb_item_beneficio')->result();
+
+        # Sql Fornecedor
+        $this->db->where('id_status_fk', '1');
+        $this->db->order_by('fornecedor');
+        $data['fornecedor'] = $this->db->get('tb_fornecedor')->result();
+
+        # Sql Meio Social
+        $this->db->order_by('meio_social');
+        $data['meio_social'] = $this->db->get('tb_meio_social')->result();
+
+        # Sql Dist Beneficio
+        $this->db->order_by('dist_beneficio');
+        $data['dist_beneficio'] = $this->db->get('tb_dist_beneficio')->result();
+
+        # Sql Atividade
+        $this->db->order_by('ramo_atividade');
+        $data['atividade'] = $this->db->get('tb_ramo_atividade')->result();
+
+        # Sql Mudaria Fornecedor
+        $data['muda_fornecedor'] = $this->db->get('tb_muda_fornecedor')->result();
+
+        # Sql Nao Interesse
+        $data['nao_interesse'] = $this->db->get('tb_nao_interesse')->result();
+
         $this->load->view('header', $header);
-        $this->load->view('mailing/mailing_gerenciar');
+        $this->load->view('mailing/mailing_gerenciar', $data);
         $this->load->view('footer');
     }
 
@@ -47,8 +94,55 @@ class Mailing extends CI_Controller
         # Titulo da pagina
         $header['titulo'] = "Gerenciamento de Mailings";
 
+        # Sql Mailing
+        # Selecionar ids dos mailings
+        /* $this->db->select("id_mailing_fk");
+        $this->db->from("tb_prospeccao");
+        $ids_prospec = $this->db->get()->result();
+
+        $where_not = array();
+        if (!empty($ids_prospec)):
+            foreach ($ids_prospec as $value):
+                $where_not[] = $value->id_mailing_fk;
+            endforeach;
+        endif; */
+
+        $this->db->select("DISTINCT(m.id_mailing_pk), m.razao_social");
+        $this->db->from("tb_mailing m");
+        $this->db->from("tb_prospeccao p", "m.id_mailing_pk = p.id_mailing_fk", "left");
+        # $this->db->where_not_in('m.id_mailing_pk', $where_not);
+        $this->db->order_by('m.razao_social');
+        $data['mailing'] = $this->db->get()->result();
+
+        # Sql Item Beneficio
+        $this->db->order_by('descricao');
+        $data['item_beneficio'] = $this->db->get('tb_item_beneficio')->result();
+
+        # Sql Fornecedor
+        $this->db->where('id_status_fk', '1');
+        $this->db->order_by('fornecedor');
+        $data['fornecedor'] = $this->db->get('tb_fornecedor')->result();
+
+        # Sql Meio Social
+        $this->db->order_by('meio_social');
+        $data['meio_social'] = $this->db->get('tb_meio_social')->result();
+
+        # Sql Dist Beneficio
+        $this->db->order_by('dist_beneficio');
+        $data['dist_beneficio'] = $this->db->get('tb_dist_beneficio')->result();
+
+        # Sql Atividade
+        $this->db->order_by('ramo_atividade');
+        $data['atividade'] = $this->db->get('tb_ramo_atividade')->result();
+
+        # Sql Mudaria Fornecedor
+        $data['muda_fornecedor'] = $this->db->get('tb_muda_fornecedor')->result();
+
+        # Sql Nao Interesse
+        $data['nao_interesse'] = $this->db->get('tb_nao_interesse')->result();
+
         $this->load->view('header', $header);
-        $this->load->view('mailing/mailing_gerenciar');
+        $this->load->view('mailing/mailing_gerenciar', $data);
         $this->load->view('footer');
     }
 
@@ -130,7 +224,7 @@ class Mailing extends CI_Controller
         $search                     = new stdClass();
         $search->draw               = $this->input->post('draw');
         $search->orderByColumnIndex = !empty($_POST['order']) && is_array($_POST['order']) ? $_POST['order'][0]['column'] : 0;
-        $search->orderBy            = !empty($_POST['columns']) && is_array($_POST['columns']) ? $_POST['columns'][$search->orderByColumnIndex]['data'] : "mailing";
+        $search->orderBy            = !empty($_POST['columns']) && is_array($_POST['columns']) ? $_POST['columns'][$search->orderByColumnIndex]['data'] : "cnpj";
         $search->orderType          = !empty($_POST['order']) && is_array($_POST['order']) ? $_POST['order'][0]['dir'] : "ASC";
         $search->start              = $this->input->post('start');
         $search->length             = $this->input->post('length');
@@ -230,7 +324,7 @@ class Mailing extends CI_Controller
         $this->db->where('id_mailing_pk', $id_mailing);
         $data['mailing'] = $this->db->get('tb_mailing')->result();
 
-        if (!empty($data['mailing'])):            
+        if (!empty($data['mailing'])):
             # Sql para Estado
             $this->db->where('id_estado_pk', $data['mailing'][0]->id_estado_fk);
             $this->db->order_by('estado');
@@ -303,6 +397,36 @@ class Mailing extends CI_Controller
             $retorno->cities = NULL;
         endif;
 
+        print json_encode($retorno);
+    }
+
+    /**
+     * Método para buscar dados da prospeccao
+     *
+     * @method getProspec
+     * @access public
+     * @return obj Status da ação
+     */
+    public function getProspec()
+    {
+        # Atribuir vars
+        $retorno = new stdClass();
+
+        $id = $this->input->post('id_prospec');
+
+        # SQL
+        $this->db->where('id_prospeccao_pk', $id);
+        $row = $this->db->get('tb_prospeccao')->result();
+
+        if (!empty($row)):
+            $retorno->status = TRUE;
+            $retorno->dados  = $row;
+        else:
+            $retorno->status = FALSE;
+            $retorno->dados  = NULL;
+        endif;
+
+        # retornar
         print json_encode($retorno);
     }
 }

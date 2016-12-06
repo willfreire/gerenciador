@@ -50,16 +50,17 @@ class Prospeccao_model extends CI_Model {
         $dados['contato']              = $valores->contato;
         $dados['taxa']                 = $valores->taxa;
         $dados['aceitou_proposta']     = $valores->aceitou_proposta;
+        $dados['dt_retorno']           = is_array($valores->dt_retorno) ? $valores->dt_retorno[2].'-'.$valores->dt_retorno[1].'-'.$valores->dt_retorno[0] : NULL;
         $dados['observacao']           = $valores->obs;
-        
-        # Se Cliente aceitou proposta
+
+        # Dados do Mailing na prospeccao
         if ($valores->aceitou_proposta === "s"):
             $mail['cliente'] = $valores->aceitou_proposta;
-
-            # Atualiza Mailing
-            $this->db->where('id_mailing_pk', $valores->mailing);
-            $this->db->update('tb_mailing', $mail);            
         endif;
+        $mail['dt_atende'] = mdate($timestamp, $data);
+        # Atualiza Mailing
+        $this->db->where('id_mailing_pk', $valores->mailing);
+        $this->db->update('tb_mailing', $mail);
 
         if (isset($valores->id) && $valores->id != ""):
             $dados['id_usuario_alt_fk'] = $this->session->userdata('id_vt');
@@ -145,7 +146,7 @@ class Prospeccao_model extends CI_Model {
         endif;
 
         # Consultar prospeccoes
-        $this->db->select("p.id_prospeccao_pk, m.razao_social, b.descricao, p.contato, CONCAT(p.taxa, '%') AS taxa, IF (p.aceitou_proposta = 's', 'Sim', 
+        $this->db->select("p.id_prospeccao_pk, m.razao_social, b.descricao, p.contato, CONCAT(p.taxa, '%') AS taxa, IF (p.aceitou_proposta = 's', 'Sim',
                           IF (p.aceitou_proposta = 'e', 'Em Negocia&ccedil;&atilde;o', 'N&atilde;o')) AS aceitou_proposta", FALSE);
         $this->db->from('tb_prospeccao p');
         $this->db->join('tb_mailing m', 'p.id_mailing_fk = m.id_mailing_pk', 'inner');
