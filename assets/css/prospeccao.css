@@ -34,6 +34,12 @@
 }
 /* Fim Select2 */
 
+#time {
+    font-weight : bold;
+    font-size   : 2em;
+    color       : navy;
+}
+
 @media (max-width: 480px) {
     #box-frm-prospec {
         width: 100%;

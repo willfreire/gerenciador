@@ -280,7 +280,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
+                                            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
                                                 <label for="aceitou_proposta">Proposta Aceita?<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <label class="radio-inline">

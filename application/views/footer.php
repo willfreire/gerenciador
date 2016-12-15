@@ -44,6 +44,8 @@
         <!-- Select2 -->
         <script src="<?=base_url('scripts/plugins/select2/select2.full.min.js') ?>"></script>
         <script src="<?=base_url('scripts/plugins/select2/i18n/pt-BR.js') ?>"></script>
+        <!-- Jquery Runner -->
+        <script src="<?=base_url('scripts/plugins/jquery-runner/jquery.runner-min.js') ?>"></script>
 
     </body>
 

@@ -43,6 +43,12 @@
 }
 /* Fim Select2 */
 
+#frme_prospec {
+    border : none; 
+    width  : 100%; 
+    height : 84vh;
+}
+
 @media (max-width: 480px) {
     #box-frm-mail {
         width: 100%;

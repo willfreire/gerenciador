@@ -85,7 +85,7 @@ class Prospeccao extends CI_Controller
         $data['mailing'] = $this->db->get()->result();
 
         # Sql Item Beneficio
-        $this->db->order_by('descricao');
+        $this->db->order_by('id_item_beneficio_pk');
         $data['item_beneficio'] = $this->db->get('tb_item_beneficio')->result();
 
         # Sql Fornecedor
@@ -113,6 +113,80 @@ class Prospeccao extends CI_Controller
 
         $this->load->view('header', $header);
         $this->load->view('prospeccao/prospeccao_cadastrar', $data);
+        $this->load->view('footer');
+    }
+
+    /**
+     * Método para carregar tela de cadastro / edicao de prospeccao pelo Mailing
+     *
+     * @method prospecMailing
+     * @access public
+     * @param int $id_mailing Id do Mailing
+     * @return void
+     */
+    public function prospecMailing($id_mailing = null)
+    {
+        # Titulo da pagina
+        $header['titulo'] = "Prospec&ccedil;&atilde;o";
+
+        # Sql Mailing
+        # Selecionar ids dos mailings
+        /* $this->db->select("id_mailing_fk");
+        $this->db->from("tb_prospeccao");
+        $ids_prospec = $this->db->get()->result();
+
+        $where_not = array();
+        if (!empty($ids_prospec)):
+            foreach ($ids_prospec as $value):
+                $where_not[] = $value->id_mailing_fk;
+            endforeach;
+        endif;
+
+        $this->db->select("DISTINCT(m.id_mailing_pk), m.razao_social");
+        $this->db->from("tb_mailing m");
+        $this->db->from("tb_prospeccao p", "m.id_mailing_pk = p.id_mailing_fk", "left");
+        $this->db->where_not_in('m.id_mailing_pk', $where_not);
+        $this->db->order_by('m.razao_social');
+        $data['mailing'] = $this->db->get()->result(); */
+        $this->db->order_by('razao_social');
+        $data['mailing'] = $this->db->get('tb_mailing')->result();
+        
+        # Sql Item Beneficio
+        $this->db->order_by('id_item_beneficio_pk');
+        $data['item_beneficio'] = $this->db->get('tb_item_beneficio')->result();
+
+        # Sql Fornecedor
+        $this->db->where('id_status_fk', '1');
+        $this->db->order_by('fornecedor');
+        $data['fornecedor'] = $this->db->get('tb_fornecedor')->result();
+
+        # Sql Meio Social
+        $this->db->order_by('meio_social');
+        $data['meio_social'] = $this->db->get('tb_meio_social')->result();
+
+        # Sql Dist Beneficio
+        $this->db->order_by('dist_beneficio');
+        $data['dist_beneficio'] = $this->db->get('tb_dist_beneficio')->result();
+
+        # Sql Atividade
+        $this->db->order_by('ramo_atividade');
+        $data['atividade'] = $this->db->get('tb_ramo_atividade')->result();
+
+        # Sql Mudaria Fornecedor
+        $data['muda_fornecedor'] = $this->db->get('tb_muda_fornecedor')->result();
+
+        # Sql Nao Interesse
+        $data['nao_interesse'] = $this->db->get('tb_nao_interesse')->result();
+
+        # Sql Prospeccao
+        $this->db->where('id_mailing_fk', $id_mailing);
+        $data['prospeccao'] = $this->db->get('tb_prospeccao')->result();
+        
+        # Id Mailing - Prospeccao
+        $data['prospec_mail'] = $id_mailing;
+        
+        $this->load->view('header', $header);
+        $this->load->view('prospeccao/prospecmailing', $data);
         $this->load->view('footer');
     }
 

@@ -140,16 +140,14 @@ class Mailing_model extends CI_Model {
 
             foreach ($resp_dados as $value):
                 # Botao
-                $id_mail   = $value->id_mailing_pk;
-                $url_edit  = base_url('./mailing/editar/'.$id_mail);
-                $url_view  = base_url('./mailing/ver/'.$id_mail);
-                
-                # Id do Prospeccao
-                $id_prospec = $this->getIdProspec($id_mail);
-                $acao      = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Fazer Prospec&ccedil;&atilde;o' onclick='Mailing.abrirProspeccao(\"$id_mail\", \"$id_prospec->id\")'><i class='fa fa-bar-chart' aria-hidden='true'></i></button>";
-                $acao     .= "<button type='button' class='btn btn-warning btn-xs btn-acao' title='Editar Mailing' onclick='Mailing.redirect(\"$url_edit\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
-                $acao     .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Mailing' onclick='Mailing.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
-                $acao     .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Mailing' onclick='Mailing.del(\"$id_mail\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
+                $id_mail  = $value->id_mailing_pk;
+                $url_edit = base_url('./mailing/editar/'.$id_mail);
+                $url_view = base_url('./mailing/ver/'.$id_mail);
+                $url_src  = base_url('./prospeccao/prospecMailing/'.$id_mail);
+                $acao     = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Fazer Prospec&ccedil;&atilde;o' onclick='Mailing.abrirProspeccao(\"$url_src\")'><i class='fa fa-bar-chart' aria-hidden='true'></i></button>";
+                $acao    .= "<button type='button' class='btn btn-warning btn-xs btn-acao' title='Editar Mailing' onclick='Mailing.redirect(\"$url_edit\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
+                $acao    .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Mailing' onclick='Mailing.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
+                $acao    .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Mailing' onclick='Mailing.del(\"$id_mail\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
 
                 $mailing                = new stdClass();
                 $mailing->id_mailing_pk = $id_mail;
@@ -201,36 +199,6 @@ class Mailing_model extends CI_Model {
         return $retorno;
     }
 
-    /**
-     * Método para verificar se mailing tem prospeccao
-     *
-     * @method getIdProspec
-     * @access public
-     * @param integer $id_mailing Id do mailing
-     * @return obj Status da ação
-     */
-    public function getIdProspec($id_mailing)
-    {
-        # Atribuir vars
-        $retorno = new stdClass();
-
-        # SQL
-        $this->db->select('id_prospeccao_pk');
-        $this->db->from('tb_prospeccao');
-        $this->db->where('id_mailing_fk', $id_mailing);
-        $row = $this->db->get()->result();
-
-        if (!empty($row)):
-            $retorno->status = TRUE;
-            $retorno->id     = $row[0]->id_prospeccao_pk;
-        else:
-            $retorno->status = FALSE;
-            $retorno->id     = NULL;
-        endif;
-
-        # retornar
-        return $retorno;
-    }
 }
 
 /* End of file mailing_model.php */

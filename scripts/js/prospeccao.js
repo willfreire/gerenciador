@@ -25,6 +25,11 @@ Prospeccao = {
             Prospeccao.redirect('../gerenciar');
         });
 
+        // Botao voltar
+        $('#btn_cancel').click(function(){
+            window.parent.$("#modal_prospec").modal('hide');
+        });
+
         // Calendario
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
@@ -34,9 +39,24 @@ Prospeccao = {
 
         // Mascara
         $(".vl_percent").maskMoney();
-        $(".select2").select2();
+        // $(".select2").select2();
         $("#dt_retorno").mask("99/99/9999");
-
+        window.setTimeout(function(){
+            $(".select2").select2();
+        }, 1000);
+        
+        // Cronometro
+        $('#time').runner({
+            autostart: true,
+            milliseconds: false
+        });
+        $('#btn_start').click(function() {
+            $('#time').runner('start');
+        });
+        $('#btn_stop').click(function() {
+            $('#time').runner('stop');
+        });
+        
 	// Habilitar/Ocultar Muda Fornecedor
         $("input[name='muda_fornecedor']").change(function() {
             var vl = $("input[name='muda_fornecedor']:checked").val();
