@@ -33,29 +33,35 @@
 
                     <div class="col-xs-12">
 
-                        <div class="box box-wrapper-80">
+                        <div class="box box-wrapper-100">
 
                             <div class="box-body">
 
                                 <table id="tbl_pedido" class="display" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>N&ordm; Pedido</th>
                                             <th>CNPJ</th>
                                             <th>Raz&atilde;o Social</th>
                                             <th>Data de Pagamento</th>
                                             <th>Per&iacute;odo</th>
-                                            <th>Valor</th>
+                                            <th>Vl. Itens</th>
+                                            <th>Vl. Taxa</th>
+                                            <th>Vl. Total</th>
                                             <th>Status</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th>N&ordm; Pedido</th>
                                             <th>CNPJ</th>
                                             <th>Raz&atilde;o Social</th>
                                             <th>Data de Pagamento</th>
                                             <th>Per&iacute;odo</th>
-                                            <th>Valor</th>
+                                            <th>Vl. Itens</th>
+                                            <th>Vl. Taxa</th>
+                                            <th>Vl. Total</th>
                                             <th>Status</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>
@@ -121,10 +127,13 @@
             $('#tbl_pedido').DataTable({
                 "order": [[ 2, "desc" ]],
                 "columns": [
+                    {data: "id_pedido_pk"},
                     {data: "cnpj"},
                     {data: "nome_razao"},
                     {data: "dt_pgto"},
                     {data: "periodo", searchable: false, orderable: false},
+                    {data: "vl_itens"},
+                    {data: "vl_taxa"},
                     {data: "vl_total"},
                     {data: "status_pedido"},
                     {data: "acao", searchable: false, orderable: false}

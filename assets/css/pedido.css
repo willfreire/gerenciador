@@ -16,6 +16,11 @@
     margin : 20px auto;
 }
 
+.box-wrapper-100 {
+    width  : 100%;
+    margin : 20px auto;
+}
+
 .strip_grid {
     background-color: #f9f9f9;
 }
@@ -27,6 +32,12 @@
 .radio-position {
     margin-top: 5px;
 }
+
+/* Select2 */
+.select2-container .select2-selection--single {
+    height: 34px;
+}
+/* Fim Select2 */
 
 @media (max-width: 480px) {
     #box-frm-pedido {

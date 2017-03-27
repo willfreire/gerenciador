@@ -68,6 +68,25 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                                <label for="time">Tempo de Atendimento</label>
+                                                <div class="controls">
+                                                    <div class="row">
+                                                        <div class="col-xs-9 col-sm-9 col-md-5 col-lg-5">
+                                                            <input type="text" class="form-control" name="time" id="time" value="" maxlength="8" readonly>
+                                                        </div>
+                                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                            <div class="btn btn-sm btn-success" id="btn_start" title="Continuar"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
+                                                            <div class="btn btn-sm btn-danger" id="btn_stop" title="Pausar"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="mailing">Empresa (Mailing)<span class="text-danger">*</span></label>
                                                 <input type="hidden" id="id_mailing" name="id_mailing" value="<?=$id_mailing?>">
                                                 <div class="controls">
@@ -292,6 +311,9 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                                     <label class="radio-inline">
                                                         <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="e" <?=$aceitou_proposta == "e" ? "checked='checked'" : ""?>> <div class="radio-position">Em Negocia&ccedil;&atilde;o</div>
                                                     </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="i" <?=$aceitou_proposta == "i" ? "checked='checked'" : ""?>> <div class="radio-position">Empresa Inexistente</div>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -302,7 +324,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                             <div class="col-xs-9 col-sm-5 col-md-5 col-lg-4">
                                                 <label for="dt_retorno">Data de Retorno</label>
                                                 <div class="controls">
-                                                    <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_retorno" id="dt_retorno" placeholder="dd/mm/aaaa" value="<?=is_array($dt_retorno) ? $dt_retorno[2].'/'.$dt_retorno[1].'/'.$dt_retorno[0] : ''?>" maxlength="10" required="true">
+                                                    <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_retorno" id="dt_retorno" placeholder="dd/mm/aaaa" value="<?=is_array($dt_retorno) ? $dt_retorno[2].'/'.$dt_retorno[1].'/'.$dt_retorno[0] : ''?>" maxlength="10">
                                                 </div>
                                             </div>
                                         </div>

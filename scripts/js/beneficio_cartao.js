@@ -25,7 +25,7 @@ Bencard = {
         $('#btn_back').click(function(){
             Bencard.redirect('../gerenciar');
         });
-        
+
         // Mascara
         Bencard.onlyNumber('qtd_dia');
         $("#vl_unitario").maskMoney({
@@ -33,7 +33,7 @@ Bencard = {
             decimal   : ','
         });
         $(".select2").select2();
-        
+
         // Show / Hide Cartao
         $('input[type=radio][name=cartao]').click(function(){
             var vl_card = $('input[type=radio][name=cartao]:checked').val() ;
@@ -45,10 +45,10 @@ Bencard = {
                 $("#status_card").val('');
             }
         });
-        
+
         // Buscar Qtde dias
         $('#func').change(function(){
-           var id_func = $(this).val(); 
+           var id_func = $(this).val();
            if (id_func !== ""){
                 $.post('/'+pathproj+'/beneficiocartao/getQtdeDias', {
                     id : id_func
@@ -62,10 +62,10 @@ Bencard = {
                 }, 'json');
            }
         });
-        
+
         // Buscar Valor Unitario
         $('#beneficio').change(function(){
-           var id_func = $(this).val(); 
+           var id_func = $(this).val();
            if (id_func !== ""){
                 $.post('/'+pathproj+'/beneficiocartao/getVlUnit', {
                     id : id_func
@@ -77,6 +77,27 @@ Bencard = {
                     } else {
                         $("#vl_unitario").val('');
                     }
+                }, 'json');
+           }
+        });
+
+        // Buscar Beneficios por Grupo
+        $('#grp').change(function(){
+           var id_grp = $(this).val();
+           if (id_grp !== ""){
+                $.post('/'+pathproj+'/beneficiocartao/getBeneficioGrp', {
+                    id : id_grp
+                }, function(data){
+                    if (data.status === true) {
+                        // Bencard.modalMsg("MENSAGEM", data.msg, false, false);
+                        var option = "<option value=''>Selecione</option>";
+                        $.each(data.dados, function(key, value){
+                            option += "<option value='"+value.id_item_beneficio_pk+"'>"+value.descricao+"</option>";
+                        });
+                    } else {
+                        option += "<option value=''>Nenhum Benefício Encontrado</option>";
+                    }
+                    $("#beneficio").html(option);
                 }, 'json');
            }
         });
@@ -326,14 +347,15 @@ Bencard = {
 	$("input[name=" + nameField + "]").keydown(function (e) {
 	    if (e.shiftKey)
 		e.preventDefault();
-	    if (!((e.keyCode == 46) || (e.keyCode == 8) || (e.keyCode == 9)     // DEL, Backspace e Tab
-		    || ((e.keyCode >= 35) && (e.keyCode <= 40))  // HOME, END, Setas
+	    if (!((e.keyCode == 46) || (e.keyCode == 8) || (e.keyCode == 9) // DEL, Backspace e Tab
+                    || (e.keyCode == 17) || (e.keyCode == 91) || (e.keyCode == 86) || (e.keyCode == 67) // Ctrl+C / Ctrl+V
+		    || ((e.keyCode >= 35) && (e.keyCode <= 40)) // HOME, END, Setas
 		    || ((e.keyCode >= 96) && (e.keyCode <= 105)) // Númerod Pad
 		    || ((e.keyCode >= 48) && (e.keyCode <= 57))))
 		e.preventDefault(); // Números
 	});
     },
-    
+
     /*!
      * @description Função para converter no formato dinheiro BR
      **/

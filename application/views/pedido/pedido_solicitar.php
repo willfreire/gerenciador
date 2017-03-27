@@ -9,7 +9,11 @@
     <div class="wrapper">
 
         <!-- Menu -->
-        <?php require_once(APPPATH . '/views/menu_client.php'); ?>
+        <?php if ($this->session->userdata('user_vt')): ?>
+            <?php require_once(APPPATH . '/views/menu_vt.php'); ?>
+        <?php else: ?>
+            <?php require_once(APPPATH . '/views/menu_client.php'); ?>
+        <?php endif; ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -52,11 +56,10 @@
                                                 <label for="id_empresa">CNPJ - Raz&atilde;o Social<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <select class="form-control" name="id_empresa" id="id_empresa" required="true">
-                                                        <option value="">Selecione</option>
                                                         <?php
                                                         if (is_array($empresa)):
                                                             foreach ($empresa as $value):
-                                                                echo "<option value='$value->id_empresa_pk' selected='selected'>$value->cnpj - $value->nome_razao</option>";
+                                                                echo "<option value='$value->id_empresa_pk'>$value->cnpj - $value->nome_razao</option>";
                                                             endforeach;
                                                         endif;
                                                         ?>

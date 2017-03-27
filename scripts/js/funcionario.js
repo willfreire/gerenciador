@@ -679,8 +679,9 @@ Funcionario = {
 	$("input[name=" + nameField + "]").keydown(function (e) {
 	    if (e.shiftKey)
 		e.preventDefault();
-	    if (!((e.keyCode == 46) || (e.keyCode == 8) || (e.keyCode == 9)     // DEL, Backspace e Tab
-		    || ((e.keyCode >= 35) && (e.keyCode <= 40))  // HOME, END, Setas
+	    if (!((e.keyCode == 46) || (e.keyCode == 8) || (e.keyCode == 9) // DEL, Backspace e Tab
+                    || (e.keyCode == 17) || (e.keyCode == 91) || (e.keyCode == 86) || (e.keyCode == 67) // Ctrl+C / Ctrl+V
+		    || ((e.keyCode >= 35) && (e.keyCode <= 40)) // HOME, END, Setas
 		    || ((e.keyCode >= 96) && (e.keyCode <= 105)) // Númerod Pad
 		    || ((e.keyCode >= 48) && (e.keyCode <= 57))))
 		e.preventDefault(); // Números

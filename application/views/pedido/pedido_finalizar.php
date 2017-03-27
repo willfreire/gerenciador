@@ -28,7 +28,11 @@ $dt_per_fin   = is_array($periodo_fin) ? $periodo_fin[2] . '/' . $periodo_fin[1]
     <div class="wrapper">
 
         <!-- Menu -->
-        <?php require_once(APPPATH . '/views/menu_client.php'); ?>
+        <?php if ($this->session->userdata('user_vt')): ?>
+            <?php require_once(APPPATH . '/views/menu_vt.php'); ?>
+        <?php else: ?>
+            <?php require_once(APPPATH . '/views/menu_client.php'); ?>
+        <?php endif; ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

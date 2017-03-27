@@ -60,7 +60,7 @@
         <ul class="sidebar-menu">
             <li class="header">MENU PRINCIPAL</li>
             <li>
-                <a href="<?=base_url('./main/dashboard')?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                <a href="<?=base_url('./main/dashboard')?>"><i class="fa fa-dashboard"></i> <span>Quadro Geral</span></a>
             </li>
             <li class="treeview">
                 <a href="#">
@@ -131,6 +131,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    <li><a href="<?= base_url('./pedido/selecionar') ?>"><i class="fa fa-circle-o"></i> Solicitar</a></li>
                     <li><a href="<?= base_url('./pedido/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>

@@ -40,7 +40,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                             <span class="text-danger">*</span> Campo com preenchimento obrigat&oacute;rio
                         </div>
 
-                        <form role="form" name="frm_cad_prospec_vt" id="frm_cad_prospec_vt">
+                        <form role="form" name="frm_cadedit_prospec_vt" id="frm_cadedit_prospec_vt">
 
                             <div class="box-body">
 
@@ -303,7 +303,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                         <div class="col-xs-9 col-sm-5 col-md-5 col-lg-4">
                                             <label for="dt_retorno">Data de Retorno</label>
                                             <div class="controls">
-                                                <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_retorno" id="dt_retorno" placeholder="dd/mm/aaaa" value="<?=is_array($dt_retorno) ? $dt_retorno[2].'/'.$dt_retorno[1].'/'.$dt_retorno[0] : ''?>" maxlength="10" required="true">
+                                                <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_retorno" id="dt_retorno" placeholder="dd/mm/aaaa" value="<?=is_array($dt_retorno) ? $dt_retorno[2].'/'.$dt_retorno[1].'/'.$dt_retorno[0] : ''?>" maxlength="10">
                                             </div>
                                         </div>
                                     </div>

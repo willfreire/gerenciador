@@ -75,7 +75,6 @@ class Beneficiocartao extends CI_Controller
 
         # Sql Beneficio
         $this->db->where(array('id_grupo_fk' => 1, 'id_status_fk' => 1));
-        $this->db->order_by('descricao');
         $data['itens_benef'] = $this->db->get('tb_item_beneficio')->result();
         
         # Sql Status Cartao
@@ -173,8 +172,7 @@ class Beneficiocartao extends CI_Controller
         $data['grps'] = $this->db->get('tb_grupo')->result();
 
         # Sql Beneficio
-        $this->db->where(array('id_grupo_fk' => 1, 'id_status_fk' => 1));
-        $this->db->order_by('descricao');
+        $this->db->where(array('id_grupo_fk' => $data['benefcard'][0]->id_grupo_fk, 'id_status_fk' => 1));
         $data['itens_benef'] = $this->db->get('tb_item_beneficio')->result();
         
         # Sql Status Cartao
@@ -317,6 +315,40 @@ class Beneficiocartao extends CI_Controller
         if ($id != NULL):
             $this->db->where("id_item_beneficio_pk", $id);
             $rows = $this->db->get("vw_beneficio")->result();
+
+            if (!empty($rows)):
+                $retorno->status = TRUE;
+                $retorno->dados = $rows;
+            else:
+                $retorno->status = FALSE;
+                $retorno->dados = NULL;
+            endif;
+
+        else:
+            $retorno->status = FALSE;
+            $retorno->dados = NULL;
+        endif;
+        
+        print json_encode($retorno);
+    }
+
+    /**
+     * Buscar Beneficios por Grupo
+     *
+     * @method getBeneficioGrp
+     * @access public
+     * @return obj Item de Benefício
+     */
+    public function getBeneficioGrp()
+    {
+        # Var
+        $id      = $this->input->post('id');
+        $retorno = new stdClass();
+
+        if ($id != NULL):
+            $this->db->where("id_grupo_fk", $id);
+            $this->db->where("id_status_fk", 1);
+            $rows = $this->db->get("tb_item_beneficio")->result();
 
             if (!empty($rows)):
                 $retorno->status = TRUE;

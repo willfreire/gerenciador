@@ -91,6 +91,7 @@ $dt_solic   = isset($pedido[0]->dt_solic) ? $pedido[0]->dt_solic : "";
                                                 <tr>
                                                     <th>CPF</th>
                                                     <th>Funcion&aacute;rio</th>
+                                                    <th>Benef&iacute;cio</th>
                                                 </tr>
                                                 <?php
                                                     if (is_array($benefs)):
@@ -98,7 +99,19 @@ $dt_solic   = isset($pedido[0]->dt_solic) ? $pedido[0]->dt_solic : "";
                                                 ?>
                                                         <tr>
                                                             <td class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><?=$value->cpf?></td>
-                                                            <td class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$value->nome?></td>
+                                                            <td class="col-xs-4 col-sm-4 col-md-4 col-lg-4"><?=$value->nome?></td>
+                                                            <td class="col-xs-5 col-sm-5 col-md-6 col-lg-6">
+                                                            <?php
+                                                                if (is_array($itemben)):
+                                                                    foreach ($itemben as $vl):
+                                                                        if ($value->id_funcionario_fk == $vl->id_funcionario_fk) {
+                                                                            $vl_un = isset($vl->vl_unitario) ? number_format($vl->vl_unitario, 2, ',', '.') : "0,00";
+                                                                            echo $vl->descricao." - <strong>R$ $vl_un</strong> <br>";
+                                                                        }
+                                                                    endforeach;
+                                                                endif;
+                                                            ?>
+                                                            </td>
                                                         </tr>
                                                 <?php
                                                         endforeach;

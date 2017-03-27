@@ -49,6 +49,25 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                                <label for="time">Tempo de Atendimento</label>
+                                                <div class="controls">
+                                                    <div class="row">
+                                                        <div class="col-xs-9 col-sm-9 col-md-5 col-lg-5">
+                                                            <input type="text" class="form-control" name="time" id="time" value="" maxlength="8" readonly>
+                                                        </div>
+                                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                            <div class="btn btn-sm btn-success" id="btn_start" title="Continuar"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
+                                                            <div class="btn btn-sm btn-danger" id="btn_stop" title="Pausar"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="mailing">Empresa (Mailing)<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <select class="form-control select2" name="mailing" id="mailing" required="true" autofocus="true">
@@ -252,7 +271,7 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
+                                            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
                                                 <label for="aceitou_proposta">Proposta Aceita?<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <label class="radio-inline">
@@ -264,6 +283,9 @@
                                                     <label class="radio-inline">
                                                         <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="e"> <div class="radio-position">Em Negocia&ccedil;&atilde;o</div>
                                                     </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="aceitou_proposta" id="aceitou_proposta" value="i"> <div class="radio-position">Empresa Inexistente</div>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -274,7 +296,7 @@
                                             <div class="col-xs-9 col-sm-5 col-md-5 col-lg-4">
                                                 <label for="dt_retorno">Data de Retorno</label>
                                                 <div class="controls">
-                                                    <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_retorno" id="dt_retorno" placeholder="dd/mm/aaaa" value="" maxlength="10" required="true">
+                                                    <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_retorno" id="dt_retorno" placeholder="dd/mm/aaaa" value="" maxlength="10">
                                                 </div>
                                             </div>
                                         </div>

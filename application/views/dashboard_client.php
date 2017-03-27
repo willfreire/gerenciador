@@ -10,10 +10,10 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Dashboard
+                    Quadro de Avisos
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="<?=base_url('./main/dashboard_client')?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="<?=base_url('./main/dashboard_client')?>"><i class="fa fa-dashboard"></i> Quadro de Avisos</a></li>
                 </ol>
             </section>
         </div>

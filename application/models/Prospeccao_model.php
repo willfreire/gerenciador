@@ -63,6 +63,7 @@ class Prospeccao_model extends CI_Model {
         $this->db->update('tb_mailing', $mail);
 
         if (isset($valores->id) && $valores->id != ""):
+            $dados['tempo_alt']         = $valores->time;
             $dados['id_usuario_alt_fk'] = $this->session->userdata('id_vt');
             $dados['dt_hr_alt']         = mdate($timestamp, $data);
 
@@ -78,6 +79,7 @@ class Prospeccao_model extends CI_Model {
                 $retorno->msg    = "Houve um erro ao editar! Tente novamente...";
             }
         else:
+            $dados['tempo_cad']     = $valores->time;
             $dados['id_usuario_fk'] = $this->session->userdata('id_vt');
             $dados['dt_hr_cad']     = mdate($timestamp, $data);
 
@@ -146,7 +148,7 @@ class Prospeccao_model extends CI_Model {
         endif;
 
         # Consultar prospeccoes
-        $this->db->select("p.id_prospeccao_pk, m.razao_social, b.descricao, p.contato, CONCAT(p.taxa, '%') AS taxa, IF (p.aceitou_proposta = 's', 'Sim',
+        $this->db->select("p.id_prospeccao_pk, p.id_mailing_fk, m.razao_social, b.descricao, p.contato, CONCAT(p.taxa, '%') AS taxa, IF (p.aceitou_proposta = 's', 'Sim',
                           IF (p.aceitou_proposta = 'e', 'Em Negocia&ccedil;&atilde;o', 'N&atilde;o')) AS aceitou_proposta", FALSE);
         $this->db->from('tb_prospeccao p');
         $this->db->join('tb_mailing m', 'p.id_mailing_fk = m.id_mailing_pk', 'inner');
@@ -176,6 +178,7 @@ class Prospeccao_model extends CI_Model {
                 endif;
 
                 $prospeccao                   = new stdClass();
+                $prospeccao->id_mailing_fk    = $value->id_mailing_fk;
                 $prospeccao->razao_social     = $value->razao_social;
                 $prospeccao->descricao        = $value->descricao;
                 $prospeccao->contato          = $value->contato;

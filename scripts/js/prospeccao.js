@@ -354,6 +354,143 @@ Prospeccao = {
 
         });
 
+        // Prospeccao
+        $('#frm_cadedit_prospec_vt').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                mailing: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>EMPRESA</strong>'
+			}
+		    }
+		},
+                item_beneficio: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>BENEF&Iacute;CIOS</strong>'
+			}
+		    }
+		},
+                fornecedor: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>FORNECEDOR</strong>'
+			}
+		    }
+		},
+                meio_social: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>COMO CONHECEU A VTCARDS?</strong>'
+			}
+		    }
+		},
+                atividade: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>RAMO DE ATIVIDADE</strong>'
+			}
+		    }
+		},
+                muda_fornec_outro: {
+                    validators: {
+                        stringLength: {
+                            min: 2,
+                            max: 250,
+                            message: 'O campo <strong>OUTROS MOTIVOS PARA MUDAN&Ccedil;A</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
+                        },
+                        callback: {
+                            callback: function (value, validator, $field) {
+                                var muda = $('#muda_fornecedor_4').is(':checked');
+                                if (muda === true && value === "") {
+                                    return {
+                                        valid: false,
+                                        message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>OUTROS MOTIVOS PARA MUDAN&Ccedil;A</strong>'
+                                    };
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                },
+                nao_interesse_outro: {
+                    validators: {
+                        stringLength: {
+                            min: 2,
+                            max: 250,
+                            message: 'O campo <strong>OUTROS MOTIVOS DO N&Atilde;O INTERESSE</strong> deve ter entre <strong>2</strong> e <strong>250</strong> caracteres'
+                        },
+                        callback: {
+                            callback: function (value, validator, $field) {
+                                var interesse = $('#nao_interesse_6').is(':checked');
+                                if (interesse === true && value === "") {
+                                    return {
+                                        valid: false,
+                                        message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>OUTROS MOTIVOS DO N&Atilde;O INTERESSE</strong>'
+                                    };
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                },
+                contato: {
+                    validators: {
+                        notEmpty: {
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>CONTATO</strong>'
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 250,
+                            message: 'O campo <strong>Contato</strong> deve ter entre <strong>4</strong> e <strong>250</strong> caracteres'
+                        }
+                    }
+                },
+                aceitou_proposta: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PROPOSTA ACEITA</strong>'
+			}
+		    }
+		}
+            }
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+            var url = "../doProspec";
+
+            // Use Ajax to submit form data
+            $.post(url, frm, function (data) {
+                if (data.status === true) {
+                    Prospeccao.modalMsg("MENSAGEM", data.msg, false, false);
+                    $('#frm_cadedit_prospec_vt').bootstrapValidator('resetForm', true);
+                    window.setTimeout(function(){
+                        // Reload grid
+                        window.parent.$('#tbl_mail_vt').DataTable().ajax.reload();
+                        window.parent.$("#modal_prospec").modal('hide');
+                    }, 2000);
+                } else {
+                    Prospeccao.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                }
+
+                $('#btn_cad_prospec_vt').removeAttr('disabled');
+            }, 'json');
+
+        });
+
     },
 
     /*!
@@ -443,8 +580,9 @@ Prospeccao = {
 	$("input[name=" + nameField + "]").keydown(function (e) {
 	    if (e.shiftKey)
 		e.preventDefault();
-	    if (!((e.keyCode == 46) || (e.keyCode == 8) || (e.keyCode == 9)     // DEL, Backspace e Tab
-		    || ((e.keyCode >= 35) && (e.keyCode <= 40))  // HOME, END, Setas
+	    if (!((e.keyCode == 46) || (e.keyCode == 8) || (e.keyCode == 9) // DEL, Backspace e Tab
+                    || (e.keyCode == 17) || (e.keyCode == 91) || (e.keyCode == 86) || (e.keyCode == 67) // Ctrl+C / Ctrl+V
+		    || ((e.keyCode >= 35) && (e.keyCode <= 40)) // HOME, END, Setas
 		    || ((e.keyCode >= 96) && (e.keyCode <= 105)) // Númerod Pad
 		    || ((e.keyCode >= 48) && (e.keyCode <= 57))))
 		e.preventDefault(); // Números

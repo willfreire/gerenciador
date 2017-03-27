@@ -54,12 +54,72 @@ class Pedido extends CI_Controller
      */
     public function acompanhar()
     {
+        if ($this->session->userdata('user_vt')):
+            # Titulo da pagina
+            $header['titulo'] = "Gerenciamento de Pedidos";
+            $this->load->view('header', $header);
+            $this->load->view('pedido/pedido_gerenciar');
+            $this->load->view('footer');
+        elseif ($this->session->userdata('user_client')):
+            # Titulo da pagina
+            $header['titulo'] = "Acompanhamento de Pedidos";
+            $this->load->view('header', $header);
+            $this->load->view('pedido/pedido_acompanhar');
+            $this->load->view('footer');
+        endif;
+    }
+
+    /**
+     * Método para carregar tela de solicitacao de pedido
+     *
+     * @method selecionar
+     * @access public
+     * @return void
+     */
+    public function selecionar()
+    {
         # Titulo da pagina
-        $header['titulo'] = "Acompanhamento de Pedidos";
+        $header['titulo'] = "Selecionar Cliente";
+
+        # Sql Empresa
+        $this->db->select('id_empresa_pk, cnpj, nome_razao');
+        $this->db->from('tb_empresa');
+        $data['empresas'] = $this->db->get()->result();
 
         $this->load->view('header', $header);
-        $this->load->view('pedido/pedido_acompanhar');
+        $this->load->view('pedido/pedido_cliente', $data);
         $this->load->view('footer');
+    }
+
+    /**
+     * Método de setar cliente
+     *
+     * @method selCliente
+     * @access public
+     * @return obj Status da ação
+     */
+    public function selCliente()
+    {
+        $pedido  = new stdClass();
+        $retorno = new stdClass();
+
+        $pedido->id_empresa = $this->input->post('id_empresa');
+
+        if ($pedido->id_empresa != NULL) {
+            $retorno->status = TRUE;
+            $retorno->msg    = "Ok";
+
+            $dados = array(
+                'id_client' => $pedido->id_empresa
+            );
+            $this->session->set_userdata($dados);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao solicitar! Tente novamente...";
+        }
+
+        # retornar resultado
+        print json_encode($retorno);
     }
 
     /**
@@ -284,13 +344,23 @@ class Pedido extends CI_Controller
         $data['pedido'] = $this->db->get()->result();
 
         # Sql para Beneficiarios
-        $this->db->select("DISTINCT(f.cpf), f.nome", FALSE);
+        $this->db->select("DISTINCT(f.cpf), f.nome, b.id_funcionario_fk", FALSE);
         $this->db->from('tb_item_pedido i');
         $this->db->join('tb_beneficio b', 'i.id_beneficio_fk = b.id_beneficio_pk', 'inner');
         $this->db->join('tb_funcionario f', 'b.id_funcionario_fk = f.id_funcionario_pk', 'inner');
         $this->db->where('i.id_pedido_fk', $id_pedido);
         $this->db->order_by('f.nome', 'ASC');
         $data['benefs'] = $this->db->get()->result();
+
+        # Sql Itens dos Beneficiarios
+        $this->db->select('ip.id_item_pedido_pk, ip.id_pedido_fk, ip.id_beneficio_fk, b.id_funcionario_fk, 
+                           b.id_item_beneficio_fk, ib.descricao, ib.vl_unitario');
+        $this->db->from('tb_item_pedido ip');
+        $this->db->join('tb_beneficio b', 'ip.id_beneficio_fk = b.id_beneficio_pk', 'inner');
+        $this->db->join('tb_item_beneficio ib', 'b.id_item_beneficio_fk = ib.id_item_beneficio_pk', 'inner');
+        $this->db->where('ip.id_pedido_fk', $id_pedido);
+        $this->db->order_by('b.id_funcionario_fk', 'ASC');
+        $data['itemben'] = $this->db->get()->result();
 
         $this->load->view('header', $header);
         if ($this->session->userdata('user_vt')):
@@ -395,7 +465,7 @@ class Pedido extends CI_Controller
                 'contaDv' => 2,
                 'agenciaDv' => 1,
                 'descricaoDemonstrativo' => array(// Até 5
-                    "Benefícios Vale Transporte - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef",
+                    "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef",
                 ),
                 'instrucoes' => array(// Até 8
                     'Após o vencimento pagar somente no Banco Santander'

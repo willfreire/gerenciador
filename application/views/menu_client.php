@@ -60,7 +60,7 @@
         <ul class="sidebar-menu">
             <li class="header">MENU PRINCIPAL</li>
             <li>
-                <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> <span>Quadro de Avisos</span></a>
             </li>
             <li class="treeview">
                 <a href="#">

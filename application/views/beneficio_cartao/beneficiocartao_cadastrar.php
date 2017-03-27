@@ -89,7 +89,7 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+                                            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
                                                 <label for="beneficio">Benef&iacute;cio<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <select class="form-control select2" name="beneficio" id="beneficio" required="true">

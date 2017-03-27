@@ -150,7 +150,7 @@ class Prospeccao extends CI_Controller
         $data['mailing'] = $this->db->get()->result(); */
         $this->db->order_by('razao_social');
         $data['mailing'] = $this->db->get('tb_mailing')->result();
-        
+
         # Sql Item Beneficio
         $this->db->order_by('id_item_beneficio_pk');
         $data['item_beneficio'] = $this->db->get('tb_item_beneficio')->result();
@@ -181,10 +181,10 @@ class Prospeccao extends CI_Controller
         # Sql Prospeccao
         $this->db->where('id_mailing_fk', $id_mailing);
         $data['prospeccao'] = $this->db->get('tb_prospeccao')->result();
-        
+
         # Id Mailing - Prospeccao
         $data['prospec_mail'] = $id_mailing;
-        
+
         $this->load->view('header', $header);
         $this->load->view('prospeccao/prospecmailing', $data);
         $this->load->view('footer');
@@ -203,6 +203,7 @@ class Prospeccao extends CI_Controller
         $retorno    = new stdClass();
         $resposta   = "";
 
+        $prospeccao->time                = $this->input->post('time');
         $prospeccao->mailing             = $this->input->post('mailing');
         $prospeccao->item_beneficio      = $this->input->post('item_beneficio');
         $prospeccao->fornecedor          = $this->input->post('fornecedor');
@@ -214,7 +215,7 @@ class Prospeccao extends CI_Controller
         $prospeccao->nao_interesse       = $this->input->post('nao_interesse');
         $prospeccao->nao_interesse_outro = $this->input->post('nao_interesse_outro');
         $prospeccao->contato             = $this->input->post('contato');
-        $prospeccao->taxa                = $this->input->post('taxa');
+        $prospeccao->taxa                = $this->input->post('taxa_adm');
         $prospeccao->aceitou_proposta    = $this->input->post('aceitou_proposta');
         $prospeccao->dt_retorno          = isset($_POST['dt_retorno']) && $_POST['dt_retorno'] != "" ? explode('/', $_POST['dt_retorno']) : NULL;
         $prospeccao->obs                 = $this->input->post('obs');
@@ -246,6 +247,7 @@ class Prospeccao extends CI_Controller
         $resposta   = "";
 
         $prospeccao->id                  = $this->input->post('id_prospec');
+        $prospeccao->time                = $this->input->post('time');
         $prospeccao->mailing             = $this->input->post('mailing');
         $prospeccao->item_beneficio      = $this->input->post('item_beneficio');
         $prospeccao->fornecedor          = $this->input->post('fornecedor');
@@ -257,7 +259,7 @@ class Prospeccao extends CI_Controller
         $prospeccao->nao_interesse       = $this->input->post('nao_interesse');
         $prospeccao->nao_interesse_outro = $this->input->post('nao_interesse_outro');
         $prospeccao->contato             = $this->input->post('contato');
-        $prospeccao->taxa                = $this->input->post('taxa');
+        $prospeccao->taxa                = $this->input->post('taxa_adm');
         $prospeccao->aceitou_proposta    = $this->input->post('aceitou_proposta');
         $prospeccao->dt_retorno          = isset($_POST['dt_retorno']) && $_POST['dt_retorno'] != "" ? explode('/', $_POST['dt_retorno']) : NULL;
         $prospeccao->obs                 = $this->input->post('obs');
@@ -367,6 +369,7 @@ class Prospeccao extends CI_Controller
         $resposta   = "";
 
         $prospeccao->id                  = $this->input->post('id_prospec');
+        $prospeccao->time                = $this->input->post('time');
         $prospeccao->mailing             = $this->input->post('id_mailing');
         $prospeccao->item_beneficio      = $this->input->post('item_beneficio');
         $prospeccao->fornecedor          = $this->input->post('fornecedor');

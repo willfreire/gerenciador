@@ -113,18 +113,25 @@ class Main extends CI_Controller
     public function loginClient()
     {
         # Vars
-        $retorno = new stdClass();
-        $cnpj    = $this->input->post('cnpj');
-        $senha   = sha1($this->input->post('pwd_cliente'));
-
+        $retorno    = new stdClass();
+        $cnpj       = $this->input->post('cnpj');
+        $senha      = sha1($this->input->post('pwd_cliente'));
+        $onde       = "";
+        $where      = array();
+        $where[]    = "e.cnpj = '$cnpj'";
+        $where[]    = "(e.senha = '$senha' OR e.senha_master = '$senha')";
+        $where[]    = "el.id_acao_fk = 1";
+        $where[]    = "e.id_status_fk = 1";
+        
+        if (!empty($where)):
+            $onde = implode(" AND ", $where);
+        endif;
+        
         $this->db->select('e.id_empresa_pk, e.id_tipo_empresa_fk, t.tipo_empresa, e.cnpj, e.nome_razao, DATE_FORMAT(el.dt_hr, \'%d/%m/%Y\') AS dt_cad');
         $this->db->from('tb_empresa e');
         $this->db->join('tb_tipo_empresa t', 'e.id_tipo_empresa_fk = t.id_tipo_empresa_pk', 'inner');
         $this->db->join('tb_empresa_log el', 'e.id_empresa_pk = el.id_empresa_fk', 'inner');
-        $this->db->where('e.cnpj', $cnpj);
-        $this->db->where('e.senha', $senha);
-        $this->db->where('el.id_acao_fk', 1);
-        $this->db->where('e.id_status_fk', 1);
+        $this->db->where($onde);
         $client = $this->db->get()->result();
 
         if (count($client) === 1)
@@ -155,7 +162,7 @@ class Main extends CI_Controller
 
         print json_encode($retorno);
     }
-    
+
     /**
      * Método load Dashboard do Cliente
      *
@@ -167,7 +174,7 @@ class Main extends CI_Controller
     {
         $data           = array();
         $data['titulo'] = "Dashboard";
-        
+
         $this->load->view('header', $data);
         # Validar acesso
         if (!empty($this->session->userdata('user_client'))):
@@ -189,6 +196,155 @@ class Main extends CI_Controller
     {
         $this->session->sess_destroy();
         redirect(base_url("/"));
+    }
+
+    /**
+     * Método para gerar nova senha ao VT
+     *
+     * @method newPwdVt
+     * @access public
+     * @return obj Resultado
+     */
+    public function newPwdVt()
+    {
+        # Vars
+        $retorno     = new stdClass();
+        $email       = $this->input->post('email_pwd_vt');
+        $senha_cript = sha1($this->input->post('send_pwd_vt'));
+        $senha       = $this->input->post('send_pwd_vt');
+
+        # Verificar se usuario existe
+        $this->db->select('id_usuario_pk, nome, email');
+        $this->db->from('tb_usuario');
+        $this->db->where('email', $email);
+        $row = $this->db->get()->result();
+
+        if (!empty($row)):
+            # Atualiza senha
+            $dados          = array();
+            $dados['senha'] = $senha_cript;
+
+            $this->db->where('email', $email);
+            $this->db->update('tb_usuario', $dados);
+            
+            # Msg
+            $msg                 = array();
+            $msg['destinatario'] = $row[0]->nome;
+            $msg['email']        = $email;
+            $msg['senha']        = $senha;
+            $msg['mensagem']     = "Olá {$row[0]->nome}!<br><br>Sua nova senha de acesso ao sistema VT Cards é <strong>{$msg['senha']}</strong><br><br>Att.";
+
+            $retorno->status = TRUE;
+            $retorno->msg    = "Sua Nova Senha foi Enviada para o E-mail <strong>$email</strong>";
+            
+            # Enviar email
+            $this->sendNewPwd($msg);
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Usu&aacute;rio n&atilde;o Encontrado!";
+        endif;
+
+        print json_encode($retorno);
+    }
+
+    /**
+     * Método para gerar nova senha ao Cliente
+     *
+     * @method newPwdClient
+     * @access public
+     * @return obj Resultado
+     */
+    public function newPwdClient()
+    {
+        # Vars
+        $retorno     = new stdClass();
+        $cnpj        = $this->input->post('cnpj_pwd_client');
+        $senha_cript = sha1($this->input->post('send_pwd_client'));
+        $senha       = $this->input->post('send_pwd_client');
+
+        # Verificar se cliente existe
+        $this->db->select('id_empresa_pk, cnpj, nome_razao, email');
+        $this->db->from('tb_empresa');
+        $this->db->where('cnpj', $cnpj);
+        $row = $this->db->get()->result();
+
+        if (!empty($row)):
+            # Atualiza senha
+            $dados          = array();
+            $dados['senha'] = $senha_cript;
+
+            $this->db->where('cnpj', $cnpj);
+            $this->db->update('tb_empresa', $dados);
+            
+            # Msg
+            $msg                 = array();
+            $msg['destinatario'] = $row[0]->nome_razao;
+            $msg['email']        = $row[0]->email;
+            $msg['senha']        = $senha;
+            $msg['mensagem']     = "Olá {$row[0]->nome_razao}!<br><br>Sua nova senha de acesso ao sistema VT Cards é <strong>$senha</strong><br><br>Att.";
+
+            $retorno->status = TRUE;
+            $retorno->msg    = "Sua Nova Senha foi Enviada para o E-mail <strong>{$row[0]->email}</strong>";
+            
+            # Enviar email
+            $this->sendNewPwd($msg);
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Cliente n&atilde;o Encontrado!";
+        endif;
+
+        print json_encode($retorno);
+    }
+
+    /**
+     * Enviar nova senha por email
+     *
+     * @method sendNewPwd
+     * @access public
+     * @param array $msg Mensagem pra envio
+     * @return void
+     */
+    public function sendNewPwd($msg)
+    {
+        # Carrega a library email
+        $this->load->library('email');
+        # Atribuir dados
+        $dados = $msg;
+
+        # Inicia o processo de configuração para o envio do email
+        $config['protocol'] = 'mail'; // define o protocolo utilizado
+        $config['wordwrap'] = TRUE; // define se haverá quebra de palavra no texto
+        $config['validate'] = TRUE; // define se haverá validação dos endereços de email
+        $config['mailtype'] = 'html';
+
+        # Inicializa a library Email, passando os parâmetros de configuração
+        $this->email->initialize($config);
+
+        # Define remetente e destinatário
+        $this->email->from('faleconosco@vtcards.com.br', 'VTCards');
+        $this->email->to($dados['email'], $dados['destinatario']);
+        
+        #  Define o assunto do email
+        $this->email->subject('Nova senha VTCards');
+
+        # Template
+        $this->email->message($this->load->view('email_template', $dados, TRUE));
+
+        /*
+         * Se foi selecionado o envio de um anexo, insere o arquivo no email 
+         * através do método 'attach' da library 'Email'
+         */
+        /* if (isset($dados['anexo'])):
+            $this->email->attach('./assets/images/unici/logo.png');
+        endif; */
+
+        /*
+         * Se o envio foi feito com sucesso, define a mensagem de sucesso
+         * caso contrário define a mensagem de erro, e carrega a view home
+         */
+        if (!$this->email->send()):
+            echo $this->email->print_debugger();
+        endif;
     }
 
 }

@@ -48,6 +48,9 @@ class Pedido_model extends CI_Model {
         $dados['dt_fin_beneficio']    = is_array($periodo_fin) ? $periodo_fin[2].'-'.$periodo_fin[1].'-'.$periodo_fin[0] : NULL;
         $dados['id_status_pedido_fk'] = 1;
         $dados['dt_hr_solicitacao']   = mdate($timestamp, $data);
+        if ($this->session->userdata('id_vt')):
+            $dados['id_usuario_fk'] = $this->session->userdata('id_vt');
+        endif;
 
         # Grava pedido
         $this->db->insert('tb_pedido', $dados);
@@ -111,7 +114,7 @@ class Pedido_model extends CI_Model {
                     $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
 
                     # Salvar Itens Beneficio
-                    $item['id_pedido_pk']    = $valores->id;
+                    $item['id_pedido_fk']    = $valores->id;
                     $item['id_beneficio_fk'] = $vl->id_beneficio_pk;
                     $this->db->insert('tb_item_pedido', $item);
                     $i++;
@@ -234,10 +237,13 @@ class Pedido_model extends CI_Model {
                 # $acao      .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Per&iacute;odo' onclick='Pedido.del(\"$id_period\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
 
                 $pedido                = new stdClass();
+                $pedido->id_pedido_pk  = $id_pedido;
                 $pedido->cnpj          = $value->cnpj;
                 $pedido->nome_razao    = $value->nome_razao;
                 $pedido->dt_pgto       = date('d/m/Y', strtotime($value->dt_pgto));
                 $pedido->periodo       = $value->periodo;
+                $pedido->vl_itens      = "R\$ ".number_format($value->vl_itens, 2, ',', '.');
+                $pedido->vl_taxa       = "R\$ ".number_format($value->vl_taxa, 2, ',', '.');
                 $pedido->vl_total      = "R\$ ".number_format($value->vl_total, 2, ',', '.');
                 $pedido->status_pedido = $value->status_pedido;
                 $pedido->acao          = $acao;
@@ -336,10 +342,13 @@ class Pedido_model extends CI_Model {
                 endif;
 
                 $pedido                = new stdClass();
+                $pedido->id_pedido_pk  = $id_pedido;
                 $pedido->cnpj          = $value->cnpj;
                 $pedido->nome_razao    = $value->nome_razao;
                 $pedido->dt_pgto       = date('d/m/Y', strtotime($value->dt_pgto));
                 $pedido->periodo       = $value->periodo;
+                $pedido->vl_itens      = "R\$ ".number_format($value->vl_itens, 2, ',', '.');
+                $pedido->vl_taxa       = "R\$ ".number_format($value->vl_taxa, 2, ',', '.');
                 $pedido->vl_total      = "R\$ ".number_format($value->vl_total, 2, ',', '.');
                 $pedido->status_pedido = $value->status_pedido;
                 $pedido->acao          = $acao;

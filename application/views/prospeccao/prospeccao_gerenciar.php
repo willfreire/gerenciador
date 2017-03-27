@@ -40,6 +40,7 @@
                                 <table id="tbl_prospec_vt" class="display" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>C&oacute;digo</th>
                                             <th>Raz&atilde;o Social</th>
                                             <th>Benef&iacute;cio</th>
                                             <th>Contato</th>
@@ -50,6 +51,7 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th>C&oacute;digo</th>
                                             <th>Raz&atilde;o Social</th>
                                             <th>Benef&iacute;cio</th>
                                             <th>Contato</th>
@@ -81,6 +83,7 @@
         $(document).ready(function () {
             $('#tbl_prospec_vt').DataTable({
                 "columns": [
+                    {data: "id_mailing_fk"},
                     {data: "razao_social"},
                     {data: "descricao"},
                     {data: "contato"},
