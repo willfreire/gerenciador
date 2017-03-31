@@ -73,7 +73,7 @@
                                 </div>
 
                                 <div class="box-footer">
-                                    <button type="submit" id="btn_cad_pedido" name="btn_cad_pedido" class="btn btn-primary">Prosseguir</button>
+                                    <button type="submit" id="btn_cad_pedido" name="btn_cad_pedido" class="btn btn-success">Prosseguir</button>
                                 </div>
 
                             </form>

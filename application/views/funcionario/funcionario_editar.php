@@ -459,8 +459,8 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
 
                                 <div class="box-footer">
                                     <input type="hidden" id="id_func" name="id_func" value="<?=$id?>">
-                                    <button type="submit" id="btn_edit_func" name="btn_edit_func" class="btn btn-primary">Alterar</button>
-                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-danger">Voltar</button>
+                                    <button type="submit" id="btn_edit_func" name="btn_edit_func" class="btn btn-success">Alterar</button>
+                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-primary">Voltar</button>
                                 </div>
 
                             </form>

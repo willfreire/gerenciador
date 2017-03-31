@@ -608,8 +608,8 @@ $taxa_entrega    = isset($cliente[0]->taxa_entrega) ? number_format($cliente[0]-
                                     <input type="hidden" id="id_cliente" name="id_cliente" value="<?=$id?>">
                                     <input type="hidden" id="id_filial" name="id_filial" value="<?=$id_filial_pk?>">
                                     <input type="hidden" id="id_cond_com" name="id_cond_com" value="<?=$id_cond_com_pk?>">
-                                    <button type="submit" id="btn_edit_client_vt" name="btn_edit_client_vt" class="btn btn-primary">Alterar</button>
-                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-danger">Voltar</button>
+                                    <button type="submit" id="btn_edit_client_vt" name="btn_edit_client_vt" class="btn btn-success">Alterar</button>
+                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-primary">Voltar</button>
                                 </div>
 
                             </form>

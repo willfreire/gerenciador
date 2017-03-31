@@ -454,15 +454,15 @@ class Pedido extends CI_Controller
                 'sequencial' => 12345678901, // Até 13 dígitos
                 'sacado' => $sacado,
                 'cedente' => $cedente,
-                'agencia' => 1234, // Até 4 dígitos
-                'carteira' => 102, // 101, 102 ou 201
-                'conta' => 1234567, // Código do cedente: Até 7 dígitos
+                'agencia' => "0833", // Até 4 dígitos
+                'carteira' => 101, // 101, 102 ou 201
+                'conta' => 1300081, // Código do cedente: Até 7 dígitos
                 # IOS – Seguradoras (Se 7% informar 7. Limitado a 9%)
                 # Demais clientes usar 0 (zero)
                 'ios' => '0', // Apenas para o Santander
                 # Parâmetros recomendáveis
                 # 'logoPath' => base_url('/assets/imgs/vtcards_logo_100x40.png'), // Logo da sua empresa - #357CA5
-                'contaDv' => 2,
+                'contaDv' => 96,
                 'agenciaDv' => 1,
                 'descricaoDemonstrativo' => array(// Até 5
                     "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef",

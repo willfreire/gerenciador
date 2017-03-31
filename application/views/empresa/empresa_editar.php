@@ -544,8 +544,8 @@ $taxa_entrega    = isset($empresa[0]->taxa_entrega) ? number_format($empresa[0]-
 
                                 <div class="box-footer">
                                     <input type="hidden" id="id_empresa" name="id_empresa" value="<?=$id?>">
-                                    <button type="submit" id="btn_edit_client_vt" name="btn_edit_client_vt" class="btn btn-primary">Alterar</button>
-                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-danger">Voltar</button>
+                                    <button type="submit" id="btn_edit_client_vt" name="btn_edit_client_vt" class="btn btn-success">Alterar</button>
+                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-primary">Voltar</button>
                                 </div>
 
                             </form>

@@ -179,8 +179,8 @@ $dt_per_fin   = is_array($periodo_fin) ? $periodo_fin[2] . '/' . $periodo_fin[1]
                                     <input type="hidden" id="id_pedido" name="id_pedido" value="<?=$id?>">
                                     <input type="hidden" id="taxa_adm" name="taxa_adm" value="<?=$taxa_adm?>">
                                     <input type="hidden" id="taxa_entrega" name="taxa_entrega" value="<?=$taxa_entrega?>">
-                                    <button type="submit" id="btn_edit_pedido" name="btn_edit_pedido" class="btn btn-primary">Finalizar</button>
-                                    <button type="button" id="btn_cancel" name="btn_cancel" class="btn btn-danger" onclick="Pedido.delBtnCancel('<?=$id?>')">Cancelar</button>
+                                    <button type="submit" id="btn_edit_pedido" name="btn_edit_pedido" class="btn btn-success">Finalizar</button>
+                                    <button type="button" id="btn_cancel" name="btn_cancel" class="btn btn-primary" onclick="Pedido.delBtnCancel('<?=$id?>')">Cancelar</button>
                                 </div>
 
                             </form>

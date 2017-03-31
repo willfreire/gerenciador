@@ -204,8 +204,8 @@
                                 </div>
 
                                 <div class="box-footer">
-                                    <button type="submit" id="btn_cad_mail_vt" name="btn_cad_mail_vt" class="btn btn-primary">Cadastrar</button>
-                                    <button type="reset" id="limpar" name="limpar" class="btn btn-danger">Limpar</button>
+                                    <button type="submit" id="btn_cad_mail_vt" name="btn_cad_mail_vt" class="btn btn-success">Cadastrar</button>
+                                    <button type="reset" id="limpar" name="limpar" class="btn btn-primary">Limpar</button>
                                 </div>
 
                             </form>

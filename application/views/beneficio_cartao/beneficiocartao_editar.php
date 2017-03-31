@@ -204,8 +204,8 @@ $id_status = isset($benefcard[0]->id_status_cartao_fk) ? $benefcard[0]->id_statu
 
                                 <div class="box-footer">
                                     <input type="hidden" id="id_benefcard" name="id_benefcard" value="<?=$id?>">
-                                    <button type="submit" id="btn_edit_bencard" name="btn_edit_bencard" class="btn btn-primary">Alterar</button>
-                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-danger">Voltar</button>
+                                    <button type="submit" id="btn_edit_bencard" name="btn_edit_bencard" class="btn btn-success">Alterar</button>
+                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-primary">Voltar</button>
                                 </div>
                             </form>
 

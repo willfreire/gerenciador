@@ -60,7 +60,7 @@ class Funcionario_model extends CI_Model {
 
                 # Id Funcionario
                 $id_func = $valores->id;
-                
+
                 try {
                     # Endereco Funcionario
                     $end_func['cep']          = $valores->cep;
@@ -107,7 +107,7 @@ class Funcionario_model extends CI_Model {
 
                 # Id Funcionario
                 $id_func = $this->db->insert_id();
-                
+
                 try {
                     # Endereco Empresa
                     $end_func['id_funcionario_fk'] = $id_func;
@@ -188,6 +188,9 @@ class Funcionario_model extends CI_Model {
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
             $this->db->where($where);
+            $this->db->where("id_empresa_fk = '{$this->session->userdata('id_client')}'");
+        else:
+            $this->db->where("id_empresa_fk = '{$this->session->userdata('id_client')}'");
         endif;
         $query            = $this->db->get();
         $respRecordsTotal = $query->result();
@@ -203,6 +206,9 @@ class Funcionario_model extends CI_Model {
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
             $this->db->where($where);
+            $this->db->where("id_empresa_fk = '{$this->session->userdata('id_client')}'");
+        else:
+            $this->db->where("id_empresa_fk = '{$this->session->userdata('id_client')}'");
         endif;
         $this->db->order_by($this->orderBy, $this->orderType);
         $this->db->limit($this->length, $this->start);

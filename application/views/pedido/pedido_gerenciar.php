@@ -104,8 +104,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group align_center">
-                                        <button type="submit" class="btn btn-primary" name="alt_status" id="alt_status">Salvar</button>
-                                        <button type="reset" id="limpar" name="limpar" class="btn btn-danger" data-dismiss="modal" style="margin-left: 5px;">Cancelar</button>
+                                        <button type="submit" class="btn btn-success" name="alt_status" id="alt_status">Salvar</button>
+                                        <button type="reset" id="limpar" name="limpar" class="btn btn-primary" data-dismiss="modal" style="margin-left: 5px;">Cancelar</button>
                                     </div>
                                 </div>
                             </div>

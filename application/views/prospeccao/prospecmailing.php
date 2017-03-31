@@ -324,8 +324,8 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
 
                             <div class="box-footer">
                                 <input type="hidden" id="id_prospec" name="id_prospec" value="<?=$id?>">
-                                <button type="submit" id="btn_cad_prospec_vt" name="btn_cad_prospec_vt" class="btn btn-primary">Salvar</button>
-                                <button type="reset" id="btn_cancel" name="btn_cancel" class="btn btn-danger">Cancelar</button>
+                                <button type="submit" id="btn_cad_prospec_vt" name="btn_cad_prospec_vt" class="btn btn-success">Salvar</button>
+                                <button type="reset" id="btn_cancel" name="btn_cancel" class="btn btn-primary">Cancelar</button>
                             </div>
 
                         </form>

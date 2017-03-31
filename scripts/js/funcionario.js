@@ -152,7 +152,7 @@ Funcionario = {
 			    message: 'Informe uma <strong>DATA DE EXPEDI&Ccedil;&Atilde;O</strong> v&aacute;lida'
 			},
 			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>DATA DE NASCIMENTO</strong>'
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>DATA DE DE EXPEDI&Ccedil;&Atilde;O</strong>'
 			}
 		    }
 		},

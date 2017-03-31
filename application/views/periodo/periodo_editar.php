@@ -79,8 +79,8 @@ $qtd_dia = isset($periodo[0]->qtd_dia) ? $periodo[0]->qtd_dia : "";
 
                                 <div class="box-footer">
                                     <input type="hidden" id="id_periodo" name="id_periodo" value="<?=$id?>">
-                                    <button type="submit" id="btn_edit_period" name="btn_edit_period" class="btn btn-primary">Alterar</button>
-                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-danger">Voltar</button>
+                                    <button type="submit" id="btn_edit_period" name="btn_edit_period" class="btn btn-success">Alterar</button>
+                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-primary">Voltar</button>
                                 </div>
                             </form>
 

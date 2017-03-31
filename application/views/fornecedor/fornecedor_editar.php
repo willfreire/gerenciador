@@ -84,8 +84,8 @@ $id_status = isset($fornecedor[0]->id_status_fk) ? $fornecedor[0]->id_status_fk 
 
                                 <div class="box-footer">
                                     <input type="hidden" id="id_fornecedor" name="id_fornecedor" value="<?=$id?>">
-                                    <button type="submit" id="btn_edit_fornec_vt" name="btn_edit_fornec_vt" class="btn btn-primary">Alterar</button>
-                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-danger">Voltar</button>
+                                    <button type="submit" id="btn_edit_fornec_vt" name="btn_edit_fornec_vt" class="btn btn-success">Alterar</button>
+                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-primary">Voltar</button>
                                 </div>
                             </form>
 

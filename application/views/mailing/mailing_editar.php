@@ -222,8 +222,8 @@ $site         = isset($mailing[0]->site) ? $mailing[0]->site : "";
 
                                 <div class="box-footer">
                                     <input type="hidden" id="id_mailing" name="id_mailing" value="<?= $id ?>">
-                                    <button type="submit" id="btn_edit_mail_vt" name="btn_edit_mail_vt" class="btn btn-primary">Alterar</button>
-                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-danger">Voltar</button>
+                                    <button type="submit" id="btn_edit_mail_vt" name="btn_edit_mail_vt" class="btn btn-success">Alterar</button>
+                                    <button type="button" id="btn_back" name="btn_back" class="btn btn-primary">Voltar</button>
                                 </div>
                             </form>
 
