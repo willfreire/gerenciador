@@ -10,7 +10,7 @@
                     <table width="650px" cellspacing="0" cellpadding="3" class="container">
                         <tr class="navbar navbar-inverse">
                             <td colspan="4">
-                                <a class="brand" href="http://www.vtcards.com.br/gerenciador/">Sistema VTCards</a><br>
+                                <a class="brand" href="https://www.vtcards.com.br/cliente-vt/">Sistema VTCards</a><br>
                             </td>
                         </tr>
                     </table>

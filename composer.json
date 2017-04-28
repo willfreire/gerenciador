@@ -12,13 +12,15 @@
 	},
 	"require": {
 		"php": ">=5.2.4",
-		"alrik11es/cowsayphp": "^1.2"
+		"alrik11es/cowsayphp": "^1.2",
+		"mpdf/mpdf": "^6.1"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*",
-                "kriansa/openboleto": "dev-master"
+                "kriansa/openboleto": "dev-master",
+                "kriansa/h2p"       : "dev-master" 
 	}
 }

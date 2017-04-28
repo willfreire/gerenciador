@@ -4,6 +4,7 @@ $id       = isset($benefcard[0]->id_beneficio_pk) ? $benefcard[0]->id_beneficio_
 $func     = isset($benefcard[0]->nome) ? $benefcard[0]->nome : "";
 $grupo    = isset($benefcard[0]->grupo) ? $benefcard[0]->grupo : "";
 $item     = isset($benefcard[0]->descricao) ? $benefcard[0]->descricao : "";
+$id_benef = isset($benefcard[0]->id_item_beneficio_fk) ? $benefcard[0]->id_item_beneficio_fk : "";
 $vl_unit  = isset($benefcard[0]->vl_unitario) ? number_format($benefcard[0]->vl_unitario, 2, ',', '.') : "0,00";
 $qtd_dia  = isset($benefcard[0]->qtd_diaria) ? $benefcard[0]->qtd_diaria : "";
 $num_card = isset($benefcard[0]->num_cartao) ? $benefcard[0]->num_cartao : "";
@@ -68,7 +69,7 @@ $status   = isset($benefcard[0]->status_cartao) ? $benefcard[0]->status_cartao :
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Benef&iacute;cio</strong></div>
-                                    <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$item?></div>
+                                    <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$id_benef.' - '.$item?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Valor Unit&aacute;rio</strong></div>

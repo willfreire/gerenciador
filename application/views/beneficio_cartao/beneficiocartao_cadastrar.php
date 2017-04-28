@@ -97,7 +97,7 @@
                                                         <?php
                                                         if (is_array($itens_benef)):
                                                             foreach ($itens_benef as $value):
-                                                                echo "<option value='$value->id_item_beneficio_pk'>$value->descricao</option>";
+                                                                echo "<option value='$value->id_item_beneficio_pk'>$value->id_item_beneficio_pk - $value->descricao</option>";
                                                             endforeach;
                                                         endif;
                                                         ?>

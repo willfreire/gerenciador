@@ -101,6 +101,29 @@
             <?php endif; ?>
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-money" aria-hidden="true"></i> <span>Financeiro</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?=base_url('./financeiro/boleto')?>"><i class="fa fa-circle-o"></i> Boletos</a></li>
+                    <li>
+                        <a href="#"><i class="fa fa-arrow-circle-right text-aqua"></i> Remessa
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="<?= base_url('./remessa/gerar') ?>"><i class="fa fa-circle-o"></i> Gerar</a></li>
+                            <li><a href="<?= base_url('./remessa/retorno') ?>"><i class="fa fa-circle-o"></i> Importar Retorno</a></li>
+                            <li><a href="<?= base_url('./remessa/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-building" aria-hidden="true"></i> <span>Fornecedor</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>

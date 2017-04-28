@@ -63,7 +63,7 @@ class Funcionario extends CI_Controller
     {
         # Titulo da pagina
         $header['titulo'] = "Cadastro de Funcion&aacute;rio";
-        
+
         # Sql Estado Civil
         $this->db->order_by('estado_civil');
         $data['estado_civil'] = $this->db->get('tb_estado_civil')->result();
@@ -139,9 +139,9 @@ class Funcionario extends CI_Controller
         $funcionario->ender_empresa = $this->input->post('ender_empresa');
 
         if ($funcionario->cpf != NULL && $funcionario->nome_func != NULL && $funcionario->dt_nasc[0] != NULL && $funcionario->sexo != NULL && $funcionario->estado_civil != NULL &&
-            $funcionario->rg != NULL && $funcionario->dt_exped[0]!= NULL &&  $funcionario->orgao_exped != NULL && $funcionario->uf_exped != NULL && $funcionario->nome_mae != NULL && 
-            $funcionario->status != NULL && $funcionario->cep != NULL &&  $funcionario->endereco != NULL && $funcionario->numero != NULL && $funcionario->bairro != NULL && 
-            $funcionario->estado != NULL && $funcionario->cidade != NULL &&  $funcionario->matricula != NULL && $funcionario->depto != NULL && $funcionario->cargo != NULL && 
+            $funcionario->rg != NULL && $funcionario->dt_exped[0]!= NULL &&  $funcionario->orgao_exped != NULL && $funcionario->uf_exped != NULL && $funcionario->nome_mae != NULL &&
+            $funcionario->status != NULL && $funcionario->cep != NULL &&  $funcionario->endereco != NULL && $funcionario->numero != NULL && $funcionario->bairro != NULL &&
+            $funcionario->estado != NULL && $funcionario->cidade != NULL &&  $funcionario->matricula != NULL && $funcionario->depto != NULL && $funcionario->cargo != NULL &&
             $funcionario->periodo != NULL && $funcionario->ender_empresa != NULL) {
             $resposta = $this->Funcionario_model->setFuncionario($funcionario);
         } else {
@@ -271,10 +271,10 @@ class Funcionario extends CI_Controller
         $funcionario->email         = $this->input->post('email_func');
         $funcionario->ender_empresa = $this->input->post('ender_empresa');
 
-        if ($funcionario->id != NULL && $funcionario->cpf != NULL && $funcionario->nome_func != NULL && $funcionario->dt_nasc[0] != NULL && $funcionario->sexo != NULL && 
-            $funcionario->estado_civil != NULL && $funcionario->rg != NULL && $funcionario->dt_exped[0]!= NULL &&  $funcionario->orgao_exped != NULL && $funcionario->uf_exped != NULL && 
-            $funcionario->nome_mae != NULL &&  $funcionario->status != NULL && $funcionario->cep != NULL &&  $funcionario->endereco != NULL && $funcionario->numero != NULL && 
-            $funcionario->bairro != NULL &&  $funcionario->estado != NULL && $funcionario->cidade != NULL &&  $funcionario->matricula != NULL && $funcionario->depto != NULL && 
+        if ($funcionario->id != NULL && $funcionario->cpf != NULL && $funcionario->nome_func != NULL && $funcionario->dt_nasc[0] != NULL && $funcionario->sexo != NULL &&
+            $funcionario->estado_civil != NULL && $funcionario->rg != NULL && $funcionario->dt_exped[0]!= NULL &&  $funcionario->orgao_exped != NULL && $funcionario->uf_exped != NULL &&
+            $funcionario->nome_mae != NULL &&  $funcionario->status != NULL && $funcionario->cep != NULL &&  $funcionario->endereco != NULL && $funcionario->numero != NULL &&
+            $funcionario->bairro != NULL &&  $funcionario->estado != NULL && $funcionario->cidade != NULL &&  $funcionario->matricula != NULL && $funcionario->depto != NULL &&
             $funcionario->cargo != NULL && $funcionario->periodo != NULL && $funcionario->ender_empresa != NULL) {
             $resposta = $this->Funcionario_model->setFuncionario($funcionario);
         } else {

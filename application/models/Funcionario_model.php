@@ -187,7 +187,7 @@ class Funcionario_model extends CI_Model {
         $this->db->from('vw_funcionario');
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
-            $this->db->where($where);
+            $this->db->where("(".$where.")");
             $this->db->where("id_empresa_fk = '{$this->session->userdata('id_client')}'");
         else:
             $this->db->where("id_empresa_fk = '{$this->session->userdata('id_client')}'");
@@ -205,7 +205,7 @@ class Funcionario_model extends CI_Model {
         $this->db->from('vw_funcionario');
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
-            $this->db->where($where);
+            $this->db->where("(".$where.")");
             $this->db->where("id_empresa_fk = '{$this->session->userdata('id_client')}'");
         else:
             $this->db->where("id_empresa_fk = '{$this->session->userdata('id_client')}'");

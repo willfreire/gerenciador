@@ -92,7 +92,7 @@ Bencard = {
                         // Bencard.modalMsg("MENSAGEM", data.msg, false, false);
                         var option = "<option value=''>Selecione</option>";
                         $.each(data.dados, function(key, value){
-                            option += "<option value='"+value.id_item_beneficio_pk+"'>"+value.descricao+"</option>";
+                            option += "<option value='"+value.id_item_beneficio_pk+"'>"+value.id_item_beneficio_pk+" - "+value.descricao+"</option>";
                         });
                     } else {
                         option += "<option value=''>Nenhum Benefício Encontrado</option>";

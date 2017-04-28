@@ -83,3 +83,14 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+
+/**
+ * Others Constants
+ */
+$req_uri     = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : NULL;
+$req_uri_ex  = explode('/', $req_uri);
+$doc_root    = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : NULL;
+$path_proj   = $doc_root.'/'.$req_uri_ex[1];
+define('PATH_PROJ', $path_proj);
+define('FILE_PATH', "$path_proj/assets/boletos/");

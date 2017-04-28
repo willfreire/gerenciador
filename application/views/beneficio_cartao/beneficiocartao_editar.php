@@ -111,7 +111,7 @@ $id_status = isset($benefcard[0]->id_status_cartao_fk) ? $benefcard[0]->id_statu
                                                         if (is_array($itens_benef)):
                                                             foreach ($itens_benef as $value):
                                                                 $sel = $id_item == $value->id_item_beneficio_pk ? "selected='selected'" : "";
-                                                                echo "<option value='$value->id_item_beneficio_pk' $sel>$value->descricao</option>";
+                                                                echo "<option value='$value->id_item_beneficio_pk' $sel>$value->id_item_beneficio_pk - $value->descricao</option>";
                                                             endforeach;
                                                         endif;
                                                         ?>

@@ -63,10 +63,7 @@ class Importacao extends CI_Controller
     {
 
         # Vars
-        $req_uri     = filter_input(INPUT_SERVER, 'REQUEST_URI');
-        $req_uri_ex  = explode('/', $req_uri);
-        $doc_root    = filter_input(INPUT_SERVER, 'DOCUMENT_ROOT');
-        $path_proj   = $doc_root.'/'.$req_uri_ex[1];
+        $path_proj   = PATH_PROJ;
         $import      = array();
         $dados       = array();
         $dados_end   = array();
@@ -261,7 +258,7 @@ class Importacao extends CI_Controller
                             $dados_func['id_empresa_fk']          = $this->db->escape_str($id_empresa);
                             $dados_func['cpf']                    = $this->db->escape_str($cpf);
                             $dados_func['nome']                   = $this->db->escape_str($nome);
-                            $dados_func['dt_nasc']                = is_array($dt_nasc) ? $dt_nasc[2].'-'.$dt_nasc[1].'-'.$dt_nasc[0] : $dt_nasc;
+                            $dados_func['dt_nasc']                = is_array($dt_nasc) ? str_pad($dt_nasc[2], 2, "0", STR_PAD_LEFT).'-'.str_pad($dt_nasc[1], 2, "0", STR_PAD_LEFT).'-'.$dt_nasc[0] : $dt_nasc;
                             $dados_func['sexo']                   = $this->db->escape_str($sexo);
                             $dados_func['id_estado_civil_fk']     = 4;
                             $dados_func['rg']                     = $this->db->escape_str($rg);

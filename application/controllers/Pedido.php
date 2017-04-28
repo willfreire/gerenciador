@@ -2,8 +2,13 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+# Boleto
 use OpenBoleto\Banco\Santander;
 use OpenBoleto\Agente;
+
+# H2P - PDF
+use H2P\Converter\PhantomJS;
+use H2P\TempFile;
 
 class Pedido extends CI_Controller
 {
@@ -443,27 +448,33 @@ class Pedido extends CI_Controller
             $sigla   = !empty($cliente) && $cliente[0]->sigla != "" ? $cliente[0]->sigla : NULL;
             $cidade  = !empty($cliente) && $cliente[0]->cidade != "" ? $cliente[0]->cidade : NULL;
             $endfull = $lograd.$numero.$compl.$bairro;
+            $cedente_nome = "VTCARDS COMERCIO E SERVICOS LTDA";
+            $cedente_cnpj = "25.533.823/0001-03";
+            $cedente_end  = "Rua Voluntários da Pátria, 654, Sala 302, Santana";
+            $cedente_cep  = "02010-000";
+            $cedente_cid  = "São Paulo";
+            $cedente_uf   = "SP";
 
             $sacado  = new Agente($empresa, $cnpj, $endfull, $cep, $cidade, $sigla);
-            $cedente = new Agente('VTCARDS', '00.000.00/0001-10', 'Rua Voluntários da Pátria', '02010-000', 'São Paulo', 'SP');
-
+            $cedente = new Agente($cedente_nome, $cedente_cnpj, $cedente_end, $cedente_cep, $cedente_cid, $cedente_uf);
+ 
             $boleto = new Santander(array(
                 # Parâmetros obrigatórios
                 'dataVencimento' => new DateTime($dt_pgto),
-                'valor' => $vl_total,
-                'sequencial' => 12345678901, // Até 13 dígitos
-                'sacado' => $sacado,
-                'cedente' => $cedente,
-                'agencia' => "0833", // Até 4 dígitos
-                'carteira' => 101, // 101, 102 ou 201
-                'conta' => 1300081, // Código do cedente: Até 7 dígitos
+                'valor'          => $vl_total,
+                'sequencial'     => str_pad(base64_decode($id_pedido), 8, 0, STR_PAD_LEFT), # Até 13 dígitos
+                'sacado'         => $sacado,
+                'cedente'        => $cedente,
+                'agencia'        => "0833", // Até 4 dígitos
+                'carteira'       => 101, // 101, 102 ou 201
+                'conta'          => 1300081, // Código do cedente: Até 7 dígitos
                 # IOS – Seguradoras (Se 7% informar 7. Limitado a 9%)
                 # Demais clientes usar 0 (zero)
                 'ios' => '0', // Apenas para o Santander
                 # Parâmetros recomendáveis
                 # 'logoPath' => base_url('/assets/imgs/vtcards_logo_100x40.png'), // Logo da sua empresa - #357CA5
-                'contaDv' => 96,
-                'agenciaDv' => 1,
+                'contaDv'   => 96,
+                # 'agenciaDv' => 1,
                 'descricaoDemonstrativo' => array(// Até 5
                     "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef",
                 ),
@@ -472,25 +483,25 @@ class Pedido extends CI_Controller
                 ),
                 # Parâmetros opcionais
                 # 'resourcePath' => '../resources',
-                'moeda' => Santander::MOEDA_REAL,
-                'dataDocumento' => new DateTime($dt_hr_solic),
+                'moeda'             => Santander::MOEDA_REAL,
+                'dataDocumento'     => new DateTime($dt_hr_solic),
                 'dataProcessamento' => new DateTime(),
-                # 'contraApresentacao' => true,
-                # 'pagamentoMinimo' => 23.00,
-                # 'aceite' => 'N',
-                # 'especieDoc' => 'ABC',
-                # 'numeroDocumento' => '123.456.789',
-                # 'usoBanco' => 'Uso banco',
-                # 'layout' => 'layout.phtml',
-                # 'logoPath' => 'http://boletophp.com.br/img/opensource-55x48-t.png',
-                # 'sacadorAvalista' => new Agente('Antônio da Silva', '02.123.123/0001-11'),
+                # 'contraApresentacao'   => true,
+                # 'pagamentoMinimo'      => 23.00,
+                'aceite'               => 'N',
+                # 'especieDoc'           => 'ABC',
+                # 'numeroDocumento'      => '123.456.789',
+                # 'usoBanco'             => 'Uso banco',
+                # 'layout'               => 'layout.phtml',
+                # 'logoPath'             => 'http://boletophp.com.br/img/opensource-55x48-t.png',
+                # 'sacadorAvalista'      => new Agente('Antônio da Silva', '02.123.123/0001-11'),
                 # 'descontosAbatimentos' => 123.12,
-                # 'moraMulta' => 123.12,
-                # 'outrasDeducoes' => 123.12,
-                # 'outrosAcrescimos' => 123.12,
-                # 'valorCobrado' => 123.12,
-                # 'valorUnitario' => 123.12,
-                'quantidade' => 1,
+                # 'moraMulta'            => 123.12,
+                # 'outrasDeducoes'       => 123.12,
+                # 'outrosAcrescimos'     => 123.12,
+                # 'valorCobrado'         => 123.12,
+                # 'valorUnitario'        => 123.12,
+                'quantidade'             => 1,
             ));
 
             # Boleto gerado
@@ -499,7 +510,51 @@ class Pedido extends CI_Controller
             $this->db->where('id_pedido_pk', base64_decode($id_pedido));
             $this->db->update('tb_pedido', $dados);
 
-            echo $boleto->getOutput();
+            $boleto_html = $boleto->getOutput();
+            
+            # Name file
+            $date      = date("Ymd");
+            $name_file = "boleto_".base64_decode($id_pedido)."_".$date.".pdf";
+            
+            $converter = new PhantomJS();
+            $input     = new TempFile($boleto_html, 'html');
+            
+            # Convert e Salva no diretorio
+            $converter->convert($input, FILE_PATH.$name_file);
+            
+            # Salvar dados do boleto
+            $dados_boleto                        = array();
+            $dados_boleto['id_pedido_fk']        = base64_decode($id_pedido);
+            $dados_boleto['sacado_nome']         = $empresa;
+            $dados_boleto['sacado_cnpj_cpf']     = $cnpj;
+            $dados_boleto['sacado_endereco']     = $endfull;
+            $dados_boleto['sacado_cep']          = $cep;
+            $dados_boleto['sacado_cidade']       = $cidade;
+            $dados_boleto['sacado_uf']           = $sigla;
+            $dados_boleto['cedente_nome']        = $cedente_nome;
+            $dados_boleto['cedente_cnpj_cpf']    = $cedente_cnpj;
+            $dados_boleto['cedente_endereco']    = $cedente_end;
+            $dados_boleto['cedente_cep']         = $cedente_cep;
+            $dados_boleto['cedente_cidade']      = $cedente_cid;
+            $dados_boleto['cedente_uf']          = $cedente_uf;
+            $dados_boleto['dt_vencimento']       = $dt_pgto;
+            $dados_boleto['valor']               = $vl_total;
+            $dados_boleto['nosso_numero']        = str_pad(base64_decode($id_pedido), 8, 0, STR_PAD_LEFT);
+            $dados_boleto['carteira']            = 101;
+            $dados_boleto['agencia']             = "0833";
+            $dados_boleto['agencia_dv']          = NULL;
+            $dados_boleto['conta']               = 1300081;
+            $dados_boleto['conta_dv']            = 96;
+            $dados_boleto['descr_demostrativo']  = "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef";
+            $dados_boleto['instrucao']           = "Após o vencimento pagar somente no Banco Santander";
+            $dados_boleto['dt_emissao']          = date("Y-m-d");
+            $dados_boleto['id_status_boleto_fk'] = 1;
+            
+            # Grava Boleto
+            $this->db->insert('tb_boleto', $dados_boleto);
+
+            echo $boleto_html;
+            
         else:
             echo "<script>alert('Erro ao gerar o Boleto!'); window.close();</script>";
         endif;
