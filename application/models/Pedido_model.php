@@ -209,10 +209,11 @@ class Pedido_model extends CI_Model {
         # Consultar pedidos
         $this->db->select("p.id_pedido_pk, p.id_empresa_fk, e.cnpj, e.nome_razao, p.id_end_empresa_fk,
                            p.dt_pgto, CONCAT(DATE_FORMAT(p.dt_ini_beneficio, '%d/%m/%Y'), ' a ', DATE_FORMAT(p.dt_fin_beneficio, '%d/%m/%Y')) AS periodo,
-                           p.vl_itens, p.vl_taxa, p.vl_total, p.id_status_pedido_fk, s.status_pedido, p.boleto_gerado, p.dt_hr_solicitacao", FALSE);
+                           p.vl_itens, p.vl_taxa, p.vl_total, p.id_status_pedido_fk, s.status_pedido, p.boleto_gerado, p.dt_hr_solicitacao, b.nome_boleto", FALSE);
         $this->db->from('tb_pedido p');
         $this->db->join('tb_empresa e', 'p.id_empresa_fk = e.id_empresa_pk', 'inner');
         $this->db->join('tb_status_pedido s', 'p.id_status_pedido_fk = s.id_status_pedido_pk', 'inner');
+        $this->db->join('tb_boleto b', 'p.id_pedido_pk = b.id_pedido_fk', 'inner');
         $this->db->where('p.id_empresa_fk', $this->session->userdata('id_client'));
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
@@ -230,9 +231,10 @@ class Pedido_model extends CI_Model {
             foreach ($resp_dados as $value):
                 # Botao
                 $id_pedido  = $value->id_pedido_pk;
-                $url_boleto = base_url('./pedido/gerarboleto/'.base64_encode($id_pedido));
+                $nome_boleto = $value->nome_boleto;
+                # $url_boleto = base_url('./pedido/gerarboleto/'.base64_encode($id_pedido));
                 $url_view   = base_url('./pedido/ver/'.$id_pedido);
-                $acao       = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Remitir Boleto' onclick='Pedido.openWindow(\"$url_boleto\", \"_blank\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
+                $acao       = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Remitir Boleto' onclick='Pedido.verBoleto(\"$nome_boleto\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
                 $acao      .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Pedido' onclick='Pedido.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
                 # $acao      .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Per&iacute;odo' onclick='Pedido.del(\"$id_period\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
 
@@ -311,10 +313,11 @@ class Pedido_model extends CI_Model {
         # Consultar pedidos
         $this->db->select("p.id_pedido_pk, p.id_empresa_fk, e.cnpj, e.nome_razao, p.id_end_empresa_fk,
                            p.dt_pgto, CONCAT(DATE_FORMAT(p.dt_ini_beneficio, '%d/%m/%Y'), ' a ', DATE_FORMAT(p.dt_fin_beneficio, '%d/%m/%Y')) AS periodo,
-                           p.vl_itens, p.vl_taxa, p.vl_total, p.id_status_pedido_fk, s.status_pedido, p.boleto_gerado, p.dt_hr_solicitacao", FALSE);
+                           p.vl_itens, p.vl_taxa, p.vl_total, p.id_status_pedido_fk, s.status_pedido, p.boleto_gerado, p.dt_hr_solicitacao, b.nome_boleto", FALSE);
         $this->db->from('tb_pedido p');
         $this->db->join('tb_empresa e', 'p.id_empresa_fk = e.id_empresa_pk', 'inner');
         $this->db->join('tb_status_pedido s', 'p.id_status_pedido_fk = s.id_status_pedido_pk', 'inner');
+        $this->db->join('tb_boleto b', 'p.id_pedido_pk = b.id_pedido_fk', 'inner');
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
             $this->db->where($where);
@@ -330,13 +333,14 @@ class Pedido_model extends CI_Model {
 
             foreach ($resp_dados as $value):
                 # Botao
-                $id_pedido  = $value->id_pedido_pk;
-                $id_status  = $value->id_status_pedido_fk;
-                $url_boleto = base_url('./pedido/gerarboleto/'.base64_encode($id_pedido));
-                $url_view   = base_url('./pedido/ver/'.$id_pedido);
-                $acao       = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Remitir Boleto' onclick='Pedido.openWindow(\"$url_boleto\", \"_blank\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
-                $acao      .= "<button type='button' class='btn btn-warning btn-xs btn-acao' title='Editar Status do Pedido' onclick='Pedido.alterStatus(\"$id_pedido\", \"$id_status\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
-                $acao      .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Pedido' onclick='Pedido.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
+                $id_pedido   = $value->id_pedido_pk;
+                $id_status   = $value->id_status_pedido_fk;
+                $nome_boleto = $value->nome_boleto;
+                # $url_boleto  = base_url('./pedido/gerarboleto/'.base64_encode($id_pedido));
+                $url_view    = base_url('./pedido/ver/'.$id_pedido);
+                $acao        = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Remitir Boleto' onclick='Pedido.verBoleto(\"$nome_boleto\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
+                $acao       .= "<button type='button' class='btn btn-warning btn-xs btn-acao' title='Editar Status do Pedido' onclick='Pedido.alterStatus(\"$id_pedido\", \"$id_status\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
+                $acao       .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Pedido' onclick='Pedido.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
                 if ($this->session->userdata('id_perfil_vt') == "1"):
                     $acao .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Pedido' onclick='Pedido.del(\"$id_pedido\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
                 endif;

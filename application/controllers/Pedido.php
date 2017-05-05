@@ -358,7 +358,7 @@ class Pedido extends CI_Controller
         $data['benefs'] = $this->db->get()->result();
 
         # Sql Itens dos Beneficiarios
-        $this->db->select('ip.id_item_pedido_pk, ip.id_pedido_fk, ip.id_beneficio_fk, b.id_funcionario_fk, 
+        $this->db->select('ip.id_item_pedido_pk, ip.id_pedido_fk, ip.id_beneficio_fk, b.id_funcionario_fk,
                            b.id_item_beneficio_fk, ib.descricao, ib.vl_unitario');
         $this->db->from('tb_item_pedido ip');
         $this->db->join('tb_beneficio b', 'ip.id_beneficio_fk = b.id_beneficio_pk', 'inner');
@@ -457,7 +457,7 @@ class Pedido extends CI_Controller
 
             $sacado  = new Agente($empresa, $cnpj, $endfull, $cep, $cidade, $sigla);
             $cedente = new Agente($cedente_nome, $cedente_cnpj, $cedente_end, $cedente_cep, $cedente_cid, $cedente_uf);
- 
+
             $boleto = new Santander(array(
                 # Parâmetros obrigatórios
                 'dataVencimento' => new DateTime($dt_pgto),
@@ -511,17 +511,17 @@ class Pedido extends CI_Controller
             $this->db->update('tb_pedido', $dados);
 
             $boleto_html = $boleto->getOutput();
-            
+
             # Name file
             $date      = date("Ymd");
             $name_file = "boleto_".base64_decode($id_pedido)."_".$date.".pdf";
-            
+
             $converter = new PhantomJS();
             $input     = new TempFile($boleto_html, 'html');
-            
+
             # Convert e Salva no diretorio
             $converter->convert($input, FILE_PATH.$name_file);
-            
+
             # Salvar dados do boleto
             $dados_boleto                        = array();
             $dados_boleto['id_pedido_fk']        = base64_decode($id_pedido);
@@ -547,14 +547,37 @@ class Pedido extends CI_Controller
             $dados_boleto['conta_dv']            = 96;
             $dados_boleto['descr_demostrativo']  = "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef";
             $dados_boleto['instrucao']           = "Após o vencimento pagar somente no Banco Santander";
+            $dados_boleto['nome_boleto']         = $name_file;
             $dados_boleto['dt_emissao']          = date("Y-m-d");
             $dados_boleto['id_status_boleto_fk'] = 1;
-            
+
             # Grava Boleto
             $this->db->insert('tb_boleto', $dados_boleto);
+            
+            # Enviar Email
+            require_once(APPPATH.'controllers/Main.php'); 
+            $main =  new Main();
+            
+            # Msg
+            $msg                 = array();
+            $msg['sender']       = "faleconosco@vtcards.com.br";
+            $msg['sender_name']  = "VTCards";
+            $msg['email']        = "pedidos@vtcards.com.br";
+            $msg['destinatario'] = "Pedidos";
+            $msg['subject']      = "Solicitação de Novo Pedido";
+            $msg['mensagem']     = "Olá!<br><br>
+                                    Um novo pedido foi solicitado:<br><br>
+                                    ID DO PEDIDO: ".base64_decode($id_pedido)."<br>
+                                    CNPJ: $cnpj<br>
+                                    CLIENTE: $empresa<br>
+                                    VALOR: $vl_total<br>
+                                    DATA DE VENCIMENTO: $dt_pgto<br><br>
+                                    Att.";
+            # Enviar email
+            $main->sendMailGeral($msg);
 
             echo $boleto_html;
-            
+
         else:
             echo "<script>alert('Erro ao gerar o Boleto!'); window.close();</script>";
         endif;

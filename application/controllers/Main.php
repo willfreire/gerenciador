@@ -122,11 +122,11 @@ class Main extends CI_Controller
         $where[]    = "(e.senha = '$senha' OR e.senha_master = '$senha')";
         $where[]    = "el.id_acao_fk = 1";
         $where[]    = "e.id_status_fk = 1";
-        
+
         if (!empty($where)):
             $onde = implode(" AND ", $where);
         endif;
-        
+
         $this->db->select('e.id_empresa_pk, e.id_tipo_empresa_fk, t.tipo_empresa, e.cnpj, e.nome_razao, DATE_FORMAT(el.dt_hr, \'%d/%m/%Y\') AS dt_cad');
         $this->db->from('tb_empresa e');
         $this->db->join('tb_tipo_empresa t', 'e.id_tipo_empresa_fk = t.id_tipo_empresa_pk', 'inner');
@@ -226,7 +226,7 @@ class Main extends CI_Controller
 
             $this->db->where('email', $email);
             $this->db->update('tb_usuario', $dados);
-            
+
             # Msg
             $msg                 = array();
             $msg['destinatario'] = $row[0]->nome;
@@ -236,7 +236,7 @@ class Main extends CI_Controller
 
             $retorno->status = TRUE;
             $retorno->msg    = "Sua Nova Senha foi Enviada para o E-mail <strong>$email</strong>";
-            
+
             # Enviar email
             $this->sendNewPwd($msg);
         else:
@@ -275,7 +275,7 @@ class Main extends CI_Controller
 
             $this->db->where('cnpj', $cnpj);
             $this->db->update('tb_empresa', $dados);
-            
+
             # Msg
             $msg                 = array();
             $msg['destinatario'] = $row[0]->nome_razao;
@@ -285,7 +285,7 @@ class Main extends CI_Controller
 
             $retorno->status = TRUE;
             $retorno->msg    = "Sua Nova Senha foi Enviada para o E-mail <strong>{$row[0]->email}</strong>";
-            
+
             # Enviar email
             $this->sendNewPwd($msg);
         else:
@@ -323,7 +323,7 @@ class Main extends CI_Controller
         # Define remetente e destinatário
         $this->email->from('faleconosco@vtcards.com.br', 'VTCards');
         $this->email->to($dados['email'], $dados['destinatario']);
-        
+
         #  Define o assunto do email
         $this->email->subject('Nova senha VTCards');
 
@@ -331,7 +331,7 @@ class Main extends CI_Controller
         $this->email->message($this->load->view('email_template', $dados, TRUE));
 
         /*
-         * Se foi selecionado o envio de um anexo, insere o arquivo no email 
+         * Se foi selecionado o envio de um anexo, insere o arquivo no email
          * através do método 'attach' da library 'Email'
          */
         /* if (isset($dados['anexo'])):
@@ -376,7 +376,7 @@ class Main extends CI_Controller
         # Define remetente e destinatário
         $this->email->from($dados['sender'], $dados['sender_name']);
         $this->email->to($dados['email'], $dados['destinatario']);
-        
+
         #  Define o assunto do email
         $this->email->subject($dados['subject']);
 
@@ -394,7 +394,7 @@ class Main extends CI_Controller
             $retorno->status = FALSE;
             $retorno->msg    = "Houve um erro ao enviar o E-mail!";
         endif;
-        
+
         return $retorno;
     }
 }

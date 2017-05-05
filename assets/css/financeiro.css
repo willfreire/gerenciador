@@ -1,0 +1,72 @@
+/*
+    Created on : 01/05/2017
+    Author     : William Freire
+*/
+.box-wrapper-80 {
+    width  : 80%;
+    margin : 20px auto;
+}
+
+#txt_sel_boleto {
+    margin-bottom: 15px;
+}
+
+#btn_add_boleto {
+    margin-top: 25px;
+}
+
+#txt_boleto_add {
+    margin-top: 15px;
+}
+
+#tbl_lista_bol {
+    margin-top: 10px;
+}
+
+.strip_grid {
+    background-color: #f9f9f9;
+}
+
+.strip_grid_none {
+    background-color: #FFFFFF;
+}
+
+.radio-position {
+    margin-top: 5px;
+}
+
+@media (max-width: 480px) {
+    .box-wrapper-80 {
+        width    : 100%;
+        overflow : auto;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 559px) {
+    .box-wrapper-80 {
+        width    : 100%;
+        overflow : auto;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 767px) {
+    .box-wrapper-80 {
+        width  : 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .box-wrapper-80 {
+        width  : 90%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .box-wrapper-80 {
+        width  : 90%;
+    }
+}
+
+@media (min-width: 1200px) {
+
+}

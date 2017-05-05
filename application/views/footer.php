@@ -46,6 +46,8 @@
         <script src="<?=base_url('scripts/plugins/select2/i18n/pt-BR.js') ?>"></script>
         <!-- Jquery Runner -->
         <script src="<?=base_url('scripts/plugins/jquery-runner/jquery.runner-min.js') ?>"></script>
+        <!-- Bootstrap Typeahead - Autocomplete -->
+        <script src="<?=base_url('scripts/plugins/bootstrap_typeahead/bootstrap3-typeahead.js') ?>"></script>
         <!-- Script Main -->
         <script src="<?=base_url('scripts/js/main.js') ?>"></script>
 
