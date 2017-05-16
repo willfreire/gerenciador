@@ -94,3 +94,4 @@ $doc_root    = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : NU
 $path_proj   = $doc_root.'/'.$req_uri_ex[1];
 define('PATH_PROJ', $path_proj);
 define('FILE_PATH', "$path_proj/assets/boletos/");
+define('PATH_REM', "$path_proj/assets/remessa/");

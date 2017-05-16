@@ -438,16 +438,18 @@ class Pedido extends CI_Controller
             $cliente = $this->db->get()->result();
 
             # Cliente
-            $cnpj    = !empty($cliente) && $cliente[0]->cnpj != "" ? $cliente[0]->cnpj : NULL;
-            $empresa = !empty($cliente) && $cliente[0]->nome_razao != "" ? $cliente[0]->nome_razao : NULL;
-            $cep     = !empty($cliente) && $cliente[0]->cep != "" ? $cliente[0]->cep : NULL;
-            $lograd  = !empty($cliente) && $cliente[0]->logradouro != "" ? $cliente[0]->logradouro : NULL;
-            $numero  = !empty($cliente) && $cliente[0]->numero != "" ? ", nº ".$cliente[0]->numero : NULL;
-            $compl   = !empty($cliente) && $cliente[0]->complemento != "" ? ", ".$cliente[0]->complemento : NULL;
-            $bairro  = !empty($cliente) && $cliente[0]->bairro != "" ? ", ".$cliente[0]->bairro : NULL;
-            $sigla   = !empty($cliente) && $cliente[0]->sigla != "" ? $cliente[0]->sigla : NULL;
-            $cidade  = !empty($cliente) && $cliente[0]->cidade != "" ? $cliente[0]->cidade : NULL;
-            $endfull = $lograd.$numero.$compl.$bairro;
+            $cnpj      = !empty($cliente) && $cliente[0]->cnpj != "" ? $cliente[0]->cnpj : NULL;
+            $empresa   = !empty($cliente) && $cliente[0]->nome_razao != "" ? $cliente[0]->nome_razao : NULL;
+            $cep       = !empty($cliente) && $cliente[0]->cep != "" ? $cliente[0]->cep : NULL;
+            $lograd    = !empty($cliente) && $cliente[0]->logradouro != "" ? $cliente[0]->logradouro : NULL;
+            $numero    = !empty($cliente) && $cliente[0]->numero != "" ? ", nº ".$cliente[0]->numero : NULL;
+            $compl     = !empty($cliente) && $cliente[0]->complemento != "" ? ", ".$cliente[0]->complemento : NULL;
+            $bairro    = !empty($cliente) && $cliente[0]->bairro != "" ? ", ".$cliente[0]->bairro : NULL;
+            $bairro_m  = !empty($cliente) && $cliente[0]->bairro != "" ? $cliente[0]->bairro : NULL;
+            $sigla     = !empty($cliente) && $cliente[0]->sigla != "" ? $cliente[0]->sigla : NULL;
+            $cidade    = !empty($cliente) && $cliente[0]->cidade != "" ? $cliente[0]->cidade : NULL;
+            $endfull   = $lograd.$numero.$compl.$bairro;
+            $endfull_m = $lograd.$numero.$compl;
             $cedente_nome = "VTCARDS COMERCIO E SERVICOS LTDA";
             $cedente_cnpj = "25.533.823/0001-03";
             $cedente_end  = "Rua Voluntários da Pátria, 654, Sala 302, Santana";
@@ -462,7 +464,7 @@ class Pedido extends CI_Controller
                 # Parâmetros obrigatórios
                 'dataVencimento' => new DateTime($dt_pgto),
                 'valor'          => $vl_total,
-                'sequencial'     => str_pad(base64_decode($id_pedido), 8, 0, STR_PAD_LEFT), # Até 13 dígitos
+                'sequencial'     => str_pad(base64_decode($id_pedido), 7, 0, STR_PAD_LEFT), # Até 13 dígitos
                 'sacado'         => $sacado,
                 'cedente'        => $cedente,
                 'agencia'        => "0833", // Até 4 dígitos
@@ -527,7 +529,8 @@ class Pedido extends CI_Controller
             $dados_boleto['id_pedido_fk']        = base64_decode($id_pedido);
             $dados_boleto['sacado_nome']         = $empresa;
             $dados_boleto['sacado_cnpj_cpf']     = $cnpj;
-            $dados_boleto['sacado_endereco']     = $endfull;
+            $dados_boleto['sacado_endereco']     = $endfull_m;
+            $dados_boleto['sacado_bairro']       = $bairro_m;
             $dados_boleto['sacado_cep']          = $cep;
             $dados_boleto['sacado_cidade']       = $cidade;
             $dados_boleto['sacado_uf']           = $sigla;
@@ -539,7 +542,7 @@ class Pedido extends CI_Controller
             $dados_boleto['cedente_uf']          = $cedente_uf;
             $dados_boleto['dt_vencimento']       = $dt_pgto;
             $dados_boleto['valor']               = $vl_total;
-            $dados_boleto['nosso_numero']        = str_pad(base64_decode($id_pedido), 8, 0, STR_PAD_LEFT);
+            $dados_boleto['nosso_numero']        = str_pad(base64_decode($id_pedido), 7, 0, STR_PAD_LEFT);
             $dados_boleto['carteira']            = 101;
             $dados_boleto['agencia']             = "0833";
             $dados_boleto['agencia_dv']          = NULL;

@@ -5,6 +5,11 @@ Financeiro = {
      **/
     main: function () {
 
+        // Fechar modal remessa
+        $("#btn_close").click(function(){
+            $("#modal_remessa").modal('hidden');
+        });
+
         // Buscar Boletos
         $.get('./getBoletos', function(data){
             $("#add_boleto").typeahead({
@@ -51,6 +56,36 @@ Financeiro = {
                 invalid: 'glyphicon glyphicon-remove',
                 validating: 'glyphicon glyphicon-refresh'
             },
+            fields: {
+                cod_carteira: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>C&Oacute;DIGO DA CARTEIRA</strong>'
+			}
+		    }
+		},
+                cod_ocorrencia: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>C&Oacute;DIGO DE OCORR&Ecirc;NCIA</strong>'
+			}
+		    }
+		},
+                especie_doc: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>ESP&Eacute;CIE DE DOCUMENTO</strong>'
+			}
+		    }
+		},
+                '1_instr_cobranca': {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>1ª INSTRU&Ccedil;&Atilde;O DE COBRAN&Ccedil;A</strong>'
+			}
+		    }
+		},
+            }
         }).on('success.form.bv', function (e) {
             // Prevent form submission
             e.preventDefault();
@@ -70,16 +105,37 @@ Financeiro = {
                 // Use Ajax to submit form data
                 $.post(url, frm, function (data) {
                     if (data.status === true) {
-                        Financeiro.modalMsg("MENSAGEM", data.msg, false, './movimentacao');
+                        // Financeiro.modalMsg("MENSAGEM", data.msg, false, './movimentacao');
+                        bootbox.dialog({
+                            message : data.msg,
+                            title   : "MENSAGEM",
+                            buttons: {
+                                success: {
+                                    label     : "Sim",
+                                    className : "btn-success",
+                                    callback  : function() {
+                                        Financeiro.openWindow('./createRemessa/'+data.id_remessa+'', '_blank');
+                                        Financeiro.redirect('./ver_envio');
+                                    }
+                                },
+                                danger: {
+                                    label     : "N&atilde;o",
+                                    className : "btn-danger",
+                                    callback  : function() {
+                                        Financeiro.redirect('./ver_envio');
+                                    }
+                                }
+                            }
+                        });
                     } else {
                         Financeiro.modalMsg("Aten&ccedil;&atilde;o", data.msg);
                     }
-                    $('#btn_proximo').removeAttr('disabled');
+                    $('#btn_gerar').removeAttr('disabled');
                 }, 'json');
 
             } else {
                 Financeiro.modalMsg("ATEN&Ccedil;&Atilde;O", "Favor Adicionar 1 ou Mais Boletos!", false, false);
-                $('#btn_proximo').removeAttr('disabled');
+                $('#btn_gerar').removeAttr('disabled');
             }
 
         });
@@ -164,6 +220,87 @@ Financeiro = {
      **/
     openWindow: function (link, target) {
 	window.open(link, target);
+    },
+    
+    /*!
+     * @description Método para abrir modal da Remessa
+     **/
+    modalRemessa: function(title)
+    {
+        $("#title_modal_remessa").html(title);
+        $("#modal_remessa").modal('show');
+    },
+
+    /*!
+     * @description Método para cadastrar Prospeccao
+     **/
+    abrirRemessa: function(id_remessa)
+    {
+        // Pesquisar Boletos
+        $.post("./getBoletoRemessa", {
+            id_remessa: id_remessa
+        }, function(data){
+            
+            if (data.status === true) {
+                
+                var html = "";
+                $.each(data.dados, function(key, value){
+                    html += '<table class="table table-bordered table-striped">';
+                    html +=     '<tbody>';
+                    html +=         '<tr>';
+                    html +=             '<th style="width: 25%">ID do Pedido</th>';
+                    html +=             '<td>'+value.id_pedido_fk+'</td>';
+                    html +=         '</tr>';
+                    html +=         '<tr>';
+                    html +=             '<th>CNPJ</th>';
+                    html +=             '<td>'+value.sacado_cnpj_cpf+'</td>';
+                    html +=         '</tr>';
+                    html +=         '<tr>';
+                    html +=             '<th>Cliente</th>';
+                    html +=             '<td>'+value.sacado_nome+'</td>';
+                    html +=         '</tr>';
+                    html +=         '<tr>';
+                    html +=             '<th>Valor</th>';
+                    html +=             '<td>'+value.valor+'</td>';
+                    html +=         '</tr>';
+                    html +=         '<tr>';
+                    html +=             '<th>Data de Vencimento</th>';
+                    html +=             '<td>'+value.dt_vencimento+'</td>';
+                    html +=         '</tr>';
+                    html +=         '<tr>';
+                    html +=             '<th>C&oacute;d. Carteira</th>';
+                    html +=             '<td>'+value.cod_carteira+'</td>';
+                    html +=         '</tr>';
+                    html +=         '<tr>';
+                    html +=             '<th>C&oacute;d. Ocorr&ecirc;ncia</th>';
+                    html +=             '<td>'+value.ocorrencia_mov+'</td>';
+                    html +=         '</tr>';
+                    html +=         '<tr>';
+                    html +=             '<th>Esp&eacute;cie de Documento</th>';
+                    html +=             '<td>'+value.especie_doc+'</td>';
+                    html +=         '</tr>';
+                    html +=         '<tr>';
+                    html +=             '<th>1&ordf; Instr. Cobran&ccedil;a</th>';
+                    html +=             '<td>'+value.p_instrucao+'</td>';
+                    html +=         '</tr>';
+                    html +=         '<tr>';
+                    html +=             '<th>2&ordf; Instr. Cobran&ccedil;a</th>';
+                    html +=             '<td>'+value.s_instrucao+'</td>';
+                    html +=         '</tr>';
+                    html +=     '</tbody>';
+                    html += '</table><br>';
+                });
+                
+                $("#list_bol_rem").html(html);
+                
+            } else {
+                Financeiro.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+            }
+            
+        }, 'json');
+        
+        // Abrir modal
+        Financeiro.modalRemessa("Visualizar Boletos Indexados");
     }
 
 };

@@ -26,3 +26,6 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 /user_guide_src/
 /tests/
+/assets/remessa/
+/assets/uploads/
+/assets/boletos/

@@ -116,8 +116,9 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="<?= base_url('./remessa/gerar') ?>"><i class="fa fa-circle-o"></i> Gerar</a></li>
-                            <li><a href="<?= base_url('./remessa/retorno') ?>"><i class="fa fa-circle-o"></i> Importar Retorno</a></li>
-                            <li><a href="<?= base_url('./remessa/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                            <!-- <li><a href="<?= base_url('./remessa/retorno') ?>"><i class="fa fa-circle-o"></i> Importar Retorno</a></li> -->
+                            <li><a href="<?= base_url('./remessa/ver_envio') ?>"><i class="fa fa-circle-o"></i> Ver Envios</a></li>
+                            <!-- <li><a href="<?= base_url('./remessa/ver_retorno') ?>"><i class="fa fa-circle-o"></i> Ver Retorno</a></li> -->
                         </ul>
                     </li>
                 </ul>
