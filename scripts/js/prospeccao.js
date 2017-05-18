@@ -38,7 +38,9 @@ Prospeccao = {
         });
 
         // Mascara
-        $(".vl_percent").maskMoney();
+        $(".vl_percent").maskMoney({
+            allowNegative: true
+        });
         // $(".select2").select2();
         $("#dt_retorno").mask("99/99/9999");
         window.setTimeout(function(){

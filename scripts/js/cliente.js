@@ -108,7 +108,7 @@ Cliente = {
         $("#cep").mask('99999-999');
         Cliente.onlyNumber('cnpj');
         $("#cnpj").mask('99.999.999/9999-99');
-        $("#tel").mask("(99) 9999-99990");
+        $("#tel").mask("(00) 0000-00000");
         $("#dt_nasc").mask("99/99/9999");
         Cliente.onlyNumber('tel');
         $("#tel").blur(function(){
@@ -121,10 +121,12 @@ Cliente = {
                 $("#tel").mask("(99) 9999-99990");
             }
         });
-        $("#taxa_adm").maskMoney();
+        $("#taxa_adm").maskMoney({
+            allowNegative: true
+        });
         $("#taxa_entrega").maskMoney({
-            thousands : '.',
-            decimal   : ','
+            thousands     : '.',
+            decimal       : ','
         });
 
         // Calendario

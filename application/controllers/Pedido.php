@@ -23,7 +23,6 @@ class Pedido extends CI_Controller
 
         # Carregar modelo
         $this->load->model('Pedido_model');
-
     }
 
     /**
@@ -558,9 +557,6 @@ class Pedido extends CI_Controller
             $this->db->insert('tb_boleto', $dados_boleto);
             
             # Enviar Email
-            require_once(APPPATH.'controllers/Main.php'); 
-            $main =  new Main();
-            
             # Msg
             $msg                 = array();
             $msg['sender']       = "faleconosco@vtcards.com.br";
@@ -577,7 +573,7 @@ class Pedido extends CI_Controller
                                     DATA DE VENCIMENTO: $dt_pgto<br><br>
                                     Att.";
             # Enviar email
-            $main->sendMailGeral($msg);
+            $this->sendMailGeral($msg);
 
             echo $boleto_html;
 
@@ -610,6 +606,57 @@ class Pedido extends CI_Controller
         endif;
 
         print json_encode($retorno);
+    }
+    
+    /**
+     * Enviar email geral
+     *
+     * @method sendMailGeral
+     * @access public
+     * @param array $msg Mensagem pra envio
+     * @return void
+     */
+    public function sendMailGeral($msg)
+    {
+        # Carrega a library email
+        $this->load->library('email');
+
+        # Atribuir dados
+        $dados   = $msg;
+        $retorno = new stdClass();
+
+        # Inicia o processo de configuração para o envio do email
+        $config['protocol'] = 'mail'; // define o protocolo utilizado
+        $config['wordwrap'] = TRUE; // define se haverá quebra de palavra no texto
+        $config['validate'] = TRUE; // define se haverá validação dos endereços de email
+        $config['mailtype'] = 'html';
+
+        # Inicializa a library Email, passando os parâmetros de configuração
+        $this->email->initialize($config);
+
+        # Define remetente e destinatário
+        $this->email->from($dados['sender'], $dados['sender_name']);
+        $this->email->to($dados['email'], $dados['destinatario']);
+
+        #  Define o assunto do email
+        $this->email->subject($dados['subject']);
+
+        # Template
+        $this->email->message($this->load->view('email_template', $dados, TRUE));
+
+        /*
+         * Se o envio foi feito com sucesso, define a mensagem de sucesso
+         * caso contrário define a mensagem de erro, e carrega a view home
+         */
+        if ($this->email->send()):
+            $retorno->status = TRUE;
+            $retorno->msg    = "E-mail enviado com sucesso!";
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao enviar o E-mail!";
+        endif;
+
+        return $retorno;
     }
 }
 

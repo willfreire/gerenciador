@@ -97,6 +97,7 @@ class Pedido_model extends CI_Model {
         $item      = array();
         $timestamp = "%Y-%m-%d %H:%i:%s";
         $data      = time();
+        $error_ben = 0;
 
         # Gravar Item Beneficios
         if (!empty($valores->id_func) && is_array($valores->id_func)):
@@ -107,51 +108,64 @@ class Pedido_model extends CI_Model {
                 $this->db->where('id_funcionario_fk', $value);
                 $resp = $this->db->get()->result();
 
-                foreach ($resp as $vl):
-                    $benef['id_beneficio_pk'][$i] = $vl->id_beneficio_pk;
-                    $benef['vl_unitario'][$i]     = $vl->vl_unitario;
-                    $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
-                    $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
+                if (!empty($resp)):
+                    foreach ($resp as $vl):
+                        $benef['id_beneficio_pk'][$i] = $vl->id_beneficio_pk;
+                        $benef['vl_unitario'][$i]     = $vl->vl_unitario;
+                        $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
+                        $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
 
-                    # Salvar Itens Beneficio
-                    $item['id_pedido_fk']    = $valores->id;
-                    $item['id_beneficio_fk'] = $vl->id_beneficio_pk;
-                    $this->db->insert('tb_item_pedido', $item);
-                    $i++;
-                endforeach;
+                        # Salvar Itens Beneficio
+                        $item['id_pedido_fk']    = $valores->id;
+                        $item['id_beneficio_fk'] = $vl->id_beneficio_pk;
+                        $this->db->insert('tb_item_pedido', $item);
+                        $i++;
+                    endforeach;
+                else:
+                    $error_ben = 1;
+                    $retorno->status    = FALSE;
+                    $retorno->msg       = "Houve um erro ao Finalizar! Obrigat&oacute;rio cadastrar primeiro o(s) Benef&iacute;cio(s) do(s) Funcion&aacute;rio(s).";
+                    $retorno->url       = base_url("beneficiocartao/cadastrar");
+                    $retorno->id_pedido = NULL;
+                endif;
             endforeach;
         endif;
 
-        # Calcular Taxas
-        $vl_itens = array_sum($benef['vl_total']);
-        $vl_taxa  = (round($vl_itens*($valores->taxa_adm/100), 2)+$valores->taxa_entrega);
-        $vl_total = ($vl_itens+$vl_taxa);
+        if ($error_ben !== 1):
+            # Calcular Taxas
+            $vl_itens = array_sum($benef['vl_total']);
+            $vl_taxa  = (round($vl_itens*($valores->taxa_adm/100), 2)+$valores->taxa_entrega);
+            $vl_total = ($vl_itens+$vl_taxa);
 
-        # Beneficio
-        $periodo_ini = is_array($valores->periodo) && $valores->periodo[0] != NULL ? explode('/', $valores->periodo[0]) : NULL;
-        $periodo_fin = is_array($valores->periodo) && $valores->periodo[1] != NULL ? explode('/', $valores->periodo[1]) : NULL;
+            # Beneficio
+            $periodo_ini = is_array($valores->periodo) && $valores->periodo[0] != NULL ? explode('/', $valores->periodo[0]) : NULL;
+            $periodo_fin = is_array($valores->periodo) && $valores->periodo[1] != NULL ? explode('/', $valores->periodo[1]) : NULL;
 
-        $dados['dt_pgto']           = is_array($valores->dt_pgto) ? $valores->dt_pgto[2].'-'.$valores->dt_pgto[1].'-'.$valores->dt_pgto[0] : NULL;
-        $dados['dt_ini_beneficio']  = is_array($periodo_ini) ? $periodo_ini[2].'-'.$periodo_ini[1].'-'.$periodo_ini[0] : NULL;
-        $dados['dt_fin_beneficio']  = is_array($periodo_fin) ? $periodo_fin[2].'-'.$periodo_fin[1].'-'.$periodo_fin[0] : NULL;
-        $dados['vl_itens']          = $vl_itens;
-        $dados['vl_taxa']           = $vl_taxa;
-        $dados['vl_total']          = $vl_total;
-        $dados['dt_hr_solicitacao'] = mdate($timestamp, $data);
+            $dados['dt_pgto']           = is_array($valores->dt_pgto) ? $valores->dt_pgto[2].'-'.$valores->dt_pgto[1].'-'.$valores->dt_pgto[0] : NULL;
+            $dados['dt_ini_beneficio']  = is_array($periodo_ini) ? $periodo_ini[2].'-'.$periodo_ini[1].'-'.$periodo_ini[0] : NULL;
+            $dados['dt_fin_beneficio']  = is_array($periodo_fin) ? $periodo_fin[2].'-'.$periodo_fin[1].'-'.$periodo_fin[0] : NULL;
+            $dados['vl_itens']          = $vl_itens;
+            $dados['vl_taxa']           = $vl_taxa;
+            $dados['vl_total']          = $vl_total;
+            $dados['dt_hr_solicitacao'] = mdate($timestamp, $data);
 
-        # Update pedido
-        $this->db->where('id_pedido_pk', $valores->id);
-        $this->db->update('tb_pedido', $dados);
+            # Update pedido
+            $this->db->where('id_pedido_pk', $valores->id);
+            $this->db->update('tb_pedido', $dados);
 
-        if ($this->db->affected_rows() > 0) {
-            $retorno->status    = TRUE;
-            $retorno->msg       = "Pedido Solicitado com Sucesso!";
-            $retorno->id_pedido = base64_encode($valores->id);
-        } else {
-            $retorno->status    = FALSE;
-            $retorno->msg       = "Houve um erro ao Finalizar! Tente novamente...";
-            $retorno->id_pedido = NULL;
-        }
+            if ($this->db->affected_rows() > 0) {
+                $retorno->status    = TRUE;
+                $retorno->msg       = "Pedido Solicitado com Sucesso!";
+                $retorno->id_pedido = base64_encode($valores->id);
+            } else {
+                $retorno->status    = FALSE;
+                $retorno->msg       = "Houve um erro ao Finalizar! Tente novamente...";
+                $retorno->id_pedido = NULL;
+            }
+        else:
+            # Deletar Pedido
+            $this->delPedido($valores->id);
+        endif;
 
         # retornar
         return $retorno;
@@ -213,7 +227,7 @@ class Pedido_model extends CI_Model {
         $this->db->from('tb_pedido p');
         $this->db->join('tb_empresa e', 'p.id_empresa_fk = e.id_empresa_pk', 'inner');
         $this->db->join('tb_status_pedido s', 'p.id_status_pedido_fk = s.id_status_pedido_pk', 'inner');
-        $this->db->join('tb_boleto b', 'p.id_pedido_pk = b.id_pedido_fk', 'inner');
+        $this->db->join('tb_boleto b', 'p.id_pedido_pk = b.id_pedido_fk', 'left');
         $this->db->where('p.id_empresa_fk', $this->session->userdata('id_client'));
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
@@ -317,7 +331,7 @@ class Pedido_model extends CI_Model {
         $this->db->from('tb_pedido p');
         $this->db->join('tb_empresa e', 'p.id_empresa_fk = e.id_empresa_pk', 'inner');
         $this->db->join('tb_status_pedido s', 'p.id_status_pedido_fk = s.id_status_pedido_pk', 'inner');
-        $this->db->join('tb_boleto b', 'p.id_pedido_pk = b.id_pedido_fk', 'inner');
+        $this->db->join('tb_boleto b', 'p.id_pedido_pk = b.id_pedido_fk', 'left');
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
             $this->db->where($where);

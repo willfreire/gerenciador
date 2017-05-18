@@ -275,7 +275,7 @@ class Remessa extends CI_Controller
                 $this->db->where('id_remessa_pk', $id_remessa);
                 $this->db->update('tb_remessa', $file);
 
-                force_download($name_rem.".txt", $remessa_compl);
+                force_download($name_rem.".REM", $remessa_compl);
                 
             else:
                 force_download(PATH_REM.$file, NULL);
