@@ -3,7 +3,7 @@
     Author     : William Freire
 */
 .box-wrapper-80 {
-    width  : 80%;
+    width  : 60%;
     margin : 20px auto;
 }
 
@@ -15,7 +15,8 @@
     margin-top: 25px;
 }
 
-#txt_boleto_add {
+#txt_boleto_add,
+#txt_config {
     margin-top: 15px;
 }
 
@@ -33,6 +34,15 @@
 
 .radio-position {
     margin-top: 5px;
+}
+
+#btn_remit_rem,
+#btn_ver_boleto {
+    margin: 2px;
+}
+
+#modal-dialog-remessa {
+    width: 40%;
 }
 
 @media (max-width: 480px) {

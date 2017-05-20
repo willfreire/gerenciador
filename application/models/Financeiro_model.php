@@ -89,7 +89,7 @@ class Financeiro_model extends CI_Model {
                 # Botao
                 $id_boleto   = $value->id_boleto_pk;
                 $nome_boleto = $value->nome_boleto;
-                $ver         = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Visualizar Boleto' onclick='Financeiro.verBoleto(\"$nome_boleto\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
+                $ver         = "<button type='button' id='btn_ver_boleto' class='btn btn-success btn-xs btn-acao' title='Visualizar Boleto' onclick='Financeiro.verBoleto(\"$nome_boleto\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
                 $valor       = isset($value->valor) && $value->valor != "0.00" ? "R\$ ".number_format($value->valor, 2, ',', '.') : "R\$ 0,00";
                 $dt_pgto     = isset($value->dt_pgto) ? date('d/m/Y', strtotime($value->dt_pgto)) : "Sem Data";
                 

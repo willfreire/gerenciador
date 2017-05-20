@@ -246,7 +246,7 @@ Pedido = {
                     Pedido.modalMsg("MENSAGEM", data.msg, false, '../acompanhar');
                     Pedido.openWindow('/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido, '_blank');
                 } else {
-                    Pedido.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                    Pedido.modalMsg("Aten&ccedil;&atilde;o", data.msg, false, data.url);
                 }
 
                 $('#btn_edit_pedido').removeAttr('disabled');

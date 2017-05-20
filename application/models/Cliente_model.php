@@ -77,18 +77,20 @@ class Cliente_model extends CI_Model {
                     $this->db->insert('tb_empresa_log', $empr_log);
 
                     # Filial - Matriz
-                    if ($valores->id_filial != NULL):
-                        $matriz['id_empresa_matriz_fk'] = $valores->matriz;
-                        $matriz['id_empresa_filial_fk'] = $id_empr;
-                        # Atualizar Filial - Matriz
-                        $this->db->where('id_empresa_filial_pk', $valores->id_filial);
-                        $this->db->update('tb_empresa_filial', $matriz);
-                    else:
-                        $matriz['id_empresa_matriz_fk'] = $valores->matriz;
-                        $matriz['id_empresa_filial_fk'] = $id_empr;
-                        # Grava Filial - Matriz
-                        $this->db->insert('tb_empresa_filial', $matriz);
-                    endif;
+                    if ($valores->tp_empresa === "2") {
+                        if ($valores->id_filial != NULL):
+                            $matriz['id_empresa_matriz_fk'] = $valores->matriz;
+                            $matriz['id_empresa_filial_fk'] = $id_empr;
+                            # Atualizar Filial - Matriz
+                            $this->db->where('id_empresa_filial_pk', $valores->id_filial);
+                            $this->db->update('tb_empresa_filial', $matriz);
+                        else:
+                            $matriz['id_empresa_matriz_fk'] = $valores->matriz;
+                            $matriz['id_empresa_filial_fk'] = $id_empr;
+                            # Grava Filial - Matriz
+                            $this->db->insert('tb_empresa_filial', $matriz);
+                        endif;
+                    }
 
                     # Endereco Empresa
                     $end_empr['id_tipo_endereco_fk'] = $valores->tp_endereco;
@@ -166,7 +168,7 @@ class Cliente_model extends CI_Model {
                     $this->db->insert('tb_empresa_log', $empr_log);
 
                     # Filial - Matriz
-                    if ($valores->matriz != NULL):
+                    if ($valores->tp_empresa == "2" && $valores->matriz != NULL):
                         $matriz['id_empresa_matriz_fk'] = $valores->matriz;
                         $matriz['id_empresa_filial_fk'] = $id_empr;
                         # Grava Filial - Matriz
