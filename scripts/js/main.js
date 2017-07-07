@@ -5,6 +5,11 @@ Main = {
      **/
     main: function () {
 
+        // Botao voltar
+        $('#btn_back_aviso').click(function(){
+            Main.redirect('../main/dashboard_client');
+        });
+
         // Gerar senha
         $('#email_pwd_vt').pGenerator({
             'bind'            : 'click',
@@ -147,6 +152,40 @@ Main = {
 
         });
 
+    },
+
+    /*!
+     * @description Método para visualizar Aviso
+     **/
+    verAviso: function(id_aviso) {
+        $.post("../aviso/verAvisoId", {
+            id: id_aviso
+        }, function(data) {
+            if (data.status === true) {
+                var html = '';
+                    html += '<div class="box box-info">';
+                    html +=     '<div class="box-body">';
+                    html +=         '<div class="row">';
+                    html +=             '<div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Data</strong></div>';
+                    html +=             '<div class="col-xs-9 col-sm-9 col-md-10 col-lg-10">'+data.dados[0].dt_hr_cad+'</div>';
+                    html +=         '</div>';
+                    html +=         '<div class="row">';
+                    html +=             '<div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>T&iacute;tulo</strong></div>';
+                    html +=             '<div class="col-xs-9 col-sm-9 col-md-10 col-lg-10">'+data.dados[0].titulo+'</div>';
+                    html +=         '</div>';
+                    html +=         '<div class="row">';
+                    html +=             '<div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Descri&ccedil;&atilde;o</strong></div>';
+                    html +=             '<div class="col-xs-9 col-sm-9 col-md-10 col-lg-10">'+data.dados[0].descricao+'</div>';
+                    html +=         '</div>';
+                    html +=     '</div>';
+                    html += '</div>';
+
+                Main.modalMsg(data.dados[0].titulo, html);
+
+            } else {
+                Main.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+            }
+        }, 'json');
     },
 
     /*!

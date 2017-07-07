@@ -62,13 +62,10 @@ Importacao = {
 
             // Use Ajax to submit form data
             $.ajax({
-                url      : url,
-                type     : 'POST',
-                dataType : 'json',
-                // Form data
-                data     : new FormData($($form)[0]),
-                // Tell jQuery not to process data or worry about content-type
-                // You *must* include these options!
+                url         : url,
+                type        : 'POST',
+                dataType    : 'json',
+                data        : new FormData($($form)[0]),
                 cache       : false,
                 contentType : false,
                 processData : false,
@@ -79,33 +76,8 @@ Importacao = {
                         Importacao.modalMsg("Aten&ccedil;&atilde;o", data.msg);
                     }
                     $('#btn_cad_import_vt').removeAttr('disabled');    
-                },
-                // Custom XMLHttpRequest
-                /* xhr: function () {
-                    var myXhr = $.ajaxSettings.xhr();
-                    if (myXhr.upload) {
-                        // For handling the progress of the upload
-                        myXhr.upload.addEventListener('progress', function (e) {
-                            if (e.lengthComputable) {
-                                $('.progress').attr({
-                                    value: e.loaded,
-                                    max: e.total,
-                                });
-                            }
-                        }, false);
-                    }
-                    return myXhr;
-                } */
-            });
-
-            /* $.post(url, frm, function (data) {
-                if (data.status === true) {
-                    Importacao.modalMsg("MENSAGEM", data.msg, false, './gerenciar');
-                } else {
-                    Importacao.modalMsg("Aten&ccedil;&atilde;o", data.msg);
                 }
-                $('#btn_cad_import_vt').removeAttr('disabled');
-            }, 'json'); */
+            });
 
         });
 

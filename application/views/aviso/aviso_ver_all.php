@@ -1,4 +1,16 @@
+<style>
+    .box-footer {
+        background-color: transparent;
+    }
+</style>
+
 <body class="hold-transition skin-blue sidebar-mini">
+
+    <!-- CSS Aviso -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/aviso.css') ?>">
+
+    <!-- JS Aviso -->
+    <script src="<?= base_url('scripts/js/aviso.js') ?>"></script>
 
     <div class="wrapper">
 
@@ -10,10 +22,16 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Quadro de Avisos
+                    Visualiza&ccedil;&atilde;o de Todos Avisos
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="<?= base_url('./main/dashboard_client') ?>"><i class="fa fa-dashboard"></i> Quadro de Avisos</a></li>
+                    <li>
+                        <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="<?= base_url('./aviso/gerenciar') ?>"><i class="fa fa-warning" aria-hidden="true"></i> Avisos</a>
+                    </li>
+                    <li class="active">Visualizar</li>
                 </ol>
             </section>
 
@@ -22,15 +40,10 @@
 
                 <div class="row">
 
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
-                        
-                        <div class="box box-info">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">&Uacute;ltimos Avisos</h3>
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                </div>
-                            </div>
+                    <div class="col-xs-12">
+
+                        <div class="box box-info box-wrapper-80">
+
                             <!-- /.box-header -->
                             <div class="box-body">
                                 <div class="table-responsive">
@@ -48,7 +61,7 @@
                                                     <tr>
                                                         <td><?=$value->dt_hr_cad?></td>
                                                         <td><?=$value->titulo?></td>
-                                                        <td><?=word_limiter($value->descricao, 15, ' <a href="javascript:void(0)" onclick="Main.verAviso(\''.$value->id_quadro_aviso_pk.'\')">ler mais...</a>');?></td>
+                                                        <td><?=$value->descricao?></td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else: ?>
@@ -59,13 +72,15 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- /.table-responsive -->
+                                <div class="row">
+                                    <div class="col-xs-12 text-center" style="padding: 0px;">
+                                        <div class="box-footer">
+                                            <button type="button" id="btn_back_aviso" name="btn_back_aviso" class="btn btn-primary">Voltar</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.box-body -->
-                            <div class="box-footer clearfix">
-                                <a href="<?=base_url('./aviso/verTodos')?>" class="btn btn-sm btn-default btn-flat pull-right">Visualizar Todos Avisos</a>
-                            </div>
-                            <!-- /.box-footer -->
                         </div>
 
                     </div>

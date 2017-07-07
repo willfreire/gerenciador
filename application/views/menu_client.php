@@ -70,7 +70,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./empresa/editar/' . $this->session->userdata('id_client')) ?>"><i class="fa fa-circle-o"></i> Editar</a></li>
+                    <li><a href="<?= base_url('./empresa/editar/' . $this->session->userdata('id_client')) ?>"><i class="fa fa-circle-o"></i> Editar Dados Cadastrais</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -81,8 +81,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./funcionario/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?= base_url('./funcionario/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar Funcion&aacute;rio</a></li>
+                    <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios Cadastrados</a></li>
                 </ul>
             </li>
             <li class="treeview">
