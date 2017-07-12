@@ -76,7 +76,7 @@ class Beneficiocartao extends CI_Controller
         # Sql Beneficio
         $this->db->where(array('id_grupo_fk' => 1, 'id_status_fk' => 1));
         $data['itens_benef'] = $this->db->get('tb_item_beneficio')->result();
-        
+
         # Sql Status Cartao
         $this->db->order_by('status_cartao');
         $data['sts_card'] = $this->db->get('tb_status_cartao')->result();
@@ -116,6 +116,112 @@ class Beneficiocartao extends CI_Controller
             $resposta        = $retorno;
         }
 
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método de cadastro de Beneficio / Cartao pelo Modal
+     *
+     * @method createModal
+     * @access public
+     * @return obj Status da ação
+     */
+    public function createModal()
+    {
+        $bencard  = new stdClass();
+        $retorno  = new stdClass();
+        $resposta = "";
+
+        $bencard->num_tmp    = $this->input->post('num_tmp');
+        $bencard->id_grp     = $this->input->post('grp');
+        $bencard->id_benef   = $this->input->post('beneficio');
+        $bencard->vl_unit    = $this->input->post('vl_unitario');
+        $bencard->qtd_dia    = $this->input->post('qtd_dia');
+        $bencard->cartao     = $this->input->post('cartao');
+        $bencard->num_cartao = $this->input->post('num_cartao');
+        $bencard->status     = $this->input->post('status_card');
+
+        if ($bencard->num_tmp != NULL && $bencard->id_grp != NULL && $bencard->id_benef != NULL && $bencard->vl_unit != NULL && $bencard->qtd_dia != NULL) {
+            $resposta = $this->BeneficioCartao_model->setBeneficioCartaoModal($bencard);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao cadastrar! Tente novamente...";
+            $resposta        = $retorno;
+        }
+
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método de cadastro de Beneficio / Cartao pelo Modal da Edicao
+     *
+     * @method createModalEdit
+     * @access public
+     * @return obj Status da ação
+     */
+    public function createModalEdit()
+    {
+        $bencard  = new stdClass();
+        $retorno  = new stdClass();
+        $resposta = "";
+
+        $bencard->id_func    = $this->input->post('id_func');
+        $bencard->id_grp     = $this->input->post('grp');
+        $bencard->id_benef   = $this->input->post('beneficio');
+        $bencard->vl_unit    = $this->input->post('vl_unitario');
+        $bencard->qtd_dia    = $this->input->post('qtd_dia');
+        $bencard->cartao     = $this->input->post('cartao');
+        $bencard->num_cartao = $this->input->post('num_cartao');
+        $bencard->status     = $this->input->post('status_card');
+
+        if ($bencard->id_func != NULL && $bencard->id_grp != NULL && $bencard->id_benef != NULL && $bencard->vl_unit != NULL && $bencard->qtd_dia != NULL) {
+            $resposta = $this->BeneficioCartao_model->setBeneficioCartao($bencard);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao cadastrar! Tente novamente...";
+            $resposta        = $retorno;
+        }
+
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método para popular table do Beneficio / Cartao Modal TMP
+     *
+     * @method buscarBenefTmp
+     * @access public
+     * @return obj Lista de Beneficio / Cartao cadastrados no TMP
+     */
+    public function buscarBenefTmp()
+    {
+        # Var
+        $id_func = $this->input->post('id_func');
+        
+        # Instanciar modelo
+        $resposta = $this->BeneficioCartao_model->getBenefTmp($id_func);
+        
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método para popular table do Beneficio / Cartao Modal
+     *
+     * @method buscarBeneficios
+     * @access public
+     * @return obj Lista de Beneficio / Cartao cadastrados
+     */
+    public function buscarBeneficios()
+    {
+        # Var
+        $id_func = $this->input->post('id_func');
+        
+        # Instanciar modelo
+        $resposta = $this->BeneficioCartao_model->getBeneficios($id_func);
+        
         # retornar resultado
         print json_encode($resposta);
     }
@@ -174,7 +280,7 @@ class Beneficiocartao extends CI_Controller
         # Sql Beneficio
         $this->db->where(array('id_grupo_fk' => $data['benefcard'][0]->id_grupo_fk, 'id_status_fk' => 1));
         $data['itens_benef'] = $this->db->get('tb_item_beneficio')->result();
-        
+
         # Sql Status Cartao
         $this->db->order_by('status_cartao');
         $data['sts_card'] = $this->db->get('tb_status_cartao')->result();
@@ -207,7 +313,7 @@ class Beneficiocartao extends CI_Controller
         $bencard->num_cartao = $this->input->post('num_cartao');
         $bencard->status     = $this->input->post('status_card');
 
-        if ($bencard->id != NULL && $bencard->id_func != NULL && $bencard->id_grp != NULL && $bencard->id_benef != NULL && 
+        if ($bencard->id != NULL && $bencard->id_func != NULL && $bencard->id_grp != NULL && $bencard->id_benef != NULL &&
             $bencard->vl_unit != NULL && $bencard->qtd_dia != NULL) {
             $resposta = $this->BeneficioCartao_model->setBeneficioCartao($bencard);
         } else {
@@ -218,6 +324,82 @@ class Beneficiocartao extends CI_Controller
 
         # retornar resultado
         print json_encode($resposta);
+    }
+
+    /**
+     * Método de edicao de Beneficio / Cartao pelo Modal
+     *
+     * @method updateModalEdit
+     * @access public
+     * @return obj Status da ação
+     */
+    public function updateModalEdit()
+    {
+        $bencard  = new stdClass();
+        $retorno  = new stdClass();
+        $resposta = "";
+
+        $bencard->id         = $this->input->post('id_benef');
+        $bencard->id_func    = $this->input->post('id_func');
+        $bencard->id_grp     = $this->input->post('grp_edit');
+        $bencard->id_benef   = $this->input->post('beneficio_edit');
+        $bencard->vl_unit    = $this->input->post('vl_unitario_edit');
+        $bencard->qtd_dia    = $this->input->post('qtd_dia_edit');
+        $bencard->cartao     = $this->input->post('cartao_edit');
+        $bencard->num_cartao = $this->input->post('num_cartao_edit');
+        $bencard->status     = $this->input->post('status_card_edit');
+
+        if ($bencard->id != NULL && $bencard->id_func != NULL && $bencard->id_grp != NULL && $bencard->id_benef != NULL &&
+            $bencard->vl_unit != NULL && $bencard->qtd_dia != NULL) {
+            $resposta = $this->BeneficioCartao_model->setBeneficioCartao($bencard);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao editar! Tente novamente...";
+            $resposta        = $retorno;
+        }
+
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método para carregar tela de visualização de Beneficio / Cartao
+     *
+     * @method getBenefId
+     * @access public
+     * @return obj Dados do Beneficio
+     */
+    public function getBenefId()
+    {
+        # vars
+        $retorno  = new stdClass();
+        $id_benef = $this->input->post('id_benef');
+        $benefs   = array();
+
+        # Sql para busca
+        $this->db->where('id_beneficio_pk', $id_benef);
+        $resp = $this->db->get('vw_benefico_cartao')->result();        
+
+        if (!empty($resp)):
+            foreach ($resp as $value):
+                $benef               = new stdClass();
+                $benef->id_grupo     = $value->id_grupo_fk;
+                $benef->id_beneficio = $value->id_item_beneficio_fk;
+                $benef->vl_unitario  = isset($value->vl_unitario) ? number_format($value->vl_unitario, 2, ',', '.') : "0,00";
+                $benef->qtd_diaria   = $value->qtd_diaria;
+                $benef->cartao       = isset($value->num_cartao) && $value->num_cartao != "" ? "1" : "2";
+                $benef->num_cartao   = $value->num_cartao;
+                $benef->id_st_card   = $value->id_status_cartao_fk;
+                $benefs[]            = $benef;
+            endforeach;
+            $retorno->status = TRUE;
+            $retorno->dados  = $benefs;
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Benef&iacute;cio n&atilde;o Localizado.";
+        endif;
+        
+        print json_encode($retorno);
     }
 
     /**
@@ -267,6 +449,31 @@ class Beneficiocartao extends CI_Controller
     }
 
     /**
+     * Método responsável pela exclusão de um Beneficio pelo Modal
+     *
+     * @method deleteModal
+     * @access public
+     * @return obj Status da ação
+     */
+    public function deleteModal()
+    {
+        $retorno  =  new stdClass();
+        $resposta = "";
+        $id_benef = filter_input(INPUT_POST, "id");
+
+        if ($id_benef !== NULL) {
+            $resposta = $this->BeneficioCartao_model->delBenefCartaoTmp($id_benef);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao Excluir! Tente novamente...";
+            $resposta        = $retorno;
+        }
+
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
      * Buscar Qtde de Dias do Funcionario
      *
      * @method getQtdeDias
@@ -295,7 +502,7 @@ class Beneficiocartao extends CI_Controller
             $retorno->status = FALSE;
             $retorno->dados = NULL;
         endif;
-        
+
         print json_encode($retorno);
     }
 
@@ -328,7 +535,7 @@ class Beneficiocartao extends CI_Controller
             $retorno->status = FALSE;
             $retorno->dados = NULL;
         endif;
-        
+
         print json_encode($retorno);
     }
 
@@ -362,7 +569,7 @@ class Beneficiocartao extends CI_Controller
             $retorno->status = FALSE;
             $retorno->dados = NULL;
         endif;
-        
+
         print json_encode($retorno);
     }
 

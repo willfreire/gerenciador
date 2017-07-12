@@ -78,8 +78,8 @@ $end_empr_bai = isset($funcionario[0]->bairro_empr) ? $funcionario[0]->bairro_em
 
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#func" data-toggle="tab"><strong>Dados do Funcion&aacute;rio</strong></a></li>
-                                <li><a href="#ender" data-toggle="tab"><strong>Endere&ccedil;o do Funcion&aacute;rio</strong></a></li>
                                 <li><a href="#dados" data-toggle="tab"><strong>Dados Profissionais</strong></a></li>
+                                <li><a href="#benef" data-toggle="tab"><strong>Benef&iacute;cios do Funcion&aacute;rio</strong></a></li>
                             </ul>
 
                             <div class="tab-content">
@@ -141,41 +141,6 @@ $end_empr_bai = isset($funcionario[0]->bairro_empr) ? $funcionario[0]->bairro_em
                                     </div>
                                 </div>
 
-                                <div class="tab-pane" id="ender">
-                                    <div class="box box-wrapper-80">
-                                        <div class="box-body">
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>CEP</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$cep?></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Endere&ccedil;o</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$logradouro?></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>N&uacute;mero</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$numero?></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Complemento</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$compl?></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Bairro</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$bairro?></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Estado</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$estado?></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Cidade</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$cidade?></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="tab-pane" id="dados">
                                     <div class="box box-wrapper-80">
                                         <div class="box-body">
@@ -202,6 +167,39 @@ $end_empr_bai = isset($funcionario[0]->bairro_empr) ? $funcionario[0]->bairro_em
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Endere&ccedil;o da Empresa</strong></div>
                                                 <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$end_empr_log.', nº '.$end_empr_num.', '.$end_empr_bai?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="benef">
+                                    <div class="box box-wrapper-80">
+                                        <div class="box-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr class="info">
+                                                            <th class="col-xs-6 col-sm-6 col-md-8 col-lg-8">Benef&iacute;cio</th>
+                                                            <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Valor Unit&aacute;rio</th>
+                                                            <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Qtde Dias</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php if (!empty($benef)): ?>
+                                                            <?php foreach ($benef as $value): ?>
+                                                                <tr>
+                                                                    <td><?=$value->descricao?></td>
+                                                                    <td class="text-center"><?=isset($value->vl_unitario) ? "R$ ".number_format($value->vl_unitario, 2, ',', '.') : "R$ 0,00"?></td>
+                                                                    <td class="text-center"><?=$value->qtd_diaria?></td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <tr>
+                                                                <td colspan="3">Nenhum Benef&iacute;cio Adicionado</td>
+                                                            </tr>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>

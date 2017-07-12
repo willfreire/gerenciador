@@ -189,68 +189,6 @@ Funcionario = {
 			}
 		    }
 		},
-                cep: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>CEP</strong>'
-                        },
-                        stringLength: {
-                            min: 9,
-                            max: 9,
-                            message: 'Digite um <strong>CEP</strong> v&aacute;lido'
-                        }
-                    }
-                },
-                endereco: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>ENDERE&Ccedil;O</strong>'
-                        },
-                        stringLength: {
-                            min: 4,
-                            max: 250,
-                            message: 'O campo <strong>ENDERE&Ccedil;O</strong> deve ter entre <strong>4</strong> e <strong>250</strong> caracteres'
-                        }
-                    }
-                },
-                numero: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>N&Uacute;MERO</strong>'
-                        },
-                        stringLength: {
-                            min: 1,
-                            max: 15,
-                            message: 'O campo <strong>N&Uacute;MERO</strong> deve ter entre <strong>1</strong> e <strong>15</strong> caracteres'
-                        }
-                    }
-                },
-                bairro: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>BAIRRO</strong>'
-                        },
-                        stringLength: {
-                            min: 2,
-                            max: 25,
-                            message: 'O campo <strong>BAIRRO</strong> deve ter entre <strong>2</strong> e <strong>25</strong> caracteres'
-                        }
-                    }
-                },
-                estado: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>ESTADO</strong>'
-			}
-		    }
-		},
-                cidade: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>CIDADE</strong>'
-			}
-		    }
-		},
                 matricula: {
                     validators: {
                         notEmpty: {
@@ -445,68 +383,6 @@ Funcionario = {
 			}
 		    }
 		},
-                cep: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>CEP</strong>'
-                        },
-                        stringLength: {
-                            min: 9,
-                            max: 9,
-                            message: 'Digite um <strong>CEP</strong> v&aacute;lido'
-                        }
-                    }
-                },
-                endereco: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>ENDERE&Ccedil;O</strong>'
-                        },
-                        stringLength: {
-                            min: 4,
-                            max: 250,
-                            message: 'O campo <strong>ENDERE&Ccedil;O</strong> deve ter entre <strong>4</strong> e <strong>250</strong> caracteres'
-                        }
-                    }
-                },
-                numero: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>N&Uacute;MERO</strong>'
-                        },
-                        stringLength: {
-                            min: 1,
-                            max: 15,
-                            message: 'O campo <strong>N&Uacute;MERO</strong> deve ter entre <strong>1</strong> e <strong>15</strong> caracteres'
-                        }
-                    }
-                },
-                bairro: {
-                    validators: {
-                        notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>BAIRRO</strong>'
-                        },
-                        stringLength: {
-                            min: 2,
-                            max: 25,
-                            message: 'O campo <strong>BAIRRO</strong> deve ter entre <strong>2</strong> e <strong>25</strong> caracteres'
-                        }
-                    }
-                },
-                estado: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>ESTADO</strong>'
-			}
-		    }
-		},
-                cidade: {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>CIDADE</strong>'
-			}
-		    }
-		},
                 matricula: {
                     validators: {
                         notEmpty: {
@@ -590,6 +466,30 @@ Funcionario = {
                 alert('My new generated password is ' + generatedPassword);
             } */
         });
+
+        // Adicionar Beneficio
+        $("#btn_add_benef").click(function(){
+            Funcionario.modalAddBenef();
+        });
+
+        // Adicionar Beneficio na Edicao
+        $("#btn_add_benedit").click(function(){
+            Funcionario.modalAddBenedit();
+        });
+    },
+
+    /*!
+     * @description Método para abrir modal de cadastro de Beneficio
+     **/
+    modalAddBenef: function() {
+        $("#modal_benef").modal('show');
+    },
+
+    /*!
+     * @description Método para abrir modal de cadastro de Beneficio
+     **/
+    modalAddBenedit: function() {
+        $("#modal_benedit").modal('show');
     },
 
     /*!

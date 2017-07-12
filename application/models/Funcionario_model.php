@@ -33,7 +33,7 @@ class Funcionario_model extends CI_Model {
         # Atribuir vars
         $retorno     = new stdClass();
         $funcionario = array();
-        $end_func    = array();
+        # $end_func    = array();
         $dados_pro   = array();
 
         $funcionario['id_empresa_fk']          = $this->session->userdata('id_client');
@@ -63,7 +63,7 @@ class Funcionario_model extends CI_Model {
 
                 try {
                     # Endereco Funcionario
-                    $end_func['cep']          = $valores->cep;
+                    /* $end_func['cep']          = $valores->cep;
                     $end_func['logradouro']   = $valores->endereco;
                     $end_func['numero']       = $valores->numero;
                     $end_func['complemento']  = $valores->complemento;
@@ -72,7 +72,7 @@ class Funcionario_model extends CI_Model {
                     $end_func['id_estado_fk'] = $valores->estado;
                     # Atualiza Endereco
                     $this->db->where('id_funcionario_fk', $id_func);
-                    $this->db->update('tb_endereco_funcionario', $end_func);
+                    $this->db->update('tb_endereco_funcionario', $end_func); */
 
                     # Dados Profissionais
                     $dados_pro['matricula']              = $valores->matricula;
@@ -110,7 +110,7 @@ class Funcionario_model extends CI_Model {
 
                 try {
                     # Endereco Empresa
-                    $end_func['id_funcionario_fk'] = $id_func;
+                    /* $end_func['id_funcionario_fk'] = $id_func;
                     $end_func['cep']               = $valores->cep;
                     $end_func['logradouro']        = $valores->endereco;
                     $end_func['numero']            = $valores->numero;
@@ -119,7 +119,7 @@ class Funcionario_model extends CI_Model {
                     $end_func['id_cidade_fk']      = $valores->cidade;
                     $end_func['id_estado_fk']      = $valores->estado;
                     # Grava Endereco
-                    $this->db->insert('tb_endereco_funcionario', $end_func);
+                    $this->db->insert('tb_endereco_funcionario', $end_func); */
 
                     # Dados Profissionais
                     $dados_pro['id_funcionario_fk']      = $id_func;
@@ -131,6 +131,42 @@ class Funcionario_model extends CI_Model {
                     $dados_pro['id_endereco_empresa_fk'] = $valores->ender_empresa;
                     # Grava Dados Profissionais
                     $this->db->insert('tb_dados_profissional', $dados_pro);
+
+                    # Beneficio / Cartao do TMP
+                    $this->db->select('id_beneficio_tmp_pk, num_tmp, id_grupo_fk, id_item_beneficio_fk, vl_unitario, qtd_diaria, cartao, num_cartao, id_status_cartao_fk');
+                    $this->db->from('tb_beneficio_tmp');
+                    $this->db->where('num_tmp', $id_func);
+                    $row_benef = $this->db->get()->result();
+
+                    if (!empty($row_benef)):
+                        foreach ($row_benef as $vl):
+                            $benef = array();
+                            $card  = array();
+
+                            # Beneficio
+                            $benef['id_funcionario_fk']    = $id_func;
+                            $benef['id_grupo_fk']          = $vl->id_grupo_fk;
+                            $benef['id_item_beneficio_fk'] = $vl->id_item_beneficio_fk;
+                            $benef['vl_unitario']          = $vl->vl_unitario;
+                            $benef['qtd_diaria']           = $vl->qtd_diaria;
+                            # Grava Beneficio
+                            $this->db->insert('tb_beneficio', $benef);
+
+                            if ($vl->cartao === "1"):
+                                # Cartao
+                                $id_benef                    = $this->db->insert_id();
+                                $card['id_funcionario_fk']   = $id_func;
+                                $card['id_beneficio_fk']     = $id_benef;
+                                $card['num_cartao']          = $vl->num_cartao;
+                                $card['id_status_cartao_fk'] = $vl->id_status_cartao_fk;
+                                # Grava Cartao
+                                $this->db->insert('tb_cartao', $card);
+                            endif;
+                        endforeach;
+                        # Excluir Beneficio tabela TMP
+                        $this->db->where('num_tmp', $id_func);
+                        $this->db->delete('tb_beneficio_tmp');
+                    endif;
 
                     $retorno->status = TRUE;
                     $retorno->msg    = "Cadastro realizado com Sucesso!";

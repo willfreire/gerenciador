@@ -13,13 +13,6 @@ $uf_exp       = isset($funcionario[0]->id_estado_expedidor_fk) ? $funcionario[0]
 $nome_mae     = isset($funcionario[0]->nome_mae) ? $funcionario[0]->nome_mae : "";
 $nome_pai     = isset($funcionario[0]->nome_pai) ? $funcionario[0]->nome_pai : "";
 $id_status    = isset($funcionario[0]->id_status_fk) ? $funcionario[0]->id_status_fk : "";
-$cep          = isset($funcionario[0]->cep) ? $funcionario[0]->cep : "";
-$logradouro   = isset($funcionario[0]->logradouro) ? $funcionario[0]->logradouro : "";
-$numero       = isset($funcionario[0]->numero) ? $funcionario[0]->numero : "";
-$compl        = isset($funcionario[0]->complemento) ? $funcionario[0]->complemento : "";
-$bairro       = isset($funcionario[0]->bairro) ? $funcionario[0]->bairro : "";
-$id_cidade    = isset($funcionario[0]->id_cidade_fk) ? $funcionario[0]->id_cidade_fk : "";
-$id_estado    = isset($funcionario[0]->id_estado_fk) ? $funcionario[0]->id_estado_fk : "";
 $matricula    = isset($funcionario[0]->matricula) ? $funcionario[0]->matricula : "";
 $id_depto     = isset($funcionario[0]->id_departamento_fk) ? $funcionario[0]->id_departamento_fk : "";
 $id_cargo     = isset($funcionario[0]->id_cargo_fk) ? $funcionario[0]->id_cargo_fk : "";
@@ -28,6 +21,12 @@ $email        = isset($funcionario[0]->email) ? $funcionario[0]->email : "";
 $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]->id_endereco_empresa_fk : "";
 ?>
 <body class="hold-transition skin-blue sidebar-mini">
+
+    <!-- CSS Beneficio/Cartao -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/beneficio_cartao.css') ?>">
+
+    <!-- JS Beneficio/Cartao -->
+    <script src="<?= base_url('scripts/js/beneficio_cartao.js') ?>"></script>
 
     <!-- CSS Funcionario -->
     <link rel="stylesheet" href="<?= base_url('assets/css/funcionario.css') ?>">
@@ -76,8 +75,8 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
                                 <div class="nav-tabs-custom">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a href="#func" data-toggle="tab"><strong>Dados do Funcion&aacute;rio</strong></a></li>
-                                        <li><a href="#ender" data-toggle="tab"><strong>Endere&ccedil;o do Funcion&aacute;rio</strong></a></li>
                                         <li><a href="#dados" data-toggle="tab"><strong>Dados Profissionais</strong></a></li>
+                                        <li><a href="#benef" data-toggle="tab"><strong>Benef&iacute;cios do Funcion&aacute;rio</strong></a></li>
                                     </ul>
                                     <div class="tab-content">
 
@@ -239,109 +238,6 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
                                             </div>
                                         </div>
 
-                                        <div class="tab-pane" id="ender">
-                                            <div class="box-body">
-
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-7 col-sm-5 col-md-5 col-lg-4">
-                                                            <label for="cep">CEP<span class="text-danger">*</span></label>
-                                                            <div class="controls">
-                                                                <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP" maxlength="9" required="true" value="<?=$cep?>">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                            <label for="endereco">Endere&ccedil;o<span class="text-danger">*</span></label>
-                                                            <div class="controls">
-                                                                <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Endere&ccedil;o" maxlength="250" value="<?=$logradouro?>" required="true">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-7 col-sm-5 col-md-5 col-lg-4">
-                                                            <label for="numero">N&uacute;mero<span class="text-danger">*</span></label>
-                                                            <div class="controls">
-                                                                <input type="text" class="form-control" id="numero" name="numero" placeholder="N&uacute;mero" maxlength="15" value="<?=$numero?>" required="true">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6">
-                                                            <label for="complemento">Complemento</label>
-                                                            <div class="controls">
-                                                                <input type="text" class="form-control" id="complemento" name="complemento" placeholder="Complemento" value="<?=$compl?>" maxlength="50">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6">
-                                                            <label for="bairro">Bairro<span class="text-danger">*</span></label>
-                                                            <div class="controls">
-                                                                <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="<?=$bairro?>" maxlength="25">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
-                                                            <label for="estado">Estado<span class="text-danger">*</span></label>
-                                                            <div class="controls">
-                                                                <select class="form-control" name="estado" id="estado" required="true">
-                                                                    <option value="">Selecione</option>
-                                                                    <?php
-                                                                    if (is_array($estado)):
-                                                                        foreach ($estado as $value):
-                                                                            $sel = $id_estado == $value->id_estado_pk ? "selected='selected'" : "";
-                                                                            echo "<option value='$value->id_estado_pk' $sel>$value->estado</option>";
-                                                                        endforeach;
-                                                                    endif;
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
-                                                            <label for="cidade">Cidade<span class="text-danger">*</span></label>
-                                                            <div class="controls">
-                                                                <select class="form-control" name="cidade" id="cidade" required="true">
-                                                                    <option value="">Selecione</option>
-                                                                    <?php
-                                                                    if (is_array($cidade)):
-                                                                        foreach ($cidade as $value):
-                                                                            $sel = $id_cidade == $value->id_cidade_pk ? "selected='selected'" : "";
-                                                                            echo "<option value='$value->id_cidade_pk' $sel>$value->cidade</option>";
-                                                                        endforeach;
-                                                                    endif;
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
                                         <div class="tab-pane" id="dados">
                                             <div class="box-body">
 
@@ -454,6 +350,35 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
                                             </div>
                                         </div>
 
+                                        <div class="tab-pane" id="benef">
+                                            <div class="box-body">
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12col-lg-12">
+                                                        <button type="button" id="btn_add_benedit" name="btn_add_benedit" class="btn btn-primary">Adicionar Benef&iacute;cio</button>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-striped">
+                                                                <thead>
+                                                                    <tr class="info">
+                                                                        <th class="col-xs-4 col-sm-4 col-md-6 col-lg-6">Benef&iacute;cio</th>
+                                                                        <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Valor Unit&aacute;rio</th>
+                                                                        <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Qtde Dias</th>
+                                                                        <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">A&ccedil;&atilde;o</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="list_benef_edit">
+                                                                    <tr>
+                                                                        <td colspan="4">Nenhum Benef&iacute;cio Adicionado</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -471,6 +396,312 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
 
                 </div>
             </section>
+
+            <div class="modal fade" id="modal_benedit">
+                <div class="modal-dialog" id="modal-dialog-benedit">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                            <h4 class="modal-title">Adicionar Benef&iacute;cio</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="container-fluid box box-primary" id="box-frm-bencard-func">
+
+                                <div class="box-header with-border">
+                                    <span class="text-danger">*</span> Campo com preenchimento obrigat&oacute;rio
+                                </div>
+
+                                <form role="form" name="frm_cad_benfunc_edit" id="frm_cad_benfunc_edit">
+
+                                    <div class="box-body">
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+                                                    <label for="grp">Grupo<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <select class="form-control" name="grp" id="grp" required="true">
+                                                            <option value="">Selecione</option>
+                                                            <?php
+                                                            if (is_array($grps)):
+                                                                foreach ($grps as $value):
+                                                                    $sel = $value->id_grupo_pk == 1 ? "selected='selected'" : "";
+                                                                    echo "<option value='$value->id_grupo_pk' $sel>$value->grupo</option>";
+                                                                endforeach;
+                                                            endif;
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                                    <label for="beneficio">Benef&iacute;cio<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <select class="form-control" name="beneficio" id="beneficio" required="true">
+                                                            <option value="">Selecione</option>
+                                                            <?php
+                                                            if (is_array($itens_benef)):
+                                                                foreach ($itens_benef as $value):
+                                                                    echo "<option value='$value->id_item_beneficio_pk'>$value->id_item_beneficio_pk - $value->descricao</option>";
+                                                                endforeach;
+                                                            endif;
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4">
+                                                    <label for="vl_unitario">Valor Unit&aacute;rio<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">R$</span>
+                                                            <input type="text" class="form-control" id="vl_unitario" name="vl_unitario" placeholder="0,00" maxlength="7" value="0,00" required="true">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4">
+                                                    <label for="qtd_dia">Quantidade de Dias<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <input type="text" class="form-control" id="qtd_dia" name="qtd_dia" placeholder="0" maxlength="2" required="true">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
+                                                    <label for="cartao">Possui Cart&atilde;o?<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="cartao" id="cartao" value="1"> <div class="radio-position">Sim</div>
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="cartao" id="cartao" value="2"> <div class="radio-position">N&atilde;o</div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="div_cartao" class="hidden">
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5">
+                                                        <label for="num_cartao">N&ordm; do Cart&atilde;o<span class="text-danger">*</span></label>
+                                                        <div class="controls">
+                                                            <div class="controls">
+                                                                <input type="text" class="form-control" id="num_cartao" name="num_cartao" placeholder="N&ordm; do Cart&atilde;o" maxlength="50" value="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5">
+                                                        <label for="status_card">Status do Cart&atilde;o<span class="text-danger">*</span></label>
+                                                        <div class="controls">
+                                                            <select class="form-control" name="status_card" id="status_card">
+                                                                <option value="">Selecione</option>
+                                                                <?php
+                                                                if (is_array($sts_card)):
+                                                                    foreach ($sts_card as $value):
+                                                                        echo "<option value='$value->id_status_cartao_pk'>$value->status_cartao</option>";
+                                                                    endforeach;
+                                                                endif;
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="box-footer">
+                                        <input type="hidden" id="id_func" name="id_func" value="<?=$id?>">
+                                        <button type="submit" id="btn_cad_bencard" name="btn_cad_bencard" class="btn btn-success">Cadastrar</button>
+                                        <button type="reset" id="cancel_benedit" name="cancel_benedit" class="btn btn-primary">Cancelar</button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal_benedit_func">
+                <div class="modal-dialog" id="modal-dialog-benedit_func">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                            <h4 class="modal-title">Editar Benef&iacute;cio</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="container-fluid box box-primary" id="box-frm-bencard-func">
+
+                                <div class="box-header with-border">
+                                    <span class="text-danger">*</span> Campo com preenchimento obrigat&oacute;rio
+                                </div>
+
+                                <form role="form" name="frm_cad_benef_edit_func" id="frm_cad_benef_edit_func">
+
+                                    <div class="box-body">
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+                                                    <label for="grp_edit">Grupo<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <select class="form-control" name="grp_edit" id="grp_edit" required="true">
+                                                            <option value="">Selecione</option>
+                                                            <?php
+                                                            if (is_array($grps)):
+                                                                foreach ($grps as $value):
+                                                                    echo "<option value='$value->id_grupo_pk'>$value->grupo</option>";
+                                                                endforeach;
+                                                            endif;
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                                    <label for="beneficio_edit">Benef&iacute;cio<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <select class="form-control" name="beneficio_edit" id="beneficio_edit" required="true">
+                                                            <option value="">Selecione</option>
+                                                            <?php
+                                                            if (is_array($ibenef_geral)):
+                                                                foreach ($ibenef_geral as $value):
+                                                                    echo "<option value='$value->id_item_beneficio_pk'>$value->id_item_beneficio_pk - $value->descricao</option>";
+                                                                endforeach;
+                                                            endif;
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4">
+                                                    <label for="vl_unitario_edit">Valor Unit&aacute;rio<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">R$</span>
+                                                            <input type="text" class="form-control" id="vl_unitario_edit" name="vl_unitario_edit" placeholder="0,00" maxlength="7" value="0,00" required="true">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4">
+                                                    <label for="qtd_dia_edit">Quantidade de Dias<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <input type="text" class="form-control" id="qtd_dia_edit" name="qtd_dia_edit" placeholder="0" maxlength="2" required="true">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
+                                                    <label for="cartao_edit">Possui Cart&atilde;o?<span class="text-danger">*</span></label>
+                                                    <div class="controls">
+                                                        <select class="form-control" name="cartao_edit" id="cartao_edit" required="true">
+                                                            <option value="1">Sim</option>
+                                                            <option value="2">N&atilde;o</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="div_cartao_edit" class="hidden">
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5">
+                                                        <label for="num_cartao_edit">N&ordm; do Cart&atilde;o<span class="text-danger">*</span></label>
+                                                        <div class="controls">
+                                                            <div class="controls">
+                                                                <input type="text" class="form-control" id="num_cartao_edit" name="num_cartao_edit" placeholder="N&ordm; do Cart&atilde;o" maxlength="50" value="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5">
+                                                        <label for="status_card_edit">Status do Cart&atilde;o<span class="text-danger">*</span></label>
+                                                        <div class="controls">
+                                                            <select class="form-control" name="status_card_edit" id="status_card_edit">
+                                                                <option value="">Selecione</option>
+                                                                <?php
+                                                                if (is_array($sts_card)):
+                                                                    foreach ($sts_card as $value):
+                                                                        echo "<option value='$value->id_status_cartao_pk'>$value->status_cartao</option>";
+                                                                    endforeach;
+                                                                endif;
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="box-footer">
+                                        <input type="hidden" id="id_func" name="id_func" value="<?=$id?>">
+                                        <input type="text" id="id_benef" name="id_benef" value="">
+                                        <button type="submit" id="btn_edit_bencard" name="btn_edit_bencard" class="btn btn-success">Alterar</button>
+                                        <button type="reset" id="cancel_benedit_func" name="cancel_benedit_func" class="btn btn-primary">Cancelar</button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <!-- /.content-wrapper -->

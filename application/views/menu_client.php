@@ -85,7 +85,7 @@
                     <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios Cadastrados</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <?php /* <li class="treeview">
                 <a href="#">
                     <i class="fa fa-credit-card" aria-hidden="true"></i> <span>Benef&iacute;cio - Cart&atilde;o</span>
                     <span class="pull-right-container">
@@ -96,7 +96,7 @@
                     <li><a href="<?= base_url('./beneficiocartao/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
                     <li><a href="<?= base_url('./beneficiocartao/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
-            </li>
+            </li> */ ?>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-list" aria-hidden="true"></i> <span>Pedidos</span>
@@ -105,8 +105,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./pedido/solicitar') ?>"><i class="fa fa-circle-o"></i> Solicitar</a></li>
-                    <li><a href="<?= base_url('./pedido/acompanhar') ?>"><i class="fa fa-circle-o"></i> Acompanhar</a></li>
+                    <li><a href="<?= base_url('./pedido/solicitar') ?>"><i class="fa fa-circle-o"></i> Gerar Pedidos</a></li>
+                    <li><a href="<?= base_url('./pedido/acompanhar') ?>"><i class="fa fa-circle-o"></i> Consulta de Pedidos</a></li>
                 </ul>
             </li>
             <li class="treeview">
