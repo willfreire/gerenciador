@@ -151,10 +151,10 @@ Pedido = {
                         stringLength: {
 			    min: 23,
 			    max: 23,
-			    message: 'Informe um <strong>PER&Iacute;ODO DO BENEF&Iacute;CIO</strong> v&aacute;lido!'
+			    message: 'Informe um <strong>PER&Iacute;ODO DE UTILIZA&Ccedil;&Atilde;O</strong> v&aacute;lido!'
 			},
 			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>PER&Iacute;ODO DO BENEF&Iacute;CIO</strong>'
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>PER&Iacute;ODO DE UTILIZA&Ccedil;&Atilde;O</strong>'
 			}
 		    }
 		}
@@ -212,17 +212,10 @@ Pedido = {
                         stringLength: {
 			    min: 23,
 			    max: 23,
-			    message: 'Informe um <strong>PER&Iacute;ODO DO BENEF&Iacute;CIO</strong> v&aacute;lido!'
+			    message: 'Informe um <strong>PER&Iacute;ODO DE UTILIZA&Ccedil;&Atilde;O</strong> v&aacute;lido!'
 			},
 			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>PER&Iacute;ODO DO BENEF&Iacute;CIO</strong>'
-			}
-		    }
-		},
-                'id_funcionario[]': {
-		    validators: {
-			notEmpty: {
-			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o de um ou mais <strong>Funcion&aacute;rio</strong> no campo <strong>LISTA DE BENEFICI&Aacute;RIOS</strong>'
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>PER&Iacute;ODO DE UTILIZA&Ccedil;&Atilde;O</strong>'
 			}
 		    }
 		}
@@ -259,7 +252,7 @@ Pedido = {
             // Limpar Validacao
             $('#frm_alter_status').bootstrapValidator('resetForm', true);
         });
-        
+
         // Validar formulario Status
         $('#frm_alter_status').bootstrapValidator({
             framework : 'bootstrap',
@@ -343,25 +336,134 @@ Pedido = {
     /*!
      * @description Ver Boleto
      **/
-    verBoleto: function (nome) {
+    verBoleto: function (id_pedido) {
         var currentLocation = window.location;
         var parser          = document.createElement('a');
-        // parser.href = "http://example.com:3000/pathname/?search=test#hash";
-        parser.href = currentLocation;
-
-        var protocol = parser.protocol; // => "http:"
-        var host     = parser.host;     // => "example.com:3000"
-        var hostname = parser.hostname; // => "example.com"
-        var port     = parser.port;     // => "3000"
-        var pathname = parser.pathname; // => "/pathname/"
-        var pathproj = pathname.split('/')[1];
-        var hash     = parser.hash;     // => "#hash"
-        var search   = parser.search;   // => "?search=test"
-        var origin   = parser.origin;   // => "http://example.com:3000"
-        
-        var url_boleto = "http://"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
-        
+        parser.href         = currentLocation;
+        var hostname        = parser.hostname;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
+        var url_boleto      = "http://"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
+        //var url_boleto      = "http://"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
+        // Pedido.openWindow(url_boleto, "_blank");
         Pedido.openWindow(url_boleto, "_blank");
+    },
+
+    /*!
+     * @description Método para exclusao de um registro
+     **/
+    exportPedido: function(id_pedido) {
+        // Atribuir valores
+        var currentLocation = window.location;
+        var parser          = document.createElement('a');
+            parser.href     = currentLocation;
+        var hostname        = parser.hostname;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
+        var link            = "http://"+hostname+"/"+pathproj+"/pedido/exportPedidoXls";
+        var table           = '';
+        var name            = '';
+
+        // Msg de exportação
+        Pedido.modalMsg("Exportar Excel", "Aguarde, Processando...");
+
+        $.post(link, {id: id_pedido}, function(data){
+
+            if (data.status === true) {
+                name = "Pedido Solicitado";
+
+                table += '<table border="1" bordercolor="000" cellspacing="0" cellpadding="0">';
+                table +=    '<tr bgcolor="#CCCCCC">';
+                table +=        '<td align="center">';
+                table +=            '<strong>Número do Pedido</strong>';
+                table +=        '</td>';
+                table +=        '<td align="center">';
+                table +=            '<strong>CNPJ</strong>';
+                table +=        '</td>';
+                table +=	'<td>';
+                table +=            '<strong>Nome da Empresa</strong>';
+                table +=	'</td>';
+                table +=        '<td align="center">';
+                table +=            '<strong>CPF</strong>';
+                table +=        '</td>';
+                table +=	'<td align="center">';
+                table +=            '<strong>RG</strong>';
+                table +=	'</td>';
+                table +=	'<td>';
+                table +=            '<strong>Nome do Funcionário</strong>';
+                table +=        '</td>';
+                table +=	'<td align="center">';
+                table +=            '<strong>Código do Benefício</strong>';
+                table +=        '</td>';
+                table +=	'<td>';
+                table +=            '<strong>Descrição do Benefício</strong>';
+                table +=        '</td>';
+                table +=	'<td align="center">';
+                table +=            '<strong>Valor Unitário</strong>';
+                table +=        '</td>';
+                table +=	'<td align="center">';
+                table +=            '<strong>Quantidade Diária</strong>';
+                table +=        '</td>';
+                table +=	'<td align="center">';
+                table +=            '<strong>Valor Total</strong>';
+                table +=        '</td>';
+                table +=	'<td align="center">';
+                table +=            '<strong>Número do Cartão</strong>';
+                table +=        '</td>';
+                table +=    '</tr>';
+                $.each(data.dados, function (key, value) {
+                    table += '<tr>';
+                    table +=    '<td align="center"> ';
+                    table +=        (value.id_pedido) ? value.id_pedido : '';
+                    table +=    '</td>';
+                    table +=    '<td align="center">';
+                    table +=        (value.cnpj) ? value.cnpj : '';
+                    table +=    '</td>';
+                    table +=	'<td>';
+                    table +=        (value.nome_razao) ? value.nome_razao : '';
+                    table +=	'</td>';
+                    table +=    '<td align="center">';
+                    table +=        (value.cpf) ? value.cpf : '';
+                    table +=    '</td>';
+                    table +=	'<td align="center">';
+                    table +=        (value.rg) ? value.rg : '';
+                    table +=	'</td>';
+                    table +=	'<td>';
+                    table +=        (value.nome) ? value.nome : '';
+                    table +=    '</td>';
+                    table +=	'<td align="center">';
+                    table +=        (value.id_item) ? value.id_item : '';
+                    table +=    '</td>';
+                    table +=	'<td>';
+                    table +=        (value.descricao) ? value.descricao : '';
+                    table +=    '</td>';
+                    table +=	'<td align="center">';
+                    table +=        (value.vl_unitario) ? value.vl_unitario : '';
+                    table +=    '</td>';
+                    table +=	'<td align="center">';
+                    table +=        (value.qtde_diaria) ? value.qtde_diaria : '';
+                    table +=    '</td>';
+                    table +=    '<td align="center">';
+                    table +=        (value.vl_total) ? value.vl_total : '';
+                    table +=    '</td>';
+                    table +=	'<td align="center">';
+                    table +=        (value.num_cartao) ? value.num_cartao : '';
+                    table +=    '</td>';
+                    table += '</tr>';
+                });
+                table += '</table>';
+
+                // Fecha modal
+                $('#msg_modal').modal('hide');
+
+                // Gerar excel
+                Pedido.createExcel(name, table);
+            } else {
+                Pedido.boxMsg("ATEN&Ccedil;&Atilde;O", data.msg, null, null);
+            }
+
+        }, 'json');
+
     },
 
     /*!
@@ -466,7 +568,7 @@ Pedido = {
 		e.preventDefault(); // Números
 	});
     },
-    
+
     /*!
      * @description Método para abrir modal do status
      **/
@@ -475,13 +577,13 @@ Pedido = {
         $("#title_modal_status").html(title);
         $("#modal_status").modal('show');
     },
-    
+
     /*!
      * @description Método para alterar Status
      **/
     alterStatus: function(id_pedido, id_status)
     {
-        
+
         // Atribuir Dados
         $('#id_pedido_pk').val(id_pedido);
 
@@ -519,6 +621,68 @@ Pedido = {
         Pedido.modalStatus("Alterar Status do Pedido");
 
     },
+
+    /*!
+     * @description Metodo responsavel por gerar arquivo excel
+     **/
+    createExcel: function (txt_name, html_table)
+    {
+        // Iniciar variaveis
+        var name = txt_name;
+        var table = html_table;
+
+        var uri = 'data:application/vnd.ms-excel;base64,',
+                template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>{table}</body></html>',
+                base64 = function (s) {
+                    return Pedido.base64_encode(s);
+                },
+                format = function (s, c) {
+                    return s.replace(/{(\w+)}/g, function (m, p) {
+                        return c[p];
+                    });
+                };
+
+        var ctx = {worksheet: name || 'Worksheet', table: table};
+        window.location.href = uri + base64(format(template, ctx));
+    },
+
+    /*!
+     * @description Encoding to base64
+     **/
+    base64_encode: function (data)
+    {
+        var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        var o1, o2, o3, h1, h2, h3, h4, bits, i = 0,
+                ac = 0,
+                enc = "",
+                tmp_arr = [];
+
+        if (!data) {
+            return data;
+        }
+
+        do { // pack three octets into four hexets
+            o1 = data.charCodeAt(i++);
+            o2 = data.charCodeAt(i++);
+            o3 = data.charCodeAt(i++);
+
+            bits = o1 << 16 | o2 << 8 | o3;
+
+            h1 = bits >> 18 & 0x3f;
+            h2 = bits >> 12 & 0x3f;
+            h3 = bits >> 6 & 0x3f;
+            h4 = bits & 0x3f;
+
+            // use hexets to index into b64, and append result to encoded string
+            tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+        } while (i < data.length);
+
+        enc = tmp_arr.join('');
+
+        var r = data.length % 3;
+
+        return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+    }
 
 };
 

@@ -354,7 +354,7 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
                                             <div class="box-body">
 
                                                 <div class="row">
-                                                    <div class="col-xs-12 col-sm-12 col-md-12col-lg-12">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                         <button type="button" id="btn_add_benedit" name="btn_add_benedit" class="btn btn-primary">Adicionar Benef&iacute;cio</button>
                                                         <div class="table-responsive">
                                                             <table class="table table-bordered table-striped">

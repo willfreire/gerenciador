@@ -326,7 +326,7 @@
                                             <div class="box-body">
 
                                                 <div class="row">
-                                                    <div class="col-xs-12 col-sm-12 col-md-12col-lg-12">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                         <button type="button" id="btn_add_benef" name="btn_add_benef" class="btn btn-primary">Adicionar Benef&iacute;cio</button>
                                                         <div class="table-responsive">
                                                             <table class="table table-bordered table-striped">

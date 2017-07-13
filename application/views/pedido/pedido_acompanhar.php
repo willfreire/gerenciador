@@ -16,7 +16,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Acompanhamento de Pedidos
+                    Consulta de Pedidos
                 </h1>
                 <ol class="breadcrumb">
                     <li>

@@ -66,7 +66,7 @@ class Pedido extends CI_Controller
             $this->load->view('footer');
         elseif ($this->session->userdata('user_client')):
             # Titulo da pagina
-            $header['titulo'] = "Acompanhamento de Pedidos";
+            $header['titulo'] = "Consulta de Pedidos";
             $this->load->view('header', $header);
             $this->load->view('pedido/pedido_acompanhar');
             $this->load->view('footer');
@@ -136,7 +136,7 @@ class Pedido extends CI_Controller
     public function solicitar()
     {
         # Titulo da pagina
-        $header['titulo'] = "Solicita&ccedil;&atilde;o de Pedido";
+        $header['titulo'] = "Gerar Pedidos";
 
         # Sql para vw_cliente
         $this->db->where('id_empresa_pk', $this->session->userdata('id_client'));
@@ -208,6 +208,24 @@ class Pedido extends CI_Controller
         print json_encode($resposta);
     }
 
+    /**
+     * Método de busca dos dados do Pedido para Exportação
+     *
+     * @method exportPedidoXls
+     * @access public
+     * @return obj Lista de pedido cadastrados
+     */
+    public function exportPedidoXls()
+    {
+        # Var
+        $id_pedido = $this->input->post('id');
+
+        # Instanciar modelo
+        $resposta = $this->Pedido_model->getPedidoExport($id_pedido);
+
+        print json_encode($resposta);
+    }
+    
     /**
      * Método para carregar o gerenciamento de pedidos
      *
@@ -281,6 +299,37 @@ class Pedido extends CI_Controller
             $this->db->from('tb_funcionario');
             $this->db->where(array('id_empresa_fk' => $data['pedido'][0]->id_empresa_fk, 'id_status_fk' => 1));
             $data['beneficiario'] = $this->db->get()->result();
+
+            if (!empty($data['beneficiario'])):
+                $benef = array();
+                $i     = 0;
+                foreach ($data['beneficiario'] as $value):
+                    $this->db->select('id_beneficio_pk, vl_unitario, qtd_diaria');
+                    $this->db->from('tb_beneficio');
+                    $this->db->where('id_funcionario_fk', $value->id_funcionario_pk);
+                    $resp = $this->db->get()->result();
+
+                    if (!empty($resp)):
+                        foreach ($resp as $vl):
+                            $benef['id_beneficio_pk'][$i] = $vl->id_beneficio_pk;
+                            $benef['vl_unitario'][$i]     = $vl->vl_unitario;
+                            $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
+                            $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
+                            $i++;
+                        endforeach;
+                    endif;
+                endforeach;
+            endif;
+
+            # Calcular Taxas
+            $data['vl_itens'] = 0;
+            $data['vl_taxa']  = 0;
+            $data['vl_total'] = 0;
+            if (!empty($benef)):
+                $data['vl_itens'] = array_sum($benef['vl_total']);
+                $data['vl_taxa']  = (round($data['vl_itens']*($data['empresa'][0]->taxa_adm/100), 2)+$data['empresa'][0]->taxa_entrega);
+                $data['vl_total'] = ($data['vl_itens']+$data['vl_taxa']);
+            endif;
 
             $this->load->view('header', $header);
             $this->load->view('pedido/pedido_finalizar', $data);
@@ -517,11 +566,11 @@ class Pedido extends CI_Controller
             $date      = date("Ymd");
             $name_file = "boleto_".base64_decode($id_pedido)."_".$date.".pdf";
 
-            $converter = new PhantomJS();
+            /* $converter = new PhantomJS();
             $input     = new TempFile($boleto_html, 'html');
 
             # Convert e Salva no diretorio
-            $converter->convert($input, FILE_PATH.$name_file);
+            $converter->convert($input, FILE_PATH.$name_file); */
 
             # Salvar dados do boleto
             $dados_boleto                        = array();
@@ -555,10 +604,10 @@ class Pedido extends CI_Controller
 
             # Grava Boleto
             $this->db->insert('tb_boleto', $dados_boleto);
-            
+
             # Enviar Email
             # Msg
-            $msg                 = array();
+            /* $msg                 = array();
             $msg['sender']       = "faleconosco@vtcards.com.br";
             $msg['sender_name']  = "VTCards";
             $msg['email']        = "pedidos@vtcards.com.br";
@@ -573,7 +622,99 @@ class Pedido extends CI_Controller
                                     DATA DE VENCIMENTO: $dt_pgto<br><br>
                                     Att.";
             # Enviar email
-            $this->sendMailGeral($msg);
+            $this->sendMailGeral($msg); */
+
+            echo $boleto_html;
+
+        else:
+            echo "<script>alert('Erro ao gerar o Boleto!'); window.close();</script>";
+        endif;
+    }
+
+    /**
+     * Método para remitir boleto em HTML
+     *
+     * @method remitirBoletoHtml
+     * @access public
+     * @param integer $id_pedido Id do Pedido
+     * @return obj Status da Açao
+     */
+    public function remitirBoletoHtml($id_pedido)
+    {
+        # Consultar boleto
+        $this->db->where('id_pedido_fk', $id_pedido);
+        $row_bol = $this->db->get('tb_boleto')->result();
+
+        if (!empty($row_bol)):
+            # Cliente
+            $cnpj         = !empty($row_bol) && $row_bol[0]->sacado_cnpj_cpf != "" ? $row_bol[0]->sacado_cnpj_cpf : NULL;
+            $empresa      = !empty($row_bol) && $row_bol[0]->sacado_nome != "" ? $row_bol[0]->sacado_nome : NULL;
+            $cep          = !empty($row_bol) && $row_bol[0]->sacado_cep != "" ? $row_bol[0]->sacado_cep : NULL;
+            $endfull      = !empty($row_bol) && $row_bol[0]->sacado_endereco != "" ? $row_bol[0]->sacado_endereco : NULL;
+            $sigla        = !empty($row_bol) && $row_bol[0]->sacado_uf != "" ? $row_bol[0]->sacado_uf : NULL;
+            $cidade       = !empty($row_bol) && $row_bol[0]->sacado_cidade != "" ? $row_bol[0]->sacado_cidade : NULL;
+            $cedente_nome = !empty($row_bol) && $row_bol[0]->cedente_nome != "" ? $row_bol[0]->cedente_nome : NULL;
+            $cedente_cnpj = !empty($row_bol) && $row_bol[0]->cedente_cnpj_cpf != "" ? $row_bol[0]->cedente_cnpj_cpf : NULL;
+            $cedente_end  = !empty($row_bol) && $row_bol[0]->cedente_endereco != "" ? $row_bol[0]->cedente_endereco : NULL;
+            $cedente_cep  = !empty($row_bol) && $row_bol[0]->cedente_cep != "" ? $row_bol[0]->cedente_cep : NULL;
+            $cedente_cid  = !empty($row_bol) && $row_bol[0]->cedente_cidade != "" ? $row_bol[0]->cedente_cidade : NULL;
+            $cedente_uf   = !empty($row_bol) && $row_bol[0]->cedente_uf != "" ? $row_bol[0]->cedente_uf : NULL;
+            $dt_pgto      = !empty($row_bol) && $row_bol[0]->dt_vencimento != "" ? $row_bol[0]->dt_vencimento : NULL;
+            $vl_total     = !empty($row_bol) && $row_bol[0]->valor != "" ? $row_bol[0]->valor : NULL;
+            $descr_demo   = !empty($row_bol) && $row_bol[0]->descr_demostrativo != "" ? $row_bol[0]->descr_demostrativo : NULL;
+            $instrucao    = !empty($row_bol) && $row_bol[0]->instrucao != "" ? $row_bol[0]->instrucao : NULL;
+            $dt_hr_solic  = !empty($row_bol) && $row_bol[0]->dt_emissao != "" ? $row_bol[0]->dt_emissao : NULL;
+
+            $sacado  = new Agente($empresa, $cnpj, $endfull, $cep, $cidade, $sigla);
+            $cedente = new Agente($cedente_nome, $cedente_cnpj, $cedente_end, $cedente_cep, $cedente_cid, $cedente_uf);
+
+            $boleto = new Santander(array(
+                # Parâmetros obrigatórios
+                'dataVencimento' => new DateTime($dt_pgto),
+                'valor'          => $vl_total,
+                'sequencial'     => str_pad($id_pedido, 7, 0, STR_PAD_LEFT), # Até 13 dígitos
+                'sacado'         => $sacado,
+                'cedente'        => $cedente,
+                'agencia'        => "0833", // Até 4 dígitos
+                'carteira'       => 101, // 101, 102 ou 201
+                'conta'          => 1300081, // Código do cedente: Até 7 dígitos
+                # IOS – Seguradoras (Se 7% informar 7. Limitado a 9%)
+                # Demais clientes usar 0 (zero)
+                'ios' => '0', // Apenas para o Santander
+                # Parâmetros recomendáveis
+                # 'logoPath' => base_url('/assets/imgs/vtcards_logo_100x40.png'), // Logo da sua empresa - #357CA5
+                'contaDv'   => 96,
+                # 'agenciaDv' => 1,
+                'descricaoDemonstrativo' => array(
+                    $descr_demo
+                ),
+                'instrucoes' => array(// Até 8
+                    $instrucao
+                ),
+                # Parâmetros opcionais
+                # 'resourcePath' => '../resources',
+                'moeda'             => Santander::MOEDA_REAL,
+                'dataDocumento'     => new DateTime($dt_hr_solic),
+                'dataProcessamento' => new DateTime(),
+                # 'contraApresentacao'   => true,
+                # 'pagamentoMinimo'      => 23.00,
+                'aceite'               => 'N',
+                # 'especieDoc'           => 'ABC',
+                # 'numeroDocumento'      => '123.456.789',
+                # 'usoBanco'             => 'Uso banco',
+                # 'layout'               => 'layout.phtml',
+                # 'logoPath'             => 'http://boletophp.com.br/img/opensource-55x48-t.png',
+                # 'sacadorAvalista'      => new Agente('Antônio da Silva', '02.123.123/0001-11'),
+                # 'descontosAbatimentos' => 123.12,
+                # 'moraMulta'            => 123.12,
+                # 'outrasDeducoes'       => 123.12,
+                # 'outrosAcrescimos'     => 123.12,
+                # 'valorCobrado'         => 123.12,
+                # 'valorUnitario'        => 123.12,
+                'quantidade'             => 1,
+            ));
+
+            $boleto_html = $boleto->getOutput();
 
             echo $boleto_html;
 
@@ -607,7 +748,7 @@ class Pedido extends CI_Controller
 
         print json_encode($retorno);
     }
-    
+
     /**
      * Enviar email geral
      *

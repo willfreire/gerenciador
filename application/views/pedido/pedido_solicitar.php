@@ -20,7 +20,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Solicita&ccedil;&atilde;o de Pedido
+                    Gerar Pedidos
                 </h1>
                 <ol class="breadcrumb">
                     <li>
@@ -119,7 +119,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-                                                <label for="periodo">Per&iacute;odo do Benef&iacute;cio<span class="text-danger">*</span></label>
+                                                <label for="periodo">Per&iacute;odo de Utiliza&ccedil;&atilde;o<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <div class="input-group">
                                                         <div class="input-group-addon">
