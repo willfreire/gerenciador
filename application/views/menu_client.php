@@ -129,7 +129,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./importacao/geral') ?>"><i class="fa fa-circle-o"></i> Geral</a></li>
+                    <li><a href="<?= base_url('./importacao/geral') ?>"><i class="fa fa-circle-o"></i> Importar Arquivo</a></li>
+                    <li><a href="<?= base_url('./importacao/historico') ?>"><i class="fa fa-circle-o"></i> Hist&oacute;rico de Importa&ccedil;&atilde;o</a></li>
                 </ul>
             </li>
             <li>

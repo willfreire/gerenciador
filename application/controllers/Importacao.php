@@ -53,6 +53,26 @@ class Importacao extends CI_Controller
     }
 
     /**
+     * Método lista importações realizadas
+     *
+     * @method historico
+     * @access public
+     * @return void
+     */
+    public function historico()
+    {
+        # Titulo da pagina
+        $header['titulo'] = "Hist&oacute;rico de Importa&ccedil;&atilde;o";
+
+        $this->db->order_by('dt_hr_importacao', 'DESC');
+        $data['arqs'] = $this->db->get('tb_importacao')->result();
+
+        $this->load->view('header', $header);
+        $this->load->view('importacao/importacao_historico', $data);
+        $this->load->view('footer');
+    }
+
+    /**
      * Método de subir e importar dados
      *
      * @method upload
@@ -106,9 +126,9 @@ class Importacao extends CI_Controller
             if (!is_array($file_name)) {
 
                 if (strpos($so, "Win")):
-                    $fileName = iconv("UTF-8", "CP1252", $file_name);
+                    $fileName = time()."_".iconv("UTF-8", "CP1252", $file_name);
                 else:
-                    $fileName = $file_name;
+                    $fileName = time()."_".$file_name;
                 endif;
 
                 if (move_uploaded_file($file_tmp, $output_dir.$fileName)) {
