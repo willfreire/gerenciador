@@ -22,7 +22,6 @@
                     <li>
                         <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li class="active"><i class="fa fa-upload"></i> Importa&ccedil;&atilde;o</li>
                     <li class="active">Hist&oacute;rico de Importa&ccedil;&atilde;o</li>
                 </ol>
             </section>

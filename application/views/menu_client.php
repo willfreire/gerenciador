@@ -133,6 +133,19 @@
                     <li><a href="<?= base_url('./importacao/historico') ?>"><i class="fa fa-circle-o"></i> Hist&oacute;rico de Importa&ccedil;&atilde;o</a></li>
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-database" aria-hidden="true"></i> <span>Relat&oacute;rio</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?= base_url('./relatorio/funcionario') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Funcion&aacute;rios</a></li>
+                    <li><a href="<?= base_url('./relatorio/pedido') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Pedidos</a></li>
+                    <li><a href="<?= base_url('./relatorio/inconsistencia') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Inconsist&ecirc;ncias</a></li>
+                </ul>
+            </li>
             <li>
                 <a href="<?= base_url('./main/logoff') ?>"><i class="fa fa-sign-out"></i> <span>Sair</span></a>
             </li>

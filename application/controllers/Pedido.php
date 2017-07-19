@@ -517,13 +517,13 @@ class Pedido extends CI_Controller
                 'cedente'        => $cedente,
                 'agencia'        => "0833", // Até 4 dígitos
                 'carteira'       => 101, // 101, 102 ou 201
-                'conta'          => 1300081, // Código do cedente: Até 7 dígitos
+                'conta'          => 8544140, // Código do cedente: Até 7 dígitos
                 # IOS – Seguradoras (Se 7% informar 7. Limitado a 9%)
                 # Demais clientes usar 0 (zero)
                 'ios' => '0', // Apenas para o Santander
                 # Parâmetros recomendáveis
                 # 'logoPath' => base_url('/assets/imgs/vtcards_logo_100x40.png'), // Logo da sua empresa - #357CA5
-                'contaDv'   => 96,
+                # 'contaDv'   => 96,
                 # 'agenciaDv' => 1,
                 'descricaoDemonstrativo' => array(// Até 5
                     "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef",
@@ -594,7 +594,7 @@ class Pedido extends CI_Controller
             $dados_boleto['carteira']            = 101;
             $dados_boleto['agencia']             = "0833";
             $dados_boleto['agencia_dv']          = NULL;
-            $dados_boleto['conta']               = 1300081;
+            $dados_boleto['conta']               = 8544140;
             $dados_boleto['conta_dv']            = 96;
             $dados_boleto['descr_demostrativo']  = "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef";
             $dados_boleto['instrucao']           = "Após o vencimento pagar somente no Banco Santander";
@@ -607,7 +607,7 @@ class Pedido extends CI_Controller
 
             # Enviar Email
             # Msg
-            /* $msg                 = array();
+            $msg                 = array();
             $msg['sender']       = "faleconosco@vtcards.com.br";
             $msg['sender_name']  = "VTCards";
             $msg['email']        = "pedidos@vtcards.com.br";
@@ -622,7 +622,7 @@ class Pedido extends CI_Controller
                                     DATA DE VENCIMENTO: $dt_pgto<br><br>
                                     Att.";
             # Enviar email
-            $this->sendMailGeral($msg); */
+            $this->sendMailGeral($msg);
 
             echo $boleto_html;
 
@@ -677,13 +677,13 @@ class Pedido extends CI_Controller
                 'cedente'        => $cedente,
                 'agencia'        => "0833", // Até 4 dígitos
                 'carteira'       => 101, // 101, 102 ou 201
-                'conta'          => 1300081, // Código do cedente: Até 7 dígitos
+                'conta'          => 8544140, // Código do cedente: Até 7 dígitos
                 # IOS – Seguradoras (Se 7% informar 7. Limitado a 9%)
                 # Demais clientes usar 0 (zero)
                 'ios' => '0', // Apenas para o Santander
                 # Parâmetros recomendáveis
                 # 'logoPath' => base_url('/assets/imgs/vtcards_logo_100x40.png'), // Logo da sua empresa - #357CA5
-                'contaDv'   => 96,
+                # 'contaDv'   => 96,
                 # 'agenciaDv' => 1,
                 'descricaoDemonstrativo' => array(
                     $descr_demo

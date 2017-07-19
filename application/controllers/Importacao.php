@@ -64,6 +64,7 @@ class Importacao extends CI_Controller
         # Titulo da pagina
         $header['titulo'] = "Hist&oacute;rico de Importa&ccedil;&atilde;o";
 
+        $this->db->where('id_empresa_fk', $this->session->userdata('id_client'));
         $this->db->order_by('dt_hr_importacao', 'DESC');
         $data['arqs'] = $this->db->get('tb_importacao')->result();
 
@@ -134,6 +135,7 @@ class Importacao extends CI_Controller
                 if (move_uploaded_file($file_tmp, $output_dir.$fileName)) {
                     # Salvar Log
                     $import_log                     = array();
+                    $import_log['id_empresa_fk']    = $this->session->userdata('id_client');
                     $import_log['arquivo']          = $fileName;
                     $import_log['dt_hr_importacao'] = date("Y-m-d H:i");
                     $this->db->insert('tb_importacao', $import_log);

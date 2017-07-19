@@ -47,7 +47,7 @@ $end_empr_bai = isset($funcionario[0]->bairro_empr) ? $funcionario[0]->bairro_em
     <div class="wrapper">
 
         <!-- Menu -->
-        <?php require_once(APPPATH . '/views/menu_vt.php'); ?>
+        <?php require_once(APPPATH . '/views/menu_client.php'); ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

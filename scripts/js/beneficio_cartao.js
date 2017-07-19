@@ -680,7 +680,7 @@ Bencard = {
                 }
             }, 'json');
         } else {
-            Bencard.modalMsg("Aten&ccedil;&atilde;o", "Houve um erro na listagem dos Benef&iacute;cios! Tente novamente...");
+            // Bencard.modalMsg("Aten&ccedil;&atilde;o", "Houve um erro na listagem dos Benef&iacute;cios! Tente novamente...");
         }
     },
 
@@ -713,7 +713,7 @@ Bencard = {
                 }
             }, 'json');
         } else {
-            Bencard.modalMsg("Aten&ccedil;&atilde;o", "Houve um erro na listagem dos Benef&iacute;cios! Tente novamente...");
+            // Bencard.modalMsg("Aten&ccedil;&atilde;o", "Houve um erro na listagem dos Benef&iacute;cios! Tente novamente...");
         }
     },
 
