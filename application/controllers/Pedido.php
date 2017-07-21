@@ -304,9 +304,10 @@ class Pedido extends CI_Controller
                 $benef = array();
                 $i     = 0;
                 foreach ($data['beneficiario'] as $value):
-                    $this->db->select('id_beneficio_pk, vl_unitario, qtd_diaria');
-                    $this->db->from('tb_beneficio');
-                    $this->db->where('id_funcionario_fk', $value->id_funcionario_pk);
+                    $this->db->select('b.id_beneficio_pk, b.vl_unitario, b.qtd_diaria, b.id_item_beneficio_fk, i.id_item_beneficio_pk, i.vl_repasse');
+                    $this->db->from('tb_beneficio b');
+                    $this->db->join('tb_item_beneficio i', 'b.id_item_beneficio_fk = i.id_item_beneficio_pk', 'inner');
+                    $this->db->where('b.id_funcionario_fk', $value->id_funcionario_pk);
                     $resp = $this->db->get()->result();
 
                     if (!empty($resp)):
@@ -315,6 +316,7 @@ class Pedido extends CI_Controller
                             $benef['vl_unitario'][$i]     = $vl->vl_unitario;
                             $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
                             $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
+                            $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*$vl->qtd_diaria))/100) : 0;
                             $i++;
                         endforeach;
                     endif;
@@ -322,13 +324,15 @@ class Pedido extends CI_Controller
             endif;
 
             # Calcular Taxas
-            $data['vl_itens'] = 0;
-            $data['vl_taxa']  = 0;
-            $data['vl_total'] = 0;
+            $data['vl_itens']   = 0;
+            $data['vl_taxa']    = 0;
+            $data['vl_repasse'] = 0;
+            $data['vl_total']   = 0;
             if (!empty($benef)):
-                $data['vl_itens'] = array_sum($benef['vl_total']);
-                $data['vl_taxa']  = (round($data['vl_itens']*($data['empresa'][0]->taxa_adm/100), 2)+$data['empresa'][0]->taxa_entrega);
-                $data['vl_total'] = ($data['vl_itens']+$data['vl_taxa']);
+                $data['vl_itens']   = array_sum($benef['vl_total']);
+                $data['vl_taxa']    = (round($data['vl_itens']*($data['empresa'][0]->taxa_adm/100), 2)+$data['empresa'][0]->taxa_entrega);
+                $data['vl_repasse'] = round(array_sum($benef['vl_repasse']), 2);
+                $data['vl_total']   = ($data['vl_itens']+$data['vl_taxa']+$data['vl_repasse']);
             endif;
 
             $this->load->view('header', $header);
@@ -358,9 +362,10 @@ class Pedido extends CI_Controller
         $pedido->id_func      = $this->input->post('id_funcionario');
         $pedido->taxa_adm     = $this->input->post('taxa_adm');
         $pedido->taxa_entrega = $this->input->post('taxa_entrega');
+        $pedido->taxa_repasse = $this->input->post('taxa_repasse');
 
-        if ($pedido->id != NULL && $pedido->dt_pgto != NULL && $pedido->periodo != NULL && $pedido->id_func != NULL &&
-            $pedido->taxa_adm != NULL && $pedido->taxa_entrega != NULL) {
+        if ($pedido->id != NULL && $pedido->dt_pgto != NULL && $pedido->periodo != NULL && 
+            $pedido->id_func != NULL && $pedido->taxa_adm != NULL && $pedido->taxa_entrega != NULL) {
             $resposta = $this->Pedido_model->finalizaPedido($pedido);
         } else {
             $retorno->status = FALSE;

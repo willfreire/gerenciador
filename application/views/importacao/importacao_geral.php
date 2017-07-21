@@ -49,7 +49,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="arq_import">Selecione um Arquivo CSV<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <input type="file" class="form-control" id="arq_import" name="arq_import" placeholder="Selecione..." required="true">
+                                                    <input type="file" class="form-control" id="arq_import" name="arq_import" placeholder="Selecione..." required="true" accept=".csv">
                                                 </div>
                                             </div>
                                         </div>

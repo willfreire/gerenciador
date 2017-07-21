@@ -38,6 +38,9 @@ class Beneficio_model extends CI_Model {
         $dados['descricao']        = $valores->descricao;
         $dados['vl_unitario']      = str_replace(',', '.', str_replace('.', '', $valores->vl_unitario));
         $dados['id_modalidade_fk'] = $valores->modalidade;
+        if ($valores->vl_repasse):
+            $dados['vl_repasse'] = $valores->vl_repasse;
+        endif;
         $dados['id_status_fk']     = $valores->status;
 
         if (isset($valores->id) && $valores->id != ""):
@@ -143,15 +146,16 @@ class Beneficio_model extends CI_Model {
                 endif;
 
                 $valor_unid = isset($value->vl_unitario) && $value->vl_unitario != "0.00" ? "R\$ ".number_format($value->vl_unitario, 2, ',', '.') : "R\$ 0,00";
-                
-                $beneficio              = new stdClass();
-                $beneficio->grupo       = $value->grupo;
-                $beneficio->descricao   = $value->descricao;
-                $beneficio->vl_unitario = $valor_unid;
-                $beneficio->modalidade  = $value->modalidade;
-                $beneficio->status      = $value->status;
-                $beneficio->acao        = $acao;
-                $beneficios[]           = $beneficio;
+
+                $beneficio                       = new stdClass();
+                $beneficio->id_item_beneficio_pk = $id_benef;
+                $beneficio->grupo                = $value->grupo;
+                $beneficio->descricao            = $value->descricao;
+                $beneficio->vl_unitario          = $valor_unid;
+                $beneficio->modalidade           = $value->modalidade;
+                $beneficio->status               = $value->status;
+                $beneficio->acao                 = $acao;
+                $beneficios[]                    = $beneficio;
             endforeach;
 
         endif;

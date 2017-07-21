@@ -479,6 +479,34 @@ Funcionario = {
     },
 
     /*!
+     * @description Método para Ativa / Inativar Funcionario
+     **/
+    statusFunc: function(id_func) {
+        // Vars path
+        var currentLocation = window.location;
+        var parser          = document.createElement('a');
+            parser.href     = currentLocation;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
+
+        if (id_func) {
+            var status = $("input[type=checkbox][name='at_in[]'][value="+id_func+"]:checked").val() !== undefined ? "1" : "2";
+            $.post('/'+pathproj+'/funcionario/alterStatus', {
+                id        : id_func,
+                id_status : status
+            }, function(data){
+                if (data.status === true) {
+                    Funcionario.modalMsg("MENSAGEM", data.msg);
+                    // Reload grid
+                    $('#tbl_func').DataTable().ajax.reload();
+                } else {
+                    Funcionario.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                }
+            }, 'json');
+        }
+    },
+
+    /*!
      * @description Método para abrir modal de cadastro de Beneficio
      **/
     modalAddBenef: function() {

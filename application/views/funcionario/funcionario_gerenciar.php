@@ -40,6 +40,7 @@
                                 <table id="tbl_func" class="display" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Benef&iacute;cio Ativo</th>
                                             <th>CPF</th>
                                             <th>Nome</th>
                                             <th>RG</th>
@@ -50,6 +51,7 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th>Benef&iacute;cio Ativo</th>
                                             <th>CPF</th>
                                             <th>Nome</th>
                                             <th>RG</th>
@@ -80,7 +82,9 @@
     <script>
         $(document).ready(function () {
             $('#tbl_func').DataTable({
+                "order": [[1, "asc"]],
                 "columns": [
+                    {data: "at_in", searchable: false, orderable: false},
                     {data: "cpf"},
                     {data: "nome"},
                     {data: "rg"},
@@ -94,8 +98,8 @@
                 "iDisplayLength" : 50,
                 "stripeClasses"  : ['strip_grid_none', 'strip_grid'],
                 "ajax": {
-                    url: '<?=base_url('./funcionario/buscarFuncionario')?>',
-                    type: 'POST'
+                    url  : '<?=base_url('./funcionario/buscarFuncionario')?>',
+                    type : 'POST'
                 },
                 "language": {
                     "sEmptyTable"     : "Nenhum registro encontrado",

@@ -18,6 +18,7 @@ $periodo_fin  = isset($pedido[0]->dt_fin_beneficio) ? explode("-", $pedido[0]->d
 $dt_per_fin   = is_array($periodo_fin) ? $periodo_fin[2] . '/' . $periodo_fin[1] . '/' . $periodo_fin[0] : '';
 $valor_itens  = isset($vl_itens) && $vl_itens != "" ? "R$ ".number_format($vl_itens, 2, ',', '.') : "R$ 0,00";
 $valor_taxa   = isset($vl_taxa) && $vl_taxa != "" ? "R$ ".number_format($vl_taxa, 2, ',', '.') : "R$ 0,00";
+$valor_repass = isset($vl_repasse) && $vl_repasse != "" ? "R$ ".number_format($vl_repasse, 2, ',', '.') : "R$ 0,00";
 $valor_total  = isset($vl_total) && $vl_total != "" ? "R$ ".number_format($vl_total, 2, ',', '.') : "R$ 0,00";
 ?>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -148,6 +149,10 @@ $valor_total  = isset($vl_total) && $vl_total != "" ? "R$ ".number_format($vl_to
                                                     <tr>
                                                         <th class="danger col-xs-4 col-sm-4 col-md-2 col-lg-2">VALOR TAXAS</th>
                                                         <td class="col-xs-8 col-sm-8 col-md-10 col-lg-10"><strong><?=$valor_taxa?></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="danger col-xs-4 col-sm-4 col-md-2 col-lg-2">VALOR DE REPASSE</th>
+                                                        <td class="col-xs-8 col-sm-8 col-md-10 col-lg-10"><strong><?=$valor_repass?></strong></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="danger col-xs-4 col-sm-4 col-md-2 col-lg-2">VALOR TOTAL</th>

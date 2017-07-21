@@ -22,7 +22,7 @@
 
                 <div class="row">
 
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
                         
                         <div class="box box-info">
                             <div class="box-header with-border">
@@ -38,8 +38,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2">Data</th>
-                                                <th class="col-xs-4 col-sm-4 col-md-4 col-lg-4">T&iacute;tulo</th>
-                                                <th class="col-xs-5 col-sm-5 col-md-6 col-lg-6">Descri&ccedil;&atilde;o</th>
+                                                <th class="col-xs-9 col-sm-9 col-md-10 col-lg-10">T&iacute;tulo</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -47,13 +46,12 @@
                                                 <?php foreach ($avisos as $value): ?>
                                                     <tr>
                                                         <td><?=$value->dt_hr_cad?></td>
-                                                        <td><?=$value->titulo?></td>
-                                                        <td><?=word_limiter($value->descricao, 15, ' <a href="javascript:void(0)" onclick="Main.verAviso(\''.$value->id_quadro_aviso_pk.'\')">ler mais...</a>');?></td>
+                                                        <td><a href="javascript:void(0)" onclick="Main.verAviso('<?=$value->id_quadro_aviso_pk?>')"><?=$value->titulo?></a></td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else: ?>
                                                 <tr>
-                                                    <td colspan="3">Nenhum Aviso Cadastrado</td>
+                                                    <td colspan="2">Nenhum Aviso Cadastrado</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>

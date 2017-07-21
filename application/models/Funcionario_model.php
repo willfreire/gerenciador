@@ -264,7 +264,16 @@ class Funcionario_model extends CI_Model {
                 $acao     .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Funcion&aacute;rio' onclick='Funcionario.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
                 $acao     .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Funcion&aacute;rio' onclick='Funcionario.del(\"$id_func\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
 
+                # Check Ativar / Inativar
+                $st_func = isset($value->status) && $value->status === "Ativo" ? "checked" : "";
+                $check = '<div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="at_in[]" id="at_in_'.$id_func.'" value="'.$id_func.'" onclick="Funcionario.statusFunc(\''.$id_func.'\');" '.$st_func.'>
+                            </label>
+                          </div>';
+                
                 $funcionario            = new stdClass();
+                $funcionario->at_in     = $check;
                 $funcionario->cpf       = $value->cpf;
                 $funcionario->nome      = $value->nome;
                 $funcionario->rg        = $value->rg;

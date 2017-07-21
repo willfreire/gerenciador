@@ -47,6 +47,7 @@
                                             <th>Per&iacute;odo</th>
                                             <th>Vl. Itens</th>
                                             <th>Vl. Taxa</th>
+                                            <th>Vl. Repasse</th>
                                             <th>Vl. Total</th>
                                             <th>Status</th>
                                             <th>A&ccedil;&atilde;o</th>
@@ -61,6 +62,7 @@
                                             <th>Per&iacute;odo</th>
                                             <th>Vl. Itens</th>
                                             <th>Vl. Taxa</th>
+                                            <th>Vl. Repasse</th>
                                             <th>Vl. Total</th>
                                             <th>Status</th>
                                             <th>A&ccedil;&atilde;o</th>
@@ -125,7 +127,6 @@
     <script>
         $(document).ready(function () {
             $('#tbl_pedido').DataTable({
-                "order": [[ 2, "desc" ]],
                 "columns": [
                     {data: "id_pedido_pk"},
                     {data: "cnpj"},
@@ -134,6 +135,7 @@
                     {data: "periodo", searchable: false, orderable: false},
                     {data: "vl_itens"},
                     {data: "vl_taxa"},
+                    {data: "vl_repasse"},
                     {data: "vl_total"},
                     {data: "status_pedido"},
                     {data: "acao", searchable: false, orderable: false}
