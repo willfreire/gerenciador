@@ -187,7 +187,8 @@ class Relatorio extends CI_Controller
         $footer->addPreserveText('Tel: (11) 2089-8100', null, $style_footer);
 
         if (!empty($rows)):
-            $i = 0;
+            $cont = count($rows);
+            $i    = 0;
             foreach ($rows as $value):
                 $section->addTextBreak();
                 $phpWord->addTitleStyle('title', array('bold' => true, 'size' => 13), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::CENTER));
@@ -214,7 +215,9 @@ class Relatorio extends CI_Controller
                 if (($i%2) == 0) {
                     $section->addPageBreak();
                 } else {
-                    $section->addText("___________________________________________________________________", array('bold' => true, 'size' => 12));
+                    if ($i < $cont):
+                        $section->addText("___________________________________________________________________", array('bold' => true, 'size' => 12));                        
+                    endif;
                     $section->addTextBreak(2);
                 }
             endforeach;

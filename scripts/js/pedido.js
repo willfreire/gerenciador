@@ -343,7 +343,7 @@ Pedido = {
         var hostname        = parser.hostname;
         var pathname        = parser.pathname;
         var pathproj        = pathname.split('/')[1];
-        var url_boleto      = "http://"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
+        var url_boleto      = "https://"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
         //var url_boleto      = "http://"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
         // Pedido.openWindow(url_boleto, "_blank");
         Pedido.openWindow(url_boleto, "_blank");
@@ -360,7 +360,7 @@ Pedido = {
         var hostname        = parser.hostname;
         var pathname        = parser.pathname;
         var pathproj        = pathname.split('/')[1];
-        var link            = "http://"+hostname+"/"+pathproj+"/pedido/exportPedidoXls";
+        var link            = "https://"+hostname+"/"+pathproj+"/pedido/exportPedidoXls";
         var table           = '';
         var name            = '';
 
