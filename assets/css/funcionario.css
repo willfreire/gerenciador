@@ -32,6 +32,10 @@
     margin-bottom: 15px;
 }
 
+#tbl_func tbody tr td:first-child {
+    text-align: center;
+}
+
 @media (max-width: 480px) {
     #box-frm-func {
         width: 100%;

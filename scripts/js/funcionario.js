@@ -507,6 +507,33 @@ Funcionario = {
     },
 
     /*!
+     * @description Método para Ativa / Inativar Todos Funcionarios
+     **/
+    statusFuncAll: function(id_client, status) {
+        // Vars path
+        var currentLocation = window.location;
+        var parser          = document.createElement('a');
+            parser.href     = currentLocation;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
+
+        if (id_client) {
+            $.post('/'+pathproj+'/funcionario/alterStatusAll', {
+                id : id_client,
+                st : status
+            }, function(data){
+                if (data.status === true) {
+                    Funcionario.modalMsg("MENSAGEM", data.msg);
+                    // Reload grid
+                    $('#tbl_func').DataTable().ajax.reload();
+                } else {
+                    Funcionario.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                }
+            }, 'json');
+        }
+    },
+
+    /*!
      * @description Método para abrir modal de cadastro de Beneficio
      **/
     modalAddBenef: function() {

@@ -467,6 +467,42 @@ class Funcionario extends CI_Controller
         print json_encode($retorno);
     }
 
+    /**
+     * Atualiza status de todos Funcionários
+     *
+     * @method alterStatusAll
+     * @access public
+     * @return obj Status da ação
+     */
+    public function alterStatusAll()
+    {
+        # Var
+        $id_client = $this->input->post('id');
+        $status    = $this->input->post('st');
+        $retorno   = new stdClass();
+
+        if ($id_client != NULL):
+            try {
+                # Atualiza tb_funcionario
+                $data['id_status_fk'] = $status;
+                $this->db->where('id_empresa_fk', $id_client);
+                $this->db->update('tb_funcionario', $data);
+
+                $retorno->status = TRUE;
+                $retorno->msg    = "Status Alterados com Sucesso!";
+            } catch(Exception $e) {
+                # logging_function($e->getMessage());
+                $retorno->status = FALSE;
+                $retorno->msg    = "Houve um erro ao mudar os Status dos Funcion&aacute;rios! Tente novamente...";
+            }
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Empresa n&atilde;o Localizada!";
+        endif;
+
+        print json_encode($retorno);
+    }
+
 }
 
 /* End of file Funcionario.php */

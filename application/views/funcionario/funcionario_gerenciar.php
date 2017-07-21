@@ -40,7 +40,11 @@
                                 <table id="tbl_func" class="display" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Benef&iacute;cio Ativo</th>
+                                            <th class="col-lg-2">
+                                                Benef&iacute;cio Ativo<br> 
+                                                <a href="javascript:void(0)" onclick="Funcionario.statusFuncAll('<?=$this->session->userdata('id_client')?>', '1')">(Todos)</a> | 
+                                                <a href="javascript:void(0)" onclick="Funcionario.statusFuncAll('<?=$this->session->userdata('id_client')?>', '2')">(Nenhum)</a>
+                                            </th>
                                             <th>CPF</th>
                                             <th>Nome</th>
                                             <th>RG</th>
@@ -51,7 +55,11 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Benef&iacute;cio Ativo</th>
+                                            <th class="col-lg-2">
+                                                Benef&iacute;cio Ativo<br> 
+                                                <a href="javascript:void(0)" onclick="Funcionario.statusFuncAll('<?=$this->session->userdata('id_client')?>', '1')">(Todos)</a> | 
+                                                <a href="javascript:void(0)" onclick="Funcionario.statusFuncAll('<?=$this->session->userdata('id_client')?>', '2')">(Nenhum)</a>
+                                            </th>
                                             <th>CPF</th>
                                             <th>Nome</th>
                                             <th>RG</th>
