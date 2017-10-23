@@ -7,18 +7,9 @@ Importacao = {
 
         var currentLocation = window.location;
         var parser          = document.createElement('a');
-        // parser.href = "http://example.com:3000/pathname/?search=test#hash";
-        parser.href = currentLocation;
-
-        var protocol = parser.protocol; // => "http:"
-        var host     = parser.host;     // => "example.com:3000"
-        var hostname = parser.hostname; // => "example.com"
-        var port     = parser.port;     // => "3000"
-        var pathname = parser.pathname; // => "/pathname/"
-        var pathproj = pathname.split('/')[1];
-        var hash     = parser.hash;     // => "#hash"
-        var search   = parser.search;   // => "?search=test"
-        var origin   = parser.origin;   // => "http://example.com:3000"
+            parser.href     = currentLocation;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
 
         // Botao voltar
         $('#btn_back').click(function(){
@@ -27,10 +18,11 @@ Importacao = {
 
         // Importacao Cadastrar
         $('#frm_cad_import_vt').bootstrapValidator({
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
+            framework     : 'bootstrap',
+            feedbackIcons : {
+                valid      : 'glyphicon glyphicon-ok',
+                invalid    : 'glyphicon glyphicon-remove',
+                validating : 'glyphicon glyphicon-refresh'
             },
             fields: {
                 arq_import: {
@@ -39,10 +31,8 @@ Importacao = {
 			    message: '&Eacute; obrigat&oacute;rio selecionar um <strong>ARQUIVO CSV</strong>'
 			},
                         file: {
-                            extension : 'csv',
-                            type      : 'text/csv',
-                            maxSize   : 5097152,
-                            message   : 'O Arquivo selecionado n&atilde;o &eacute; v&aacute;lido!'
+                            maxSize : 5 * 1024 * 1024,
+                            message : 'O Arquivo deve ser no formato <strong>.csv</strong> e n&atilde;o deve exceder <strong>5MB</strong> em tamanho!'
                         }
 		    }
 		}

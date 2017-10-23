@@ -66,7 +66,7 @@ class Pedido extends CI_Controller
             $this->load->view('footer');
         elseif ($this->session->userdata('user_client')):
             # Titulo da pagina
-            $header['titulo'] = "Acompanhamento de Pedidos";
+            $header['titulo'] = "Consulta de Pedidos";
             $this->load->view('header', $header);
             $this->load->view('pedido/pedido_acompanhar');
             $this->load->view('footer');
@@ -136,7 +136,7 @@ class Pedido extends CI_Controller
     public function solicitar()
     {
         # Titulo da pagina
-        $header['titulo'] = "Solicita&ccedil;&atilde;o de Pedido";
+        $header['titulo'] = "Gerar Pedidos";
 
         # Sql para vw_cliente
         $this->db->where('id_empresa_pk', $this->session->userdata('id_client'));
@@ -204,6 +204,24 @@ class Pedido extends CI_Controller
 
         # Instanciar modelo
         $resposta = $this->Pedido_model->getPedidoAcompanha($search);
+
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método de busca dos dados do Pedido para Exportação
+     *
+     * @method exportPedidoXls
+     * @access public
+     * @return obj Lista de pedido cadastrados
+     */
+    public function exportPedidoXls()
+    {
+        # Var
+        $id_pedido = $this->input->post('id');
+
+        # Instanciar modelo
+        $resposta = $this->Pedido_model->getPedidoExport($id_pedido);
 
         print json_encode($resposta);
     }
@@ -282,6 +300,44 @@ class Pedido extends CI_Controller
             $this->db->where(array('id_empresa_fk' => $data['pedido'][0]->id_empresa_fk, 'id_status_fk' => 1));
             $data['beneficiario'] = $this->db->get()->result();
 
+            if (!empty($data['beneficiario'])):
+                $benef = array();
+                $i     = 0;
+                foreach ($data['beneficiario'] as $value):
+                    $this->db->select('b.id_beneficio_pk, b.vl_unitario, b.qtd_diaria, b.id_item_beneficio_fk, i.id_item_beneficio_pk, i.vl_rep_func, i.vl_repasse');
+                    $this->db->from('tb_beneficio b');
+                    $this->db->join('tb_item_beneficio i', 'b.id_item_beneficio_fk = i.id_item_beneficio_pk', 'inner');
+                    $this->db->where('b.id_funcionario_fk', $value->id_funcionario_pk);
+                    $resp = $this->db->get()->result();
+
+                    if (!empty($resp)):
+                        foreach ($resp as $vl):
+                            $benef['id_beneficio_pk'][$i] = $vl->id_beneficio_pk;
+                            $benef['vl_unitario'][$i]     = $vl->vl_unitario;
+                            $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
+                            $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
+                            $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*$vl->qtd_diaria))/100) : 0;
+                            $benef['vl_rep_func'][$i]     = isset($vl->vl_rep_func) && $vl->vl_rep_func != "" ? $vl->vl_rep_func : 0;
+                            $i++;
+                        endforeach;
+                    endif;
+                endforeach;
+            endif;
+
+            # Calcular Taxas
+            $data['vl_itens']   = 0;
+            $data['vl_taxa']    = 0;
+            $data['vl_repasse'] = 0;
+            $data['vl_total']   = 0;
+            if (!empty($benef)):
+                $data['vl_itens']     = array_sum($benef['vl_total']);
+                $data['vl_taxa_adm']  = (round($data['vl_itens']*($data['empresa'][0]->taxa_adm/100), 2));
+                $data['vl_taxa_fx_p'] = (round($data['vl_itens']*($data['empresa'][0]->taxa_fixa_perc/100), 2));
+                $data['vl_taxa']      = ($data['vl_taxa_adm']+$data['vl_taxa_fx_p']+$data['empresa'][0]->taxa_fixa_real+$data['empresa'][0]->taxa_entrega);
+                $data['vl_repasse']   = round(array_sum($benef['vl_repasse']), 2)+array_sum($benef['vl_rep_func']);
+                $data['vl_total']     = ($data['vl_itens']+$data['vl_taxa']+$data['vl_repasse']);
+            endif;
+
             $this->load->view('header', $header);
             $this->load->view('pedido/pedido_finalizar', $data);
             $this->load->view('footer');
@@ -309,9 +365,12 @@ class Pedido extends CI_Controller
         $pedido->id_func      = $this->input->post('id_funcionario');
         $pedido->taxa_adm     = $this->input->post('taxa_adm');
         $pedido->taxa_entrega = $this->input->post('taxa_entrega');
+        $pedido->taxa_repasse = $this->input->post('taxa_repasse');
+        $pedido->taxa_fx_perc = $this->input->post('taxa_fixa_perc');
+        $pedido->taxa_fx_real = $this->input->post('taxa_fixa_real');
+        $pedido->id_cliente   = $this->input->post('id_cliente');
 
-        if ($pedido->id != NULL && $pedido->dt_pgto != NULL && $pedido->periodo != NULL && $pedido->id_func != NULL &&
-            $pedido->taxa_adm != NULL && $pedido->taxa_entrega != NULL) {
+        if ($pedido->id != NULL && $pedido->dt_pgto != NULL && $pedido->periodo != NULL && $pedido->id_func != NULL) {
             $resposta = $this->Pedido_model->finalizaPedido($pedido);
         } else {
             $retorno->status = FALSE;
@@ -437,44 +496,44 @@ class Pedido extends CI_Controller
             $cliente = $this->db->get()->result();
 
             # Cliente
-            $cnpj      = !empty($cliente) && $cliente[0]->cnpj != "" ? $cliente[0]->cnpj : NULL;
-            $empresa   = !empty($cliente) && $cliente[0]->nome_razao != "" ? $cliente[0]->nome_razao : NULL;
-            $cep       = !empty($cliente) && $cliente[0]->cep != "" ? $cliente[0]->cep : NULL;
-            $lograd    = !empty($cliente) && $cliente[0]->logradouro != "" ? $cliente[0]->logradouro : NULL;
-            $numero    = !empty($cliente) && $cliente[0]->numero != "" ? ", nº ".$cliente[0]->numero : NULL;
-            $compl     = !empty($cliente) && $cliente[0]->complemento != "" ? ", ".$cliente[0]->complemento : NULL;
-            $bairro    = !empty($cliente) && $cliente[0]->bairro != "" ? ", ".$cliente[0]->bairro : NULL;
-            $bairro_m  = !empty($cliente) && $cliente[0]->bairro != "" ? $cliente[0]->bairro : NULL;
-            $sigla     = !empty($cliente) && $cliente[0]->sigla != "" ? $cliente[0]->sigla : NULL;
-            $cidade    = !empty($cliente) && $cliente[0]->cidade != "" ? $cliente[0]->cidade : NULL;
-            $endfull   = $lograd.$numero.$compl.$bairro;
-            $endfull_m = $lograd.$numero.$compl;
-            $cedente_nome = "VTCARDS COMERCIO E SERVICOS LTDA";
-            $cedente_cnpj = "25.533.823/0001-03";
-            $cedente_end  = "Rua Voluntários da Pátria, 654, Sala 302, Santana";
-            $cedente_cep  = "02010-000";
-            $cedente_cid  = "São Paulo";
-            $cedente_uf   = "SP";
+            $cnpj       = !empty($cliente) && $cliente[0]->cnpj != "" ? $cliente[0]->cnpj : NULL;
+            $empresa    = !empty($cliente) && $cliente[0]->nome_razao != "" ? $cliente[0]->nome_razao : NULL;
+            $cep        = !empty($cliente) && $cliente[0]->cep != "" ? $cliente[0]->cep : NULL;
+            $lograd     = !empty($cliente) && $cliente[0]->logradouro != "" ? $cliente[0]->logradouro : NULL;
+            $numero     = !empty($cliente) && $cliente[0]->numero != "" ? ", nº ".$cliente[0]->numero : NULL;
+            $compl      = !empty($cliente) && $cliente[0]->complemento != "" ? ", ".$cliente[0]->complemento : NULL;
+            $bairro     = !empty($cliente) && $cliente[0]->bairro != "" ? ", ".$cliente[0]->bairro : NULL;
+            $bairro_m   = !empty($cliente) && $cliente[0]->bairro != "" ? $cliente[0]->bairro : NULL;
+            $sigla      = !empty($cliente) && $cliente[0]->sigla != "" ? $cliente[0]->sigla : NULL;
+            $cidade     = !empty($cliente) && $cliente[0]->cidade != "" ? $cliente[0]->cidade : NULL;
+            $endfull    = $lograd.$numero.$compl.$bairro;
+            $endfull_m  = $lograd.$numero.$compl;
+            $benef_nome = "VTCARDS COMERCIO E SERVICOS LTDA";
+            $benef_cnpj = "25.533.823/0001-03";
+            $benef_end  = "Rua Voluntários da Pátria, 654, Sala 302, Santana";
+            $benef_cep  = "02010-000";
+            $benef_cid  = "São Paulo";
+            $benef_uf   = "SP";
 
-            $sacado  = new Agente($empresa, $cnpj, $endfull, $cep, $cidade, $sigla);
-            $cedente = new Agente($cedente_nome, $cedente_cnpj, $cedente_end, $cedente_cep, $cedente_cid, $cedente_uf);
+            $pagador      = new Agente($empresa, $cnpj, $endfull, $cep, $cidade, $sigla);
+            $beneficiario = new Agente($benef_nome, $benef_cnpj, $benef_end, $benef_cep, $benef_cid, $benef_uf);
 
             $boleto = new Santander(array(
                 # Parâmetros obrigatórios
                 'dataVencimento' => new DateTime($dt_pgto),
                 'valor'          => $vl_total,
                 'sequencial'     => str_pad(base64_decode($id_pedido), 7, 0, STR_PAD_LEFT), # Até 13 dígitos
-                'sacado'         => $sacado,
-                'cedente'        => $cedente,
+                'sacado'         => $pagador,
+                'cedente'        => $beneficiario,
                 'agencia'        => "0833", // Até 4 dígitos
                 'carteira'       => 101, // 101, 102 ou 201
-                'conta'          => 1300081, // Código do cedente: Até 7 dígitos
+                'conta'          => 8544140, // Código do cedente: Até 7 dígitos
                 # IOS – Seguradoras (Se 7% informar 7. Limitado a 9%)
                 # Demais clientes usar 0 (zero)
                 'ios' => '0', // Apenas para o Santander
                 # Parâmetros recomendáveis
                 # 'logoPath' => base_url('/assets/imgs/vtcards_logo_100x40.png'), // Logo da sua empresa - #357CA5
-                'contaDv'   => 96,
+                # 'contaDv'   => 96,
                 # 'agenciaDv' => 1,
                 'descricaoDemonstrativo' => array(// Até 5
                     "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef",
@@ -517,22 +576,6 @@ class Pedido extends CI_Controller
             $date      = date("Ymd");
             $name_file = "boleto_".base64_decode($id_pedido)."_".$date.".pdf";
 
-            # Load the library
-	    $this->load->library('html2pdf');
-	    
-	    # Set folder to save PDF to
-	    $this->html2pdf->folder(FILE_PATH);
-	    
-	    # Set the filename to save/download as
-	    $this->html2pdf->filename($name_file);
-	    
-	    # Set the paper defaults
-	    $this->html2pdf->paper('a4', 'portrait');
-	    
-	    # Load html view
-	    $this->html2pdf->html($boleto_html);
-	    $this->html2pdf->create('save');
-            
             /* $converter = new PhantomJS();
             $input     = new TempFile($boleto_html, 'html');
 
@@ -540,38 +583,38 @@ class Pedido extends CI_Controller
             $converter->convert($input, FILE_PATH.$name_file); */
 
             # Salvar dados do boleto
-            $dados_boleto                        = array();
-            $dados_boleto['id_pedido_fk']        = base64_decode($id_pedido);
-            $dados_boleto['sacado_nome']         = $empresa;
-            $dados_boleto['sacado_cnpj_cpf']     = $cnpj;
-            $dados_boleto['sacado_endereco']     = $endfull_m;
-            $dados_boleto['sacado_bairro']       = $bairro_m;
-            $dados_boleto['sacado_cep']          = $cep;
-            $dados_boleto['sacado_cidade']       = $cidade;
-            $dados_boleto['sacado_uf']           = $sigla;
-            $dados_boleto['cedente_nome']        = $cedente_nome;
-            $dados_boleto['cedente_cnpj_cpf']    = $cedente_cnpj;
-            $dados_boleto['cedente_endereco']    = $cedente_end;
-            $dados_boleto['cedente_cep']         = $cedente_cep;
-            $dados_boleto['cedente_cidade']      = $cedente_cid;
-            $dados_boleto['cedente_uf']          = $cedente_uf;
-            $dados_boleto['dt_vencimento']       = $dt_pgto;
-            $dados_boleto['valor']               = $vl_total;
-            $dados_boleto['nosso_numero']        = str_pad(base64_decode($id_pedido), 7, 0, STR_PAD_LEFT);
-            $dados_boleto['carteira']            = 101;
-            $dados_boleto['agencia']             = "0833";
-            $dados_boleto['agencia_dv']          = NULL;
-            $dados_boleto['conta']               = 1300081;
-            $dados_boleto['conta_dv']            = 96;
-            $dados_boleto['descr_demostrativo']  = "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef";
-            $dados_boleto['instrucao']           = "Após o vencimento pagar somente no Banco Santander";
-            $dados_boleto['nome_boleto']         = $name_file;
-            $dados_boleto['dt_emissao']          = date("Y-m-d");
-            $dados_boleto['id_status_boleto_fk'] = 1;
+            $dados_boleto                          = array();
+            $dados_boleto['id_pedido_fk']          = base64_decode($id_pedido);
+            $dados_boleto['pagador_nome']          = $empresa;
+            $dados_boleto['pagador_cnpj_cpf']      = $cnpj;
+            $dados_boleto['pagador_endereco']      = $endfull_m;
+            $dados_boleto['pagador_bairro']        = $bairro_m;
+            $dados_boleto['pagador_cep']           = $cep;
+            $dados_boleto['pagador_cidade']        = $cidade;
+            $dados_boleto['pagador_uf']            = $sigla;
+            $dados_boleto['beneficiario_nome']     = $benef_nome;
+            $dados_boleto['beneficiario_cnpj_cpf'] = $benef_cnpj;
+            $dados_boleto['beneficiario_endereco'] = $benef_end;
+            $dados_boleto['beneficiario_cep']      = $benef_cep;
+            $dados_boleto['beneficiario_cidade']   = $benef_cid;
+            $dados_boleto['beneficiario_uf']       = $benef_uf;
+            $dados_boleto['dt_vencimento']         = $dt_pgto;
+            $dados_boleto['valor']                 = $vl_total;
+            $dados_boleto['nosso_numero']          = str_pad(base64_decode($id_pedido), 7, 0, STR_PAD_LEFT);
+            $dados_boleto['carteira']              = 101;
+            $dados_boleto['agencia']               = "0833";
+            $dados_boleto['agencia_dv']            = NULL;
+            $dados_boleto['conta']                 = 8544140;
+            $dados_boleto['conta_dv']              = 96;
+            $dados_boleto['descr_demostrativo']    = "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef";
+            $dados_boleto['instrucao']             = "Após o vencimento pagar somente no Banco Santander";
+            $dados_boleto['nome_boleto']           = $name_file;
+            $dados_boleto['dt_emissao']            = date("Y-m-d");
+            $dados_boleto['id_status_boleto_fk']   = 1;
 
             # Grava Boleto
             $this->db->insert('tb_boleto', $dados_boleto);
-            
+
             # Enviar Email
             # Msg
             $msg                 = array();
@@ -590,6 +633,98 @@ class Pedido extends CI_Controller
                                     Att.";
             # Enviar email
             $this->sendMailGeral($msg);
+
+            echo $boleto_html;
+
+        else:
+            echo "<script>alert('Erro ao gerar o Boleto!'); window.close();</script>";
+        endif;
+    }
+
+    /**
+     * Método para remitir boleto em HTML
+     *
+     * @method remitirBoletoHtml
+     * @access public
+     * @param integer $id_pedido Id do Pedido
+     * @return obj Status da Açao
+     */
+    public function remitirBoletoHtml($id_pedido)
+    {
+        # Consultar boleto
+        $this->db->where('id_pedido_fk', $id_pedido);
+        $row_bol = $this->db->get('tb_boleto')->result();
+
+        if (!empty($row_bol)):
+            # Cliente
+            $cnpj        = !empty($row_bol) && $row_bol[0]->pagador_cnpj_cpf != "" ? $row_bol[0]->pagador_cnpj_cpf : NULL;
+            $empresa     = !empty($row_bol) && $row_bol[0]->pagador_nome != "" ? $row_bol[0]->pagador_nome : NULL;
+            $cep         = !empty($row_bol) && $row_bol[0]->pagador_cep != "" ? $row_bol[0]->pagador_cep : NULL;
+            $endfull     = !empty($row_bol) && $row_bol[0]->pagador_endereco != "" ? $row_bol[0]->pagador_endereco : NULL;
+            $sigla       = !empty($row_bol) && $row_bol[0]->pagador_uf != "" ? $row_bol[0]->pagador_uf : NULL;
+            $cidade      = !empty($row_bol) && $row_bol[0]->pagador_cidade != "" ? $row_bol[0]->pagador_cidade : NULL;
+            $benef_nome  = !empty($row_bol) && $row_bol[0]->beneficiario_nome != "" ? $row_bol[0]->beneficiario_nome : NULL;
+            $benef_cnpj  = !empty($row_bol) && $row_bol[0]->beneficiario_cnpj_cpf != "" ? $row_bol[0]->beneficiario_cnpj_cpf : NULL;
+            $benef_end   = !empty($row_bol) && $row_bol[0]->beneficiario_endereco != "" ? $row_bol[0]->beneficiario_endereco : NULL;
+            $benef_cep   = !empty($row_bol) && $row_bol[0]->beneficiario_cep != "" ? $row_bol[0]->beneficiario_cep : NULL;
+            $benef_cid   = !empty($row_bol) && $row_bol[0]->beneficiario_cidade != "" ? $row_bol[0]->beneficiario_cidade : NULL;
+            $benef_uf    = !empty($row_bol) && $row_bol[0]->beneficiario_uf != "" ? $row_bol[0]->beneficiario_uf : NULL;
+            $dt_pgto     = !empty($row_bol) && $row_bol[0]->dt_vencimento != "" ? $row_bol[0]->dt_vencimento : NULL;
+            $vl_total    = !empty($row_bol) && $row_bol[0]->valor != "" ? $row_bol[0]->valor : NULL;
+            $descr_demo  = !empty($row_bol) && $row_bol[0]->descr_demostrativo != "" ? $row_bol[0]->descr_demostrativo : NULL;
+            $instrucao   = !empty($row_bol) && $row_bol[0]->instrucao != "" ? $row_bol[0]->instrucao : NULL;
+            $dt_hr_solic = !empty($row_bol) && $row_bol[0]->dt_emissao != "" ? $row_bol[0]->dt_emissao : NULL;
+
+            $pagador      = new Agente($empresa, $cnpj, $endfull, $cep, $cidade, $sigla);
+            $beneficiario = new Agente($benef_nome, $benef_cnpj, $benef_end, $benef_cep, $benef_cid, $benef_uf);
+
+            $boleto = new Santander(array(
+                # Parâmetros obrigatórios
+                'dataVencimento' => new DateTime($dt_pgto),
+                'valor'          => $vl_total,
+                'sequencial'     => str_pad($id_pedido, 7, 0, STR_PAD_LEFT), # Até 13 dígitos
+                'sacado'         => $pagador,
+                'cedente'        => $beneficiario,
+                'agencia'        => "0833", // Até 4 dígitos
+                'carteira'       => 101, // 101, 102 ou 201
+                'conta'          => 8544140, // Código do cedente: Até 7 dígitos
+                # IOS – Seguradoras (Se 7% informar 7. Limitado a 9%)
+                # Demais clientes usar 0 (zero)
+                'ios' => '0', // Apenas para o Santander
+                # Parâmetros recomendáveis
+                # 'logoPath' => base_url('/assets/imgs/vtcards_logo_100x40.png'), // Logo da sua empresa - #357CA5
+                # 'contaDv'   => 96,
+                # 'agenciaDv' => 1,
+                'descricaoDemonstrativo' => array(
+                    $descr_demo
+                ),
+                'instrucoes' => array(// Até 8
+                    $instrucao
+                ),
+                # Parâmetros opcionais
+                # 'resourcePath' => '../resources',
+                'moeda'             => Santander::MOEDA_REAL,
+                'dataDocumento'     => new DateTime($dt_hr_solic),
+                'dataProcessamento' => new DateTime(),
+                # 'contraApresentacao'   => true,
+                # 'pagamentoMinimo'      => 23.00,
+                'aceite'               => 'N',
+                # 'especieDoc'           => 'ABC',
+                # 'numeroDocumento'      => '123.456.789',
+                # 'usoBanco'             => 'Uso banco',
+                # 'layout'               => 'layout.phtml',
+                # 'logoPath'             => 'http://boletophp.com.br/img/opensource-55x48-t.png',
+                # 'sacadorAvalista'      => new Agente('Antônio da Silva', '02.123.123/0001-11'),
+                # 'descontosAbatimentos' => 123.12,
+                # 'moraMulta'            => 123.12,
+                # 'outrasDeducoes'       => 123.12,
+                # 'outrosAcrescimos'     => 123.12,
+                # 'valorCobrado'         => 123.12,
+                # 'valorUnitario'        => 123.12,
+                'quantidade'             => 1,
+            ));
+
+            $boleto_html = $boleto->getOutput();
 
             echo $boleto_html;
 
@@ -623,7 +758,7 @@ class Pedido extends CI_Controller
 
         print json_encode($retorno);
     }
-    
+
     /**
      * Enviar email geral
      *
@@ -674,6 +809,78 @@ class Pedido extends CI_Controller
 
         return $retorno;
     }
+
+    /**
+     * Método para buscar item do beneficio informado
+     *
+     * @method itemBenPedido
+     * @access public
+     * @return obj Status da Açao
+     */
+    public function itemBenPedido()
+    {
+        # Dados
+        $retorno   = new stdClass();
+        $id_pedido = $this->input->post('id');
+
+        if ($id_pedido != NULL):
+            $retorno = $this->Pedido_model->getItemBenPedido($id_pedido);
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um Erro ao Buscar os Benef&iacute;cios! Tente Novamente...";
+        endif;
+
+        print json_encode($retorno);
+    }
+
+    /**
+     * Método para alterar status de um beneficio
+     *
+     * @method valCredBen
+     * @access public
+     * @return obj Status da Açao
+     */
+    public function valCredBen()
+    {
+        # Dados
+        $retorno  = new stdClass();
+        $status   = $this->input->post('st');
+        $id_benef = $this->input->post('id');
+
+        if ($status != NULL && $id_benef != NULL):
+            $retorno = $this->Pedido_model->setValCredBen($status, $id_benef);
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro na Valida&ccedil;&atilde;o dos Cr&eacute;ditos! Favor recarregar a p&aacute;gina.";
+        endif;
+
+        print json_encode($retorno);
+    }
+
+    /**
+     * Método para alterar status de varios beneficios pelo id do pedido
+     *
+     * @method valAllCredBen
+     * @access public
+     * @return obj Status da Açao
+     */
+    public function valAllCredBen()
+    {
+        # Dados
+        $retorno   = new stdClass();
+        $status    = $this->input->post('st');
+        $id_pedido = $this->input->post('id');
+
+        if ($status != NULL && $id_pedido != NULL):
+            $retorno = $this->Pedido_model->setValAllCred($status, $id_pedido);
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro na Valida&ccedil;&atilde;o dos Cr&eacute;ditos! Favor recarregar a p&aacute;gina.";
+        endif;
+
+        print json_encode($retorno);
+    }
+
 }
 
 /* End of file Pedido.php */

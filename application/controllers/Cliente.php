@@ -147,6 +147,8 @@ class Cliente extends CI_Controller
         $cliente->email_sec_contato = $this->input->post('email_sec_contato');
         $cliente->taxa_adm          = $this->input->post('taxa_adm');
         $cliente->taxa_entrega      = $this->input->post('taxa_entrega');
+        $cliente->taxa_fixa_perc    = $this->input->post('taxa_fixa_perc');
+        $cliente->taxa_fixa_real    = $this->input->post('taxa_fixa_real');
 
         if ($cliente->tp_empresa != NULL && $cliente->cnpj != NULL && $cliente->razao_social != NULL && $cliente->atividade != NULL && $cliente->email != NULL && $cliente->tel != NULL &&
             $cliente->senha != NULL && $cliente->status != NULL && $cliente->tp_endereco != NULL && $cliente->cep != NULL && $cliente->endereco != NULL && $cliente->numero != NULL &&
@@ -287,6 +289,8 @@ class Cliente extends CI_Controller
         $cliente->email_sec_contato = $this->input->post('email_sec_contato');
         $cliente->taxa_adm          = $this->input->post('taxa_adm');
         $cliente->taxa_entrega      = $this->input->post('taxa_entrega');
+        $cliente->taxa_fixa_perc    = $this->input->post('taxa_fixa_perc');
+        $cliente->taxa_fixa_real    = $this->input->post('taxa_fixa_real');
         $cliente->alt_pwd           = $this->input->post('alt_senha');
 
         if ($cliente->id != NULL && $cliente->tp_empresa != NULL && $cliente->cnpj != NULL && $cliente->razao_social != NULL && $cliente->atividade != NULL && $cliente->email != NULL &&

@@ -5,6 +5,8 @@ $id_grupo      = isset($beneficio[0]->id_grupo_fk) ? $beneficio[0]->id_grupo_fk 
 $descricao     = isset($beneficio[0]->descricao) ? $beneficio[0]->descricao : "";
 $vl_unitario   = isset($beneficio[0]->vl_unitario) ? number_format($beneficio[0]->vl_unitario, 2, ',', '.') : "0,00";
 $id_modalidade = isset($beneficio[0]->id_modalidade_fk) ? $beneficio[0]->id_modalidade_fk : "";
+$vl_rep_func   = isset($beneficio[0]->vl_rep_func) ? number_format($beneficio[0]->vl_rep_func, 2, ',', '.') : "0,00";
+$vl_repasse    = isset($beneficio[0]->vl_repasse) ? $beneficio[0]->vl_repasse : "0.00";
 $id_status     = isset($beneficio[0]->id_status_fk) ? $beneficio[0]->id_status_fk : "";
 ?>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -57,6 +59,17 @@ $id_status     = isset($beneficio[0]->id_status_fk) ? $beneficio[0]->id_status_f
 
                                     <div class="form-group">
                                         <div class="row">
+                                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                                                <label for="cod_benef">C&oacute;digo</label>
+                                                <div class="controls">
+                                                    <input type="text" id="cod_benef" name="cod_benef" value="<?=$id?>" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                 <label for="grupo">Grupo<span class="text-danger">*</span></label>
                                                 <div class="controls">
@@ -89,12 +102,12 @@ $id_status     = isset($beneficio[0]->id_status_fk) ? $beneficio[0]->id_status_f
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
+                                            <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4">
                                                 <label for="vl_unitario">Valor Unit&aacute;rio</label>
                                                 <div class="controls">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">R$</span>
-                                                        <input type="text" class="form-control" id="vl_unitario" name="vl_unitario" placeholder="0,00" maxlength="7" value="<?=$vl_unitario?>">
+                                                        <input type="text" class="form-control" id="vl_unitario" name="vl_unitario" placeholder="0,00" maxlength="10" value="<?=$vl_unitario?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -117,6 +130,34 @@ $id_status     = isset($beneficio[0]->id_status_fk) ? $beneficio[0]->id_status_f
                                                         endif;
                                                         ?>
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4">
+                                                <label for="vl_repasse_func">Valor Repasse por Funcion&aacute;rio</label>
+                                                <div class="controls">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><strong>R$</strong></span>
+                                                        <input type="text" class="form-control" id="vl_repasse_func" name="vl_repasse_func" placeholder="0,00" maxlength="7" value="<?=$vl_rep_func?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
+                                                <label for="vl_repasse">Valor de Repasse</label>
+                                                <div class="controls">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="vl_repasse" name="vl_repasse" placeholder="0.00" maxlength="6" value="<?=$vl_repasse?>">
+                                                        <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

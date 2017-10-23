@@ -33,7 +33,9 @@
         <link rel="stylesheet" href="<?=base_url('scripts/plugins/daterangepicker/daterangepicker.css')?>">
         <!-- Select2 -->
         <link rel="stylesheet" href="<?=base_url('scripts/plugins/select2/select2.min.css')?>">
-        
+        <!-- Selectr -->
+        <link rel="stylesheet" href="<?=base_url('scripts/plugins/selectize.js/css/selectr.css')?>">
+
         <!-- JavaScripts -->
         <!-- jQuery 2.2.3 -->
         <script src="<?=base_url('scripts/plugins/jQuery/jquery-2.2.3.min.js')?>"></script>

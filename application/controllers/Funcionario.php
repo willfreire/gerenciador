@@ -94,6 +94,22 @@ class Funcionario extends CI_Controller
         $this->db->where('id_empresa_fk', $this->session->userdata('id_client'));
         $data['end_empresa'] = $this->db->get('tb_endereco_empresa')->result();
 
+        # Sql Grupo
+        $this->db->order_by('grupo');
+        $data['grps'] = $this->db->get('tb_grupo')->result();
+
+        # Sql Beneficio
+        $this->db->where(array('id_grupo_fk' => 1, 'id_status_fk' => 1));
+        $data['itens_benef'] = $this->db->get('tb_item_beneficio')->result();
+
+        # Sql Status Cartao
+        $this->db->order_by('status_cartao');
+        $data['sts_card'] = $this->db->get('tb_status_cartao')->result();
+
+        # Proximo Id
+        $next_id = $this->db->query("SHOW TABLE STATUS LIKE 'tb_funcionario'");
+        $data['next_id'] = $next_id->row(0);
+
         $this->load->view('header', $header);
         $this->load->view('funcionario/funcionario_cadastrar', $data);
         $this->load->view('footer');
@@ -124,13 +140,6 @@ class Funcionario extends CI_Controller
         $funcionario->nome_mae      = $this->input->post('nome_mae');
         $funcionario->nome_pai      = $this->input->post('nome_pai');
         $funcionario->status        = $this->input->post('status');
-        $funcionario->cep           = $this->input->post('cep');
-        $funcionario->endereco      = $this->input->post('endereco');
-        $funcionario->numero        = $this->input->post('numero');
-        $funcionario->complemento   = $this->input->post('complemento');
-        $funcionario->bairro        = $this->input->post('bairro');
-        $funcionario->estado        = $this->input->post('estado');
-        $funcionario->cidade        = $this->input->post('cidade');
         $funcionario->matricula     = $this->input->post('matricula');
         $funcionario->depto         = $this->input->post('depto');
         $funcionario->cargo         = $this->input->post('cargo');
@@ -140,9 +149,8 @@ class Funcionario extends CI_Controller
 
         if ($funcionario->cpf != NULL && $funcionario->nome_func != NULL && $funcionario->dt_nasc[0] != NULL && $funcionario->sexo != NULL && $funcionario->estado_civil != NULL &&
             $funcionario->rg != NULL && $funcionario->dt_exped[0]!= NULL &&  $funcionario->orgao_exped != NULL && $funcionario->uf_exped != NULL && $funcionario->nome_mae != NULL &&
-            $funcionario->status != NULL && $funcionario->cep != NULL &&  $funcionario->endereco != NULL && $funcionario->numero != NULL && $funcionario->bairro != NULL &&
-            $funcionario->estado != NULL && $funcionario->cidade != NULL &&  $funcionario->matricula != NULL && $funcionario->depto != NULL && $funcionario->cargo != NULL &&
-            $funcionario->periodo != NULL && $funcionario->ender_empresa != NULL) {
+            $funcionario->status != NULL && $funcionario->matricula != NULL && $funcionario->depto != NULL && $funcionario->cargo != NULL && $funcionario->periodo != NULL &&
+            $funcionario->ender_empresa != NULL) {
             $resposta = $this->Funcionario_model->setFuncionario($funcionario);
         } else {
             $retorno->status = FALSE;
@@ -226,6 +234,21 @@ class Funcionario extends CI_Controller
         $this->db->where('id_empresa_fk', $this->session->userdata('id_client'));
         $data['end_empresa'] = $this->db->get('tb_endereco_empresa')->result();
 
+        # Sql Grupo
+        $this->db->order_by('grupo');
+        $data['grps'] = $this->db->get('tb_grupo')->result();
+
+        # Sql Beneficio
+        $this->db->where(array('id_grupo_fk' => 1, 'id_status_fk' => 1));
+        $data['itens_benef'] = $this->db->get('tb_item_beneficio')->result();
+
+        # Sql Beneficio Geral
+        $data['ibenef_geral'] = $this->db->get('tb_item_beneficio')->result();
+
+        # Sql Status Cartao
+        $this->db->order_by('status_cartao');
+        $data['sts_card'] = $this->db->get('tb_status_cartao')->result();
+
         $this->load->view('header', $header);
         $this->load->view('funcionario/funcionario_editar', $data);
         $this->load->view('footer');
@@ -257,13 +280,6 @@ class Funcionario extends CI_Controller
         $funcionario->nome_mae      = $this->input->post('nome_mae');
         $funcionario->nome_pai      = $this->input->post('nome_pai');
         $funcionario->status        = $this->input->post('status');
-        $funcionario->cep           = $this->input->post('cep');
-        $funcionario->endereco      = $this->input->post('endereco');
-        $funcionario->numero        = $this->input->post('numero');
-        $funcionario->complemento   = $this->input->post('complemento');
-        $funcionario->bairro        = $this->input->post('bairro');
-        $funcionario->estado        = $this->input->post('estado');
-        $funcionario->cidade        = $this->input->post('cidade');
         $funcionario->matricula     = $this->input->post('matricula');
         $funcionario->depto         = $this->input->post('depto');
         $funcionario->cargo         = $this->input->post('cargo');
@@ -273,9 +289,8 @@ class Funcionario extends CI_Controller
 
         if ($funcionario->id != NULL && $funcionario->cpf != NULL && $funcionario->nome_func != NULL && $funcionario->dt_nasc[0] != NULL && $funcionario->sexo != NULL &&
             $funcionario->estado_civil != NULL && $funcionario->rg != NULL && $funcionario->dt_exped[0]!= NULL &&  $funcionario->orgao_exped != NULL && $funcionario->uf_exped != NULL &&
-            $funcionario->nome_mae != NULL &&  $funcionario->status != NULL && $funcionario->cep != NULL &&  $funcionario->endereco != NULL && $funcionario->numero != NULL &&
-            $funcionario->bairro != NULL &&  $funcionario->estado != NULL && $funcionario->cidade != NULL &&  $funcionario->matricula != NULL && $funcionario->depto != NULL &&
-            $funcionario->cargo != NULL && $funcionario->periodo != NULL && $funcionario->ender_empresa != NULL) {
+            $funcionario->nome_mae != NULL &&  $funcionario->status != NULL && $funcionario->matricula != NULL && $funcionario->depto != NULL && $funcionario->cargo != NULL &&
+            $funcionario->periodo != NULL && $funcionario->ender_empresa != NULL) {
             $resposta = $this->Funcionario_model->setFuncionario($funcionario);
         } else {
             $retorno->status = FALSE;
@@ -302,6 +317,15 @@ class Funcionario extends CI_Controller
         # Sql Funcionario
         $this->db->where('id_funcionario_pk', $id_funcionario);
         $data['funcionario'] = $this->db->get('vw_funcionario')->result();
+
+        # Beneficio
+        if (!empty($data['funcionario'])):
+            $this->db->select('id_beneficio_pk, id_funcionario_fk, id_grupo_fk, grupo, id_item_beneficio_fk, descricao,
+                               vl_unitario, qtd_diaria, num_cartao, id_status_cartao_fk, status_cartao');
+            $this->db->from('vw_benefico_cartao');
+            $this->db->where('id_funcionario_fk', $data['funcionario'][0]->id_funcionario_pk);
+            $data['benef'] = $this->db->get()->result();
+        endif;
 
         $this->load->view('header', $header);
         $this->load->view('funcionario/funcionario_ver', $data);
@@ -406,6 +430,79 @@ class Funcionario extends CI_Controller
 
         print json_encode($retorno);
     }
+
+    /**
+     * Atualiza status do Funcionário
+     *
+     * @method alterStatus
+     * @access public
+     * @return obj Status da ação
+     */
+    public function alterStatus()
+    {
+        # Var
+        $id      = $this->input->post('id');
+        $status  = $this->input->post('id_status');
+        $retorno = new stdClass();
+
+        if ($id != NULL):
+            try {
+                # Atualiza tb_funcionario
+                $data['id_status_fk'] = $status;
+                $this->db->where('id_funcionario_pk', $id);
+                $this->db->update('tb_funcionario', $data);
+
+                $retorno->status = TRUE;
+                $retorno->msg    = "Status Alterado com Sucesso!";
+            } catch(Exception $e) {
+                # logging_function($e->getMessage());
+                $retorno->status = FALSE;
+                $retorno->msg    = "Houve um erro ao mudar o Status do Funcion&aacute;rio! Tente novamente...";
+            }
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Funcion&aacute;rio n&atilde;o Localizado!";
+        endif;
+
+        print json_encode($retorno);
+    }
+
+    /**
+     * Atualiza status de todos Funcionários
+     *
+     * @method alterStatusAll
+     * @access public
+     * @return obj Status da ação
+     */
+    public function alterStatusAll()
+    {
+        # Var
+        $id_client = $this->input->post('id');
+        $status    = $this->input->post('st');
+        $retorno   = new stdClass();
+
+        if ($id_client != NULL):
+            try {
+                # Atualiza tb_funcionario
+                $data['id_status_fk'] = $status;
+                $this->db->where('id_empresa_fk', $id_client);
+                $this->db->update('tb_funcionario', $data);
+
+                $retorno->status = TRUE;
+                $retorno->msg    = "Status Alterados com Sucesso!";
+            } catch(Exception $e) {
+                # logging_function($e->getMessage());
+                $retorno->status = FALSE;
+                $retorno->msg    = "Houve um erro ao mudar os Status dos Funcion&aacute;rios! Tente novamente...";
+            }
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Empresa n&atilde;o Localizada!";
+        endif;
+
+        print json_encode($retorno);
+    }
+
 }
 
 /* End of file Funcionario.php */

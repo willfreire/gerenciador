@@ -12,7 +12,7 @@
 }
 
 .box-wrapper-80 {
-    width  : 80%;
+    width  : 90%;
     margin : 20px auto;
 }
 
@@ -26,6 +26,14 @@
 
 .radio-position {
     margin-top: 5px;
+}
+
+#btn_add_benef, #btn_add_benedit {
+    margin-bottom: 15px;
+}
+
+#tbl_func tbody tr td:first-child {
+    text-align: center;
 }
 
 @media (max-width: 480px) {
@@ -66,7 +74,7 @@
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width  : 100%;
     }
 }
 
@@ -76,7 +84,7 @@
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width  : 100%;
     }
 }
 

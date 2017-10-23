@@ -33,6 +33,10 @@
     margin-top: 5px;
 }
 
+#modal_credito .modal-dialog {
+    width: 80%;
+}
+
 /* Select2 */
 .select2-container .select2-selection--single {
     height: 34px;

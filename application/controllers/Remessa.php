@@ -50,6 +50,7 @@ class Remessa extends CI_Controller
         $header['titulo'] = "Gerar Remessa";
 
         # Cod. Carteira
+        $this->db->where("cod_cart_rem != ''");
         $data['cod_cart'] = $this->db->get('tb_cod_carteira')->result();
 
         # Cod. Ocorrencia Mov
@@ -109,7 +110,7 @@ class Remessa extends CI_Controller
     public function getBoletos()
     {
         # SQL
-        $this->db->select('id_pedido_fk, sacado_cnpj_cpf, sacado_nome, valor');
+        $this->db->select('id_pedido_fk, pagador_cnpj_cpf, pagador_nome, valor');
         $this->db->from('tb_boleto');
         $this->db->order_by('id_pedido_fk', 'ASC');
         $retorno = $this->db->get()->result();
@@ -120,7 +121,7 @@ class Remessa extends CI_Controller
 
             foreach ($retorno as $value):
                 $vl      = isset($value->valor) && $value->valor != "0.00" ? "R\$ " . number_format($value->valor, 2, ',', '.') : "R\$ 0,00";
-                $valor[] = $value->id_pedido_fk . " / " . $value->sacado_cnpj_cpf . " / " . $value->sacado_nome . " / $vl";
+                $valor[] = $value->id_pedido_fk . " / " . $value->pagador_cnpj_cpf . " / " . $value->pagador_nome . " / $vl";
             endforeach;
 
         endif;

@@ -2,6 +2,9 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+# Class ForceUTF8
+use ForceUTF8\Encoding;
+
 class Importacao extends CI_Controller
 {
 
@@ -49,6 +52,27 @@ class Importacao extends CI_Controller
 
         $this->load->view('header', $header);
         $this->load->view('importacao/importacao_geral');
+        $this->load->view('footer');
+    }
+
+    /**
+     * Método lista importações realizadas
+     *
+     * @method historico
+     * @access public
+     * @return void
+     */
+    public function historico()
+    {
+        # Titulo da pagina
+        $header['titulo'] = "Hist&oacute;rico de Importa&ccedil;&atilde;o";
+
+        $this->db->where('id_empresa_fk', $this->session->userdata('id_client'));
+        $this->db->order_by('dt_hr_importacao', 'DESC');
+        $data['arqs'] = $this->db->get('tb_importacao')->result();
+
+        $this->load->view('header', $header);
+        $this->load->view('importacao/importacao_historico', $data);
         $this->load->view('footer');
     }
 
@@ -106,21 +130,22 @@ class Importacao extends CI_Controller
             if (!is_array($file_name)) {
 
                 if (strpos($so, "Win")):
-                    $fileName = iconv("UTF-8", "CP1252", $file_name);
+                    $fileName = time()."_".iconv("UTF-8", "CP1252", $file_name);
                 else:
-                    $fileName = $file_name;
+                    $fileName = time()."_".$file_name;
                 endif;
 
                 if (move_uploaded_file($file_tmp, $output_dir.$fileName)) {
                     # Salvar Log
                     $import_log                     = array();
+                    $import_log['id_empresa_fk']    = $this->session->userdata('id_client');
                     $import_log['arquivo']          = $fileName;
                     $import_log['dt_hr_importacao'] = date("Y-m-d H:i");
                     $this->db->insert('tb_importacao', $import_log);
 
                     # Iniciar a Importacao
                     $handle = fopen($output_dir.$fileName,'r');
-                    while ($csv_lines = fgetcsv($handle, 1024)):
+                    while ($csv_lines = fgetcsv($handle, 1024, ';')):
                         $import[] = $csv_lines;
                     endwhile;
                     fclose($handle);
@@ -130,26 +155,26 @@ class Importacao extends CI_Controller
                     $j    = 0;
                     for ($i=1; $i<$rows; $i++):
                         $dados[$j]['cnpj']                 = trim($import[$i][0]);
-                        $dados[$j]['id_tipo_endereco_fk']  = trim($import[$i][1]);
+                        $dados[$j]['id_tipo_endereco_fk']  = Encoding::toUTF8($import[$i][1]);
                         $dados[$j]['cep']                  = trim($import[$i][2]);
-                        $dados[$j]['logradouro']           = trim($import[$i][3]);
+                        $dados[$j]['logradouro']           = Encoding::toUTF8($import[$i][3]);
                         $dados[$j]['numero']               = trim($import[$i][4]);
-                        $dados[$j]['complemento']          = trim($import[$i][5]);
-                        $dados[$j]['bairro']               = trim($import[$i][6]);
-                        $dados[$j]['id_cidade_fk']         = trim($import[$i][7]);
-                        $dados[$j]['id_estado_fk']         = trim($import[$i][8]);
-                        $dados[$j]['resp_recebimento']     = trim($import[$i][9]);
-                        $dados[$j]['matricula']            = trim($import[$i][10]);
-                        $dados[$j]['nome']                 = trim($import[$i][11]);
-                        $dados[$j]['sexo']                 = trim($import[$i][12]);
+                        $dados[$j]['complemento']          = Encoding::toUTF8($import[$i][5]);
+                        $dados[$j]['bairro']               = Encoding::toUTF8($import[$i][6]);
+                        $dados[$j]['id_cidade_fk']         = Encoding::toUTF8($import[$i][7]);
+                        $dados[$j]['id_estado_fk']         = Encoding::toUTF8($import[$i][8]);
+                        $dados[$j]['resp_recebimento']     = Encoding::toUTF8($import[$i][9]);
+                        $dados[$j]['matricula']            = Encoding::toUTF8($import[$i][10]);
+                        $dados[$j]['nome']                 = Encoding::toUTF8($import[$i][11]);
+                        $dados[$j]['sexo']                 = Encoding::toUTF8($import[$i][12]);
                         $dados[$j]['cpf']                  = trim($import[$i][13]);
                         $dados[$j]['rg']                   = trim($import[$i][14]);
                         $dados[$j]['dt_nasc']              = trim($import[$i][15]);
-                        $dados[$j]['nome_mae']             = trim($import[$i][16]);
-                        $dados[$j]['id_departamento_fk']   = trim($import[$i][17]);
-                        $dados[$j]['id_grupo_fk']          = trim($import[$i][18]);
-                        $dados[$j]['id_item_beneficio_fk'] = trim($import[$i][19]);
-                        $dados[$j]['vl_unitario']          = $this->removeFormatMoney(trim($import[$i][20]));
+                        $dados[$j]['nome_mae']             = Encoding::toUTF8($import[$i][16]);
+                        $dados[$j]['id_departamento_fk']   = Encoding::toUTF8($import[$i][17]);
+                        $dados[$j]['id_grupo_fk']          = Encoding::toUTF8($import[$i][18]);
+                        $dados[$j]['id_item_beneficio_fk'] = Encoding::toUTF8($import[$i][19]);
+                        $dados[$j]['vl_unitario']          = trim(str_replace("R$", null, $import[$i][20]));
                         $dados[$j]['qtd_diaria']           = trim($import[$i][21]);
                         $j++;
                     endfor;
@@ -330,6 +355,8 @@ class Importacao extends CI_Controller
                                 $id_grupo_fk = 2;
                             } elseif (isset($value['id_grupo_fk']) && $value['id_grupo_fk'] == "Alimentação") {
                                 $id_grupo_fk = 3;
+                            } elseif (isset($value['id_grupo_fk']) && $value['id_grupo_fk'] == "Combustível") {
+                                $id_grupo_fk = 4;
                             }
                             $id_item_beneficio_fk = isset($value['id_item_beneficio_fk']) && $value['id_item_beneficio_fk'] != "" ? $value['id_item_beneficio_fk'] : NULL;
                             $vl_unitario          = isset($value['vl_unitario']) && $value['vl_unitario'] != "" ? $value['vl_unitario'] : "0.00";

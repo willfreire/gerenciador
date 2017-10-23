@@ -5,6 +5,8 @@ $grupo       = isset($beneficio[0]->grupo) ? $beneficio[0]->grupo : "";
 $descricao   = isset($beneficio[0]->descricao) ? $beneficio[0]->descricao : "";
 $vl_unitario = isset($beneficio[0]->vl_unitario) ? number_format($beneficio[0]->vl_unitario, 2, ',', '.') : "0,00";
 $modalidade  = isset($beneficio[0]->modalidade) ? $beneficio[0]->modalidade : "";
+$vl_repasse  = isset($beneficio[0]->vl_repasse) ? $beneficio[0]->vl_repasse : "0.00";
+$vl_rep_func = isset($beneficio[0]->vl_rep_func) ? number_format($beneficio[0]->vl_rep_func, 2, ',', '.') : "0,00";
 $status      = isset($beneficio[0]->status) ? $beneficio[0]->status : "";
 ?>
 <style>
@@ -56,6 +58,10 @@ $status      = isset($beneficio[0]->status) ? $beneficio[0]->status : "";
                             <!-- /.box-header -->
                             <div class="box-body">
                                 <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>C&oacute;digo</strong></div>
+                                    <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$id?></div>
+                                </div>
+                                <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Grupo</strong></div>
                                     <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$grupo?></div>
                                 </div>
@@ -70,6 +76,14 @@ $status      = isset($beneficio[0]->status) ? $beneficio[0]->status : "";
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Modalidade</strong></div>
                                     <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$modalidade?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Valor de Repasse por Funcion&aacute;rio</strong></div>
+                                    <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10">R$ <?=$vl_rep_func?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Valor de Repasse</strong></div>
+                                    <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$vl_repasse?> %</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Status</strong></div>

@@ -40,6 +40,7 @@
                                 <table id="tbl_benef_vt" class="display" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>C&oacute;digo</th>
                                             <th>Grupo</th>
                                             <th>Descri&ccedil;&atilde;o</th>
                                             <th>Valor Unid.</th>
@@ -50,6 +51,7 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th>C&oacute;digo</th>
                                             <th>Grupo</th>
                                             <th>Descri&ccedil;&atilde;o</th>
                                             <th>Valor Unid.</th>
@@ -81,6 +83,7 @@
         $(document).ready(function () {
             $('#tbl_benef_vt').DataTable({
                 "columns": [
+                    {data: "id_item_beneficio_pk"},
                     {data: "grupo"},
                     {data: "descricao"},
                     {data: "vl_unitario"},

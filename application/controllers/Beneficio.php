@@ -94,6 +94,8 @@ class Beneficio extends CI_Controller
         $beneficio->descricao   = $this->input->post('descricao');
         $beneficio->vl_unitario = $this->input->post('vl_unitario');
         $beneficio->modalidade  = $this->input->post('modalidade');
+        $beneficio->vl_rep_func = $this->input->post('vl_repasse_func');
+        $beneficio->vl_repasse  = $this->input->post('vl_repasse');
         $beneficio->status      = $this->input->post('status');
 
         if ($beneficio->grupo != NULL && $beneficio->descricao != NULL && $beneficio->modalidade != NULL && $beneficio->status != NULL) {
@@ -181,6 +183,8 @@ class Beneficio extends CI_Controller
         $beneficio->descricao   = $this->input->post('descricao');
         $beneficio->vl_unitario = $this->input->post('vl_unitario');
         $beneficio->modalidade  = $this->input->post('modalidade');
+        $beneficio->vl_rep_func = $this->input->post('vl_repasse_func');
+        $beneficio->vl_repasse  = $this->input->post('vl_repasse');
         $beneficio->status      = $this->input->post('status');
 
         if ($beneficio->id != NULL && $beneficio->grupo != NULL && $beneficio->descricao != NULL && $beneficio->modalidade != NULL && $beneficio->status != NULL) {

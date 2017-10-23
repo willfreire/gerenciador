@@ -45,6 +45,8 @@ $cargo           = isset($cliente[0]->cargo) ? $cliente[0]->cargo : "";
 $id_cond_com_pk  = isset($cliente[0]->id_cond_comercial_pk) ? $cliente[0]->id_cond_comercial_pk : "";
 $taxa_adm        = isset($cliente[0]->taxa_adm) ? $cliente[0]->taxa_adm : "0.00";
 $taxa_entrega    = isset($cliente[0]->taxa_entrega) ? number_format($cliente[0]->taxa_entrega, 2, ',', '.') : "0,00";
+$taxa_fixa_perc  = isset($cliente[0]->taxa_fixa_perc) ? $cliente[0]->taxa_fixa_perc : "0.00";
+$taxa_fixa_real  = isset($cliente[0]->taxa_fixa_real) ? number_format($cliente[0]->taxa_fixa_real, 2, ',', '.') : "0,00";
 ?>
 <style>
     .box-footer {
@@ -248,12 +250,20 @@ $taxa_entrega    = isset($cliente[0]->taxa_entrega) ? number_format($cliente[0]-
                                     <div class="box box-wrapper-80">
                                         <div class="box-body">
                                             <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa Administrativa</strong></div>
+                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa Adm.</strong></div>
                                                 <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$taxa_adm.'%'?></div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa de Entrega</strong></div>
                                                 <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?='R$ '.$taxa_entrega?></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa Fixa %</strong></div>
+                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$taxa_fixa_perc.'%'?></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa Fixa R$</strong></div>
+                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?='R$ '.$taxa_fixa_real?></div>
                                             </div>
                                         </div>
                                     </div>

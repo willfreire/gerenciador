@@ -6,6 +6,8 @@ $cnpj         = isset($empresa[0]->cnpj) ? $empresa[0]->cnpj : "";
 $razao_social = isset($empresa[0]->nome_razao) ? $empresa[0]->nome_razao : "";
 $taxa_adm     = isset($empresa[0]->taxa_adm) ? $empresa[0]->taxa_adm : "";
 $taxa_entrega = isset($empresa[0]->taxa_entrega) ? $empresa[0]->taxa_entrega : "";
+$taxa_fx_perc = isset($empresa[0]->taxa_fixa_perc) ? $empresa[0]->taxa_fixa_perc : "";
+$taxa_fx_real = isset($empresa[0]->taxa_fixa_real) ? $empresa[0]->taxa_fixa_real : "";
 $logradouro   = isset($end_entrega[0]->logradouro) ? $end_entrega[0]->logradouro : "";
 $numero       = isset($end_entrega[0]->numero) ? $end_entrega[0]->numero : "";
 $bairro       = isset($end_entrega[0]->bairro) ? $end_entrega[0]->bairro : "";
@@ -15,7 +17,12 @@ $dt_pgto      = isset($pedido[0]->dt_pgto) ? explode("-", $pedido[0]->dt_pgto) :
 $periodo_ini  = isset($pedido[0]->dt_ini_beneficio) ? explode("-", $pedido[0]->dt_ini_beneficio) : "";
 $dt_per_ini   = is_array($periodo_ini) ? $periodo_ini[2] . '/' . $periodo_ini[1] . '/' . $periodo_ini[0] : '';
 $periodo_fin  = isset($pedido[0]->dt_fin_beneficio) ? explode("-", $pedido[0]->dt_fin_beneficio) : "";
-$dt_per_fin   = is_array($periodo_fin) ? $periodo_fin[2] . '/' . $periodo_fin[1] . '/' . $periodo_fin[0] : ''
+$dt_per_fin   = is_array($periodo_fin) ? $periodo_fin[2] . '/' . $periodo_fin[1] . '/' . $periodo_fin[0] : '';
+$valor_itens  = isset($vl_itens) && $vl_itens != "" ? "R$ ".number_format($vl_itens, 2, ',', '.') : "R$ 0,00";
+$valor_taxa   = isset($vl_taxa) && $vl_taxa != "" ? "R$ ".number_format($vl_taxa, 2, ',', '.') : "R$ 0,00";
+$valor_repass = isset($vl_repasse) && $vl_repasse != "" ? "R$ ".number_format($vl_repasse, 2, ',', '.') : "R$ 0,00";
+$valor_repas  = isset($vl_repasse) && $vl_repasse != "" ? $vl_repasse : "0.00";
+$valor_total  = isset($vl_total) && $vl_total != "" ? "R$ ".number_format($vl_total, 2, ',', '.') : "R$ 0,00";
 ?>
 <body class="hold-transition skin-blue sidebar-mini">
 
@@ -121,7 +128,7 @@ $dt_per_fin   = is_array($periodo_fin) ? $periodo_fin[2] . '/' . $periodo_fin[1]
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-                                                <label for="periodo">Per&iacute;odo do Benef&iacute;cio<span class="text-danger">*</span></label>
+                                                <label for="periodo">Per&iacute;odo de Utiliza&ccedil;&atilde;o<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <div class="input-group">
                                                         <div class="input-group-addon">
@@ -132,46 +139,42 @@ $dt_per_fin   = is_array($periodo_fin) ? $periodo_fin[2] . '/' . $periodo_fin[1]
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div><br>
 
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <label for="id_funcionario[]">Lista de Benefici&aacute;rios<span class="text-danger">*</span></label>
-                                                <div class="controls">
-                                                    <div class="box">
-                                                        <div class="box-body no-padding">
-                                                            <table class="table table-striped">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <th style="width: 120px;">CPF</th>
-                                                                        <th>Funcion&aacute;rio</th>
-                                                                        <th style="width: 80px;">Selecionar</th>
-                                                                    </tr>
-                                                                    <?php
-                                                                    if (is_array($beneficiario)):
-                                                                        foreach ($beneficiario as $value):
-                                                                    ?>
-                                                                        <tr>
-                                                                            <td><?=$value->cpf?></td>
-                                                                            <td><?=$value->nome?></td>
-                                                                            <td style="text-align: center">
-                                                                                <input type="checkbox" name="id_funcionario[]" id="id_funcionario_<?=$value->id_funcionario_pk?>" value="<?=$value->id_funcionario_pk?>" checked>
-                                                                            </td>
-                                                                        </tr>
-                                                                    <?php
-                                                                        endforeach;
-                                                                    endif;
-                                                                    ?>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <!-- /.box-body -->
-                                                    </div>
-                                                </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <th class="danger col-xs-4 col-sm-4 col-md-2 col-lg-2">VALOR BENEF&Iacute;CIOS</th>
+                                                        <td class="col-xs-8 col-sm-8 col-md-10 col-lg-10"><strong><?=$valor_itens?></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="danger col-xs-4 col-sm-4 col-md-2 col-lg-2">VALOR TAXAS</th>
+                                                        <td class="col-xs-8 col-sm-8 col-md-10 col-lg-10"><strong><?=$valor_taxa?></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="danger col-xs-4 col-sm-4 col-md-2 col-lg-2">VALOR DE REPASSE</th>
+                                                        <td class="col-xs-8 col-sm-8 col-md-10 col-lg-10"><strong><?=$valor_repass?></strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="danger col-xs-4 col-sm-4 col-md-2 col-lg-2">VALOR TOTAL</th>
+                                                        <td class="col-xs-8 col-sm-8 col-md-10 col-lg-10"><strong><?=$valor_total?></strong></td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <?php
+                                    if (is_array($beneficiario)):
+                                        foreach ($beneficiario as $value):
+                                    ?>
+                                        <input type="hidden" name="id_funcionario[]" id="id_funcionario_<?=$value->id_funcionario_pk?>" value="<?=$value->id_funcionario_pk?>">
+                                    <?php
+                                        endforeach;
+                                    endif;
+                                    ?>
 
                                 </div>
 
@@ -179,6 +182,10 @@ $dt_per_fin   = is_array($periodo_fin) ? $periodo_fin[2] . '/' . $periodo_fin[1]
                                     <input type="hidden" id="id_pedido" name="id_pedido" value="<?=$id?>">
                                     <input type="hidden" id="taxa_adm" name="taxa_adm" value="<?=$taxa_adm?>">
                                     <input type="hidden" id="taxa_entrega" name="taxa_entrega" value="<?=$taxa_entrega?>">
+                                    <input type="hidden" id="taxa_repasse" name="taxa_repasse" value="<?=$valor_repas?>">
+                                    <input type="hidden" id="taxa_fixa_perc" name="taxa_fixa_perc" value="<?=$taxa_fx_perc?>">
+                                    <input type="hidden" id="taxa_fixa_real" name="taxa_fixa_real" value="<?=$taxa_fx_real?>">
+                                    <input type="hidden" id="id_cliente" name="id_cliente" value="<?=$id_cliente?>">
                                     <button type="submit" id="btn_edit_pedido" name="btn_edit_pedido" class="btn btn-success">Finalizar</button>
                                     <button type="button" id="btn_cancel" name="btn_cancel" class="btn btn-primary" onclick="Pedido.delBtnCancel('<?=$id?>')">Cancelar</button>
                                 </div>

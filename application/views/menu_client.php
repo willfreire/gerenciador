@@ -70,7 +70,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./empresa/editar/' . $this->session->userdata('id_client')) ?>"><i class="fa fa-circle-o"></i> Editar</a></li>
+                    <li><a href="<?= base_url('./empresa/editar/' . $this->session->userdata('id_client')) ?>"><i class="fa fa-circle-o"></i> Editar Dados Cadastrais</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -81,11 +81,11 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./funcionario/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?= base_url('./funcionario/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar Funcion&aacute;rio</a></li>
+                    <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios Cadastrados</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <?php /* <li class="treeview">
                 <a href="#">
                     <i class="fa fa-credit-card" aria-hidden="true"></i> <span>Benef&iacute;cio - Cart&atilde;o</span>
                     <span class="pull-right-container">
@@ -96,7 +96,7 @@
                     <li><a href="<?= base_url('./beneficiocartao/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
                     <li><a href="<?= base_url('./beneficiocartao/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
-            </li>
+            </li> */ ?>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-list" aria-hidden="true"></i> <span>Pedidos</span>
@@ -105,8 +105,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./pedido/solicitar') ?>"><i class="fa fa-circle-o"></i> Solicitar</a></li>
-                    <li><a href="<?= base_url('./pedido/acompanhar') ?>"><i class="fa fa-circle-o"></i> Acompanhar</a></li>
+                    <li><a href="<?= base_url('./pedido/solicitar') ?>"><i class="fa fa-circle-o"></i> Gerar Pedidos</a></li>
+                    <li><a href="<?= base_url('./pedido/acompanhar') ?>"><i class="fa fa-circle-o"></i> Consulta de Pedidos</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -129,7 +129,21 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./importacao/geral') ?>"><i class="fa fa-circle-o"></i> Geral</a></li>
+                    <li><a href="<?= base_url('./importacao/geral') ?>"><i class="fa fa-circle-o"></i> Importar Arquivo</a></li>
+                    <li><a href="<?= base_url('./importacao/historico') ?>"><i class="fa fa-circle-o"></i> Hist&oacute;rico de Importa&ccedil;&atilde;o</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-database" aria-hidden="true"></i> <span>Relat&oacute;rio</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?= base_url('./relatorio/funcionario') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Funcion&aacute;rios</a></li>
+                    <li><a href="<?= base_url('./relatorio/pedido') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Pedidos</a></li>
+                    <li><a href="<?= base_url('./relatorio/inconsistencia') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Inconsist&ecirc;ncias</a></li>
                 </ul>
             </li>
             <li>

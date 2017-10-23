@@ -128,6 +128,13 @@ Cliente = {
             thousands     : '.',
             decimal       : ','
         });
+        $("#taxa_fixa_perc").maskMoney({
+            allowNegative: true
+        });
+        $("#taxa_fixa_real").maskMoney({
+            thousands     : '.',
+            decimal       : ','
+        });
 
         // Calendario
         $('.datepicker').datepicker({

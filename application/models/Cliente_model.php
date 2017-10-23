@@ -120,9 +120,11 @@ class Cliente_model extends CI_Model {
                     $this->db->update('tb_contato_empresa', $contato);
 
                     # Condicao Comercial
-                    $cond_com['id_empresa_fk'] = $id_empr;
-                    $cond_com['taxa_adm']      = $valores->taxa_adm;
-                    $cond_com['taxa_entrega']  = str_replace(',', '.', str_replace('.', '', $valores->taxa_entrega));
+                    $cond_com['id_empresa_fk']  = $id_empr;
+                    $cond_com['taxa_adm']       = $valores->taxa_adm;
+                    $cond_com['taxa_entrega']   = str_replace(',', '.', str_replace('.', '', $valores->taxa_entrega));
+                    $cond_com['taxa_fixa_perc'] = $valores->taxa_fixa_perc;
+                    $cond_com['taxa_fixa_real'] = str_replace(',', '.', str_replace('.', '', $valores->taxa_fixa_real));
                     # Update Condicao Comercial
                     $this->db->where('id_empresa_fk', $id_empr);
                     $this->db->update('tb_cond_comercial', $cond_com);
@@ -203,9 +205,11 @@ class Cliente_model extends CI_Model {
                     $this->db->insert('tb_contato_empresa', $contato);
 
                     # Condicao Comercial
-                    $cond_com['id_empresa_fk'] = $id_empr;
-                    $cond_com['taxa_adm']      = $valores->taxa_adm;
-                    $cond_com['taxa_entrega']  = str_replace(',', '.', str_replace('.', '', $valores->taxa_entrega));
+                    $cond_com['id_empresa_fk']  = $id_empr;
+                    $cond_com['taxa_adm']       = $valores->taxa_adm;
+                    $cond_com['taxa_entrega']   = str_replace(',', '.', str_replace('.', '', $valores->taxa_entrega));
+                    $cond_com['taxa_fixa_perc'] = $valores->taxa_fixa_perc;
+                    $cond_com['taxa_fixa_real'] = str_replace(',', '.', str_replace('.', '', $valores->taxa_fixa_real));
                     # Grava Condicao Comercial
                     $this->db->insert('tb_cond_comercial', $cond_com);
 

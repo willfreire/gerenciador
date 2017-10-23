@@ -95,6 +95,7 @@ class Pedido_model extends CI_Model {
         $dados     = array();
         $benef     = array();
         $item      = array();
+        $rel       = array();
         $timestamp = "%Y-%m-%d %H:%i:%s";
         $data      = time();
         $error_ben = 0;
@@ -103,9 +104,10 @@ class Pedido_model extends CI_Model {
         if (!empty($valores->id_func) && is_array($valores->id_func)):
             $i = 0;
             foreach ($valores->id_func as $value):
-                $this->db->select('id_beneficio_pk, vl_unitario, qtd_diaria');
-                $this->db->from('tb_beneficio');
-                $this->db->where('id_funcionario_fk', $value);
+                $this->db->select('b.id_beneficio_pk, b.vl_unitario, b.qtd_diaria, b.id_item_beneficio_fk, i.id_item_beneficio_pk, i.vl_rep_func, i.vl_repasse');
+                $this->db->from('tb_beneficio b');
+                $this->db->join('tb_item_beneficio i', 'b.id_item_beneficio_fk = i.id_item_beneficio_pk', 'inner');
+                $this->db->where('b.id_funcionario_fk', $value);
                 $resp = $this->db->get()->result();
 
                 if (!empty($resp)):
@@ -114,28 +116,46 @@ class Pedido_model extends CI_Model {
                         $benef['vl_unitario'][$i]     = $vl->vl_unitario;
                         $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
                         $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
+                        $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*$vl->qtd_diaria))/100) : 0;
+                        $benef['vl_rep_func'][$i]     = isset($vl->vl_rep_func) && $vl->vl_rep_func != "" ? $vl->vl_rep_func : 0;
 
                         # Salvar Itens Beneficio
                         $item['id_pedido_fk']    = $valores->id;
                         $item['id_beneficio_fk'] = $vl->id_beneficio_pk;
+                        $item['vl_unitario']     = $vl->vl_unitario;
+                        $item['qtd_unitaria']    = $vl->qtd_diaria;
                         $this->db->insert('tb_item_pedido', $item);
+                        
+                        # Salvar em tb_relatorio
+                        $rel['id_pedido_fk']         = $valores->id;
+                        $rel['id_empresa_fk']        = $valores->id_cliente;
+                        $rel['id_funcionario_fk']    = $value;
+                        $rel['id_status_credito_fk'] = 1;
+                        $rel['id_item_beneficio_fk'] = $vl->id_item_beneficio_fk;
+                        $rel['id_beneficio_fk']      = $vl->id_beneficio_pk;
+                        $rel['vl_unitario']          = $vl->vl_unitario;
+                        $rel['qtd_unitaria']         = $vl->qtd_diaria;
+                        $this->db->insert('tb_relatorio', $rel);
                         $i++;
                     endforeach;
-                else:
-                    $error_ben = 1;
-                    $retorno->status    = FALSE;
-                    $retorno->msg       = "Houve um erro ao Finalizar! Obrigat&oacute;rio cadastrar primeiro o(s) Benef&iacute;cio(s) do(s) Funcion&aacute;rio(s).";
-                    $retorno->url       = base_url("beneficiocartao/cadastrar");
-                    $retorno->id_pedido = NULL;
                 endif;
             endforeach;
+        else:
+            $error_ben          = 1;
+            $retorno->status    = FALSE;
+            $retorno->msg       = "Houve um erro ao Finalizar! Obrigat&oacute;rio cadastrar primeiro o(s) Benef&iacute;cio(s) do(s) Funcion&aacute;rio(s).";
+            $retorno->url       = base_url("beneficiocartao/cadastrar");
+            $retorno->id_pedido = NULL;
         endif;
 
         if ($error_ben !== 1):
             # Calcular Taxas
-            $vl_itens = array_sum($benef['vl_total']);
-            $vl_taxa  = (round($vl_itens*($valores->taxa_adm/100), 2)+$valores->taxa_entrega);
-            $vl_total = ($vl_itens+$vl_taxa);
+            $vl_itens     = array_sum($benef['vl_total']);
+            $vl_taxa_adm  = (round($vl_itens*($valores->taxa_adm/100), 2));
+            $vl_taxa_fx_p = (round($vl_itens*($valores->taxa_fx_perc/100), 2));
+            $vl_taxa      = ($vl_taxa_adm+$vl_taxa_fx_p+$valores->taxa_fx_real+$valores->taxa_entrega);
+            $vl_repasse   = round(array_sum($benef['vl_repasse']), 2)+array_sum($benef['vl_rep_func']);
+            $vl_total     = ($vl_itens+$vl_taxa+$vl_repasse);
 
             # Beneficio
             $periodo_ini = is_array($valores->periodo) && $valores->periodo[0] != NULL ? explode('/', $valores->periodo[0]) : NULL;
@@ -146,6 +166,7 @@ class Pedido_model extends CI_Model {
             $dados['dt_fin_beneficio']  = is_array($periodo_fin) ? $periodo_fin[2].'-'.$periodo_fin[1].'-'.$periodo_fin[0] : NULL;
             $dados['vl_itens']          = $vl_itens;
             $dados['vl_taxa']           = $vl_taxa;
+            $dados['vl_repasse']        = $vl_repasse;
             $dados['vl_total']          = $vl_total;
             $dados['dt_hr_solicitacao'] = mdate($timestamp, $data);
 
@@ -222,8 +243,8 @@ class Pedido_model extends CI_Model {
 
         # Consultar pedidos
         $this->db->select("p.id_pedido_pk, p.id_empresa_fk, e.cnpj, e.nome_razao, p.id_end_empresa_fk,
-                           p.dt_pgto, CONCAT(DATE_FORMAT(p.dt_ini_beneficio, '%d/%m/%Y'), ' a ', DATE_FORMAT(p.dt_fin_beneficio, '%d/%m/%Y')) AS periodo,
-                           p.vl_itens, p.vl_taxa, p.vl_total, p.id_status_pedido_fk, s.status_pedido, p.boleto_gerado, p.dt_hr_solicitacao, b.nome_boleto", FALSE);
+                           p.dt_pgto, CONCAT(DATE_FORMAT(p.dt_ini_beneficio, '%d/%m/%Y'), ' a ', DATE_FORMAT(p.dt_fin_beneficio, '%d/%m/%Y')) AS periodo, p.vl_itens,
+                           p.vl_taxa, p.vl_repasse, p.vl_total, p.id_status_pedido_fk, s.status_pedido, p.boleto_gerado, p.dt_hr_solicitacao, b.nome_boleto", FALSE);
         $this->db->from('tb_pedido p');
         $this->db->join('tb_empresa e', 'p.id_empresa_fk = e.id_empresa_pk', 'inner');
         $this->db->join('tb_status_pedido s', 'p.id_status_pedido_fk = s.id_status_pedido_pk', 'inner');
@@ -247,9 +268,9 @@ class Pedido_model extends CI_Model {
                 $id_pedido  = $value->id_pedido_pk;
                 $nome_boleto = $value->nome_boleto;
                 # $url_boleto = base_url('./pedido/gerarboleto/'.base64_encode($id_pedido));
-                $url_view   = base_url('./pedido/ver/'.$id_pedido);
-                $acao       = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Remitir Boleto' onclick='Pedido.verBoleto(\"$nome_boleto\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
-                $acao      .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Pedido' onclick='Pedido.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
+                # $url_view   = base_url('./pedido/ver/'.$id_pedido);
+                $acao       = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Remitir Boleto' onclick='Pedido.verBoleto(\"$id_pedido\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
+                $acao      .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Pedido' onclick='Pedido.exportPedido(\"$id_pedido\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
                 # $acao      .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Per&iacute;odo' onclick='Pedido.del(\"$id_period\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
 
                 $pedido                = new stdClass();
@@ -259,7 +280,8 @@ class Pedido_model extends CI_Model {
                 $pedido->dt_pgto       = date('d/m/Y', strtotime($value->dt_pgto));
                 $pedido->periodo       = $value->periodo;
                 $pedido->vl_itens      = "R\$ ".number_format($value->vl_itens, 2, ',', '.');
-                $pedido->vl_taxa       = "R\$ ".number_format($value->vl_taxa, 2, ',', '.');
+                $pedido->vl_taxa       = isset($value->vl_taxa) && $value->vl_taxa != "" ? "R\$ ".number_format($value->vl_taxa, 2, ',', '.') : "R\$ 0,00";
+                $pedido->vl_repasse    = isset($value->vl_repasse) && $value->vl_repasse != "" ? "R\$ ".number_format($value->vl_repasse, 2, ',', '.') : "R\$ 0,00";
                 $pedido->vl_total      = "R\$ ".number_format($value->vl_total, 2, ',', '.');
                 $pedido->status_pedido = $value->status_pedido;
                 $pedido->acao          = $acao;
@@ -326,8 +348,8 @@ class Pedido_model extends CI_Model {
 
         # Consultar pedidos
         $this->db->select("p.id_pedido_pk, p.id_empresa_fk, e.cnpj, e.nome_razao, p.id_end_empresa_fk,
-                           p.dt_pgto, CONCAT(DATE_FORMAT(p.dt_ini_beneficio, '%d/%m/%Y'), ' a ', DATE_FORMAT(p.dt_fin_beneficio, '%d/%m/%Y')) AS periodo,
-                           p.vl_itens, p.vl_taxa, p.vl_total, p.id_status_pedido_fk, s.status_pedido, p.boleto_gerado, p.dt_hr_solicitacao, b.nome_boleto", FALSE);
+                           p.dt_pgto, CONCAT(DATE_FORMAT(p.dt_ini_beneficio, '%d/%m/%Y'), ' a ', DATE_FORMAT(p.dt_fin_beneficio, '%d/%m/%Y')) AS periodo, p.vl_itens,
+                           p.vl_repasse, p.vl_taxa, p.vl_total, p.id_status_pedido_fk, s.status_pedido, p.boleto_gerado, p.dt_hr_solicitacao, b.nome_boleto", FALSE);
         $this->db->from('tb_pedido p');
         $this->db->join('tb_empresa e', 'p.id_empresa_fk = e.id_empresa_pk', 'inner');
         $this->db->join('tb_status_pedido s', 'p.id_status_pedido_fk = s.id_status_pedido_pk', 'inner');
@@ -349,12 +371,13 @@ class Pedido_model extends CI_Model {
                 # Botao
                 $id_pedido   = $value->id_pedido_pk;
                 $id_status   = $value->id_status_pedido_fk;
-                $nome_boleto = $value->nome_boleto;
+                # $nome_boleto = $value->nome_boleto;
                 # $url_boleto  = base_url('./pedido/gerarboleto/'.base64_encode($id_pedido));
-                $url_view    = base_url('./pedido/ver/'.$id_pedido);
-                $acao        = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Remitir Boleto' onclick='Pedido.verBoleto(\"$nome_boleto\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
+                # $url_view    = base_url('./pedido/ver/'.$id_pedido);
+                $acao        = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Remitir Boleto' onclick='Pedido.verBoleto(\"$id_pedido\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
                 $acao       .= "<button type='button' class='btn btn-warning btn-xs btn-acao' title='Editar Status do Pedido' onclick='Pedido.alterStatus(\"$id_pedido\", \"$id_status\")'><i class='glyphicon glyphicon-edit' aria-hidden='true'></i></button>";
-                $acao       .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Pedido' onclick='Pedido.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
+                $acao       .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Pedido' onclick='Pedido.exportPedido(\"$id_pedido\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
+                $acao       .= "<button type='button' class='btn btn-success btn-xs btn-acao' title='Valida&ccedil;&atilde;o de Cr&eacute;dito' onclick='Pedido.validaCredito(\"$id_pedido\")'><i class='glyphicon glyphicon-credit-card' aria-hidden='true'></i></button>";
                 if ($this->session->userdata('id_perfil_vt') == "1"):
                     $acao .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Pedido' onclick='Pedido.del(\"$id_pedido\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
                 endif;
@@ -366,7 +389,8 @@ class Pedido_model extends CI_Model {
                 $pedido->dt_pgto       = date('d/m/Y', strtotime($value->dt_pgto));
                 $pedido->periodo       = $value->periodo;
                 $pedido->vl_itens      = "R\$ ".number_format($value->vl_itens, 2, ',', '.');
-                $pedido->vl_taxa       = "R\$ ".number_format($value->vl_taxa, 2, ',', '.');
+                $pedido->vl_taxa       = isset($value->vl_taxa) && $value->vl_taxa != "" ? "R\$ ".number_format($value->vl_taxa, 2, ',', '.') : "R\$ 0,00";
+                $pedido->vl_repasse    = isset($value->vl_repasse) && $value->vl_repasse != "" ? "R\$ ".number_format($value->vl_repasse, 2, ',', '.') : "R\$ 0,00";
                 $pedido->vl_total      = "R\$ ".number_format($value->vl_total, 2, ',', '.');
                 $pedido->status_pedido = $value->status_pedido;
                 $pedido->acao          = $acao;
@@ -381,6 +405,66 @@ class Pedido_model extends CI_Model {
         $dados['data']            = $pedidos;
 
         return $dados;
+    }
+
+    /**
+     * Método responsável por consultar e exporta uma lista de pedido
+     *
+     * @method getPedidoExport
+     * @param integer $id_pedido Id do Pedido
+     * @access public
+     * @return obj Lista de pedidos
+     */
+    public function getPedidoExport($id_pedido)
+    {
+        # Vars
+        $retorno = new stdClass();
+        $dados   = array();
+
+        # Consultar pedidos
+        $this->db->select('p.id_pedido_pk, p.id_empresa_fk, e.cnpj, e.nome_razao, dp.matricula, c.num_cartao, f.cpf,
+                           f.rg, f.nome, ib.id_item_beneficio_pk, i.vl_unitario, i.qtd_unitaria AS qtd_diaria, ib.descricao');
+        $this->db->from('tb_pedido p');
+        $this->db->join('tb_empresa e', 'p.id_empresa_fk = e.id_empresa_pk', 'inner');
+        $this->db->join('tb_item_pedido i', 'p.id_pedido_pk = i.id_pedido_fk', 'inner');
+        $this->db->join('tb_beneficio b', 'i.id_beneficio_fk = b.id_beneficio_pk', 'inner');
+        $this->db->join('tb_item_beneficio ib', 'b.id_item_beneficio_fk = ib.id_item_beneficio_pk', 'inner');
+        $this->db->join('tb_funcionario f', 'b.id_funcionario_fk = f.id_funcionario_pk', 'inner');
+        $this->db->join('tb_dados_profissional dp', 'f.id_funcionario_pk = dp.id_funcionario_fk', 'inner');
+        $this->db->join('tb_cartao c', 'i.id_beneficio_fk = c.id_beneficio_fk', 'left');
+        $this->db->where('p.id_pedido_pk', $id_pedido);
+        $rows = $this->db->get()->result();
+
+        if (!empty($rows)):
+            foreach ($rows as $valor):
+                $vl_total = ($valor->vl_unitario*$valor->qtd_diaria);
+
+                $dado               = new stdClass();
+                $dado->id_pedido    = $valor->id_pedido_pk;
+                $dado->cnpj         = $valor->cnpj;
+                $dado->nome_razao   = $valor->nome_razao;
+                $dado->cpf          = $valor->cpf;
+                $dado->rg           = $valor->rg;
+                $dado->nome         = $valor->nome;
+                $dado->id_item      = $valor->id_item_beneficio_pk;
+                $dado->descricao    = $valor->descricao;
+                $dado->vl_unitario  = isset($valor->vl_unitario) && $valor->vl_unitario != "" ? "R\$ ".number_format($valor->vl_unitario, 2, ',', '.') : "R$ 0,00";
+                $dado->qtde_diaria  = $valor->qtd_diaria;
+                $dado->vl_total     = isset($vl_total) ? "R\$ ".number_format($vl_total, 2, ',', '.') : "R$ 0,00";
+                $dado->num_cartao   = isset($valor->num_cartao) && $valor->num_cartao != "" ? $valor->num_cartao : "N&atilde;o Possui";
+                $dados[]            = $dado;
+            endforeach;
+
+            $retorno->status = TRUE;
+            $retorno->msg    = "Ok";
+            $retorno->dados  = $dados;
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Falha na Exporta&ccedil;&atilde;o para Excel!";
+            $retorno->dados  = NULL;
+        endif;
+
+        return $retorno;
     }
 
     /**
@@ -420,7 +504,8 @@ class Pedido_model extends CI_Model {
      * @param obj $status Dados para alteraçao
      * @return obj Status da Acao
      */
-    public function alterStPedido($status) {
+    public function alterStPedido($status)
+    {
         # Atribuir vars
         $retorno = new stdClass();
         $dados   = array();
@@ -453,6 +538,138 @@ class Pedido_model extends CI_Model {
         }
 
         # retornar
+        return $retorno;
+    }
+
+    /**
+     * Método responsável por buscar os itens do pedido
+     *
+     * @method getItemBenPedido
+     * @access public
+     * @param integer $id_pedido Id do pedido
+     * @return obj Dados do beneficios do pedido
+     */
+    public function getItemBenPedido($id_pedido)
+    {
+        # Vars
+        $retorno = new stdClass();
+
+        # Sql Itens dos Beneficiarios
+        $this->db->select('ip.id_item_pedido_pk, ip.id_pedido_fk, ip.id_beneficio_fk, ip.id_status_fk AS status_benef,
+                           b.id_funcionario_fk, b.id_item_beneficio_fk, ib.descricao, ip.vl_unitario, f.cpf, f.nome');
+        $this->db->from('tb_item_pedido ip');
+        $this->db->join('tb_beneficio b', 'ip.id_beneficio_fk = b.id_beneficio_pk', 'inner');
+        $this->db->join('tb_funcionario f', 'b.id_funcionario_fk = f.id_funcionario_pk', 'inner');
+        $this->db->join('tb_item_beneficio ib', 'b.id_item_beneficio_fk = ib.id_item_beneficio_pk', 'inner');
+        $this->db->where('ip.id_pedido_fk', $id_pedido);
+        $this->db->order_by('f.nome', 'ASC');
+        $rows = $this->db->get()->result();
+
+        if (!empty($rows)):
+            foreach($rows as $value):
+                # valor
+                $vl_un = isset($value->vl_unitario) ? number_format($value->vl_unitario, 2, ',', '.') : "0,00";
+
+                # Acao
+                $acao  = '<label class="radio-inline">';
+                $acao .=    '<input type="radio" name="vl_ben_'.$value->id_item_pedido_pk.'" id="vl_ben_s_'.$value->id_item_pedido_pk.'" value="2" onclick="Pedido.setValBen(\'2\', \''.$value->id_item_pedido_pk.'\', \''.$id_pedido.'\')" '.($value->status_benef == "2" ? "checked" : "").' > <div class="radio-position">Habilitado</div>';
+                $acao .= '</label>';
+                $acao .= '<label class="radio-inline">';
+                $acao .=    '<input type="radio" name="vl_ben_'.$value->id_item_pedido_pk.'" id="vl_ben_n_'.$value->id_item_pedido_pk.'" value="3" onclick="Pedido.setValBen(\'3\', \''.$value->id_item_pedido_pk.'\', \''.$id_pedido.'\')" '.($value->status_benef == "3" ? "checked" : "").'> <div class="radio-position">Cancelado</div>';
+                $acao .= '</label>';
+
+                $item            = new stdClass();
+                $item->id        = $value->id_item_pedido_pk;
+                $item->st_benef  = $acao;
+                $item->cpf       = $value->cpf;
+                $item->nome      = $value->nome;
+                $item->descricao = $value->descricao." - <strong>R$ $vl_un</strong>";
+                $itens[]         = $item;
+            endforeach;
+
+            $retorno->status = TRUE;
+            $retorno->msg    = "Ok";
+            $retorno->dados  = $itens;
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Nenhum benef&iacute;cio encontrado para este Pedido!";
+        endif;
+
+        return $retorno;
+    }
+
+    /**
+     * Método responsável por validar credito de beneficio
+     *
+     * @method setValCredBen
+     * @access public
+     * @param status $status Status do credito
+     * @param integer $id_benef Id do beneficio
+     * @return obj Status da ação
+     */
+    public function setValCredBen($status, $id_benef)
+    {
+        # Vars
+        $retorno   = new stdClass();
+        $dados     = array();
+        $dados_rel = array();
+
+        # Alterar Status
+        $dados['id_status_fk'] = $status;
+        $this->db->where('id_item_pedido_pk', $id_benef);
+        $this->db->update('tb_item_pedido', $dados);
+
+        if ($this->db->affected_rows() >= 0):
+            # Alterar Status no tb_relatorio
+            $dados_rel['id_status_credito_fk'] = $status;
+            $this->db->where('id_item_pedido_fk', $id_benef);
+            $this->db->update('tb_relatorio', $dados_rel);
+
+            $retorno->status = TRUE;
+            $retorno->msg    = "Status do Cr&eacute;dito alterado com Sucesso!";
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao alterar o Status do Cr&eacute;dito";
+        endif;
+
+        return $retorno;
+    }
+
+    /**
+     * Método responsável por validar credito de todos itens do beneficio
+     * por Id do Pedido
+     *
+     * @method setValAllCred
+     * @access public
+     * @param status $status Status do credito
+     * @param integer $id_pedido Id do pedido
+     * @return obj Status da ação
+     */
+    public function setValAllCred($status, $id_pedido)
+    {
+        # Vars
+        $retorno   = new stdClass();
+        $dados     = array();
+        $dados_rel = array();
+
+        # Alterar Status
+        $dados['id_status_fk'] = $status;
+        $this->db->where('id_pedido_fk', $id_pedido);
+        $this->db->update('tb_item_pedido', $dados);
+
+        if ($this->db->affected_rows() >= 0):
+            # Alterar Status no tb_relatorio
+            $dados_rel['id_status_credito_fk'] = $status;
+            $this->db->where('id_pedido_fk', $id_pedido);
+            $this->db->update('tb_relatorio', $dados_rel);
+
+            $retorno->status = TRUE;
+            $retorno->msg    = "Status dos Cr&eacute;ditos alterado com Sucesso!";
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao alterar o Status dos Cr&eacute;ditos";
+        endif;
+
         return $retorno;
     }
 

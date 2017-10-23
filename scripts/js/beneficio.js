@@ -7,18 +7,9 @@ Beneficio = {
 
         var currentLocation = window.location;
         var parser          = document.createElement('a');
-        // parser.href = "http://example.com:3000/pathname/?search=test#hash";
-        parser.href = currentLocation;
-
-        var protocol = parser.protocol; // => "http:"
-        var host     = parser.host;     // => "example.com:3000"
-        var hostname = parser.hostname; // => "example.com"
-        var port     = parser.port;     // => "3000"
-        var pathname = parser.pathname; // => "/pathname/"
-        var pathproj = pathname.split('/')[1];
-        var hash     = parser.hash;     // => "#hash"
-        var search   = parser.search;   // => "?search=test"
-        var origin   = parser.origin;   // => "http://example.com:3000"
+            parser.href     = currentLocation;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
 
         // Botao voltar
         $('#btn_back').click(function(){
@@ -29,6 +20,13 @@ Beneficio = {
         $("#vl_unitario").maskMoney({
             thousands : '.',
             decimal   : ','
+        });
+        $("#vl_repasse_func").maskMoney({
+            thousands : '.',
+            decimal   : ','
+        });
+        $("#vl_repasse").maskMoney({
+            allowNegative: true
         });
 
         // Beneficio Cadastrar
