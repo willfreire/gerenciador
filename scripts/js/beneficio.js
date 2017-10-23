@@ -21,6 +21,10 @@ Beneficio = {
             thousands : '.',
             decimal   : ','
         });
+        $("#vl_repasse_func").maskMoney({
+            thousands : '.',
+            decimal   : ','
+        });
         $("#vl_repasse").maskMoney({
             allowNegative: true
         });

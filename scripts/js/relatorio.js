@@ -16,6 +16,28 @@ Relatorio = {
             Relatorio.redirect('/'+pathproj+'/');
         });
 
+        // Buscar Pedido por Cliente
+        $("#id_cliente").change(function(){
+            var id_cliente = $(this).val();
+            if (id_cliente !== ""){
+                $.post("./getIdPedidoCliente", {
+                    id: id_cliente
+                }, function(data) {
+                    if (data.status === true) {
+                        var option = '<option value="">Selecione</option>';
+                        $.each(data.dados, function(key, value){
+                            option += '<option value="'+value.id_pedido_pk+'">'+value.id_pedido_pk+'</option>';
+                        });
+                        $("#id_pedido").html(option).removeAttr('disabled');
+                    } else {
+                        Relatorio.boxMsg("ATEN&Ccedil;&Atilde;O", data.msg, null, null);
+                        var option = '<option value="">Selecione Primeiramente o Cliente</option>';
+                        $("#id_pedido").html(option).attr('disabled');
+                    }
+                }, 'json');
+            }
+        });
+
         // Calendario Periodo
         /* moment.locale('pt-br');
         $('#periodo').daterangepicker({
@@ -75,6 +97,47 @@ Relatorio = {
             Relatorio.openWindow(url, '_blank');
         });
 
+        // Relatorio Funcionario VT
+        $('#frm_rel_func_vt').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                id_cliente: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>CLIENTE</strong>'
+			}
+		    }
+		},
+                id_pedido: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PEDIDO</strong>'
+			}
+		    }
+		}
+            }
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+            var url = '/'+pathproj+'/relatorio/relFuncionario/'+Relatorio.base64_encode(frm);
+
+            $("#btn_rel_func").removeAttr("disabled");
+
+            Relatorio.openWindow(url, '_blank');
+        });
+
         // Relatorio Pedido
         $('#frm_rel_ped').bootstrapValidator({
             feedbackIcons: {
@@ -110,7 +173,7 @@ Relatorio = {
             var hostname        = parser.hostname;
             var pathname        = parser.pathname;
             var pathproj        = pathname.split('/')[1];
-            var link            = "https://"+hostname+"/"+pathproj+"/relatorio/exportPedidoXls";
+            var link            = "http://"+hostname+"/"+pathproj+"/relatorio/exportPedidoXls";
             var table           = '';
             var name            = '';
             var id_pedido       = $("#id_pedido").val();
@@ -150,7 +213,151 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Diária</strong>';
+                    table +=            '<strong>Quantidade Unitária</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor Total</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Descrição do Benefício</strong>';
+                    table +=        '</td>';
+                    table +=    '</tr>';
+                    $.each(data.dados, function (key, value) {
+                        table += '<tr>';
+                        table +=    '<td align="center"> ';
+                        table +=        (value.id_pedido) ? value.id_pedido : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.nome_razao) ? value.nome_razao : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.cnpj) ? value.cnpj : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.matricula) ? value.matricula : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.cpf) ? value.cpf : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.nome) ? value.nome : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.id_item) ? value.id_item : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_unitario) ? value.vl_unitario : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.qtde_diaria) ? value.qtde_diaria : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_total) ? value.vl_total : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.descricao) ? value.descricao : '';
+                        table +=    '</td>';
+                        table += '</tr>';
+                    });
+                    table += '</table>';
+
+                    // Fecha modal
+                    $('#msg_modal').modal('hide');
+                    $("#btn_rel_ped").removeAttr("disabled");
+
+                    // Gerar excel
+                    Relatorio.createExcel(name, table);
+                } else {
+                    Relatorio.boxMsg("ATEN&Ccedil;&Atilde;O", data.msg, null, null);
+                }
+
+            }, 'json');
+
+        });
+
+        // Relatorio Pedido VT
+        $('#frm_rel_ped_vt').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                id_cliente: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>CLIENTE</strong>'
+			}
+		    }
+		},
+                id_pedido: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PEDIDO</strong>'
+			}
+		    }
+		}
+            }
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+
+            // Atribuir valores
+            var currentLocation = window.location;
+            var parser          = document.createElement('a');
+                parser.href     = currentLocation;
+            var hostname        = parser.hostname;
+            var pathname        = parser.pathname;
+            var pathproj        = pathname.split('/')[1];
+            var link            = "http://"+hostname+"/"+pathproj+"/relatorio/exportPedidoXls";
+            var table           = '';
+            var name            = '';
+            var id_pedido       = $("#id_pedido").val();
+
+            // Msg de exportação
+            Relatorio.modalMsg("Exportar Excel", "Aguarde, Processando...");
+
+            $.post(link, {id: id_pedido}, function(data){
+
+                if (data.status === true) {
+                    name = "Pedido Solicitado";
+
+                    table += '<table border="1" bordercolor="000" cellspacing="0" cellpadding="0">';
+                    table +=    '<tr bgcolor="#CCCCCC">';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Número do Pedido</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Razão Social</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>CNPJ</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Matrícula</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>CPF</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Nome do Funcionário</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Código do Benefício</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor Unitário</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Quantidade Unitária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';
@@ -247,7 +454,7 @@ Relatorio = {
             var hostname        = parser.hostname;
             var pathname        = parser.pathname;
             var pathproj        = pathname.split('/')[1];
-            var link            = "https://"+hostname+"/"+pathproj+"/relatorio/exportInconsXls";
+            var link            = "http://"+hostname+"/"+pathproj+"/relatorio/exportInconsXls";
             var table           = '';
             var name            = '';
             var id_pedido       = $("#id_pedido").val();
@@ -287,7 +494,7 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Diária</strong>';
+                    table +=            '<strong>Quantidade Unitária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';
@@ -332,7 +539,157 @@ Relatorio = {
                         table +=        (value.vl_total) ? value.vl_total : '';
                         table +=    '</td>';
                         table +=    '<td align="center">';
-                        table +=        'Recarga Lberada no Cartão';
+                        table +=        (value.status_benef) ? value.status_benef : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.descricao) ? value.descricao : '';
+                        table +=    '</td>';
+                        table += '</tr>';
+                    });
+                    table += '</table>';
+
+                    // Fecha modal
+                    $('#msg_modal').modal('hide');
+                    $("#btn_rel_incons").removeAttr("disabled");
+
+                    // Gerar excel
+                    Relatorio.createExcel(name, table);
+                } else {
+                    Relatorio.boxMsg("ATEN&Ccedil;&Atilde;O", data.msg, null, null);
+                }
+
+            }, 'json');
+
+        });
+
+        // Relatorio Inconsistencia VT
+        $('#frm_rel_incons_vt').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                id_cliente: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>CLIENTE</strong>'
+			}
+		    }
+		},
+                id_pedido: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PEDIDO</strong>'
+			}
+		    }
+		}
+            }
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+
+            // Atribuir valores
+            var currentLocation = window.location;
+            var parser          = document.createElement('a');
+                parser.href     = currentLocation;
+            var hostname        = parser.hostname;
+            var pathname        = parser.pathname;
+            var pathproj        = pathname.split('/')[1];
+            var link            = "http://"+hostname+"/"+pathproj+"/relatorio/exportInconsXls";
+            var table           = '';
+            var name            = '';
+            var id_pedido       = $("#id_pedido").val();
+
+            // Msg de exportação
+            Relatorio.modalMsg("Exportar Excel", "Aguarde, Processando...");
+
+            $.post(link, {id: id_pedido}, function(data){
+
+                if (data.status === true) {
+                    name = "Pedido Inconsistência";
+
+                    table += '<table border="1" bordercolor="000" cellspacing="0" cellpadding="0">';
+                    table +=    '<tr bgcolor="#CCCCCC">';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Número do Pedido</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Razão Social</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>CNPJ</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Matrícula</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>CPF</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Nome do Funcionário</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Código do Benefício</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor Unitário</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Quantidade Unitária</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor Total</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Status da Recarga</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Descrição do Benefício</strong>';
+                    table +=        '</td>';
+                    table +=    '</tr>';
+                    $.each(data.dados, function (key, value) {
+                        table += '<tr>';
+                        table +=    '<td align="center"> ';
+                        table +=        (value.id_pedido) ? value.id_pedido : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.nome_razao) ? value.nome_razao : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.cnpj) ? value.cnpj : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.matricula) ? value.matricula : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.cpf) ? value.cpf : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.nome) ? value.nome : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.id_item) ? value.id_item : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_unitario) ? value.vl_unitario : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.qtde_diaria) ? value.qtde_diaria : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_total) ? value.vl_total : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.status_benef) ? value.status_benef : '';
                         table +=    '</td>';
                         table +=    '<td>';
                         table +=        (value.descricao) ? value.descricao : '';

@@ -38,6 +38,7 @@ class Beneficio_model extends CI_Model {
         $dados['descricao']        = $valores->descricao;
         $dados['vl_unitario']      = str_replace(',', '.', str_replace('.', '', $valores->vl_unitario));
         $dados['id_modalidade_fk'] = $valores->modalidade;
+        $dados['vl_rep_func']      = str_replace(',', '.', str_replace('.', '', $valores->vl_rep_func));
         if ($valores->vl_repasse):
             $dados['vl_repasse'] = $valores->vl_repasse;
         endif;

@@ -170,23 +170,15 @@ Financeiro = {
     /*!
      * @description Ver Boleto
      **/
-    verBoleto: function (nome) {
+    verBoleto: function (id_pedido) {
         var currentLocation = window.location;
         var parser          = document.createElement('a');
-        // parser.href = "http://example.com:3000/pathname/?search=test#hash";
-        parser.href = currentLocation;
-
-        var protocol = parser.protocol; // => "http:"
-        var host     = parser.host;     // => "example.com:3000"
-        var hostname = parser.hostname; // => "example.com"
-        var port     = parser.port;     // => "3000"
-        var pathname = parser.pathname; // => "/pathname/"
-        var pathproj = pathname.split('/')[1];
-        var hash     = parser.hash;     // => "#hash"
-        var search   = parser.search;   // => "?search=test"
-        var origin   = parser.origin;   // => "http://example.com:3000"
-
-        var url_boleto = "http://"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
+            parser.href     = currentLocation;
+        var hostname        = parser.hostname;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
+        // var url_boleto      = "http://"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
+        var url_boleto      = "http://"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
 
         Financeiro.openWindow(url_boleto, "_blank");
     },
@@ -253,11 +245,11 @@ Financeiro = {
                     html +=         '</tr>';
                     html +=         '<tr>';
                     html +=             '<th>CNPJ</th>';
-                    html +=             '<td>'+value.sacado_cnpj_cpf+'</td>';
+                    html +=             '<td>'+value.pagador_cnpj_cpf+'</td>';
                     html +=         '</tr>';
                     html +=         '<tr>';
                     html +=             '<th>Cliente</th>';
-                    html +=             '<td>'+value.sacado_nome+'</td>';
+                    html +=             '<td>'+value.pagador_nome+'</td>';
                     html +=         '</tr>';
                     html +=         '<tr>';
                     html +=             '<th>Valor</th>';

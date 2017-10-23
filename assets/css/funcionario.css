@@ -12,7 +12,7 @@
 }
 
 .box-wrapper-80 {
-    width  : 80%;
+    width  : 90%;
     margin : 20px auto;
 }
 
@@ -74,7 +74,7 @@
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width  : 100%;
     }
 }
 
@@ -84,7 +84,7 @@
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width  : 100%;
     }
 }
 

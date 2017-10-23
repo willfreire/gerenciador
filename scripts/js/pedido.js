@@ -34,6 +34,7 @@ Pedido = {
 
         // Calendario
         $('.datepicker').datepicker({
+            orientation: 'bottom',
             format: 'dd/mm/yyyy',
             language: 'pt-BR',
             startDate: new Date(),
@@ -237,7 +238,7 @@ Pedido = {
             $.post(url, frm, function (data) {
                 if (data.status === true) {
                     Pedido.modalMsg("MENSAGEM", data.msg, false, '../acompanhar');
-                    Pedido.openWindow('/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido, '_blank');
+                    Pedido.openWindow('https://'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido, '_blank');
                 } else {
                     Pedido.modalMsg("Aten&ccedil;&atilde;o", data.msg, false, data.url);
                 }
@@ -345,7 +346,6 @@ Pedido = {
         var pathproj        = pathname.split('/')[1];
         var url_boleto      = "https://"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
         //var url_boleto      = "http://"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
-        // Pedido.openWindow(url_boleto, "_blank");
         Pedido.openWindow(url_boleto, "_blank");
     },
 
@@ -402,7 +402,7 @@ Pedido = {
                 table +=            '<strong>Valor Unitário</strong>';
                 table +=        '</td>';
                 table +=	'<td align="center">';
-                table +=            '<strong>Quantidade Diária</strong>';
+                table +=            '<strong>Quantidade Unitária</strong>';
                 table +=        '</td>';
                 table +=	'<td align="center">';
                 table +=            '<strong>Valor Total</strong>';
@@ -576,6 +576,79 @@ Pedido = {
     {
         $("#title_modal_status").html(title);
         $("#modal_status").modal('show');
+    },
+
+    /*!
+     * @description Método para validar credito
+     **/
+    validaCredito: function(id_pedido)
+    {
+        // Buscar Itens Beneficios
+        $.post('./itemBenPedido', {
+            id: id_pedido
+        }, function(data){
+            if (data.status === true){
+                var link_valida = '(<a href="javascript:void()" onclick="Pedido.validaAllCredit(\'2\', \''+id_pedido+'\')">Habilitados</a> | <a href="javascript:void()" onclick="Pedido.validaAllCredit(\'3\', \''+id_pedido+'\')">Cancelados</a>)';
+                $("#link_valida").html(link_valida);
+                var html = '';
+                $.each(data.dados, function(key, value){
+                    html += '<tr>';
+                    html +=     '<td>'+value.cpf+'</td>';
+                    html +=     '<td>'+value.nome+'</td>';
+                    html +=     '<td>'+value.descricao+'</td>';
+                    html +=     '<td>'+value.st_benef+'</td>';
+                    html += '</tr>';
+                });
+                $("#lst_benef").html(html);
+                $("#modal_credito").modal('show');
+            } else {
+                Pedido.modalMsg("ATEN&Ccedil;&Atilde;O", data.msg, false, false);
+            }
+        }, 'json');
+    },
+
+    /*!
+     * @description Método para alterar Status do Credito do Beneficio
+     **/
+    setValBen: function(status, id_benef, id_pedido)
+    {
+        if (status !== "" && id_benef !== "") {
+            $.post('./valCredBen', {
+                st: status,
+                id: id_benef
+            }, function(data){
+                if (data.status === true) {
+                    Pedido.modalMsg("MENSAGEM", data.msg, false, false);
+                    Pedido.validaCredito(id_pedido);
+                } else {
+                    Pedido.modalMsg("ATEN&Ccedil;&Atilde;O", data.msg, false, false);
+                }
+            }, 'json');
+        } else {
+            Pedido.modalMsg("ATEN&Ccedil;&Atilde;O", "Houve um erro na Valida&ccedil;&atilde;o dos Cr&eacute;ditos! Favor recarregar a p&aacute;gina.");
+        }
+    },
+
+    /*!
+     * @description Método para alterar todos status do Credito do Beneficio por Pedido
+     **/
+    validaAllCredit: function(status, id_pedido)
+    {
+        if (status !== "" && id_pedido !== "") {
+            $.post('./valAllCredBen', {
+                st: status,
+                id: id_pedido
+            }, function(data){
+                if (data.status === true) {
+                    Pedido.modalMsg("MENSAGEM", data.msg, false, false);
+                    Pedido.validaCredito(id_pedido);
+                } else {
+                    Pedido.modalMsg("ATEN&Ccedil;&Atilde;O", data.msg, false, false);
+                }
+            }, 'json');
+        } else {
+            Pedido.modalMsg("ATEN&Ccedil;&Atilde;O", "Houve um erro na Valida&ccedil;&atilde;o dos Cr&eacute;ditos! Favor recarregar a p&aacute;gina.");
+        }
     },
 
     /*!

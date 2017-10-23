@@ -49,6 +49,7 @@
                                             <th>Nome</th>
                                             <th>RG</th>
                                             <th>Matr&iacute;cula</th>
+                                            <th>Per&iacute;odo</th>
                                             <th>Status</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>
@@ -64,6 +65,7 @@
                                             <th>Nome</th>
                                             <th>RG</th>
                                             <th>Matr&iacute;cula</th>
+                                            <th>Per&iacute;odo</th>
                                             <th>Status</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>
@@ -90,13 +92,14 @@
     <script>
         $(document).ready(function () {
             $('#tbl_func').DataTable({
-                "order": [[1, "asc"]],
+                "order": [[2, "asc"]],
                 "columns": [
                     {data: "at_in", searchable: false, orderable: false},
                     {data: "cpf"},
                     {data: "nome"},
                     {data: "rg"},
                     {data: "matricula"},
+                    {data: "periodo", searchable: false, orderable: false},
                     {data: "status"},
                     {data: "acao", searchable: false, orderable: false}
                 ],

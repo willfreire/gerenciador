@@ -305,8 +305,9 @@ class Aviso extends CI_Controller
         $header['titulo'] = "Visualiza&ccedil;&atilde;o de Todos Avisos";
 
         # Sql
-        $this->db->select("id_quadro_aviso_pk, titulo, descricao, DATE_FORMAT(dt_hr_cad, '%d/%m/%Y') AS dt_hr_cad", FALSE);
+        $this->db->select("id_quadro_aviso_pk, titulo, descricao, DATE_FORMAT(dt_hr_cad, '%d/%m/%Y') AS dt_cadastro", FALSE);
         $this->db->from('tb_quadro_aviso');
+        $this->db->order_by('dt_hr_cad', 'DESC');
         $data['avisos'] = $this->db->get()->result();
 
         $this->load->view('header', $header);

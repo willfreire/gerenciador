@@ -80,12 +80,12 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
+                                            <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4">
                                                 <label for="vl_unitario">Valor Unit&aacute;rio</label>
                                                 <div class="controls">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon">R$</span>
-                                                        <input type="text" class="form-control" id="vl_unitario" name="vl_unitario" placeholder="0,00" maxlength="7" value="0,00">
+                                                        <span class="input-group-addon"><strong>R$</strong></span>
+                                                        <input type="text" class="form-control" id="vl_unitario" name="vl_unitario" placeholder="0,00" maxlength="10" value="0,00">
                                                     </div>
                                                 </div>
                                             </div>
@@ -114,6 +114,20 @@
 
                                     <div class="form-group">
                                         <div class="row">
+                                            <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4">
+                                                <label for="vl_repasse_func">Valor Repasse por Funcion&aacute;rio</label>
+                                                <div class="controls">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><strong>R$</strong></span>
+                                                        <input type="text" class="form-control" id="vl_repasse_func" name="vl_repasse_func" placeholder="0,00" maxlength="7" value="0,00">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
                                             <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
                                                 <label for="vl_repasse">Valor de Repasse</label>
                                                 <div class="controls">
@@ -125,7 +139,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">

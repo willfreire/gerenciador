@@ -45,7 +45,7 @@
                                             <?php if (!empty($avisos)): ?>
                                                 <?php foreach ($avisos as $value): ?>
                                                     <tr>
-                                                        <td><?=$value->dt_hr_cad?></td>
+                                                        <td><?=$value->dt_cadastro?></td>
                                                         <td><a href="javascript:void(0)" onclick="Main.verAviso('<?=$value->id_quadro_aviso_pk?>')"><?=$value->titulo?></a></td>
                                                     </tr>
                                                 <?php endforeach; ?>

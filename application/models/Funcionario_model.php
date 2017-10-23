@@ -255,6 +255,8 @@ class Funcionario_model extends CI_Model {
         $funcionarios = array();
         if (!empty($resp_dados)):
 
+            # Consultar Periodo
+            
             foreach ($resp_dados as $value):
                 # Botao
                 $id_func = $value->id_funcionario_pk;
@@ -278,6 +280,7 @@ class Funcionario_model extends CI_Model {
                 $funcionario->nome      = $value->nome;
                 $funcionario->rg        = $value->rg;
                 $funcionario->matricula = $value->matricula;
+                $funcionario->periodo   = $value->matricula;
                 $funcionario->status    = $value->status;
                 $funcionario->acao      = $acao;
                 $funcionarios[]         = $funcionario;

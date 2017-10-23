@@ -117,6 +117,30 @@
             </div>
         </div>
 
+        <div class="modal fade" id="modal_credito">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                        <h4 class="modal-title">Valida&ccedil;&atilde;o de Benef&iacute;cio</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">CPF</th>
+                                    <th class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Funcion&aacute;rio</th>
+                                    <th class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Benef&iacute;cio</th>
+                                    <th class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Status do Cr&eacute;dito<br><div id="link_valida"></div></th>
+                                </tr>
+                            </thead>
+                            <tbody id="lst_benef"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- /.content-wrapper -->
 
         <!-- Main Footer -->

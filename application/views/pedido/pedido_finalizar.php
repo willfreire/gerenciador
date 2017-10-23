@@ -6,6 +6,8 @@ $cnpj         = isset($empresa[0]->cnpj) ? $empresa[0]->cnpj : "";
 $razao_social = isset($empresa[0]->nome_razao) ? $empresa[0]->nome_razao : "";
 $taxa_adm     = isset($empresa[0]->taxa_adm) ? $empresa[0]->taxa_adm : "";
 $taxa_entrega = isset($empresa[0]->taxa_entrega) ? $empresa[0]->taxa_entrega : "";
+$taxa_fx_perc = isset($empresa[0]->taxa_fixa_perc) ? $empresa[0]->taxa_fixa_perc : "";
+$taxa_fx_real = isset($empresa[0]->taxa_fixa_real) ? $empresa[0]->taxa_fixa_real : "";
 $logradouro   = isset($end_entrega[0]->logradouro) ? $end_entrega[0]->logradouro : "";
 $numero       = isset($end_entrega[0]->numero) ? $end_entrega[0]->numero : "";
 $bairro       = isset($end_entrega[0]->bairro) ? $end_entrega[0]->bairro : "";
@@ -19,6 +21,7 @@ $dt_per_fin   = is_array($periodo_fin) ? $periodo_fin[2] . '/' . $periodo_fin[1]
 $valor_itens  = isset($vl_itens) && $vl_itens != "" ? "R$ ".number_format($vl_itens, 2, ',', '.') : "R$ 0,00";
 $valor_taxa   = isset($vl_taxa) && $vl_taxa != "" ? "R$ ".number_format($vl_taxa, 2, ',', '.') : "R$ 0,00";
 $valor_repass = isset($vl_repasse) && $vl_repasse != "" ? "R$ ".number_format($vl_repasse, 2, ',', '.') : "R$ 0,00";
+$valor_repas  = isset($vl_repasse) && $vl_repasse != "" ? $vl_repasse : "0.00";
 $valor_total  = isset($vl_total) && $vl_total != "" ? "R$ ".number_format($vl_total, 2, ',', '.') : "R$ 0,00";
 ?>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -179,6 +182,10 @@ $valor_total  = isset($vl_total) && $vl_total != "" ? "R$ ".number_format($vl_to
                                     <input type="hidden" id="id_pedido" name="id_pedido" value="<?=$id?>">
                                     <input type="hidden" id="taxa_adm" name="taxa_adm" value="<?=$taxa_adm?>">
                                     <input type="hidden" id="taxa_entrega" name="taxa_entrega" value="<?=$taxa_entrega?>">
+                                    <input type="hidden" id="taxa_repasse" name="taxa_repasse" value="<?=$valor_repas?>">
+                                    <input type="hidden" id="taxa_fixa_perc" name="taxa_fixa_perc" value="<?=$taxa_fx_perc?>">
+                                    <input type="hidden" id="taxa_fixa_real" name="taxa_fixa_real" value="<?=$taxa_fx_real?>">
+                                    <input type="hidden" id="id_cliente" name="id_cliente" value="<?=$id_cliente?>">
                                     <button type="submit" id="btn_edit_pedido" name="btn_edit_pedido" class="btn btn-success">Finalizar</button>
                                     <button type="button" id="btn_cancel" name="btn_cancel" class="btn btn-primary" onclick="Pedido.delBtnCancel('<?=$id?>')">Cancelar</button>
                                 </div>

@@ -677,9 +677,20 @@ Bencard = {
                         html += '</tr>';
                     });
                     $("#list_benef").html(html);
+                } else {
+                    var html = '';
+                        html += '<tr>';
+                        html +=     '<td colspan="4">Nenhum Benef&iacute;cio Adicionado</td>';
+                        html += '</tr>';
+                    $("#list_benef").html(html);
                 }
             }, 'json');
         } else {
+            var html = '';
+                html += '<tr>';
+                html +=     '<td colspan="4">Nenhum Benef&iacute;cio Adicionado</td>';
+                html += '</tr>';
+            $("#list_benef").html(html);
             // Bencard.modalMsg("Aten&ccedil;&atilde;o", "Houve um erro na listagem dos Benef&iacute;cios! Tente novamente...");
         }
     },
@@ -710,9 +721,20 @@ Bencard = {
                         html += '</tr>';
                     });
                     $("#list_benef_edit").html(html);
+                } else {
+                    var html = '';
+                        html += '<tr>';
+                        html +=     '<td colspan="4">Nenhum Benef&iacute;cio Adicionado</td>';
+                        html += '</tr>';
+                    $("#list_benef_edit").html(html);
                 }
             }, 'json');
         } else {
+            var html = '';
+                html += '<tr>';
+                html +=     '<td colspan="4">Nenhum Benef&iacute;cio Adicionado</td>';
+                html += '</tr>';
+            $("#list_benef_edit").html(html);
             // Bencard.modalMsg("Aten&ccedil;&atilde;o", "Houve um erro na listagem dos Benef&iacute;cios! Tente novamente...");
         }
     },
@@ -781,6 +803,13 @@ Bencard = {
      * @description Método para exclusao de um registro
      **/
     del: function(id) {
+        // Document Location
+        var currentLocation = window.location;
+        var parser          = document.createElement('a');
+            parser.href     = currentLocation;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
+
         bootbox.dialog({
             message: "<i class='fa fa-exclamation-triangle'></i> Deseja realmente <strong>Excluir</strong> esse Benef&iacute;cio?",
             title: "ATEN&Ccedil;&Atilde;O",
@@ -794,13 +823,14 @@ Bencard = {
                     className: "btn-danger",
                     callback: function() {
                         // Excluir registro
-                        $.post('./delete', {
+                        $.post('/'+pathproj+'/beneficiocartao/delete', {
                             id: id
                         },function(data){
                             if (data.status === true) {
                                 Bencard.modalMsg("MENSAGEM", data.msg, false, false);
                                 // Reload grid
-                                $('#tbl_benefcard').DataTable().ajax.reload();
+                                // $('#tbl_benefcard').DataTable().ajax.reload();
+                                Bencard.getBeneficio();
                             } else {
                                 Bencard.modalMsg("ATEN&Ccedil;&Atilde;O", data.msg, false, false);
                             }
@@ -818,18 +848,9 @@ Bencard = {
         // Document Location
         var currentLocation = window.location;
         var parser          = document.createElement('a');
-        // parser.href = "http://example.com:3000/pathname/?search=test#hash";
-        parser.href = currentLocation;
-
-        var protocol = parser.protocol; // => "http:"
-        var host     = parser.host;     // => "example.com:3000"
-        var hostname = parser.hostname; // => "example.com"
-        var port     = parser.port;     // => "3000"
-        var pathname = parser.pathname; // => "/pathname/"
-        var pathproj = pathname.split('/')[1];
-        var hash     = parser.hash;     // => "#hash"
-        var search   = parser.search;   // => "?search=test"
-        var origin   = parser.origin;   // => "http://example.com:3000"
+            parser.href     = currentLocation;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
         
         bootbox.dialog({
             message: "<i class='fa fa-exclamation-triangle'></i> Deseja realmente <strong>Excluir</strong> esse Benef&iacute;cio?",
