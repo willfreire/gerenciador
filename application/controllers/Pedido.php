@@ -304,7 +304,7 @@ class Pedido extends CI_Controller
                 $benef = array();
                 $i     = 0;
                 foreach ($data['beneficiario'] as $value):
-                    $this->db->select('b.id_beneficio_pk, b.vl_unitario, b.qtd_diaria, b.id_item_beneficio_fk, i.id_item_beneficio_pk, i.vl_rep_func, i.vl_repasse');
+                    $this->db->select('b.id_beneficio_pk, b.vl_unitario, b.qtd_diaria, b.id_grupo_fk, b.id_item_beneficio_fk, i.id_item_beneficio_pk, i.vl_rep_func, i.vl_repasse');
                     $this->db->from('tb_beneficio b');
                     $this->db->join('tb_item_beneficio i', 'b.id_item_beneficio_fk = i.id_item_beneficio_pk', 'inner');
                     $this->db->where('b.id_funcionario_fk', $value->id_funcionario_pk);
@@ -312,12 +312,41 @@ class Pedido extends CI_Controller
 
                     if (!empty($resp)):
                         foreach ($resp as $vl):
+                            $benef['id_grupo_fk'][$i]     = $vl->id_grupo_fk;
                             $benef['id_beneficio_pk'][$i] = $vl->id_beneficio_pk;
                             $benef['vl_unitario'][$i]     = $vl->vl_unitario;
                             $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
                             $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
                             $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*$vl->qtd_diaria))/100) : 0;
                             $benef['vl_rep_func'][$i]     = isset($vl->vl_rep_func) && $vl->vl_rep_func != "" ? $vl->vl_rep_func : 0;
+                            # Devidir Grupos para calcular taxas
+                            # Grupo Vale Transporte
+                            if ($vl->id_grupo_fk == "1") {
+                                $benef['vl_total_vt'][$i] = ($vl->vl_unitario*$vl->qtd_diaria);
+                            } else {
+                                $benef['vl_total_vt'][$i] = 0;
+                            }
+
+                            # Grupo Vale Refeição
+                            if ($vl->id_grupo_fk == "2") {
+                                $benef['vl_total_cr'][$i] = ($vl->vl_unitario*$vl->qtd_diaria);
+                            } else {
+                                $benef['vl_total_cr'][$i] = 0;
+                            }
+
+                            # Grupo Vale Alimentação
+                            if ($vl->id_grupo_fk == "3") {
+                                $benef['vl_total_ca'][$i] = ($vl->vl_unitario*$vl->qtd_diaria);
+                            } else {
+                                $benef['vl_total_ca'][$i] = 0;
+                            }
+
+                            # Grupo Vale Combustivel
+                            if ($vl->id_grupo_fk == "4") {
+                                $benef['vl_total_cc'][$i] = ($vl->vl_unitario*$vl->qtd_diaria);
+                            } else {
+                                $benef['vl_total_cc'][$i] = 0;
+                            }
                             $i++;
                         endforeach;
                     endif;
@@ -325,17 +354,28 @@ class Pedido extends CI_Controller
             endif;
 
             # Calcular Taxas
-            $data['vl_itens']   = 0;
-            $data['vl_taxa']    = 0;
-            $data['vl_repasse'] = 0;
-            $data['vl_total']   = 0;
+            $data['vl_itens']    = 0;
+            $data['vl_itens_vt'] = 0;
+            $data['vl_itens_cr'] = 0;
+            $data['vl_itens_ca'] = 0;
+            $data['vl_itens_cc'] = 0;
+            $data['vl_taxa']     = 0;
+            $data['vl_repasse']  = 0;
+            $data['vl_total']    = 0;
             if (!empty($benef)):
-                $data['vl_itens']     = array_sum($benef['vl_total']);
-                $data['vl_taxa_adm']  = (round($data['vl_itens']*($data['empresa'][0]->taxa_adm/100), 2));
-                $data['vl_taxa_fx_p'] = (round($data['vl_itens']*($data['empresa'][0]->taxa_fixa_perc/100), 2));
-                $data['vl_taxa']      = ($data['vl_taxa_adm']+$data['vl_taxa_fx_p']+$data['empresa'][0]->taxa_fixa_real+$data['empresa'][0]->taxa_entrega);
-                $data['vl_repasse']   = round(array_sum($benef['vl_repasse']), 2)+array_sum($benef['vl_rep_func']);
-                $data['vl_total']     = ($data['vl_itens']+$data['vl_taxa']+$data['vl_repasse']);
+                $data['vl_itens']       = array_sum($benef['vl_total']);
+                $data['vl_itens_vt']    = array_sum($benef['vl_total_vt']);
+                $data['vl_itens_cr']    = array_sum($benef['vl_total_cr']);
+                $data['vl_itens_ca']    = array_sum($benef['vl_total_ca']);
+                $data['vl_itens_cc']    = array_sum($benef['vl_total_cc']);
+                $data['vl_taxa_adm_vt'] = $data['vl_itens_vt'] != 0 ? (round($data['vl_itens_vt']*($data['empresa'][0]->taxa_adm/100), 2)) : 0;
+                $data['vl_taxa_fx_p']   = $data['vl_itens_vt'] != 0 ? (round($data['vl_itens_vt']*($data['empresa'][0]->taxa_fixa_perc/100), 2)) : 0;
+                $data['vl_taxa_adm_cr'] = $data['vl_itens_cr'] != 0 ? (round($data['vl_itens_cr']*($data['empresa'][0]->taxa_adm_cr/100), 2)) : 0;
+                $data['vl_taxa_adm_ca'] = $data['vl_itens_ca'] != 0 ? (round($data['vl_itens_ca']*($data['empresa'][0]->taxa_adm_ca/100), 2)) : 0;
+                $data['vl_taxa_adm_cc'] = $data['vl_itens_cc'] != 0 ? (round($data['vl_itens_cc']*($data['empresa'][0]->taxa_adm_cc/100), 2)) : 0;
+                $data['vl_taxa']        = ($data['vl_taxa_adm_vt']+$data['vl_taxa_fx_p']+$data['empresa'][0]->taxa_fixa_real+$data['empresa'][0]->taxa_entrega+$data['vl_taxa_adm_cr']+$data['vl_taxa_adm_ca']+$data['vl_taxa_adm_cc']);
+                $data['vl_repasse']     = round(array_sum($benef['vl_repasse']), 2)+array_sum($benef['vl_rep_func']);
+                $data['vl_total']       = ($data['vl_itens']+$data['vl_taxa']+$data['vl_repasse']);
             endif;
 
             $this->load->view('header', $header);
@@ -368,6 +408,9 @@ class Pedido extends CI_Controller
         $pedido->taxa_repasse = $this->input->post('taxa_repasse');
         $pedido->taxa_fx_perc = $this->input->post('taxa_fixa_perc');
         $pedido->taxa_fx_real = $this->input->post('taxa_fixa_real');
+        $pedido->taxa_adm_cr  = $this->input->post('taxa_adm_cr');
+        $pedido->taxa_adm_ca  = $this->input->post('taxa_adm_ca');
+        $pedido->taxa_adm_cc  = $this->input->post('taxa_adm_cc');
         $pedido->id_cliente   = $this->input->post('id_cliente');
 
         if ($pedido->id != NULL && $pedido->dt_pgto != NULL && $pedido->periodo != NULL && $pedido->id_func != NULL) {

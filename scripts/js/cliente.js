@@ -135,6 +135,15 @@ Cliente = {
             thousands     : '.',
             decimal       : ','
         });
+        $("#taxa_adm_cr").maskMoney({
+            allowNegative: true
+        });
+        $("#taxa_adm_ca").maskMoney({
+            allowNegative: true
+        });
+        $("#taxa_adm_cc").maskMoney({
+            allowNegative: true
+        });
 
         // Calendario
         $('.datepicker').datepicker({

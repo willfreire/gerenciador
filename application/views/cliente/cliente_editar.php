@@ -45,6 +45,9 @@ $taxa_adm        = isset($cliente[0]->taxa_adm) ? $cliente[0]->taxa_adm : "0.00"
 $taxa_entrega    = isset($cliente[0]->taxa_entrega) ? number_format($cliente[0]->taxa_entrega, 2, ',', '.') : "0,00";
 $taxa_fixa_perc  = isset($cliente[0]->taxa_fixa_perc) ? $cliente[0]->taxa_fixa_perc : "0.00";
 $taxa_fixa_real  = isset($cliente[0]->taxa_fixa_real) ? number_format($cliente[0]->taxa_fixa_real, 2, ',', '.') : "0,00";
+$taxa_adm_cr     = isset($cliente[0]->taxa_adm_cr) ? $cliente[0]->taxa_adm_cr : "0.00";
+$taxa_adm_ca     = isset($cliente[0]->taxa_adm_ca) ? $cliente[0]->taxa_adm_ca : "0.00";
+$taxa_adm_cc     = isset($cliente[0]->taxa_adm_cc) ? $cliente[0]->taxa_adm_cc : "0.00";
 ?>
 <body class="hold-transition skin-blue sidebar-mini">
 
@@ -571,63 +574,121 @@ $taxa_fixa_real  = isset($cliente[0]->taxa_fixa_real) ? number_format($cliente[0
                                         </div>
 
                                         <div class="tab-pane" id="cond_comer">
-                                            <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="box box-info">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">Taxas - Vale Transporte</h4>
+                                                        </div>
+                                                        <div class="box-body">
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-xs-10 col-sm-8 col-md-8 col-lg-4">
+                                                                        <label for="taxa_adm">Taxa Administrativa</label>
+                                                                        <div class="controls">
+                                                                            <div class="input-group">
+                                                                                <input type="text" class="form-control" id="taxa_adm" name="taxa_adm" placeholder="0.00" maxlength="6" value="<?=$taxa_adm?>">
+                                                                                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
-                                                            <label for="taxa_adm">Taxa Administrativa</label>
-                                                            <div class="controls">
-                                                                <div class="input-group">
-                                                                    <input type="text" class="form-control" id="taxa_adm" name="taxa_adm" placeholder="0.00" maxlength="6" value="<?=$taxa_adm?>">
-                                                                    <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-xs-10 col-sm-8 col-md-8 col-lg-4">
+                                                                        <label for="taxa_entrega">Taxa de Entrega</label>
+                                                                        <div class="controls">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon text-bold">R$</span>
+                                                                                <input type="text" class="form-control" id="taxa_entrega" name="taxa_entrega" placeholder="0,00" maxlength="9" value="<?=$taxa_entrega?>">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-xs-10 col-sm-8 col-md-8 col-lg-4">
+                                                                        <label for="taxa_fixa_perc">Taxa Fixa %</label>
+                                                                        <div class="controls">
+                                                                            <div class="input-group">
+                                                                                <input type="text" class="form-control" id="taxa_fixa_perc" name="taxa_fixa_perc" placeholder="0.00" maxlength="6" value="<?=$taxa_fixa_perc?>">
+                                                                                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-xs-10 col-sm-8 col-md-8 col-lg-4">
+                                                                        <label for="taxa_fixa_real">Taxa Fixa R$</label>
+                                                                        <div class="controls">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon text-bold">R$</span>
+                                                                                <input type="text" class="form-control" id="taxa_fixa_real" name="taxa_fixa_real" placeholder="0,00" maxlength="9" value="<?=$taxa_fixa_real?>">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="box box-info">
+                                                        <div class="box-header with-border">
+                                                            <h4 class="box-title">Taxas - Outros Produtos</h4>
+                                                        </div>
+                                                        <div class="box-body">
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-xs-10 col-sm-8 col-md-8 col-lg-4">
+                                                                        <label for="taxa_adm_cr">Taxa Administrativa - Cart&atilde;o Refei&ccedil;&atilde;o</label>
+                                                                        <div class="controls">
+                                                                            <div class="input-group">
+                                                                                <input type="text" class="form-control" id="taxa_adm_cr" name="taxa_adm_cr" placeholder="0.00" maxlength="6" value="<?=$taxa_adm_cr?>">
+                                                                                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
-                                                            <label for="taxa_entrega">Taxa de Entrega</label>
-                                                            <div class="controls">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon text-bold">R$</span>
-                                                                    <input type="text" class="form-control" id="taxa_entrega" name="taxa_entrega" placeholder="0,00" maxlength="9" value="<?=$taxa_entrega?>">
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-xs-10 col-sm-8 col-md-8 col-lg-4">
+                                                                        <label for="taxa_adm_ca">Taxa Administrativa - Cart&atilde;o Alimenta&ccedil;&atilde;o</label>
+                                                                        <div class="controls">
+                                                                            <div class="input-group">
+                                                                                <input type="text" class="form-control" id="taxa_adm_ca" name="taxa_adm_ca" placeholder="0.00" maxlength="6" value="<?=$taxa_adm_ca?>">
+                                                                                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-xs-10 col-sm-8 col-md-8 col-lg-4">
+                                                                        <label for="taxa_adm_cc">Taxa Administrativa - Cart&atilde;o Combust&iacute;vel</label>
+                                                                        <div class="controls">
+                                                                            <div class="input-group">
+                                                                                <input type="text" class="form-control" id="taxa_adm_cc" name="taxa_adm_cc" placeholder="0.00" maxlength="6" value="<?=$taxa_adm_cc?>">
+                                                                                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
-                                                            <label for="taxa_fixa_perc">Taxa Fixa %</label>
-                                                            <div class="controls">
-                                                                <div class="input-group">
-                                                                    <input type="text" class="form-control" id="taxa_fixa_perc" name="taxa_fixa_perc" placeholder="0.00" maxlength="6" value="<?=$taxa_fixa_perc?>">
-                                                                    <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
-                                                            <label for="taxa_fixa_real">Taxa Fixa R$</label>
-                                                            <div class="controls">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon text-bold">R$</span>
-                                                                    <input type="text" class="form-control" id="taxa_fixa_real" name="taxa_fixa_real" placeholder="0,00" maxlength="9" value="<?=$taxa_fixa_real?>">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                             </div>
                                         </div>
                                     </div>
