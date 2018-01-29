@@ -49,6 +49,11 @@
     height : 84vh;
 }
 
+/* Botao XS do Bootstrap */
+.btn-group-xs > .btn, .btn-xs {
+    padding: 3px 5px 5px 6px;
+}
+
 @media (max-width: 480px) {
     #box-frm-mail {
         width: 100%;

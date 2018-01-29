@@ -94,6 +94,7 @@ class Main extends CI_Controller
         $data['titulo'] = "Dashboard";
 
         $this->load->view('header', $data);
+        
         # Validar acesso
         if (!empty($this->session->userdata('user_vt'))):
             $this->load->view('dashboard');
@@ -136,16 +137,64 @@ class Main extends CI_Controller
 
         if (count($client) === 1)
         {
-            $first_name = explode(" ", $client[0]->nome_razao);
 
+            # Buscar Filiais
+            $this->db->select('e.id_empresa_pk, e.id_tipo_empresa_fk, t.tipo_empresa, e.cnpj, e.nome_razao, DATE_FORMAT(el.dt_hr, \'%d/%m/%Y\') AS dt_cad');
+            $this->db->from('tb_empresa e');
+            $this->db->join('tb_tipo_empresa t', 'e.id_tipo_empresa_fk = t.id_tipo_empresa_pk', 'inner');
+            $this->db->join('tb_empresa_filial ef', 'ef.id_empresa_filial_fk = e.id_empresa_pk', 'inner');
+            $this->db->join('tb_empresa_log el', 'el.id_empresa_fk = ef.id_empresa_filial_fk', 'inner');
+            $this->db->where(array('ef.id_empresa_matriz_fk' => $client[0]->id_empresa_pk, 'el.id_acao_fk' => 1));
+            $filiais = $this->db->get()->result();
+
+            $filiais_empr = array();
+            if (!empty($filiais)) {
+                foreach ($filiais as $value) {
+                    $first_name_filial = explode(" ", $value->nome_razao);
+
+                    $filial_empr                 = new stdClass();
+                    $filial_empr->id_client      = $value->id_empresa_pk;
+                    $filial_empr->user_client    = $value->nome_razao;
+                    $filial_empr->user_st_client = is_array($first_name_filial) ? $first_name_filial[0] : $value->nome_razao;
+                    $filial_empr->cnpj_client    = $value->cnpj;
+                    $filial_empr->id_tipo_client = $value->id_tipo_empresa_fk;
+                    $filial_empr->tipo_client    = $value->tipo_empresa;
+                    $filial_empr->dt_cad_client  = $value->dt_cad;
+                    $filiais_empr[]              = $filial_empr;
+                }
+            }
+
+            # Vars
+            $first_name     = explode(" ", $client[0]->nome_razao);
+            $id_empresa     = $client[0]->id_empresa_pk;
+            $user_client    = $client[0]->nome_razao;
+            $user_st_client = is_array($first_name) ? $first_name[0] : $client[0]->nome_razao;
+            $cnpj_client    = $client[0]->cnpj;
+            $id_tipo_client = $client[0]->id_tipo_empresa_fk;
+            $tipo_client    = $client[0]->tipo_empresa;
+            $dt_cad_client  = $client[0]->dt_cad;
+            
+            # Matriz
+            $matriz_vt                 = new stdClass();
+            $matriz_vt->id_client      = $id_empresa;
+            $matriz_vt->user_client    = $user_client;
+            $matriz_vt->user_st_client = $user_st_client;
+            $matriz_vt->cnpj_client    = $cnpj_client;
+            $matriz_vt->id_tipo_client = $id_tipo_client;
+            $matriz_vt->tipo_client    = $tipo_client;
+            $matriz_vt->dt_cad_client  = $dt_cad_client;
+
+            # Setar Sessao
             $dados = array(
-                'id_client'      => $client[0]->id_empresa_pk,
-                'user_client'    => $client[0]->nome_razao,
-                'user_st_client' => is_array($first_name) ? $first_name[0] : $client[0]->nome_razao,
-                'cnpj_client'    => $client[0]->cnpj,
-                'id_tipo_client' => $client[0]->id_tipo_empresa_fk,
-                'tipo_client'    => $client[0]->tipo_empresa,
-                'dt_cad_client'  => $client[0]->dt_cad
+                'id_client'      => $id_empresa,
+                'user_client'    => $user_client,
+                'user_st_client' => $user_st_client,
+                'cnpj_client'    => $cnpj_client,
+                'id_tipo_client' => $id_tipo_client,
+                'tipo_client'    => $tipo_client,
+                'dt_cad_client'  => $dt_cad_client,
+                'matriz'         => $matriz_vt,
+                'filiais'        => $filiais_empr
             );
             $this->session->set_userdata($dados);
 
@@ -181,7 +230,7 @@ class Main extends CI_Controller
         $this->db->order_by('dt_hr_cad', 'DESC');
         $this->db->limit(7);
         $data['avisos'] = $this->db->get()->result();
-        
+
         $this->load->view('header', $data);
         # Validar acesso
         if (!empty($this->session->userdata('user_client'))):
@@ -403,6 +452,48 @@ class Main extends CI_Controller
         endif;
 
         return $retorno;
+    }
+
+    /**
+     * Método para trocar sessao
+     *
+     * @method changeSession
+     * @access public
+     * @return void
+     */
+    public function changeSession()
+    {
+        # Vars
+        $retorno = new stdClass();
+        $id      = $this->input->post('id', TRUE);
+
+        # Alterar Sessao
+        $this->db->select('e.id_empresa_pk, e.id_tipo_empresa_fk, t.tipo_empresa, e.cnpj, e.nome_razao, DATE_FORMAT(el.dt_hr, \'%d/%m/%Y\') AS dt_cad');
+        $this->db->from('tb_empresa e');
+        $this->db->join('tb_tipo_empresa t', 'e.id_tipo_empresa_fk = t.id_tipo_empresa_pk', 'inner');
+        $this->db->join('tb_empresa_log el', 'e.id_empresa_pk = el.id_empresa_fk', 'inner');
+        $this->db->where(array('e.id_empresa_pk' => base64_decode($id), 'el.id_acao_fk' => 1));
+        $client = $this->db->get()->result();
+
+        # Setar Sessao
+        $first_name = explode(" ", $client[0]->nome_razao);
+        
+        $dados = array(
+            'id_client'      => $client[0]->id_empresa_pk,
+            'user_client'    => $client[0]->nome_razao,
+            'user_st_client' => is_array($first_name) ? $first_name[0] : $client[0]->nome_razao,
+            'cnpj_client'    => $client[0]->cnpj,
+            'id_tipo_client' => $client[0]->id_tipo_empresa_fk,
+            'tipo_client'    => $client[0]->tipo_empresa,
+            'dt_cad_client'  => $client[0]->dt_cad
+        );
+        $this->session->set_userdata($dados);
+        
+        $retorno->status = TRUE;
+        $retorno->msg    = "OK";
+        $retorno->url    = base_url("main/dashboard_client");
+        
+        print json_encode($retorno);
     }
 }
 

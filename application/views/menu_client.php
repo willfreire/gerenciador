@@ -1,3 +1,4 @@
+<?php $session_vt = $this->session->userdata(); ?>
 <header class="main-header">
     <!-- Logo -->
     <a href="<?= base_url('./') ?>" class="logo">
@@ -21,6 +22,42 @@
 
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+                <?php if (!empty($this->session->userdata('filiais'))): ?>
+                <li class="dropdown tasks-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-cog" title="Alternar Sess&atilde;o"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header"><h4>Alternar Sess&atilde;o</h4></li>
+                        <li>
+                            <ul class="menu">
+                                <li>
+                                <?php if ($this->session->userdata('id_client') !== $this->session->userdata('matriz')->id_client): ?>
+                                    <a href="javascript:Main.changeSession('<?=base64_encode($this->session->userdata('matriz')->id_client)?>');">
+                                <?php else: ?>
+                                    <a href="javascript:Main.void();" title="Sess&atilde;o Ativa">
+                                <?php endif; ?>
+                                        <h3 class="text-bold text-green"><?=$this->session->userdata('matriz')->cnpj_client?> - Matriz</h3>
+                                        <h3 class="text-bold"><?=$this->session->userdata('matriz')->user_client?></h3>
+                                    </a>
+                                </li>
+                                <?php foreach ($this->session->userdata('filiais') as $value): ?>
+                                    <li>
+                                    <?php if ($this->session->userdata('id_client') !== $value->id_client): ?>
+                                        <a href="javascript:Main.changeSession('<?=base64_encode($value->id_client)?>');">
+                                    <?php else: ?>
+                                        <a href="javascript:Main.void();" title="Sess&atilde;o Ativa">
+                                    <?php endif; ?>
+                                            <h3 class="text-bold text-aqua"><?=$value->cnpj_client?> - Filial</h3>
+                                            <h3 class="text-bold"><?=$value->user_client?></h3>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <?php endif; ?>
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -85,18 +122,42 @@
                     <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios Cadastrados</a></li>
                 </ul>
             </li>
-            <?php /* <li class="treeview">
+            <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-credit-card" aria-hidden="true"></i> <span>Benef&iacute;cio - Cart&atilde;o</span>
+                    <i class="fa fa-upload" aria-hidden="true"></i> <span>Importa&ccedil;&atilde;o</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./beneficiocartao/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?= base_url('./beneficiocartao/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+                    <li><a href="<?= base_url('./importacao/geral') ?>"><i class="fa fa-circle-o"></i> Importar Arquivo</a></li>
+                    <li><a href="<?= base_url('./importacao/historico') ?>"><i class="fa fa-circle-o"></i> Hist&oacute;rico de Importa&ccedil;&atilde;o</a></li>
                 </ul>
-            </li> */ ?>
+            </li>
+            <?php /* <li class="treeview">
+              <a href="#">
+              <i class="fa fa-credit-card" aria-hidden="true"></i> <span>Benef&iacute;cio - Cart&atilde;o</span>
+              <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+              </span>
+              </a>
+              <ul class="treeview-menu">
+              <li><a href="<?= base_url('./beneficiocartao/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
+              <li><a href="<?= base_url('./beneficiocartao/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
+              </ul>
+              </li> */ ?>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-support" aria-hidden="true"></i> <span>Ocorr&ecirc;ncias</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?= base_url('./ocorrencia/abrir') ?>"><i class="fa fa-circle-o"></i> Abrir Ocorr&ecirc;ncia</a></li>
+                    <li><a href="<?= base_url('./ocorrencia/historico') ?>"><i class="fa fa-circle-o"></i> Hist&oacute;rico de Ocorr&ecirc;ncias</a></li>
+                </ul>
+            </li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-list" aria-hidden="true"></i> <span>Pedidos</span>
@@ -119,18 +180,6 @@
                 <ul class="treeview-menu">
                     <li><a href="<?= base_url('./periodo/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
                     <li><a href="<?= base_url('./periodo/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-upload" aria-hidden="true"></i> <span>Importa&ccedil;&atilde;o</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./importacao/geral') ?>"><i class="fa fa-circle-o"></i> Importar Arquivo</a></li>
-                    <li><a href="<?= base_url('./importacao/historico') ?>"><i class="fa fa-circle-o"></i> Hist&oacute;rico de Importa&ccedil;&atilde;o</a></li>
                 </ul>
             </li>
             <li class="treeview">
