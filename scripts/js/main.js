@@ -189,6 +189,35 @@ Main = {
     },
 
     /*!
+     * @description Método para Change Session
+     **/
+    changeSession: function(id_client) {
+        var currentLocation = window.location;
+        var parser          = document.createElement('a');
+        parser.href         = currentLocation;
+
+        var protocol = parser.protocol;
+        var host     = parser.host;
+        var hostname = parser.hostname;
+        var port     = parser.port;
+        var pathname = parser.pathname;
+        var pathproj = pathname.split('/')[1];
+        var hash     = parser.hash;
+        var search   = parser.search;
+        var origin   = parser.origin;
+
+        $.post('/'+pathproj+'/main/changeSession', {
+            id: id_client
+        }, function(data){
+            if (data.status === true) {
+                Main.redirect(data.url);
+            } else {
+                Main.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+            }
+        }, 'json');
+    },
+
+    /*!
      * @description Método para abrir modal de mensagem
      **/
     modalMsg: function (title, msg, focus, redirect) {
@@ -246,6 +275,13 @@ Main = {
      **/
     openWindow: function (link, target) {
 	window.open(link, target);
+    },
+
+    /*!
+     * @description Método sem retorno
+     **/
+    void: function (){
+        
     },
 
     /*!

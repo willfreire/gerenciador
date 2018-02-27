@@ -45,6 +45,7 @@ Pedido = {
         // Calendario Periodo
         moment.locale('pt-br');
         $('#periodo').daterangepicker({
+            drops: 'up',
             locale: {
                 format: 'DD/MM/YYYY',
                 separator: " - ",
@@ -237,8 +238,9 @@ Pedido = {
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
                 if (data.status === true) {
-                    Pedido.modalMsg("MENSAGEM", data.msg, false, '../acompanhar');
-                    Pedido.openWindow('https://'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido, '_blank');
+                    var url_boleto = 'http://'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido+'';
+                    Pedido.modalMsg("MENSAGEM", data.msg, false, url_boleto);
+                    // Pedido.openWindow('http://'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido, '_blank');
                 } else {
                     Pedido.modalMsg("Aten&ccedil;&atilde;o", data.msg, false, data.url);
                 }
@@ -344,7 +346,7 @@ Pedido = {
         var hostname        = parser.hostname;
         var pathname        = parser.pathname;
         var pathproj        = pathname.split('/')[1];
-        var url_boleto      = "https://"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
+        var url_boleto      = "http://"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
         //var url_boleto      = "http://"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
         Pedido.openWindow(url_boleto, "_blank");
     },
@@ -360,7 +362,7 @@ Pedido = {
         var hostname        = parser.hostname;
         var pathname        = parser.pathname;
         var pathproj        = pathname.split('/')[1];
-        var link            = "https://"+hostname+"/"+pathproj+"/pedido/exportPedidoXls";
+        var link            = "http://"+hostname+"/"+pathproj+"/pedido/exportPedidoXls";
         var table           = '';
         var name            = '';
 
@@ -402,7 +404,7 @@ Pedido = {
                 table +=            '<strong>Valor Unitário</strong>';
                 table +=        '</td>';
                 table +=	'<td align="center">';
-                table +=            '<strong>Quantidade Unitária</strong>';
+                table +=            '<strong>Quantidade Diária</strong>';
                 table +=        '</td>';
                 table +=	'<td align="center">';
                 table +=            '<strong>Valor Total</strong>';

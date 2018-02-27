@@ -47,6 +47,9 @@ $taxa_adm        = isset($cliente[0]->taxa_adm) ? $cliente[0]->taxa_adm : "0.00"
 $taxa_entrega    = isset($cliente[0]->taxa_entrega) ? number_format($cliente[0]->taxa_entrega, 2, ',', '.') : "0,00";
 $taxa_fixa_perc  = isset($cliente[0]->taxa_fixa_perc) ? $cliente[0]->taxa_fixa_perc : "0.00";
 $taxa_fixa_real  = isset($cliente[0]->taxa_fixa_real) ? number_format($cliente[0]->taxa_fixa_real, 2, ',', '.') : "0,00";
+$taxa_adm_cr     = isset($cliente[0]->taxa_adm_cr) ? $cliente[0]->taxa_adm_cr : "0.00";
+$taxa_adm_ca     = isset($cliente[0]->taxa_adm_ca) ? $cliente[0]->taxa_adm_ca : "0.00";
+$taxa_adm_cc     = isset($cliente[0]->taxa_adm_cc) ? $cliente[0]->taxa_adm_cc : "0.00";
 ?>
 <style>
     .box-footer {
@@ -247,23 +250,51 @@ $taxa_fixa_real  = isset($cliente[0]->taxa_fixa_real) ? number_format($cliente[0
                                 </div>
 
                                 <div class="tab-pane" id="cond_comer">
-                                    <div class="box box-wrapper-80">
-                                        <div class="box-body">
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa Adm.</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$taxa_adm.'%'?></div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <div class="box box-wrapper-80">
+                                                <div class="box-header with-border">
+                                                    <h4 class="box-title">Taxas - Vale Transporte</h4>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3"><strong>Taxa Adm.</strong></div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8"><?=$taxa_adm.'%'?></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3"><strong>Taxa de Entrega</strong></div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8"><?='R$ '.$taxa_entrega?></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3"><strong>Taxa Fixa %</strong></div>
+                                                        <div class="col-xs-9 col-sm-6 col-md-6 col-lg-8"><?=$taxa_fixa_perc.'%'?></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3"><strong>Taxa Fixa R$</strong></div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8"><?='R$ '.$taxa_fixa_real?></div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa de Entrega</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?='R$ '.$taxa_entrega?></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa Fixa %</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$taxa_fixa_perc.'%'?></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa Fixa R$</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?='R$ '.$taxa_fixa_real?></div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <div class="box box-wrapper-80">
+                                                <div class="box-header with-border">
+                                                    <h4 class="box-title">Taxas - Outros Produtos</h4>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-5"><strong>Taxa Adm. - Cart&atilde;o Refei&ccedil;&atilde;o</strong></div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-7"><?=$taxa_adm_cr.'%'?></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-5"><strong>Taxa Adm. - Cart&atilde;o Alimenta&ccedil;&atilde;o</strong></div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-7"><?=$taxa_adm_ca.'%'?></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-5"><strong>Taxa Adm. - Cart&atilde;o Combust&iacute;vel</strong></div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-7"><?=$taxa_adm_cc.'%'?></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

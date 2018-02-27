@@ -161,6 +161,17 @@
             </li>
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-support" aria-hidden="true"></i> <span>Ocorr&ecirc;ncias</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?= base_url('./ocorrencia/historico_all') ?>"><i class="fa fa-circle-o"></i> Hist&oacute;rico de Ocorr&ecirc;ncias</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-list" aria-hidden="true"></i> <span>Pedidos</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>

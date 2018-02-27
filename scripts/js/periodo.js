@@ -36,7 +36,7 @@ Periodo = {
                 qtd_dia: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE UNIT&Aacute;RIA</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE DI&Aacute;RIA</strong>'
                         }
                     }
                 }
@@ -90,7 +90,7 @@ Periodo = {
                 qtd_dia: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE DE DIAS</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE DI&Aacute;RIA</strong>'
                         }
                     }
                 }

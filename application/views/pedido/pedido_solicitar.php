@@ -125,7 +125,7 @@
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" class="form-control pull-right" name="periodo" id="periodo" placeholder="dd/mm/aaaa - dd/mm/aaaa" value="" maxlength="23" readonly required="true">
+                                                        <input type="text" class="form-control" name="periodo" id="periodo" placeholder="dd/mm/aaaa - dd/mm/aaaa" value="" maxlength="23" readonly required="true">
                                                     </div>
                                                 </div>
                                             </div>

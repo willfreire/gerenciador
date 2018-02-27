@@ -31,8 +31,9 @@ class Beneficio_model extends CI_Model {
     public function setBeneficio($valores)
     {
         # Atribuir vars
-        $retorno = new stdClass();
-        $dados   = array();
+        $retorno  = new stdClass();
+        $dados    = array();
+        $ben_func = array();
 
         $dados['id_grupo_fk']      = $valores->grupo;
         $dados['descricao']        = $valores->descricao;
@@ -50,6 +51,11 @@ class Beneficio_model extends CI_Model {
             $this->db->update('tb_item_beneficio', $dados);
 
             if ($this->db->affected_rows() >= 0) {
+                # Atualizar valor do beneficio dos funcionarios
+                $ben_func['vl_unitario'] = str_replace(',', '.', str_replace('.', '', $valores->vl_unitario));
+                $this->db->where('id_item_beneficio_fk', $valores->id);
+                $this->db->update('tb_beneficio', $ben_func);
+
                 $retorno->status = TRUE;
                 $retorno->msg    = "Edi&ccedil;&atilde;o realizada com Sucesso!";
             } else {

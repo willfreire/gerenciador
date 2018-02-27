@@ -299,7 +299,7 @@ class Relatorio extends CI_Controller
         $footer->addPreserveText(utf8_decode('Rua Voluntários da Pátria, 654, Sala 302'), null, $style_footer);
         $footer->addPreserveText(utf8_decode('CEP 02010-000 - Santana - São Paulo - SP'), null, $style_footer);
         $footer->addPreserveText('www.vtcards.com.br', null, $style_footer);
-        $footer->addPreserveText('Tel: (11) 2089-0757', null, $style_footer);
+        $footer->addPreserveText('Tel: (11) 2389-6905', null, $style_footer);
 
         if (!empty($rows)):
             $cont = count($rows);
@@ -319,7 +319,7 @@ class Relatorio extends CI_Controller
                 $vl_unit = isset($value->vl_unitario) ? "R$ ".number_format($value->vl_unitario, 2, ',', '.') : "R$ 0,00";
                 $section->addText(utf8_decode("Valor Unitário: $vl_unit"), array('size' => 12), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::LEFT));
                 $section->addText(utf8_decode("Status: $value->status"), array('size' => 12), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::LEFT));
-                $section->addText(utf8_decode("Quantidade Unitária: $value->qtd_diaria"), array('size' => 12), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::LEFT));
+                $section->addText(utf8_decode("Quantidade Diária: $value->qtd_diaria"), array('size' => 12), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::LEFT));
                 $vl_total = isset($value->qtd_diaria) ? "R$ ".number_format(($value->vl_unitario*$value->qtd_diaria), 2, ',', '.') : "R$ 0,00";
                 $section->addText(utf8_decode("Total de Recarga: $vl_total"), array('size' => 12), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::LEFT));
                 $section->addTextBreak(2);

@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -1229,9 +1229,12 @@ class CI_Form_validation {
 	 */
 	public function valid_email($str)
 	{
-		if (function_exists('idn_to_ascii') && $atpos = strpos($str, '@'))
+		if (function_exists('idn_to_ascii') && preg_match('#\A([^@]+)@(.+)\z#', $str, $matches))
 		{
-			$str = substr($str, 0, ++$atpos).idn_to_ascii(substr($str, $atpos));
+			$domain = is_php('5.4')
+				? idn_to_ascii($matches[2], 0, INTL_IDNA_VARIANT_UTS46)
+				: idn_to_ascii($matches[2]);
+			$str = $matches[1].'@'.$domain;
 		}
 
 		return (bool) filter_var($str, FILTER_VALIDATE_EMAIL);
@@ -1523,7 +1526,12 @@ class CI_Form_validation {
 	 */
 	public function prep_url($str = '')
 	{
-		if ($str !== '' && stripos($str, 'http://') !== 0 && stripos($str, 'https://') !== 0)
+		if ($str === 'http://' OR $str === '')
+		{
+			return '';
+		}
+
+		if (strpos($str, 'http://') !== 0 && strpos($str, 'https://') !== 0)
 		{
 			return 'http://'.$str;
 		}

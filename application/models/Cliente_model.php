@@ -125,6 +125,9 @@ class Cliente_model extends CI_Model {
                     $cond_com['taxa_entrega']   = str_replace(',', '.', str_replace('.', '', $valores->taxa_entrega));
                     $cond_com['taxa_fixa_perc'] = $valores->taxa_fixa_perc;
                     $cond_com['taxa_fixa_real'] = str_replace(',', '.', str_replace('.', '', $valores->taxa_fixa_real));
+                    $cond_com['taxa_adm_cr']    = $valores->taxa_adm_cr;
+                    $cond_com['taxa_adm_ca']    = $valores->taxa_adm_ca;
+                    $cond_com['taxa_adm_cc']    = $valores->taxa_adm_cc;
                     # Update Condicao Comercial
                     $this->db->where('id_empresa_fk', $id_empr);
                     $this->db->update('tb_cond_comercial', $cond_com);
@@ -210,6 +213,9 @@ class Cliente_model extends CI_Model {
                     $cond_com['taxa_entrega']   = str_replace(',', '.', str_replace('.', '', $valores->taxa_entrega));
                     $cond_com['taxa_fixa_perc'] = $valores->taxa_fixa_perc;
                     $cond_com['taxa_fixa_real'] = str_replace(',', '.', str_replace('.', '', $valores->taxa_fixa_real));
+                    $cond_com['taxa_adm_cr']    = $valores->taxa_adm_cr;
+                    $cond_com['taxa_adm_ca']    = $valores->taxa_adm_ca;
+                    $cond_com['taxa_adm_cc']    = $valores->taxa_adm_cc;
                     # Grava Condicao Comercial
                     $this->db->insert('tb_cond_comercial', $cond_com);
 

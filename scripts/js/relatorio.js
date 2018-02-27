@@ -213,7 +213,7 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Unitária</strong>';
+                    table +=            '<strong>Quantidade Diária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';
@@ -357,7 +357,7 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Unitária</strong>';
+                    table +=            '<strong>Quantidade Diária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';
@@ -494,7 +494,7 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Unitária</strong>';
+                    table +=            '<strong>Quantidade Diária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';
@@ -644,7 +644,7 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Unitária</strong>';
+                    table +=            '<strong>Quantidade Diária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';

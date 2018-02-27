@@ -8,6 +8,9 @@ $taxa_adm     = isset($empresa[0]->taxa_adm) ? $empresa[0]->taxa_adm : "";
 $taxa_entrega = isset($empresa[0]->taxa_entrega) ? $empresa[0]->taxa_entrega : "";
 $taxa_fx_perc = isset($empresa[0]->taxa_fixa_perc) ? $empresa[0]->taxa_fixa_perc : "";
 $taxa_fx_real = isset($empresa[0]->taxa_fixa_real) ? $empresa[0]->taxa_fixa_real : "";
+$taxa_adm_cr  = isset($empresa[0]->taxa_adm_cr) ? $empresa[0]->taxa_adm_cr : "";
+$taxa_adm_ca  = isset($empresa[0]->taxa_adm_ca) ? $empresa[0]->taxa_adm_ca : "";
+$taxa_adm_cc  = isset($empresa[0]->taxa_adm_cc) ? $empresa[0]->taxa_adm_cc : "";
 $logradouro   = isset($end_entrega[0]->logradouro) ? $end_entrega[0]->logradouro : "";
 $numero       = isset($end_entrega[0]->numero) ? $end_entrega[0]->numero : "";
 $bairro       = isset($end_entrega[0]->bairro) ? $end_entrega[0]->bairro : "";
@@ -185,6 +188,9 @@ $valor_total  = isset($vl_total) && $vl_total != "" ? "R$ ".number_format($vl_to
                                     <input type="hidden" id="taxa_repasse" name="taxa_repasse" value="<?=$valor_repas?>">
                                     <input type="hidden" id="taxa_fixa_perc" name="taxa_fixa_perc" value="<?=$taxa_fx_perc?>">
                                     <input type="hidden" id="taxa_fixa_real" name="taxa_fixa_real" value="<?=$taxa_fx_real?>">
+                                    <input type="hidden" id="taxa_adm_cr" name="taxa_adm_cr" value="<?=$taxa_adm_cr?>">
+                                    <input type="hidden" id="taxa_adm_ca" name="taxa_adm_ca" value="<?=$taxa_adm_ca?>">
+                                    <input type="hidden" id="taxa_adm_cc" name="taxa_adm_cc" value="<?=$taxa_adm_cc?>">
                                     <input type="hidden" id="id_cliente" name="id_cliente" value="<?=$id_cliente?>">
                                     <button type="submit" id="btn_edit_pedido" name="btn_edit_pedido" class="btn btn-success">Finalizar</button>
                                     <button type="button" id="btn_cancel" name="btn_cancel" class="btn btn-primary" onclick="Pedido.delBtnCancel('<?=$id?>')">Cancelar</button>

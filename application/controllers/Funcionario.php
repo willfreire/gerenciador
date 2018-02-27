@@ -502,6 +502,54 @@ class Funcionario extends CI_Controller
 
         print json_encode($retorno);
     }
+    
+    /**
+     * Atualiza periodo de beneficio do funcionário
+     *
+     * @method alterPeriodo
+     * @access public
+     * @return obj Status da ação
+     */
+    public function alterPeriodo()
+    {
+        # Var
+        $id      = $this->input->post('id');
+        $periodo = $this->input->post('id_period');
+        $retorno = new stdClass();
+
+        if ($id != NULL && $periodo != NULL):
+            try {
+                # Atualiza tb_dados_profissional
+                $data['id_periodo_pk'] = $periodo;
+                $this->db->where('id_funcionario_fk', $id);
+                $this->db->update('tb_dados_profissional', $data);
+
+                # Consultar dias do periodo
+                $this->db->where('id_periodo_pk', $periodo);
+                $this->db->order_by('periodo');
+                $row_period = $this->db->get('tb_periodo')->result();
+                
+                # Atualizar em beneficio
+                if (!empty($row_period)):
+                    $dados['qtd_diaria'] = $row_period[0]->qtd_dia;
+                    $this->db->where('id_funcionario_fk', $id);
+                    $this->db->update('tb_beneficio', $dados);
+                endif;
+                
+                $retorno->status = TRUE;
+                $retorno->msg    = "Per&iacute;odo Alterado com Sucesso!";
+            } catch(Exception $e) {
+                # logging_function($e->getMessage());
+                $retorno->status = FALSE;
+                $retorno->msg    = "Houve um erro ao mudar o Per&iacute;odo do Funcion&aacute;rio! Tente novamente...";
+            }
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao atualizar! Tente novamente...";
+        endif;
+
+        print json_encode($retorno);
+    }
 
 }
 

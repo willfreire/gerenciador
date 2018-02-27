@@ -4,7 +4,7 @@
 */
 
 #box-frm-func {
-    width: 60%;
+    width: 80%;
 }
 
 .btn-acao {
@@ -13,6 +13,11 @@
 
 .box-wrapper-80 {
     width  : 90%;
+    margin : 20px auto;
+}
+
+.box-wrapper-100 {
+    width  : 100%;
     margin : 20px auto;
 }
 
@@ -34,6 +39,11 @@
 
 #tbl_func tbody tr td:first-child {
     text-align: center;
+}
+
+/* Botao XS do Bootstrap */
+.btn-group-xs > .btn, .btn-xs {
+    padding: 3px 5px 5px 6px;
 }
 
 @media (max-width: 480px) {

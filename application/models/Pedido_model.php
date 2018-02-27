@@ -104,7 +104,7 @@ class Pedido_model extends CI_Model {
         if (!empty($valores->id_func) && is_array($valores->id_func)):
             $i = 0;
             foreach ($valores->id_func as $value):
-                $this->db->select('b.id_beneficio_pk, b.vl_unitario, b.qtd_diaria, b.id_item_beneficio_fk, i.id_item_beneficio_pk, i.vl_rep_func, i.vl_repasse');
+                $this->db->select('b.id_beneficio_pk, b.vl_unitario, b.qtd_diaria, b.id_grupo_fk, b.id_item_beneficio_fk, i.id_item_beneficio_pk, i.vl_rep_func, i.vl_repasse');
                 $this->db->from('tb_beneficio b');
                 $this->db->join('tb_item_beneficio i', 'b.id_item_beneficio_fk = i.id_item_beneficio_pk', 'inner');
                 $this->db->where('b.id_funcionario_fk', $value);
@@ -115,16 +115,45 @@ class Pedido_model extends CI_Model {
                         $benef['id_beneficio_pk'][$i] = $vl->id_beneficio_pk;
                         $benef['vl_unitario'][$i]     = $vl->vl_unitario;
                         $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
-                        $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
-                        $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*$vl->qtd_diaria))/100) : 0;
+                        $benef['vl_total'][$i]        = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                        $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*($vl->qtd_diaria*2)))/100) : 0;
                         $benef['vl_rep_func'][$i]     = isset($vl->vl_rep_func) && $vl->vl_rep_func != "" ? $vl->vl_rep_func : 0;
+                        # Devidir Grupos para calcular taxas
+                        # Grupo Vale Transporte
+                        if ($vl->id_grupo_fk == "1") {
+                            $benef['vl_total_vt'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                        } else {
+                            $benef['vl_total_vt'][$i] = 0;
+                        }
 
-                        # Salvar Itens Beneficio
+                        # Grupo Vale Refeição
+                        if ($vl->id_grupo_fk == "2") {
+                            $benef['vl_total_cr'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                        } else {
+                            $benef['vl_total_cr'][$i] = 0;
+                        }
+
+                        # Grupo Vale Alimentação
+                        if ($vl->id_grupo_fk == "3") {
+                            $benef['vl_total_ca'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                        } else {
+                            $benef['vl_total_ca'][$i] = 0;
+                        }
+
+                        # Grupo Vale Combustivel
+                        if ($vl->id_grupo_fk == "4") {
+                            $benef['vl_total_cc'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                        } else {
+                            $benef['vl_total_cc'][$i] = 0;
+                        }
+
+                        # Salvar Itens Pedido
                         $item['id_pedido_fk']    = $valores->id;
                         $item['id_beneficio_fk'] = $vl->id_beneficio_pk;
                         $item['vl_unitario']     = $vl->vl_unitario;
                         $item['qtd_unitaria']    = $vl->qtd_diaria;
                         $this->db->insert('tb_item_pedido', $item);
+                        $id_last_item_pedido = $this->db->insert_id();
                         
                         # Salvar em tb_relatorio
                         $rel['id_pedido_fk']         = $valores->id;
@@ -132,6 +161,7 @@ class Pedido_model extends CI_Model {
                         $rel['id_funcionario_fk']    = $value;
                         $rel['id_status_credito_fk'] = 1;
                         $rel['id_item_beneficio_fk'] = $vl->id_item_beneficio_fk;
+                        $rel['id_item_pedido_fk']    = $id_last_item_pedido;
                         $rel['id_beneficio_fk']      = $vl->id_beneficio_pk;
                         $rel['vl_unitario']          = $vl->vl_unitario;
                         $rel['qtd_unitaria']         = $vl->qtd_diaria;
@@ -150,12 +180,19 @@ class Pedido_model extends CI_Model {
 
         if ($error_ben !== 1):
             # Calcular Taxas
-            $vl_itens     = array_sum($benef['vl_total']);
-            $vl_taxa_adm  = (round($vl_itens*($valores->taxa_adm/100), 2));
-            $vl_taxa_fx_p = (round($vl_itens*($valores->taxa_fx_perc/100), 2));
-            $vl_taxa      = ($vl_taxa_adm+$vl_taxa_fx_p+$valores->taxa_fx_real+$valores->taxa_entrega);
-            $vl_repasse   = round(array_sum($benef['vl_repasse']), 2)+array_sum($benef['vl_rep_func']);
-            $vl_total     = ($vl_itens+$vl_taxa+$vl_repasse);
+            $vl_itens       = array_sum($benef['vl_total']);
+            $vl_itens_vt    = array_sum($benef['vl_total_vt']);
+            $vl_itens_cr    = array_sum($benef['vl_total_cr']);
+            $vl_itens_ca    = array_sum($benef['vl_total_ca']);
+            $vl_itens_cc    = array_sum($benef['vl_total_cc']);
+            $vl_taxa_adm_vt = $vl_itens_vt != 0 ? (round($vl_itens_vt*($valores->taxa_adm/100), 2)) : 0;
+            $vl_taxa_fx_p   = $vl_itens_vt != 0 ? (round($vl_itens_vt*($valores->taxa_fx_perc/100), 2)) : 0;
+            $vl_taxa_adm_cr = $vl_itens_cr != 0 ? (round($vl_itens_cr*($valores->taxa_adm_cr/100), 2)) : 0;
+            $vl_taxa_adm_ca = $vl_itens_ca != 0 ? (round($vl_itens_ca*($valores->taxa_adm_ca/100), 2)) : 0;
+            $vl_taxa_adm_cc = $vl_itens_cc != 0 ? (round($vl_itens_cc*($valores->taxa_adm_cc/100), 2)) : 0;
+            $vl_taxa        = ($vl_taxa_adm_vt+$vl_taxa_fx_p+$valores->taxa_fx_real+$valores->taxa_entrega+$vl_taxa_adm_cr+$vl_taxa_adm_ca+$vl_taxa_adm_cc);
+            $vl_repasse     = round(array_sum($benef['vl_repasse']), 2)+array_sum($benef['vl_rep_func']);
+            $vl_total       = ($vl_itens+$vl_taxa+$vl_repasse);
 
             # Beneficio
             $periodo_ini = is_array($valores->periodo) && $valores->periodo[0] != NULL ? explode('/', $valores->periodo[0]) : NULL;

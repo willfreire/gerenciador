@@ -33,7 +33,7 @@
 
                     <div class="col-xs-12">
 
-                        <div class="box box-wrapper-80">
+                        <div class="box box-wrapper-100">
 
                             <div class="box-body">
 

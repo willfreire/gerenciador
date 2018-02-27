@@ -41,14 +41,14 @@
                                     <thead>
                                         <tr>
                                             <th>Per&iacute;odo</th>
-                                            <th>Quantidade Unit&aacute;ria</th>
+                                            <th>Quantidade Di&aacute;ria</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Per&iacute;odo</th>
-                                            <th>Quantidade Unit&aacute;ria</th>
+                                            <th>Quantidade Di&aacute;ria</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>
                                     </tfoot>
