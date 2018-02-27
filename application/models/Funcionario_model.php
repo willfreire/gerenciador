@@ -296,7 +296,6 @@ class Funcionario_model extends CI_Model {
                 $funcionario->nome      = $value->nome;
                 $funcionario->rg        = $value->rg;
                 $funcionario->matricula = $value->matricula;
-                $funcionario->periodo   = $opt;
                 $funcionario->status    = $value->status;
                 $funcionario->acao      = $acao;
                 $funcionarios[]         = $funcionario;
@@ -344,3 +343,4 @@ class Funcionario_model extends CI_Model {
 
 /* End of file funcionario_model.php */
 /* Location: ./application/models/funcionario_model.php */
+                $funcionario->periodo   = $opt;

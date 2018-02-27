@@ -718,3 +718,4 @@ $taxa_adm_cc     = isset($cliente[0]->taxa_adm_cc) ? $cliente[0]->taxa_adm_cc : 
         <?php require_once(APPPATH . '/views/main_footer.php'); ?>
 
     </div>
+

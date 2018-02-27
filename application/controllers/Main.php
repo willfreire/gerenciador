@@ -230,6 +230,13 @@ class Main extends CI_Controller
         $this->db->limit(7);
         $data['avisos'] = $this->db->get()->result();
 
+        # Consultar Quadro Avisos
+        $this->db->select("id_quadro_aviso_pk, titulo, descricao, DATE_FORMAT(dt_hr_cad, '%d/%m/%Y') AS dt_cadastro", FALSE);
+        $this->db->from('tb_quadro_aviso');
+        $this->db->order_by('dt_hr_cad', 'DESC');
+        $this->db->limit(7);
+        $data['avisos'] = $this->db->get()->result();
+        
         $this->load->view('header', $data);
         # Validar acesso
         if (!empty($this->session->userdata('user_client'))):

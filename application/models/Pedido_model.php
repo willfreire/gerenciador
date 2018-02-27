@@ -126,6 +126,24 @@ class Pedido_model extends CI_Model {
                             $benef['vl_total_vt'][$i] = 0;
                         }
 
+                        $rel['id_beneficio_fk']      = $vl->id_beneficio_pk;
+                        $rel['vl_unitario']          = $vl->vl_unitario;
+                        $rel['qtd_unitaria']         = $vl->qtd_diaria;
+                        $this->db->insert('tb_relatorio', $rel);
+                        $i++;
+                    endforeach;
+                endif;
+            endforeach;
+        else:
+            $error_ben          = 1;
+            $retorno->status    = FALSE;
+            $retorno->msg       = "Houve um erro ao Finalizar! Obrigat&oacute;rio cadastrar primeiro o(s) Benef&iacute;cio(s) do(s) Funcion&aacute;rio(s).";
+            $retorno->url       = base_url("beneficiocartao/cadastrar");
+            $retorno->id_pedido = NULL;
+        endif;
+
+        if ($error_ben !== 1):
+            # Calcular Taxas
                         # Grupo Vale Refeição
                         if ($vl->id_grupo_fk == "2") {
                             $benef['vl_total_cr'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
@@ -162,37 +180,6 @@ class Pedido_model extends CI_Model {
                         $rel['id_status_credito_fk'] = 1;
                         $rel['id_item_beneficio_fk'] = $vl->id_item_beneficio_fk;
                         $rel['id_item_pedido_fk']    = $id_last_item_pedido;
-                        $rel['id_beneficio_fk']      = $vl->id_beneficio_pk;
-                        $rel['vl_unitario']          = $vl->vl_unitario;
-                        $rel['qtd_unitaria']         = $vl->qtd_diaria;
-                        $this->db->insert('tb_relatorio', $rel);
-                        $i++;
-                    endforeach;
-                endif;
-            endforeach;
-        else:
-            $error_ben          = 1;
-            $retorno->status    = FALSE;
-            $retorno->msg       = "Houve um erro ao Finalizar! Obrigat&oacute;rio cadastrar primeiro o(s) Benef&iacute;cio(s) do(s) Funcion&aacute;rio(s).";
-            $retorno->url       = base_url("beneficiocartao/cadastrar");
-            $retorno->id_pedido = NULL;
-        endif;
-
-        if ($error_ben !== 1):
-            # Calcular Taxas
-            $vl_itens       = array_sum($benef['vl_total']);
-            $vl_itens_vt    = array_sum($benef['vl_total_vt']);
-            $vl_itens_cr    = array_sum($benef['vl_total_cr']);
-            $vl_itens_ca    = array_sum($benef['vl_total_ca']);
-            $vl_itens_cc    = array_sum($benef['vl_total_cc']);
-            $vl_taxa_adm_vt = $vl_itens_vt != 0 ? (round($vl_itens_vt*($valores->taxa_adm/100), 2)) : 0;
-            $vl_taxa_fx_p   = $vl_itens_vt != 0 ? (round($vl_itens_vt*($valores->taxa_fx_perc/100), 2)) : 0;
-            $vl_taxa_adm_cr = $vl_itens_cr != 0 ? (round($vl_itens_cr*($valores->taxa_adm_cr/100), 2)) : 0;
-            $vl_taxa_adm_ca = $vl_itens_ca != 0 ? (round($vl_itens_ca*($valores->taxa_adm_ca/100), 2)) : 0;
-            $vl_taxa_adm_cc = $vl_itens_cc != 0 ? (round($vl_itens_cc*($valores->taxa_adm_cc/100), 2)) : 0;
-            $vl_taxa        = ($vl_taxa_adm_vt+$vl_taxa_fx_p+$valores->taxa_fx_real+$valores->taxa_entrega+$vl_taxa_adm_cr+$vl_taxa_adm_ca+$vl_taxa_adm_cc);
-            $vl_repasse     = round(array_sum($benef['vl_repasse']), 2)+array_sum($benef['vl_rep_func']);
-            $vl_total       = ($vl_itens+$vl_taxa+$vl_repasse);
 
             # Beneficio
             $periodo_ini = is_array($valores->periodo) && $valores->periodo[0] != NULL ? explode('/', $valores->periodo[0]) : NULL;
