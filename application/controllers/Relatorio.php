@@ -320,7 +320,7 @@ class Relatorio extends CI_Controller
                 $section->addText(utf8_decode("Valor Unitário: $vl_unit"), array('size' => 12), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::LEFT));
                 $section->addText(utf8_decode("Status: $value->status"), array('size' => 12), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::LEFT));
                 $section->addText(utf8_decode("Quantidade Diária: $value->qtd_diaria"), array('size' => 12), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::LEFT));
-                $vl_total = isset($value->qtd_diaria) ? "R$ ".number_format(($value->vl_unitario*$value->qtd_diaria), 2, ',', '.') : "R$ 0,00";
+                $vl_total = isset($value->qtd_diaria) ? "R$ ".number_format(($value->vl_unitario*($value->qtd_diaria*2)), 2, ',', '.') : "R$ 0,00";
                 $section->addText(utf8_decode("Total de Recarga: $vl_total"), array('size' => 12), array ('alignment'=> \PhpOffice\PhpWord\SimpleType\Jc::LEFT));
                 $section->addTextBreak(2);
                 $section->addText("_________________, ___/___/_____        _________________________________", array('size' => 12));
