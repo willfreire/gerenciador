@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/funcionario.css') ?>">
 
     <!-- JS Funcionario -->
-    <script src="<?= base_url('scripts/js/funcionario.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/funcionario.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -41,7 +41,7 @@
                                     <thead>
                                         <tr>
                                             <th class="col-lg-2">
-                                                Benef&iacute;cio Ativo<br> 
+                                                Benef&iacute;cio Ativo<br>
                                                 <a href="javascript:void(0)" onclick="Funcionario.statusFuncAll('<?=$this->session->userdata('id_client')?>', '1')">(Todos)</a> | 
                                                 <a href="javascript:void(0)" onclick="Funcionario.statusFuncAll('<?=$this->session->userdata('id_client')?>', '2')">(Nenhum)</a>
                                             </th>
@@ -49,7 +49,10 @@
                                             <th>Nome</th>
                                             <th>RG</th>
                                             <th>Matr&iacute;cula</th>
-                                            <th>Per&iacute;odo</th>
+                                            <th>
+                                                Per&iacute;odo<br>
+                                                <?=$sel_periodo?>
+                                            </th>
                                             <th>Status</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>
@@ -65,7 +68,10 @@
                                             <th>Nome</th>
                                             <th>RG</th>
                                             <th>Matr&iacute;cula</th>
-                                            <th>Per&iacute;odo</th>
+                                            <th>
+                                                Per&iacute;odo<br>
+                                                <?=$sel_periodo?>
+                                            </th>
                                             <th>Status</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>

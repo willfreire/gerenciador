@@ -537,6 +537,36 @@ Funcionario = {
     },
 
     /*!
+     * @description Método para mudar periodo para todos
+     **/
+    mudaPeriodoAll: function(id_client, obj) {
+        // Vars
+        var currentLocation = window.location;
+        var parser          = document.createElement('a');
+            parser.href     = currentLocation;
+        var pathname        = parser.pathname;
+        var pathproj        = pathname.split('/')[1];
+        var valor           = $(obj).val();
+
+        if (id_client !== "" && valor !== "") {
+            $.post('/'+pathproj+'/funcionario/alterPeriodoAll', {
+                id        : id_client,
+                id_period : valor
+            }, function(data){
+                if (data.status === true) {
+                    Funcionario.modalMsg("MENSAGEM", data.msg);
+                    // Reload grid
+                    $('#tbl_func').DataTable().ajax.reload();
+                } else {
+                    Funcionario.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                }
+            }, 'json');
+        } else {
+            Funcionario.modalMsg("Aten&ccedil;&atilde;o", "Selecione um Per&iacute;odo V&aacute;lido!");
+        }
+    },
+
+    /*!
      * @description Método para Ativa / Inativar Todos Funcionarios
      **/
     statusFuncAll: function(id_client, status) {
