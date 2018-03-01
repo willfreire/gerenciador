@@ -1,4 +1,4 @@
-/* 
+/*
     Created on : 29/10/2016
     Author     : William Freire
 */
@@ -18,7 +18,7 @@
 
 .box-wrapper-btn {
     width  : 80%;
-    margin : 20px auto 0;
+    margin : 10px auto 0;
 }
 
 .strip_grid {
@@ -38,10 +38,14 @@
     #box-frm-period {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
         width    : 100%;
         overflow : auto;
+    }
+
+    .box-wrapper-btn {
+        width  : 100%;
     }
 }
 
@@ -49,10 +53,14 @@
     #box-frm-period {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
         width    : 100%;
         overflow : auto;
+    }
+
+    .box-wrapper-btn {
+        width  : 100%;
     }
 }
 
@@ -60,8 +68,12 @@
     #box-frm-period {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
+        width  : 100%;
+    }
+
+    .box-wrapper-btn {
         width  : 100%;
     }
 }
@@ -70,8 +82,12 @@
     #box-frm-period {
         width: 90%;
     }
-    
+
     .box-wrapper-80 {
+        width  : 90%;
+    }
+
+    .box-wrapper-btn {
         width  : 90%;
     }
 }
@@ -80,8 +96,12 @@
     #box-frm-period {
         width: 80%;
     }
-    
+
     .box-wrapper-80 {
+        width  : 90%;
+    }
+
+    .box-wrapper-btn {
         width  : 90%;
     }
 }

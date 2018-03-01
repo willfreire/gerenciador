@@ -99,28 +99,11 @@
             <li>
                 <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> <span>Quadro de Avisos</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-building" aria-hidden="true"></i> <span>Dados Cadastrais</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./empresa/editar/' . $this->session->userdata('id_client')) ?>"><i class="fa fa-circle-o"></i> Editar Dados Cadastrais</a></li>
-                </ul>
+            <li>
+                <a href="<?= base_url('./empresa/editar/' . $this->session->userdata('id_client')) ?>"><i class="fa fa-building" aria-hidden="true"></i> <span>Dados Cadastrais</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-users" aria-hidden="true"></i> <span>Funcion&aacute;rios</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./funcionario/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar Funcion&aacute;rio</a></li>
-                    <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios Cadastrados</a></li>
-                </ul>
+            <li>
+                <a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-users" aria-hidden="true"></i> <span>Funcion&aacute;rios</span></a>
             </li>
             <li class="treeview">
                 <a href="#">

@@ -33,6 +33,10 @@
 
                     <div class="col-xs-12">
 
+                        <div class="box-wrapper-btn">
+                            <button class="btn btn-success" id="btn_cad_func">Cadastrar Funcion&aacute;rio</button>
+                        </div>
+                        
                         <div class="box box-wrapper-100">
 
                             <div class="box-body">

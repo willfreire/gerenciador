@@ -81,21 +81,10 @@ class Funcionario_model extends CI_Model {
                     $dados_pro['id_periodo_pk']          = $valores->periodo;
                     $dados_pro['email']                  = $valores->email;
                     $dados_pro['id_endereco_empresa_fk'] = $valores->ender_empresa;
+
                     # Update Dados Profissionais
                     $this->db->where('id_funcionario_fk', $id_func);
                     $this->db->update('tb_dados_profissional', $dados_pro);
-                    
-                    # Consultar dias do periodo
-                    $this->db->where('id_periodo_pk', $valores->periodo);
-                    $this->db->order_by('periodo');
-                    $row_period = $this->db->get('tb_periodo')->result();
-
-                    # Atualizar em beneficio
-                    if (!empty($row_period)):
-                        $dados['qtd_diaria'] = $row_period[0]->qtd_dia;
-                        $this->db->where('id_funcionario_fk', $id_func);
-                        $this->db->update('tb_beneficio', $dados);
-                    endif;
 
                     $retorno->status = TRUE;
                     $retorno->msg    = "Edi&ccedil;&atilde;o realizada com Sucesso!";

@@ -42,7 +42,7 @@ $end_empr_bai = isset($funcionario[0]->bairro_empr) ? $funcionario[0]->bairro_em
     <link rel="stylesheet" href="<?= base_url('assets/css/funcionario.css') ?>">
 
     <!-- JS Funcionario -->
-    <script src="<?= base_url('scripts/js/funcionario.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/funcionario.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 

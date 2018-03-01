@@ -26,13 +26,13 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
     <link rel="stylesheet" href="<?= base_url('assets/css/beneficio_cartao.css') ?>">
 
     <!-- JS Beneficio/Cartao -->
-    <script src="<?= base_url('scripts/js/beneficio_cartao.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/beneficio_cartao.js?cache=').time() ?>"></script>
 
     <!-- CSS Funcionario -->
     <link rel="stylesheet" href="<?= base_url('assets/css/funcionario.css') ?>">
 
     <!-- JS Funcionario -->
-    <script src="<?= base_url('scripts/js/funcionario.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/funcionario.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 

@@ -11,7 +11,7 @@ $qtd_dia = isset($periodo[0]->qtd_dia) ? $periodo[0]->qtd_dia : "";
     <link rel="stylesheet" href="<?=base_url('assets/css/periodo.css')?>">
 
     <!-- JS Periodo -->
-    <script src="<?=base_url('scripts/js/periodo.js')?>"></script>
+    <script src="<?= base_url('scripts/js/periodo.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
