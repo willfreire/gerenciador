@@ -122,7 +122,7 @@
                     <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios Cadastrados</a></li>
                 </ul>
             </li>
-            <?php /* <li class="treeview">
+            <li class="treeview">
                 <a href="#">
                     <i class="fa fa-upload" aria-hidden="true"></i> <span>Importa&ccedil;&atilde;o</span>
                     <span class="pull-right-container">
@@ -157,7 +157,7 @@
                     <li><a href="<?= base_url('./ocorrencia/abrir') ?>"><i class="fa fa-circle-o"></i> Abrir Ocorr&ecirc;ncia</a></li>
                     <li><a href="<?= base_url('./ocorrencia/historico') ?>"><i class="fa fa-circle-o"></i> Hist&oacute;rico de Ocorr&ecirc;ncias</a></li>
                 </ul>
-            </li> */ ?>
+            </li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-list" aria-hidden="true"></i> <span>Pedidos</span>

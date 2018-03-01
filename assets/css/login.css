@@ -69,6 +69,6 @@ body {
 
 @media (min-width: 1200px) {
     .login-box {
-        width: 40%;
+        width: 50%;
     }
 }
