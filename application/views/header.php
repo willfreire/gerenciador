@@ -53,5 +53,22 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        
+        <script>
+            // Pegar caminho em Javascript
+            var currentLocation = window.location;
+            var parser          = document.createElement('a');
+                parser.href = currentLocation;
+
+            var protocol = parser.protocol;
+            var host     = parser.host;
+            var hostname = parser.hostname;
+            var port     = parser.port;
+            var pathname = parser.pathname;
+            var pathproj = pathname.split('/')[1];
+            var hash     = parser.hash;
+            var search   = parser.search;
+            var origin   = parser.origin;
+        </script>
 
     </head>

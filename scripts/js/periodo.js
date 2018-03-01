@@ -9,6 +9,12 @@ Periodo = {
         $('#btn_back').click(function(){
             Periodo.redirect('../gerenciar');
         });
+
+        // Botao cadastrar
+        $('#btn_cad_periodo').click(function(){
+            var url = ""+protocol+"//"+hostname+"/"+pathproj+"/periodo/cadastrar";
+            Periodo.redirect(url);
+        });
         
         // Mascara
         Periodo.onlyNumber('qtd_dia');
@@ -36,7 +42,7 @@ Periodo = {
                 qtd_dia: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE DI&Aacute;RIA</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE DE DIAS</strong>'
                         }
                     }
                 }
@@ -90,7 +96,7 @@ Periodo = {
                 qtd_dia: {
                     validators: {
                         notEmpty: {
-                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE DI&Aacute;RIA</strong>'
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>QUANTIDADE DE DIAS</strong>'
                         }
                     }
                 }

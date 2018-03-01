@@ -170,7 +170,10 @@
                     <li><a href="<?= base_url('./pedido/acompanhar') ?>"><i class="fa fa-circle-o"></i> Consulta de Pedidos</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <li>
+                <a href="<?= base_url('./periodo/gerenciar') ?>"><i class="fa fa-calendar" aria-hidden="true"></i> <span>Per&iacute;odos</span></a>
+            </li>
+            <?php /* <li class="treeview">
                 <a href="#">
                     <i class="fa fa-calendar" aria-hidden="true"></i> <span>Per&iacute;odos</span>
                     <span class="pull-right-container">
@@ -181,7 +184,7 @@
                     <li><a href="<?= base_url('./periodo/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
                     <li><a href="<?= base_url('./periodo/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
-            </li>
+            </li> */ ?>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-database" aria-hidden="true"></i> <span>Relat&oacute;rio</span>
