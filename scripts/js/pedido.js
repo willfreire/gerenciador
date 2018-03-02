@@ -376,7 +376,7 @@ Pedido = {
                 table +=            '<strong>Valor Unitário</strong>';
                 table +=        '</td>';
                 table +=	'<td align="center">';
-                table +=            '<strong>Quantidade Diária</strong>';
+                table +=            '<strong>Quantidade Unitária</strong>';
                 table +=        '</td>';
                 table +=	'<td align="center">';
                 table +=            '<strong>Valor Total</strong>';
