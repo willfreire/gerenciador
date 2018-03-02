@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/usuario.css')?>">
 
     <!-- JS Usuario -->
-    <script src="<?=base_url('scripts/js/usuario.js')?>"></script>
+    <script src="<?=base_url('scripts/js/usuario.js?cache=').time()?>"></script>
 
     <div class="wrapper">
 

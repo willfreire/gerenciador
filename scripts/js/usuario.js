@@ -4,6 +4,11 @@ Usuario = {
      * @description Chamada dos principais métodos
      **/
     main: function () {
+        // Botao cadastrar
+        $('#btn_cad_usu').click(function(){
+            var url = ""+protocol+"//"+hostname+"/"+pathproj+"/usuario/cadastrar";
+            Usuario.redirect(url);
+        });
 
         // Botao voltar
         $('#btn_back').click(function(){
