@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/beneficio.css') ?>">
 
     <!-- JS Beneficio -->
-    <script src="<?= base_url('scripts/js/beneficio.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/beneficio.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 

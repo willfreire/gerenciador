@@ -65,17 +65,8 @@
             <li>
                 <a href="<?=base_url('./aviso/gerenciar')?>"><i class="fa fa-warning" aria-hidden="true"></i> <span>Avisos</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-bus" aria-hidden="true"></i> <span>Benef&iacute;cios</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./beneficio/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./beneficio/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./beneficio/gerenciar')?>"><i class="fa fa-bus" aria-hidden="true"></i> <span>Benef&iacute;cios</span></a>
             </li>
             <li class="treeview">
                 <a href="#">

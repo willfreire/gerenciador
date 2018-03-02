@@ -4,12 +4,11 @@ Beneficio = {
      * @description Chamada dos principais métodos
      **/
     main: function () {
-
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-            parser.href     = currentLocation;
-        var pathname        = parser.pathname;
-        var pathproj        = pathname.split('/')[1];
+        // Botao cadastrar
+        $('#btn_cad_benef').click(function(){
+            var url = ""+protocol+"//"+hostname+"/"+pathproj+"/beneficio/cadastrar";
+            Beneficio.redirect(url);
+        });
 
         // Botao voltar
         $('#btn_back').click(function(){
