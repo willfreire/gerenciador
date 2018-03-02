@@ -4,6 +4,11 @@ Fornecedor = {
      * @description Chamada dos principais métodos
      **/
     main: function () {
+        // Botao cadastrar
+        $('#btn_cad_forn').click(function(){
+            var url = ""+protocol+"//"+hostname+"/"+pathproj+"/fornecedor/cadastrar";
+            Fornecedor.redirect(url);
+        });
 
         // Botao voltar
         $('#btn_back').click(function(){

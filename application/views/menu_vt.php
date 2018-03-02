@@ -72,16 +72,8 @@
                 <a href="<?=base_url('./cliente/gerenciar')?>"><i class="fa fa-users" aria-hidden="true"></i> <span>Clientes</span></a>
             </li>
             <?php if ($this->session->userdata('id_perfil_vt') == "2"): ?>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-user" aria-hidden="true"></i> <span>Dados Cadastrais</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./usuario/editar/'.$this->session->userdata('id_vt'))?>"><i class="fa fa-circle-o"></i> Editar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./usuario/editar/'.$this->session->userdata('id_vt'))?>"><i class="fa fa-user" aria-hidden="true"></i> <span>Dados Cadastrais</span></a>
             </li>
             <?php endif; ?>
             <li class="treeview">
@@ -108,17 +100,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-building" aria-hidden="true"></i> <span>Fornecedor</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./fornecedor/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./fornecedor/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./fornecedor/gerenciar')?>"><i class="fa fa-building" aria-hidden="true"></i> <span>Fornecedor</span></a>
             </li>
             <li class="treeview">
                 <a href="#">
