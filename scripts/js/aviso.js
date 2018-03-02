@@ -4,6 +4,11 @@ Aviso = {
      * @description Chamada dos principais métodos
      **/
     main: function () {
+        // Botao cadastrar
+        $('#btn_cad_avis').click(function(){
+            var url = ""+protocol+"//"+hostname+"/"+pathproj+"/aviso/cadastrar";
+            Aviso.redirect(url);
+        });
 
         // Botao voltar
         $('#btn_back').click(function(){

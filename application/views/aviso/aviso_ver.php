@@ -16,7 +16,7 @@ $descricao = isset($aviso[0]->descricao) ? $aviso[0]->descricao : "";
     <link rel="stylesheet" href="<?= base_url('assets/css/aviso.css') ?>">
 
     <!-- JS Aviso -->
-    <script src="<?= base_url('scripts/js/aviso.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/aviso.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 

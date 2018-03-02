@@ -16,6 +16,11 @@
     margin : 20px auto;
 }
 
+.box-wrapper-btn {
+    width  : 80%;
+    margin : 10px auto 0;
+}
+
 .strip_grid {
     background-color: #f9f9f9;
 }
@@ -38,6 +43,10 @@
         width    : 100%;
         overflow : auto;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 481px) and (max-width: 559px) {
@@ -49,6 +58,10 @@
         width    : 100%;
         overflow : auto;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 600px) and (max-width: 767px) {
@@ -58,6 +71,10 @@
     
     .box-wrapper-80 {
         width  : 100%;
+    }
+    
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 
@@ -69,6 +86,10 @@
     .box-wrapper-80 {
         width  : 90%;
     }
+    
+    .box-wrapper-btn {
+        width: 90%;
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -78,6 +99,10 @@
     
     .box-wrapper-80 {
         width  : 90%;
+    }
+    
+    .box-wrapper-btn {
+        width: 90%;
     }
 }
 
