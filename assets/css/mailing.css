@@ -4,7 +4,7 @@
 */
 
 #box-frm-mail {
-    width: 60%;
+    width: 80%;
 }
 
 .btn-acao {
@@ -12,8 +12,13 @@
 }
 
 .box-wrapper-80 {
-    width  : 80%;
-    margin : 20px auto;
+    width  : 100%;
+    margin : 10px auto 20px;
+}
+
+.box-wrapper-btn {
+    width  : 100%;
+    margin : 10px auto 0;
 }
 
 .strip_grid {
@@ -67,6 +72,10 @@
     #modal-dialog-prospec {
         width: 95%;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 481px) and (max-width: 559px) {
@@ -82,6 +91,10 @@
     #modal-dialog-prospec {
         width: 95%;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 600px) and (max-width: 767px) {
@@ -96,33 +109,45 @@
     #modal-dialog-prospec {
         width: 95%;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
     #box-frm-mail {
-        width: 90%;
+        width: 100%;
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width  : 100%;
     }
     
     #modal-dialog-prospec {
-        width: 90%;
+        width: 95%;
+    }
+    
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
     #box-frm-mail {
-        width: 80%;
+        width: 90%;
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width: 100%;
     }
     
     #modal-dialog-prospec {
-        width: 80%;
+        width: 95%;
+    }
+    
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 

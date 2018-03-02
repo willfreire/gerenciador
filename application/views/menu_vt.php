@@ -103,17 +103,8 @@
             <li>
                 <a href="<?=base_url('./fornecedor/gerenciar')?>"><i class="fa fa-building" aria-hidden="true"></i> <span>Fornecedor</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>Mailing</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./mailing/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./mailing/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./mailing/gerenciar')?>"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>Mailing</span></a>
             </li>
             <li class="treeview">
                 <a href="#">

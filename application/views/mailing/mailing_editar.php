@@ -21,7 +21,7 @@ $site         = isset($mailing[0]->site) ? $mailing[0]->site : "";
     <link rel="stylesheet" href="<?= base_url('assets/css/mailing.css') ?>">
 
     <!-- JS Mailing -->
-    <script src="<?= base_url('scripts/js/mailing.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/mailing.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
