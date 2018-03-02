@@ -4,7 +4,7 @@
 */
 
 #box-frm-prospec {
-    width: 60%;
+    width: 80%;
 }
 
 .btn-acao {
@@ -12,8 +12,13 @@
 }
 
 .box-wrapper-80 {
-    width  : 80%;
-    margin : 20px auto;
+    width  : 100%;
+    margin : 10px auto 20px;
+}
+
+.box-wrapper-btn {
+    width  : 100%;
+    margin : 10px auto 0;
 }
 
 .strip_grid {
@@ -54,6 +59,10 @@
         width    : 100%;
         overflow : auto;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 481px) and (max-width: 559px) {
@@ -65,6 +74,10 @@
         width    : 100%;
         overflow : auto;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 600px) and (max-width: 767px) {
@@ -73,27 +86,39 @@
     }
     
     .box-wrapper-80 {
-        width  : 100%;
+        width: 100%;
+    }
+    
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
     #box-frm-prospec {
-        width: 90%;
+        width: 100%;
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width: 100%;
+    }
+    
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
     #box-frm-prospec {
-        width: 80%;
+        width: 90%;
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width: 100%;
+    }
+    
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 

@@ -23,7 +23,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
     <link rel="stylesheet" href="<?= base_url('assets/css/prospeccao.css') ?>">
 
     <!-- JS Prospeccao -->
-    <script src="<?= base_url('scripts/js/prospeccao.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/prospeccao.js?cache=').time() ?>"></script>
 
     <div class="wrapper" style="background-color: #F8F8F8">
 
@@ -54,8 +54,8 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
                                                         <input type="text" class="form-control" name="time" id="time" value="" maxlength="8" readonly>
                                                     </div>
                                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                                        <div class="btn btn-sm btn-success" id="btn_start" title="Continuar"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
-                                                        <div class="btn btn-sm btn-danger" id="btn_stop" title="Pausar"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></div>
+                                                        <div class="btn btn-success" id="btn_start" title="Continuar"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
+                                                        <div class="btn btn-danger" id="btn_stop" title="Pausar"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></div>
                                                     </div>
                                                 </div>
                                             </div>

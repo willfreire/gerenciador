@@ -129,17 +129,8 @@
                     <li><a href="<?= base_url('./pedido/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <span>Prospec&ccedil;&atilde;o</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./prospeccao/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./prospeccao/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./prospeccao/gerenciar')?>"><i class="fa fa-bar-chart" aria-hidden="true"></i> <span>Prospec&ccedil;&atilde;o</span></a>
             </li>
             <li class="treeview">
                 <a href="#">
@@ -149,23 +140,14 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./relatorio/funcionario_vt') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Funcion&aacute;rios</a></li>
-                    <li><a href="<?= base_url('./relatorio/pedido_vt') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Pedidos</a></li>
-                    <li><a href="<?= base_url('./relatorio/inconsistencia_vt') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Inconsist&ecirc;ncias</a></li>
+                    <li><a href="<?= base_url('./relatorio/funcionario_vt') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios</a></li>
+                    <li><a href="<?= base_url('./relatorio/pedido_vt') ?>"><i class="fa fa-circle-o"></i> Pedidos</a></li>
+                    <li><a href="<?= base_url('./relatorio/inconsistencia_vt') ?>"><i class="fa fa-circle-o"></i> Inconsist&ecirc;ncias</a></li>
                 </ul>
             </li>
             <?php if ($this->session->userdata('id_perfil_vt') == "1"): ?>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-user" aria-hidden="true"></i> <span>Usu&aacute;rios</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./usuario/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./usuario/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./usuario/gerenciar')?>"><i class="fa fa-user" aria-hidden="true"></i> <span>Usu&aacute;rios</span></a>
             </li>
             <?php endif; ?>
             <li>
