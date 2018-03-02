@@ -4,21 +4,11 @@ Cliente = {
      * @description Chamada dos principais métodos
      **/
     main: function () {
-
-        // Vars path
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-        parser.href         = currentLocation;
-
-        var protocol = parser.protocol;
-        var host     = parser.host;
-        var hostname = parser.hostname;
-        var port     = parser.port;
-        var pathname = parser.pathname;
-        var pathproj = pathname.split('/')[1];
-        var hash     = parser.hash;
-        var search   = parser.search;
-        var origin   = parser.origin;
+        // Botao cadastrar
+        $('#btn_cad_cli').click(function(){
+            var url = ""+protocol+"//"+hostname+"/"+pathproj+"/cliente/cadastrar";
+            Cliente.redirect(url);
+        });
 
         // Botao voltar
         $('#btn_back').click(function(){

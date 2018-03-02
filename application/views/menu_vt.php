@@ -68,17 +68,8 @@
             <li>
                 <a href="<?=base_url('./beneficio/gerenciar')?>"><i class="fa fa-bus" aria-hidden="true"></i> <span>Benef&iacute;cios</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-users" aria-hidden="true"></i> <span>Clientes</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./cliente/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./cliente/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./cliente/gerenciar')?>"><i class="fa fa-users" aria-hidden="true"></i> <span>Clientes</span></a>
             </li>
             <?php if ($this->session->userdata('id_perfil_vt') == "2"): ?>
             <li class="treeview">

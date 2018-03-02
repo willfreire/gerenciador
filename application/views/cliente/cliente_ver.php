@@ -63,7 +63,7 @@ $taxa_adm_cc     = isset($cliente[0]->taxa_adm_cc) ? $cliente[0]->taxa_adm_cc : 
     <link rel="stylesheet" href="<?= base_url('assets/css/cliente.css') ?>">
 
     <!-- JS Cliente -->
-    <script src="<?= base_url('scripts/js/cliente.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/cliente.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -295,14 +295,6 @@ $taxa_adm_cc     = isset($cliente[0]->taxa_adm_cc) ? $cliente[0]->taxa_adm_cc : 
                                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-7"><?=$taxa_adm_cc.'%'?></div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa Fixa %</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$taxa_fixa_perc.'%'?></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Taxa Fixa R$</strong></div>
-                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?='R$ '.$taxa_fixa_real?></div>
                                             </div>
                                         </div>
                                     </div>
