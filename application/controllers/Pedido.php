@@ -295,8 +295,8 @@ class Pedido extends CI_Controller
             $data['end_entrega'] = $this->db->get('tb_endereco_empresa')->result();
 
             # Sql para tb_beneficio
-            $this->db->select('id_funcionario_pk, cpf, nome');
-            $this->db->from('tb_funcionario');
+            $this->db->select('id_funcionario_pk, cpf, nome, qtd_dia');
+            $this->db->from('vw_funcionario');
             $this->db->where(array('id_empresa_fk' => $data['pedido'][0]->id_empresa_fk, 'id_status_fk' => 1));
             $data['beneficiario'] = $this->db->get()->result();
 
@@ -315,35 +315,35 @@ class Pedido extends CI_Controller
                             $benef['id_grupo_fk'][$i]     = $vl->id_grupo_fk;
                             $benef['id_beneficio_pk'][$i] = $vl->id_beneficio_pk;
                             $benef['vl_unitario'][$i]     = $vl->vl_unitario;
-                            $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
-                            $benef['vl_total'][$i]        = ($vl->vl_unitario*($vl->qtd_diaria*2));
-                            $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*($vl->qtd_diaria*2)))/100) : 0;
+                            $benef['qtd_diaria'][$i]      = $value->qtd_dia;
+                            $benef['vl_total'][$i]        = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
+                            $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*(($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria)))/100) : 0;
                             $benef['vl_rep_func'][$i]     = isset($vl->vl_rep_func) && $vl->vl_rep_func != "" ? $vl->vl_rep_func : 0;
                             # Devidir Grupos para calcular taxas
                             # Grupo Vale Transporte
                             if ($vl->id_grupo_fk == "1") {
-                                $benef['vl_total_vt'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                                $benef['vl_total_vt'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
                             } else {
                                 $benef['vl_total_vt'][$i] = 0;
                             }
 
                             # Grupo Vale Refeição
                             if ($vl->id_grupo_fk == "2") {
-                                $benef['vl_total_cr'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                                $benef['vl_total_cr'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
                             } else {
                                 $benef['vl_total_cr'][$i] = 0;
                             }
 
                             # Grupo Vale Alimentação
                             if ($vl->id_grupo_fk == "3") {
-                                $benef['vl_total_ca'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                                $benef['vl_total_ca'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
                             } else {
                                 $benef['vl_total_ca'][$i] = 0;
                             }
 
                             # Grupo Vale Combustivel
                             if ($vl->id_grupo_fk == "4") {
-                                $benef['vl_total_cc'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                                $benef['vl_total_cc'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
                             } else {
                                 $benef['vl_total_cc'][$i] = 0;
                             }

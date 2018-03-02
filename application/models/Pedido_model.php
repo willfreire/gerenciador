@@ -104,9 +104,11 @@ class Pedido_model extends CI_Model {
         if (!empty($valores->id_func) && is_array($valores->id_func)):
             $i = 0;
             foreach ($valores->id_func as $value):
-                $this->db->select('b.id_beneficio_pk, b.vl_unitario, b.qtd_diaria, b.id_grupo_fk, b.id_item_beneficio_fk, i.id_item_beneficio_pk, i.vl_rep_func, i.vl_repasse');
+                $this->db->select('b.id_beneficio_pk, b.vl_unitario, b.qtd_diaria, b.id_grupo_fk, b.id_item_beneficio_fk, i.id_item_beneficio_pk, i.vl_rep_func, i.vl_repasse, pe.qtd_dia');
                 $this->db->from('tb_beneficio b');
                 $this->db->join('tb_item_beneficio i', 'b.id_item_beneficio_fk = i.id_item_beneficio_pk', 'inner');
+                $this->db->join('tb_dados_profissional dp', 'dp.id_funcionario_fk = b.id_funcionario_fk', 'inner');
+                $this->db->join('tb_periodo pe', 'pe.id_periodo_pk = dp.id_periodo_pk', 'inner');
                 $this->db->where('b.id_funcionario_fk', $value);
                 $resp = $this->db->get()->result();
 
@@ -114,36 +116,36 @@ class Pedido_model extends CI_Model {
                     foreach ($resp as $vl):
                         $benef['id_beneficio_pk'][$i] = $vl->id_beneficio_pk;
                         $benef['vl_unitario'][$i]     = $vl->vl_unitario;
-                        $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
-                        $benef['vl_total'][$i]        = ($vl->vl_unitario*($vl->qtd_diaria*2));
-                        $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*($vl->qtd_diaria*2)))/100) : 0;
+                        $benef['qtd_diaria'][$i]      = $vl->qtd_dia;
+                        $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_dia*$vl->qtd_diaria);
+                        $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*$vl->qtd_dia*$vl->qtd_diaria))/100) : 0;
                         $benef['vl_rep_func'][$i]     = isset($vl->vl_rep_func) && $vl->vl_rep_func != "" ? $vl->vl_rep_func : 0;
 
                         # Devidir Grupos para calcular taxas
                         # Grupo Vale Transporte
                         if ($vl->id_grupo_fk == "1") {
-                            $benef['vl_total_vt'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                            $benef['vl_total_vt'][$i] = ($vl->vl_unitario*$vl->qtd_dia*$vl->qtd_diaria);
                         } else {
                             $benef['vl_total_vt'][$i] = 0;
                         }
 
                         # Grupo Vale Refeição
                         if ($vl->id_grupo_fk == "2") {
-                            $benef['vl_total_cr'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                            $benef['vl_total_cr'][$i] = ($vl->vl_unitario*$vl->qtd_dia*$vl->qtd_diaria);
                         } else {
                             $benef['vl_total_cr'][$i] = 0;
                         }
 
                         # Grupo Vale Alimentação
                         if ($vl->id_grupo_fk == "3") {
-                            $benef['vl_total_ca'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                            $benef['vl_total_ca'][$i] = ($vl->vl_unitario*$vl->qtd_dia*$vl->qtd_diaria);
                         } else {
                             $benef['vl_total_ca'][$i] = 0;
                         }
 
                         # Grupo Vale Combustivel
                         if ($vl->id_grupo_fk == "4") {
-                            $benef['vl_total_cc'][$i] = ($vl->vl_unitario*($vl->qtd_diaria*2));
+                            $benef['vl_total_cc'][$i] = ($vl->vl_unitario*$vl->qtd_dia*$vl->qtd_diaria);
                         } else {
                             $benef['vl_total_cc'][$i] = 0;
                         }
@@ -152,7 +154,7 @@ class Pedido_model extends CI_Model {
                         $item['id_pedido_fk']    = $valores->id;
                         $item['id_beneficio_fk'] = $vl->id_beneficio_pk;
                         $item['vl_unitario']     = $vl->vl_unitario;
-                        $item['qtd_unitaria']    = $vl->qtd_diaria;
+                        $item['qtd_unitaria']    = ($vl->qtd_dia*$vl->qtd_diaria);
                         $this->db->insert('tb_item_pedido', $item);
                         $id_last_item_pedido = $this->db->insert_id();
                         
@@ -165,7 +167,7 @@ class Pedido_model extends CI_Model {
                         $rel['id_item_pedido_fk']    = $id_last_item_pedido;
                         $rel['id_beneficio_fk']      = $vl->id_beneficio_pk;
                         $rel['vl_unitario']          = $vl->vl_unitario;
-                        $rel['qtd_unitaria']         = $vl->qtd_diaria;
+                        $rel['qtd_unitaria']         = ($vl->qtd_dia*$vl->qtd_diaria);
                         $this->db->insert('tb_relatorio', $rel);
                         $i++;
                     endforeach;

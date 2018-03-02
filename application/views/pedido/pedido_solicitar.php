@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/pedido.css') ?>">
 
     <!-- JS Pedido -->
-    <script src="<?= base_url('scripts/js/pedido.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/pedido.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 

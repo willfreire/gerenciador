@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/beneficio_cartao.css') ?>">
 
     <!-- JS Beneficio/Cartao -->
-    <script src="<?= base_url('scripts/js/beneficio_cartao.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/beneficio_cartao.js?cache=').time() ?>"></script>
 
     <!-- CSS Funcionario -->
     <link rel="stylesheet" href="<?= base_url('assets/css/funcionario.css') ?>">

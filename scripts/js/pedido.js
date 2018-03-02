@@ -4,22 +4,6 @@ Pedido = {
      * @description Chamada dos principais métodos
      **/
     main: function () {
-
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-        // parser.href = "http://example.com:3000/pathname/?search=test#hash";
-        parser.href = currentLocation;
-
-        var protocol = parser.protocol; // => "http:"
-        var host     = parser.host;     // => "example.com:3000"
-        var hostname = parser.hostname; // => "example.com"
-        var port     = parser.port;     // => "3000"
-        var pathname = parser.pathname; // => "/pathname/"
-        var pathproj = pathname.split('/')[1];
-        var hash     = parser.hash;     // => "#hash"
-        var search   = parser.search;   // => "?search=test"
-        var origin   = parser.origin;   // => "http://example.com:3000"
-
         // Botao voltar
         $('#btn_back').click(function(){
             Pedido.redirect('../acompanhar');
@@ -238,9 +222,9 @@ Pedido = {
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
                 if (data.status === true) {
-                    var url_boleto = 'http://'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido+'';
+                    var url_boleto = ''+protocol+'//'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido+'';
                     Pedido.modalMsg("MENSAGEM", data.msg, false, url_boleto);
-                    // Pedido.openWindow('http://'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido, '_blank');
+                    // Pedido.openWindow(''+protocol+'//'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido, '_blank');
                 } else {
                     Pedido.modalMsg("Aten&ccedil;&atilde;o", data.msg, false, data.url);
                 }
@@ -340,14 +324,8 @@ Pedido = {
      * @description Ver Boleto
      **/
     verBoleto: function (id_pedido) {
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-        parser.href         = currentLocation;
-        var hostname        = parser.hostname;
-        var pathname        = parser.pathname;
-        var pathproj        = pathname.split('/')[1];
-        var url_boleto      = "http://"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
-        //var url_boleto      = "http://"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
+        var url_boleto = ""+protocol+"//"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
+        //var url_boleto = ""+protocol+"//"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
         Pedido.openWindow(url_boleto, "_blank");
     },
 
@@ -356,15 +334,9 @@ Pedido = {
      **/
     exportPedido: function(id_pedido) {
         // Atribuir valores
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-            parser.href     = currentLocation;
-        var hostname        = parser.hostname;
-        var pathname        = parser.pathname;
-        var pathproj        = pathname.split('/')[1];
-        var link            = "http://"+hostname+"/"+pathproj+"/pedido/exportPedidoXls";
-        var table           = '';
-        var name            = '';
+        var link  = ""+protocol+"//"+hostname+"/"+pathproj+"/pedido/exportPedidoXls";
+        var table = '';
+        var name  = '';
 
         // Msg de exportação
         Pedido.modalMsg("Exportar Excel", "Aguarde, Processando...");

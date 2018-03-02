@@ -176,9 +176,9 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./relatorio/funcionario') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Funcion&aacute;rios</a></li>
-                    <li><a href="<?= base_url('./relatorio/pedido') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Pedidos</a></li>
-                    <li><a href="<?= base_url('./relatorio/inconsistencia') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Inconsist&ecirc;ncias</a></li>
+                    <li><a href="<?= base_url('./relatorio/funcionario') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios</a></li>
+                    <li><a href="<?= base_url('./relatorio/pedido') ?>"><i class="fa fa-circle-o"></i> Pedidos</a></li>
+                    <li><a href="<?= base_url('./relatorio/inconsistencia') ?>"><i class="fa fa-circle-o"></i> Inconsist&ecirc;ncias</a></li>
                 </ul>
             </li>
             <li>
