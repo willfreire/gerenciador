@@ -42,7 +42,7 @@ class Relatorio_model extends CI_Model {
 
         if (!empty($rows)):
             foreach ($rows as $valor):
-                $vl_total = ($valor->vl_unitario*($valor->qtd_diaria*2));
+                $vl_total = ($valor->vl_unitario*$valor->qtd_diaria);
 
                 $dado               = new stdClass();
                 $dado->id_pedido    = $valor->id_pedido_pk;
@@ -119,7 +119,7 @@ class Relatorio_model extends CI_Model {
 
         if (!empty($rows)):
             foreach ($rows as $valor):
-                $vl_total = ($valor->vl_unitario*($valor->qtd_diaria*2));
+                $vl_total = ($valor->vl_unitario*$valor->qtd_diaria);
 
                 $dado               = new stdClass();
                 $dado->id_pedido    = $valor->id_pedido_pk;

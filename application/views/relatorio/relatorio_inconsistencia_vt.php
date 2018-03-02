@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/relatorio.css') ?>">
 
     <!-- JS Relatorio -->
-    <script src="<?= base_url('scripts/js/relatorio.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/relatorio.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 

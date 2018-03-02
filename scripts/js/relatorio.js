@@ -4,13 +4,6 @@ Relatorio = {
      * @description Chamada dos principais métodos
      **/
     main: function () {
-
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-            parser.href     = currentLocation;
-        var pathname = parser.pathname;
-        var pathproj = pathname.split('/')[1];
-
         // Botao voltar
         $('#btn_back').click(function(){
             Relatorio.redirect('/'+pathproj+'/');
@@ -167,16 +160,10 @@ Relatorio = {
             var frm = $form.serialize();
 
             // Atribuir valores
-            var currentLocation = window.location;
-            var parser          = document.createElement('a');
-                parser.href     = currentLocation;
-            var hostname        = parser.hostname;
-            var pathname        = parser.pathname;
-            var pathproj        = pathname.split('/')[1];
-            var link            = "http://"+hostname+"/"+pathproj+"/relatorio/exportPedidoXls";
-            var table           = '';
-            var name            = '';
-            var id_pedido       = $("#id_pedido").val();
+            var link      = ""+protocol+"//"+hostname+"/"+pathproj+"/relatorio/exportPedidoXls";
+            var table     = '';
+            var name      = '';
+            var id_pedido = $("#id_pedido").val();
 
             // Msg de exportação
             Relatorio.modalMsg("Exportar Excel", "Aguarde, Processando...");
@@ -213,7 +200,7 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Diária</strong>';
+                    table +=            '<strong>Quantidade Unitária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';
@@ -311,16 +298,10 @@ Relatorio = {
             var frm = $form.serialize();
 
             // Atribuir valores
-            var currentLocation = window.location;
-            var parser          = document.createElement('a');
-                parser.href     = currentLocation;
-            var hostname        = parser.hostname;
-            var pathname        = parser.pathname;
-            var pathproj        = pathname.split('/')[1];
-            var link            = "http://"+hostname+"/"+pathproj+"/relatorio/exportPedidoXls";
-            var table           = '';
-            var name            = '';
-            var id_pedido       = $("#id_pedido").val();
+            var link      = ""+protocol+"//"+hostname+"/"+pathproj+"/relatorio/exportPedidoXls";
+            var table     = '';
+            var name      = '';
+            var id_pedido = $("#id_pedido").val();
 
             // Msg de exportação
             Relatorio.modalMsg("Exportar Excel", "Aguarde, Processando...");
@@ -357,7 +338,7 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Diária</strong>';
+                    table +=            '<strong>Quantidade Unitária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';
@@ -448,16 +429,10 @@ Relatorio = {
             var frm = $form.serialize();
 
             // Atribuir valores
-            var currentLocation = window.location;
-            var parser          = document.createElement('a');
-                parser.href     = currentLocation;
-            var hostname        = parser.hostname;
-            var pathname        = parser.pathname;
-            var pathproj        = pathname.split('/')[1];
-            var link            = "http://"+hostname+"/"+pathproj+"/relatorio/exportInconsXls";
-            var table           = '';
-            var name            = '';
-            var id_pedido       = $("#id_pedido").val();
+            var link      = ""+protocol+"//"+hostname+"/"+pathproj+"/relatorio/exportInconsXls";
+            var table     = '';
+            var name      = '';
+            var id_pedido = $("#id_pedido").val();
 
             // Msg de exportação
             Relatorio.modalMsg("Exportar Excel", "Aguarde, Processando...");
@@ -494,7 +469,7 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Diária</strong>';
+                    table +=            '<strong>Quantidade Unitária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';
@@ -598,16 +573,10 @@ Relatorio = {
             var frm = $form.serialize();
 
             // Atribuir valores
-            var currentLocation = window.location;
-            var parser          = document.createElement('a');
-                parser.href     = currentLocation;
-            var hostname        = parser.hostname;
-            var pathname        = parser.pathname;
-            var pathproj        = pathname.split('/')[1];
-            var link            = "http://"+hostname+"/"+pathproj+"/relatorio/exportInconsXls";
-            var table           = '';
-            var name            = '';
-            var id_pedido       = $("#id_pedido").val();
+            var link      = ""+protocol+"//"+hostname+"/"+pathproj+"/relatorio/exportInconsXls";
+            var table     = '';
+            var name      = '';
+            var id_pedido = $("#id_pedido").val();
 
             // Msg de exportação
             Relatorio.modalMsg("Exportar Excel", "Aguarde, Processando...");
@@ -644,7 +613,7 @@ Relatorio = {
                     table +=            '<strong>Valor Unitário</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
-                    table +=            '<strong>Quantidade Diária</strong>';
+                    table +=            '<strong>Quantidade Unitária</strong>';
                     table +=        '</td>';
                     table +=        '<td align="center">';
                     table +=            '<strong>Valor Total</strong>';
