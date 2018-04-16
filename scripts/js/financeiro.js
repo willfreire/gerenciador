@@ -170,7 +170,7 @@ Financeiro = {
     /*!
      * @description Ver Boleto
      **/
-    verBoleto: function (id_pedido) {
+    /* verBoleto: function (id_pedido) {
         var currentLocation = window.location;
         var parser          = document.createElement('a');
             parser.href     = currentLocation;
@@ -180,6 +180,12 @@ Financeiro = {
         // var url_boleto      = "http://"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
         var url_boleto      = "http://"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
 
+        Financeiro.openWindow(url_boleto, "_blank");
+    }, */
+    
+    verBoleto: function (id_pedido) {
+        var url_boleto = ""+protocol+"//"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
+        //var url_boleto = ""+protocol+"//"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
         Financeiro.openWindow(url_boleto, "_blank");
     },
 
