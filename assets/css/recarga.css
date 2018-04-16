@@ -1,10 +1,10 @@
-/* 
-    Created on : 02/11/2016
+/*
+    Created on : 08/04/2018
     Author     : William Freire
 */
 
-#box-frm-prospec {
-    width: 80%;
+#box-frm-recarga {
+    width: 60%;
 }
 
 .btn-acao {
@@ -12,12 +12,12 @@
 }
 
 .box-wrapper-80 {
-    width  : 100%;
-    margin : 10px auto 20px;
+    width  : 90%;
+    margin : 20px auto;
 }
 
 .box-wrapper-btn {
-    width  : 100%;
+    width  : 80%;
     margin : 10px auto 0;
 }
 
@@ -29,96 +29,84 @@
     background-color: #FFFFFF;
 }
 
-.radio-position {
-    margin-top: 1px;
-}
-
-/* Select2 */
-.select2-container .select2-selection--single {
-    height: 34px;
-}
-/* Fim Select2 */
-
-#time {
-    font-weight : bold;
-    font-size   : 2em;
-    color       : navy;
-}
-
 /* Botao XS do Bootstrap */
 .btn-group-xs > .btn, .btn-xs {
     padding: 3px 5px 5px 6px;
 }
 
+#div_recarga {
+    display: none;
+}
+
 @media (max-width: 480px) {
-    #box-frm-prospec {
+    #box-frm-recarga {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
         width    : 100%;
         overflow : auto;
     }
-    
+
     .box-wrapper-btn {
-        width: 100%;
+        width  : 100%;
     }
 }
 
 @media (min-width: 481px) and (max-width: 559px) {
-    #box-frm-prospec {
+    #box-frm-recarga {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
         width    : 100%;
         overflow : auto;
     }
-    
+
     .box-wrapper-btn {
-        width: 100%;
+        width  : 100%;
     }
 }
 
 @media (min-width: 600px) and (max-width: 767px) {
-    #box-frm-prospec {
+    #box-frm-recarga {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
-        width: 100%;
+        width  : 100%;
     }
-    
+
     .box-wrapper-btn {
-        width: 100%;
+        width  : 100%;
     }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-    #box-frm-prospec {
-        width: 100%;
+    #box-frm-recarga {
+        width: 90%;
     }
-    
+
     .box-wrapper-80 {
-        width: 100%;
+        width  : 90%;
     }
-    
+
     .box-wrapper-btn {
-        width: 100%;
+        width  : 90%;
     }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
-    #box-frm-prospec {
-        width: 90%;
+    #box-frm-recarga {
+        width: 80%;
     }
-    
+
     .box-wrapper-80 {
-        width: 100%;
+        width  : 90%;
     }
-    
+
     .box-wrapper-btn {
-        width: 100%;
+        width  : 90%;
     }
 }
 

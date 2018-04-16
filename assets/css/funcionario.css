@@ -35,7 +35,7 @@
 }
 
 .radio-position {
-    margin-top: 5px;
+    margin-top: 1px;
 }
 
 #btn_add_benef, #btn_add_benedit {
@@ -49,6 +49,12 @@
 /* Botao XS do Bootstrap */
 .btn-group-xs > .btn, .btn-xs {
     padding: 3px 5px 5px 6px;
+}
+
+/* Select2 */
+.select2-container--default {
+    display: block;
+    width: 100% !important;
 }
 
 @media (max-width: 480px) {

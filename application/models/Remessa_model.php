@@ -67,7 +67,7 @@ class Remessa_model extends CI_Model {
             $head['cod_remessa']       = "1";
             $head['trasmissao']        = "REMESSA";
             $head['cod_servico']       = "01";
-            $head['servico']           = "COBRANCA";
+            $head['servico']           = $this->picturex("COBRANCA", 15);
             $head['cod_transmissao']   = $this->picture9($cod_transmissao, 20);
             $head['nome_beneficiario'] = "VTCARDS COMERCIO E SERVICOS LTDA";
             $head['cod_banco']         = "033";
@@ -199,7 +199,7 @@ class Remessa_model extends CI_Model {
             # Trailler
             $trail['id_remessa_fk']   = $id_remessa;
             $trail['cod_registro']    = 9;
-            $trail['qtde_linha_arq']  = $id_mov;
+            $trail['qtde_doc_arq']    = $id_mov;
             $trail['vl_total_titulo'] = $this->picture9($vl_total, 13);
             $trail['col_t4']          = "b_374";
             $trail['num_reg_arq']     = $this->picture9(1, 6);
@@ -499,7 +499,7 @@ class Remessa_model extends CI_Model {
         endif;
 
         # Consultar pedidos
-        $this->db->select("r.id_remessa_pk, DATE_FORMAT(r.dt_emissao, '%d/%m/%Y') AS dt_emissao, r.arquivo, t.qtde_linha_arq, t.vl_total_titulo", FALSE);
+        $this->db->select("r.id_remessa_pk, DATE_FORMAT(r.dt_emissao, '%d/%m/%Y') AS dt_emissao, r.arquivo, t.qtde_doc_arq, t.vl_total_titulo", FALSE);
         $this->db->from('tb_remessa r');
         $this->db->join('tb_remessa_trailler t', 'r.id_remessa_pk = t.id_remessa_fk', 'inner');
         if (!empty($filter)):
@@ -529,7 +529,7 @@ class Remessa_model extends CI_Model {
                 $remessa->id_remessa_pk   = $id_remessa;
                 $remessa->dt_emissao      = $value->dt_emissao;
                 $remessa->arquivo         = $value->arquivo;
-                $remessa->qtde_linha_arq  = (int)$value->qtde_linha_arq;
+                $remessa->qtde_doc_arq    = (int)$value->qtde_doc_arq;
                 $remessa->vl_total_titulo = "R\$ ".number_format($vl_total, 2, ',', '.');
                 $remessa->acao            = $acao;
                 $remessas[]               = $remessa;
@@ -561,12 +561,12 @@ class Remessa_model extends CI_Model {
 
         # Consultar
         $this->db->select("b.id_pedido_fk, b.pagador_cnpj_cpf, b.pagador_nome, b.valor, DATE_FORMAT(b.dt_vencimento, '%d/%m/%Y') AS dt_vencimento, m.id_cod_carteira_fk,
-                           m.cod_ocorrencia_fk, m.especie_doc, m.prim_inst_cobranca, m.seg_inst_cobranca, ca.cod_carteira, co.ocorrencia_mov, ed.especie_doc,
+                           m.cod_ocorrencia, m.especie_doc, m.prim_inst_cobranca, m.seg_inst_cobranca, ca.cod_carteira, co.ocorrencia_mov, ed.especie_doc,
                            pic.inst_cobranca AS p_instrucao, sic.inst_cobranca AS s_instrucao", FALSE);
         $this->db->from('tb_boleto b');
         $this->db->join('tb_remessa_mov m', 'b.id_boleto_pk = m.id_boleto_fk', 'inner');
         $this->db->join('tb_cod_carteira ca', 'm.id_cod_carteira_fk = ca.id_cod_carteira_pk', 'inner');
-        $this->db->join('tb_cod_ocorrencia_mov co', 'm.cod_ocorrencia_fk = co.cod_ocorrencia_mov', 'inner');
+        $this->db->join('tb_cod_ocorrencia_mov co', 'm.cod_ocorrencia = co.cod_ocorrencia_mov', 'inner');
         $this->db->join('tb_especie_doc ed', 'm.especie_doc = ed.cod_especie_doc', 'inner');
         $this->db->join('tb_inst_cobranca pic', 'm.prim_inst_cobranca = pic.cod_inst_cobranca', 'inner');
         $this->db->join('tb_inst_cobranca sic', 'm.seg_inst_cobranca = sic.cod_inst_cobranca', 'left');

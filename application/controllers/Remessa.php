@@ -165,16 +165,22 @@ class Remessa extends CI_Controller
                 $cod_servico  = $this->Remessa_model->picture9($head[0]->cod_servico, 2);
                 $servico      = $this->Remessa_model->picturex($head[0]->servico, 15);
                 $cod_trans_h  = $this->Remessa_model->picture9($head[0]->cod_transmissao, 20);
-                $nome_cedente = $this->Remessa_model->picturex($head[0]->nome_cedente, 30);
+                $nome_benef   = $this->Remessa_model->picturex($head[0]->nome_beneficiario, 30);
                 $cod_banco    = $this->Remessa_model->picture9($head[0]->cod_banco, 3);
                 $nome_banco   = $this->Remessa_model->picturex($head[0]->nome_banco, 15);
                 $dt_gravacao  = $this->Remessa_model->picture9($head[0]->dt_gravacao, 6);
                 $col_h11      = $this->Remessa_model->completeReg(16, "zeros");
-                $col_h12      = $this->Remessa_model->completeReg(274, "brancos");
+                $col_h12      = $this->Remessa_model->completeReg(47, "brancos");
+                $col_h13      = $this->Remessa_model->completeReg(47, "brancos");
+                $col_h14      = $this->Remessa_model->completeReg(47, "brancos");
+                $col_h15      = $this->Remessa_model->completeReg(47, "brancos");
+                $col_h16      = $this->Remessa_model->completeReg(47, "brancos");
+                $col_h17      = $this->Remessa_model->completeReg(34, "brancos");
+                $col_h18      = $this->Remessa_model->completeReg(6, "brancos");
                 $num_ver_rem  = $this->Remessa_model->picture9($head[0]->num_versao_rem, 3);
                 $num_reg_arq  = $this->Remessa_model->picture9($head[0]->num_reg_arq, 6);
 
-                $header = $cod_reg_head.$cod_rem_head.$trasmissao.$cod_servico.$servico.$cod_trans_h.$nome_cedente.$cod_banco.$nome_banco.$dt_gravacao.$col_h11.$col_h12.$num_ver_rem.$num_reg_arq.chr(13);
+                $header = $cod_reg_head.$cod_rem_head.$trasmissao.$cod_servico.$servico.$cod_trans_h.$nome_benef.$cod_banco.$nome_banco.$dt_gravacao.$col_h11.$col_h12.$col_h13.$col_h14.$col_h15.$col_h16.$col_h17.$col_h18.$num_ver_rem.$num_reg_arq.chr(13);
 
                 # Buscar Movimentacao
                 $this->db->where("id_remessa_fk", $id_remessa);
@@ -185,61 +191,58 @@ class Remessa extends CI_Controller
 
                 $movimenta = NULL;
                 foreach ($mov as $vl_mov) {
-                    $cod_reg_mov           = $vl_mov->cod_registro;
-                    $tipo_cedente          = $this->Remessa_model->picture9($vl_mov->tipo_cedente, 2);
-                    $cgc_cpf               = $this->Remessa_model->picture9($vl_mov->cgc_cpf, 14);
-                    $cod_transmissao       = $this->Remessa_model->picture9($vl_mov->cod_transmissao, 20);
-                    $num_control_part      = $this->Remessa_model->picturex($vl_mov->num_control_part, 25);
-                    $nosso_numero          = $this->Remessa_model->picture9($vl_mov->nosso_numero, 8);
-                    $dt_seg_desconto       = $this->Remessa_model->picture9($vl_mov->dt_seg_desconto, 6);
-                    $col_m8                = $this->Remessa_model->completeReg(1, "brancos");
-                    $info_multa            = $this->Remessa_model->picture9($vl_mov->info_multa, 1);
-                    $perc_multa            = $this->Remessa_model->picture9($vl_mov->perc_multa, 4);
-                    $unid_vl_moeda         = $this->Remessa_model->picture9($vl_mov->unid_vl_moeda, 2);
-                    $vl_tit_outra_unid     = $this->Remessa_model->picture9($vl_mov->vl_tit_outra_unid, 13);
-                    $col_m13               = $this->Remessa_model->completeReg(4, "brancos");
-                    $dt_cobranca_multa     = $this->Remessa_model->picture9($vl_mov->dt_cobranca_multa, 6);
-                    $id_cod_carteira_fk    = $this->Remessa_model->picture9($vl_mov->id_cod_carteira_fk, 1);
-                    $cod_ocorrencia_fk     = $this->Remessa_model->picture9($vl_mov->cod_ocorrencia_fk, 2);
-                    $seu_numero            = $this->Remessa_model->picturex($vl_mov->seu_numero, 10);
-                    $dt_venc_titulo        = $this->Remessa_model->picture9($vl_mov->dt_venc_titulo, 6);
-                    $vl_titulo             = $this->Remessa_model->picture9($vl_mov->vl_titulo, 13);
-                    $num_banco_cobrador    = $this->Remessa_model->picture9($vl_mov->num_banco_cobrador, 3);
-                    $cod_agencia_cobradora = $this->Remessa_model->picture9($vl_mov->cod_agencia_cobradora, 5);
-                    $especie_doc           = $this->Remessa_model->picture9($vl_mov->especie_doc, 2);
-                    $tipo_aceite           = $this->Remessa_model->picturex($vl_mov->tipo_aceite, 1);
-                    $dt_emissao_titulo     = $this->Remessa_model->picture9($vl_mov->dt_emissao_titulo, 6);
-                    $prim_inst_cobranca    = $this->Remessa_model->picture9($vl_mov->prim_inst_cobranca, 2);
-                    $seg_inst_cobranca     = $this->Remessa_model->picture9($vl_mov->seg_inst_cobranca, 2);
-                    $vl_mora_dia           = $this->Remessa_model->picture9($vl_mov->vl_mora_dia, 13);
-                    $dt_limite_desconto    = $this->Remessa_model->picture9($vl_mov->dt_limite_desconto, 6);
-                    $vl_desconto_concedido = $this->Remessa_model->picture9($vl_mov->vl_desconto_concedido, 13);
-                    $vl_iof_nota_seguro    = $this->Remessa_model->picture9($vl_mov->vl_iof_nota_seguro, 13);
-                    $vl_abatimento         = $this->Remessa_model->picture9($vl_mov->vl_abatimento, 11);
-                    $tipo_insc_sacado      = $this->Remessa_model->picture9($vl_mov->tipo_insc_sacado, 2);
-                    $cgc_cpf_sacado        = $this->Remessa_model->picture9($vl_mov->cgc_cpf_sacado, 14);
-                    $nome_sacado           = $this->Remessa_model->picturex($vl_mov->nome_sacado, 40);
-                    $endereco_sacado       = $this->Remessa_model->picturex($vl_mov->endereco_sacado, 40);
-                    $bairro_sacado         = $this->Remessa_model->picturex($vl_mov->bairro_sacado, 12);
-                    $cep_sacado            = $this->Remessa_model->picture9($vl_mov->cep_sacado, 5);
-                    $cep_compl_sacado      = $this->Remessa_model->picture9($vl_mov->cep_compl_sacado, 3);
-                    $cidade_sacado         = $this->Remessa_model->picturex($vl_mov->cidade_sacado, 15);
-                    $uf_sacado             = $this->Remessa_model->picturex($vl_mov->uf_sacado, 2);
-                    $nome_sacador          = $this->Remessa_model->picturex($vl_mov->nome_sacador, 30);
-                    $col_m42               = $this->Remessa_model->completeReg(1, "brancos");
-                    $id_complemento        = $this->Remessa_model->picturex($vl_mov->id_complemento, 1);
-                    $complemento           = $this->Remessa_model->picture9($vl_mov->complemento, 2);
-                    $col_m45               = $this->Remessa_model->completeReg(6, "brancos");
-                    $num_dias_protesto     = $this->Remessa_model->picture9($vl_mov->num_dias_protesto, 2);
-                    $col_m47               = $this->Remessa_model->completeReg(1, "brancos");
-                    $num_reg_arq_mov       = $this->Remessa_model->picture9($vl_mov->num_reg_arq, 6);
+                    $cod_reg_mov             = $vl_mov->cod_registro;
+                    $tipo_beneficiario       = $this->Remessa_model->picture9($vl_mov->tipo_beneficiario, 2);
+                    $cnpj_cpf                = $this->Remessa_model->picture9($vl_mov->cnpj_cpf, 14);
+                    $cod_ag_beneficiario     = $this->Remessa_model->picture9($vl_mov->cod_ag_beneficiario, 4);
+                    $conta_mov_beneficiario  = $this->Remessa_model->picture9($vl_mov->conta_mov_beneficiario, 8);
+                    $conta_cobr_beneficiario = $this->Remessa_model->picture9($vl_mov->conta_cobr_beneficiario, 8);
+                    $num_control_part        = $this->Remessa_model->picturex($vl_mov->num_control_part, 25);
+                    $nosso_numero            = $this->Remessa_model->picture9($vl_mov->nosso_numero, 8);
+                    $dt_seg_desconto         = $this->Remessa_model->picture9($vl_mov->dt_seg_desconto, 6);
+                    $col_m10                 = $this->Remessa_model->completeReg(1, "brancos");
+                    $info_multa              = $this->Remessa_model->picture9($vl_mov->info_multa, 1);
+                    $perc_multa              = $this->Remessa_model->picture9($vl_mov->porc_multa_atraso, 4);
+                    $unid_vl_moeda           = $this->Remessa_model->picture9($vl_mov->unid_vl_moeda, 2);
+                    $vl_tit_outra_unid       = $this->Remessa_model->picture9($vl_mov->vl_tit_outra_unid, 13);
+                    $col_m15                 = $this->Remessa_model->completeReg(4, "brancos");
+                    $dt_cobranca_multa       = $this->Remessa_model->picture9($vl_mov->dt_cobranca_multa, 6);
+                    $id_cod_carteira_fk      = $this->Remessa_model->picture9($vl_mov->id_cod_carteira_fk, 1);
+                    $cod_ocorrencia          = $this->Remessa_model->picture9($vl_mov->cod_ocorrencia, 2);
+                    $seu_numero              = $this->Remessa_model->picturex($vl_mov->seu_numero, 10);
+                    $dt_venc_titulo          = $this->Remessa_model->picture9($vl_mov->dt_venc_titulo, 6);
+                    $vl_titulo               = $this->Remessa_model->picture9($vl_mov->vl_titulo, 13);
+                    $num_banco_cobrador      = $this->Remessa_model->picture9($vl_mov->num_banco_cobrador, 3);
+                    $cod_ag_cobradora        = $this->Remessa_model->picture9($vl_mov->cod_ag_cobradora, 5);
+                    $especie_doc             = $this->Remessa_model->picture9($vl_mov->especie_doc, 2);
+                    $tipo_aceite             = $this->Remessa_model->picturex($vl_mov->tipo_aceite, 1);
+                    $dt_emissao_titulo       = $this->Remessa_model->picture9($vl_mov->dt_emissao_titulo, 6);
+                    $prim_inst_cobranca      = $this->Remessa_model->picture9($vl_mov->prim_inst_cobranca, 2);
+                    $seg_inst_cobranca       = $this->Remessa_model->picture9($vl_mov->seg_inst_cobranca, 2);
+                    $vl_mora_dia             = $this->Remessa_model->picture9($vl_mov->vl_mora_dia, 13);
+                    $dt_limite_desconto      = $this->Remessa_model->picture9($vl_mov->dt_limite_desconto, 6);
+                    $vl_desconto_concedido   = $this->Remessa_model->picture9($vl_mov->vl_desconto_concedido, 13);
+                    $vl_iof                  = $this->Remessa_model->picture9($vl_mov->vl_iof, 13);
+                    $vl_abatimento           = $this->Remessa_model->picture9($vl_mov->vl_abatimento, 13);
+                    $tipo_insc_pagador       = $this->Remessa_model->picture9($vl_mov->tipo_insc_pagador, 2);
+                    $cnpj_cpf_pagador        = $this->Remessa_model->picture9($vl_mov->cnpj_cpf_pagador, 14);
+                    $nome_pagador            = $this->Remessa_model->picturex($vl_mov->nome_pagador, 40);
+                    $endereco_pagador        = $this->Remessa_model->picturex($vl_mov->endereco_pagador, 40);
+                    $bairro_pagador          = $this->Remessa_model->picturex($vl_mov->bairro_pagador, 12);
+                    $cep_pagador             = $this->Remessa_model->picture9($vl_mov->cep_pagador, 5);
+                    $cep_compl_pagador       = $this->Remessa_model->picture9($vl_mov->cep_compl_pagador, 3);
+                    $cidade_pagador          = $this->Remessa_model->picturex($vl_mov->cidade_pagador, 15);
+                    $uf_pagador              = $this->Remessa_model->picturex($vl_mov->uf_pagador, 2);
+                    $nome_sacador            = $this->Remessa_model->picturex($vl_mov->nome_sacador, 30);
+                    $col_m44                 = $this->Remessa_model->completeReg(1, "brancos");
+                    $id_complemento          = $this->Remessa_model->picturex($vl_mov->id_complemento, 1);
+                    $complemento             = $this->Remessa_model->picture9($vl_mov->complemento, 2);
+                    $col_m47                 = $this->Remessa_model->completeReg(6, "brancos");
+                    $num_dias_protesto       = $this->Remessa_model->picture9($vl_mov->num_dias_protesto, 2);
+                    $col_m49                 = $this->Remessa_model->completeReg(1, "brancos");
+                    $num_reg_arq_mov         = $this->Remessa_model->picture9($vl_mov->num_reg_arq, 6);
 
-                    $movimenta .= $cod_reg_mov.$tipo_cedente.$cgc_cpf.$cod_transmissao.$num_control_part.$nosso_numero.$dt_seg_desconto.$col_m8.$info_multa.$perc_multa.$unid_vl_moeda.
-                                  $vl_tit_outra_unid.$col_m13.$dt_cobranca_multa.$id_cod_carteira_fk.$cod_ocorrencia_fk.$seu_numero.$dt_venc_titulo.$vl_titulo.$num_banco_cobrador.
-                                  $cod_agencia_cobradora.$especie_doc.$tipo_aceite.$dt_emissao_titulo.$prim_inst_cobranca.$seg_inst_cobranca.$vl_mora_dia.$dt_limite_desconto.
-                                  $vl_desconto_concedido.$vl_iof_nota_seguro.$vl_abatimento.$tipo_insc_sacado.$cgc_cpf_sacado.$nome_sacado.$endereco_sacado.$bairro_sacado.$cep_sacado.
-                                  $cep_compl_sacado.$cidade_sacado.$uf_sacado.$nome_sacador.$col_m42.$id_complemento.$complemento.$col_m45.$num_dias_protesto.$col_m47.$num_reg_arq_mov.
-                                  chr(13).chr(10);
+                    $movimenta .= $cod_reg_mov.$tipo_beneficiario.$cnpj_cpf.$cod_ag_beneficiario.$conta_mov_beneficiario.$conta_cobr_beneficiario.$num_control_part.$nosso_numero.$dt_seg_desconto.$col_m10.$info_multa.$perc_multa.$unid_vl_moeda.$vl_tit_outra_unid.$col_m15.$dt_cobranca_multa.$id_cod_carteira_fk.$cod_ocorrencia.$seu_numero.$dt_venc_titulo.$vl_titulo.$num_banco_cobrador.$cod_ag_cobradora.$especie_doc.$tipo_aceite.$dt_emissao_titulo.$prim_inst_cobranca.$seg_inst_cobranca.$vl_mora_dia.$dt_limite_desconto.$vl_desconto_concedido.$vl_iof.$vl_abatimento.$tipo_insc_pagador.$cnpj_cpf_pagador.$nome_pagador.$endereco_pagador.$bairro_pagador.$cep_pagador.$cep_compl_pagador.$cidade_pagador.$uf_pagador.$nome_sacador.$col_m44.$id_complemento.$complemento.$col_m47.$num_dias_protesto.$col_m49.$num_reg_arq_mov.chr(13).chr(10);
                 }
 
                 # Buscar Trailler
@@ -277,7 +280,7 @@ class Remessa extends CI_Controller
                 $this->db->update('tb_remessa', $file);
 
                 force_download($name_rem.".REM", $remessa_compl);
-                
+
             else:
                 force_download(PATH_REM.$file, NULL);
             endif;
@@ -303,7 +306,7 @@ class Remessa extends CI_Controller
         $this->load->view('financeiro/remessa_envio_ver');
         $this->load->view('footer');
     }
-    
+
     /**
      * Método para popular grid de gerenciamento de remessa de envio
      *
@@ -351,7 +354,7 @@ class Remessa extends CI_Controller
             $retorno->msg    = "Nenhum Boleto Localizado!";
             $resposta        = $retorno;
         endif;
-        
+
         print json_encode($resposta);
     }
 }

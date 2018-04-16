@@ -182,6 +182,9 @@
                 </ul>
             </li>
             <li>
+                <a href="<?= base_url('./recarga/status') ?>"><i class="fa fa-hourglass-half"></i> <span>Status das Recargas</span></a>
+            </li>
+            <li>
                 <a href="<?= base_url('./main/logoff') ?>"><i class="fa fa-sign-out"></i> <span>Sair</span></a>
             </li>
         </ul>

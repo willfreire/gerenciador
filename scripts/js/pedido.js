@@ -23,7 +23,10 @@ Pedido = {
             language: 'pt-BR',
             startDate: new Date(),
             endDate: '+1m',
-            clearBtn: true
+            clearBtn: true,
+            autoclose: true
+        }).on('changeDate', function(e) {
+            $("#frm_cad_pedido").bootstrapValidator('revalidateField', 'dt_pgto');
         });
 
         // Calendario Periodo

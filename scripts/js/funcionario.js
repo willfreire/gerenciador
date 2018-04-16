@@ -38,6 +38,7 @@ Funcionario = {
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
             language: 'pt-BR',
+            autoclose: true,
             clearBtn: true
         });
 
@@ -183,7 +184,7 @@ Funcionario = {
                     validators: {
                         notEmpty: {
                             message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>MATR&Iacute;CULA</strong>'
-                        },
+                        }
                     }
                 },
                 depto: {
