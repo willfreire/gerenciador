@@ -4,23 +4,6 @@ Bencard = {
      * @description Chamada dos principais métodos
      **/
     main: function () {
-
-        // Document Location
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-        // parser.href = "http://example.com:3000/pathname/?search=test#hash";
-        parser.href = currentLocation;
-
-        var protocol = parser.protocol; // => "http:"
-        var host     = parser.host;     // => "example.com:3000"
-        var hostname = parser.hostname; // => "example.com"
-        var port     = parser.port;     // => "3000"
-        var pathname = parser.pathname; // => "/pathname/"
-        var pathproj = pathname.split('/')[1];
-        var hash     = parser.hash;     // => "#hash"
-        var search   = parser.search;   // => "?search=test"
-        var origin   = parser.origin;   // => "http://example.com:3000"
-
         // Botao voltar
         $('#btn_back').click(function(){
             Bencard.redirect('../gerenciar');
@@ -63,7 +46,7 @@ Bencard = {
             thousands : '.',
             decimal   : ','
         });
-        //$(".select2").select2();
+        // $(".select2").select2();
 
         // Show / Hide Cartao
         $('input[type=radio][name=cartao]').click(function(){
@@ -364,9 +347,9 @@ Bencard = {
 		},
                 vl_unitario: {
                     validators: {
-                        notEmpty: {
+			notEmpty: {
                             message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>VALOR UNIT&Aacute;RIO</strong>'
-                        },
+                        }
                     }
                 },
                 qtd_dia: {
@@ -655,13 +638,6 @@ Bencard = {
      * @description Método para buscar Beneficio Temporarios
      **/
     getBeneficioTmp: function() {
-        // Document Location
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-        parser.href         = currentLocation;
-        var pathname        = parser.pathname;
-        var pathproj        = pathname.split('/')[1];
-        
         var id_func = $("#num_tmp").val();
         if (id_func) {
             $.post('/'+pathproj+'/beneficiocartao/buscarBenefTmp', {id_func: id_func}, function (data) {
@@ -698,14 +674,7 @@ Bencard = {
     /*!
      * @description Método para buscar Beneficio
      **/
-    getBeneficio: function() {
-        // Document Location
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-        parser.href         = currentLocation;
-        var pathname        = parser.pathname;
-        var pathproj        = pathname.split('/')[1];
-        
+    getBeneficio: function() {        
         var id_func = $("#id_func").val();
         if (id_func) {
             $.post('/'+pathproj+'/beneficiocartao/buscarBeneficios', {id_func: id_func}, function (data) {
@@ -743,12 +712,6 @@ Bencard = {
      * @description Método para abrir modal de edicao de Beneficio
      **/
     editBenef: function(id_benef) {
-        // Document Location
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-        parser.href         = currentLocation;
-        var pathname        = parser.pathname;
-        var pathproj        = pathname.split('/')[1];
         $("#modal_benedit_func").modal('show');
         $("#id_benef").val(id_benef);
         $.post('/'+pathproj+'/beneficiocartao/getBenefId', {id_benef: id_benef}, function (data) {

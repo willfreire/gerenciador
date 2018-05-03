@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/aviso.css')?>">
 
     <!-- JS Aviso -->
-    <script src="<?=base_url('scripts/js/aviso.js')?>"></script>
+    <script src="<?=base_url('scripts/js/aviso.js?cache=').time()?>"></script>
 
     <div class="wrapper">
 
@@ -48,7 +48,7 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <label for="titulo">T&iacute;tulo<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <input type="text" class="form-control" id="titulo" name="titulo" placeholder="T&iacute;tulo" maxlength="250" required="true" autofocus="true">
@@ -59,10 +59,10 @@
                                     
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <label for="descricao">Descri&ccedil;&atilde;o<span class="text-danger">*</span></label>
                                                 <div class="controls">
-                                                    <textarea class="form-control" id="descricao" name="descricao" placeholder="Descri&ccedil;&atilde;o" rows="4" required="true"></textarea>
+                                                    <textarea class="form-control" id="descricao" name="descricao" placeholder="Descri&ccedil;&atilde;o" rows="10" required="true"></textarea>
                                                 </div>
                                             </div>
                                         </div>

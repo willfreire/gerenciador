@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/periodo.css')?>">
 
     <!-- JS Periodo -->
-    <script src="<?=base_url('scripts/js/periodo.js')?>"></script>
+    <script src="<?= base_url('scripts/js/periodo.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -59,8 +59,8 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-2">
-                                                <label for="qtd_dia">Quantidade Unit&aacute;ria<span class="text-danger">*</span></label>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                                <label for="qtd_dia">Quantidade de Dias<span class="text-danger">*</span></label>
                                                 <div class="controls">
                                                     <input type="text" class="form-control" id="qtd_dia" name="qtd_dia" placeholder="0" maxlength="2" required="true">
                                                 </div>

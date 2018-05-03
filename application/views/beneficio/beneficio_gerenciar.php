@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/beneficio.css') ?>">
 
         <!-- JS Beneficio -->
-    <script src="<?= base_url('scripts/js/beneficio.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/beneficio.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -32,6 +32,10 @@
                 <div class="row">
 
                     <div class="col-xs-12">
+
+                        <div class="box-wrapper-btn">
+                            <button class="btn btn-success" id="btn_cad_benef">Cadastrar Benef&iacute;cio</button>
+                        </div>
 
                         <div class="box box-wrapper-80">
 

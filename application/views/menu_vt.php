@@ -62,53 +62,18 @@
             <li>
                 <a href="<?=base_url('./main/dashboard')?>"><i class="fa fa-dashboard"></i> <span>Quadro Geral</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-warning" aria-hidden="true"></i> <span>Avisos</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./aviso/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar Aviso</a></li>
-                    <li><a href="<?=base_url('./aviso/gerenciar')?>"><i class="fa fa-circle-o"></i> Avisos Cadastrados</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./aviso/gerenciar')?>"><i class="fa fa-warning" aria-hidden="true"></i> <span>Avisos</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-bus" aria-hidden="true"></i> <span>Benef&iacute;cios</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./beneficio/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./beneficio/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./beneficio/gerenciar')?>"><i class="fa fa-bus" aria-hidden="true"></i> <span>Benef&iacute;cios</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-users" aria-hidden="true"></i> <span>Clientes</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./cliente/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./cliente/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./cliente/gerenciar')?>"><i class="fa fa-users" aria-hidden="true"></i> <span>Clientes</span></a>
             </li>
             <?php if ($this->session->userdata('id_perfil_vt') == "2"): ?>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-user" aria-hidden="true"></i> <span>Dados Cadastrais</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./usuario/editar/'.$this->session->userdata('id_vt'))?>"><i class="fa fa-circle-o"></i> Editar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./usuario/editar/'.$this->session->userdata('id_vt'))?>"><i class="fa fa-user" aria-hidden="true"></i> <span>Dados Cadastrais</span></a>
             </li>
             <?php endif; ?>
             <li class="treeview">
@@ -135,29 +100,11 @@
                     </li>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-building" aria-hidden="true"></i> <span>Fornecedor</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./fornecedor/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./fornecedor/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./fornecedor/gerenciar')?>"><i class="fa fa-building" aria-hidden="true"></i> <span>Fornecedor</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>Mailing</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./mailing/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./mailing/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./mailing/gerenciar')?>"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>Mailing</span></a>
             </li>
             <li class="treeview">
                 <a href="#">
@@ -182,17 +129,8 @@
                     <li><a href="<?= base_url('./pedido/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-bar-chart" aria-hidden="true"></i> <span>Prospec&ccedil;&atilde;o</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./prospeccao/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./prospeccao/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./prospeccao/gerenciar')?>"><i class="fa fa-bar-chart" aria-hidden="true"></i> <span>Prospec&ccedil;&atilde;o</span></a>
             </li>
             <li class="treeview">
                 <a href="#">
@@ -202,23 +140,14 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./relatorio/funcionario_vt') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Funcion&aacute;rios</a></li>
-                    <li><a href="<?= base_url('./relatorio/pedido_vt') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Pedidos</a></li>
-                    <li><a href="<?= base_url('./relatorio/inconsistencia_vt') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Inconsist&ecirc;ncias</a></li>
+                    <li><a href="<?= base_url('./relatorio/funcionario_vt') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios</a></li>
+                    <li><a href="<?= base_url('./relatorio/pedido_vt') ?>"><i class="fa fa-circle-o"></i> Pedidos</a></li>
+                    <li><a href="<?= base_url('./relatorio/inconsistencia_vt') ?>"><i class="fa fa-circle-o"></i> Inconsist&ecirc;ncias</a></li>
                 </ul>
             </li>
             <?php if ($this->session->userdata('id_perfil_vt') == "1"): ?>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-user" aria-hidden="true"></i> <span>Usu&aacute;rios</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?=base_url('./usuario/cadastrar')?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
-                    <li><a href="<?=base_url('./usuario/gerenciar')?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
-                </ul>
+            <li>
+                <a href="<?=base_url('./usuario/gerenciar')?>"><i class="fa fa-user" aria-hidden="true"></i> <span>Usu&aacute;rios</span></a>
             </li>
             <?php endif; ?>
             <li>

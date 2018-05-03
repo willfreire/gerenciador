@@ -30,8 +30,28 @@ class Funcionario extends CI_Controller
         # Titulo da pagina
         $header['titulo'] = "Gerenciamento de Funcion&aacute;rios";
 
+        $id_client = $this->session->userdata('id_client');
+
+        # Consultar Periodo
+        $this->db->where('id_empresa_fk', $id_client);
+        $this->db->order_by('periodo');
+        $periodo = $this->db->get('tb_periodo')->result();
+
+        # Montar Periodo
+        $opt = "<select class='form-control' name='periodo_func_all' id='periodo_func_all' onchange='Funcionario.mudaPeriodoAll(\"$id_client\", this)'>";
+        if (!empty($periodo)):
+            $opt .= "<option value=''>Selecione</option>";
+            foreach ($periodo as $period):
+                $opt .= "<option value='{$period->id_periodo_pk}'>{$period->periodo} - {$period->qtd_dia}</option>";
+            endforeach;
+        else:
+            $opt .= "<option value=''>Sem Per&iacute;odo</option>";
+        endif;
+        $opt .= "</select>";
+        $data['sel_periodo'] = $opt;
+
         $this->load->view('header', $header);
-        $this->load->view('funcionario/funcionario_gerenciar');
+        $this->load->view('funcionario/funcionario_gerenciar', $data);
         $this->load->view('footer');
     }
 
@@ -47,8 +67,28 @@ class Funcionario extends CI_Controller
         # Titulo da pagina
         $header['titulo'] = "Gerenciamento de Funcion&aacute;rios";
 
+        $id_client = $this->session->userdata('id_client');
+
+        # Consultar Periodo
+        $this->db->where('id_empresa_fk', $id_client);
+        $this->db->order_by('periodo');
+        $periodo = $this->db->get('tb_periodo')->result();
+
+        # Montar Periodo
+        $opt = "<select class='form-control' name='periodo_func_all' id='periodo_func_all' onchange='Funcionario.mudaPeriodoAll(\"$id_client\", this)'>";
+        if (!empty($periodo)):
+            $opt .= "<option value=''>Selecione</option>";
+            foreach ($periodo as $period):
+                $opt .= "<option value='{$period->id_periodo_pk}'>{$period->periodo} - {$period->qtd_dia}</option>";
+            endforeach;
+        else:
+            $opt .= "<option value=''>Sem Per&iacute;odo</option>";
+        endif;
+        $opt .= "</select>";
+        $data['sel_periodo'] = $opt;
+
         $this->load->view('header', $header);
-        $this->load->view('funcionario/funcionario_gerenciar');
+        $this->load->view('funcionario/funcionario_gerenciar', $data);
         $this->load->view('footer');
     }
 
@@ -498,6 +538,86 @@ class Funcionario extends CI_Controller
         else:
             $retorno->status = FALSE;
             $retorno->msg    = "Empresa n&atilde;o Localizada!";
+        endif;
+
+        print json_encode($retorno);
+    }
+
+    /**
+     * Atualiza periodo de beneficio do funcionário
+     *
+     * @method alterPeriodo
+     * @access public
+     * @return obj Status da ação
+     */
+    public function alterPeriodo()
+    {
+        # Var
+        $id      = $this->input->post('id');
+        $periodo = $this->input->post('id_period');
+        $retorno = new stdClass();
+
+        if ($id != NULL && $periodo != NULL):
+            try {
+                # Atualiza tb_dados_profissional
+                $data['id_periodo_pk'] = $periodo;
+                $this->db->where('id_funcionario_fk', $id);
+                $this->db->update('tb_dados_profissional', $data);
+
+                $retorno->status = TRUE;
+                $retorno->msg    = "Per&iacute;odo Alterado com Sucesso!";
+            } catch(Exception $e) {
+                # logging_function($e->getMessage());
+                $retorno->status = FALSE;
+                $retorno->msg    = "Houve um erro ao mudar o Per&iacute;odo do Funcion&aacute;rio! Tente novamente...";
+            }
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao atualizar! Tente novamente...";
+        endif;
+
+        print json_encode($retorno);
+    }
+
+    /**
+     * Atualiza periodo de beneficio de todos funcionários
+     *
+     * @method alterPeriodoAll
+     * @access public
+     * @return obj Status da ação
+     */
+    public function alterPeriodoAll()
+    {
+        # Var
+        $id      = $this->input->post('id');
+        $periodo = $this->input->post('id_period');
+        $retorno = new stdClass();
+
+        if ($id != NULL && $periodo != NULL):
+            try {
+                # Consultar Funcionarios
+                $this->db->where('id_empresa_fk', $id);
+                $funcs = $this->db->get('tb_funcionario')->result();
+
+                if (!empty($funcs)):
+                    foreach ($funcs as $valor):
+                        # Atualiza tb_dados_profissional
+                        $data['id_periodo_pk'] = $periodo;
+                        $this->db->where('id_funcionario_fk', $valor->id_funcionario_pk);
+                        $this->db->update('tb_dados_profissional', $data);
+                    endforeach;
+                endif;
+
+                $retorno->status = TRUE;
+                $retorno->msg    = "Per&iacute;odos Alterados com Sucesso!";
+            } catch(Exception $e) {
+                # logging_function($e->getMessage());
+                $retorno->status = FALSE;
+                $retorno->msg    = "Houve um erro ao mudar os Per&iacute;odos dos Funcion&aacute;rios! Tente novamente...";
+            }
+        else:
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao atualizar! Tente novamente...";
         endif;
 
         print json_encode($retorno);

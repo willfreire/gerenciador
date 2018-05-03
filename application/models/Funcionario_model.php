@@ -81,6 +81,7 @@ class Funcionario_model extends CI_Model {
                     $dados_pro['id_periodo_pk']          = $valores->periodo;
                     $dados_pro['email']                  = $valores->email;
                     $dados_pro['id_endereco_empresa_fk'] = $valores->ender_empresa;
+
                     # Update Dados Profissionais
                     $this->db->where('id_funcionario_fk', $id_func);
                     $this->db->update('tb_dados_profissional', $dados_pro);
@@ -237,7 +238,7 @@ class Funcionario_model extends CI_Model {
         endif;
 
         # Consultar funcionarios
-        $this->db->select('id_funcionario_pk, cpf, nome, rg, matricula, status');
+        $this->db->select('id_funcionario_pk, cpf, nome, rg, matricula, id_periodo_pk, status');
         $this->db->from('vw_funcionario');
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
@@ -256,7 +257,10 @@ class Funcionario_model extends CI_Model {
         if (!empty($resp_dados)):
 
             # Consultar Periodo
-            
+            $this->db->where('id_empresa_fk', $this->session->userdata('id_client'));
+            $this->db->order_by('periodo');
+            $periodo = $this->db->get('tb_periodo')->result();
+
             foreach ($resp_dados as $value):
                 # Botao
                 $id_func = $value->id_funcionario_pk;
@@ -266,6 +270,19 @@ class Funcionario_model extends CI_Model {
                 $acao     .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Funcion&aacute;rio' onclick='Funcionario.redirect(\"$url_view\")'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></button>";
                 $acao     .= "<button type='button' class='btn btn-danger btn-xs btn-acao' title='Excluir Funcion&aacute;rio' onclick='Funcionario.del(\"$id_func\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
 
+                # Montar Periodo
+                $opt = "<select class='form-control' name='periodo_func' id='periodo_func' onchange='Funcionario.mudaPeriodo(\"$id_func\", this)'>";
+                if (!empty($periodo)):
+                    $opt .= "<option value=''>Selecione</option>";
+                    foreach ($periodo as $period):
+                        $sel = ($period->id_periodo_pk == $value->id_periodo_pk) ? 'selected="selected"' : '';
+                        $opt .= "<option value='{$period->id_periodo_pk}' {$sel}>{$period->periodo} - {$period->qtd_dia}</option>";
+                    endforeach;
+                else:
+                    $opt .= "<option value=''>Sem Per&iacute;odo</option>";
+                endif;
+                $opt .= "</select>";
+
                 # Check Ativar / Inativar
                 $st_func = isset($value->status) && $value->status === "Ativo" ? "checked" : "";
                 $check = '<div class="checkbox">
@@ -273,14 +290,14 @@ class Funcionario_model extends CI_Model {
                                 <input type="checkbox" name="at_in[]" id="at_in_'.$id_func.'" value="'.$id_func.'" onclick="Funcionario.statusFunc(\''.$id_func.'\');" '.$st_func.'>
                             </label>
                           </div>';
-                
+
                 $funcionario            = new stdClass();
                 $funcionario->at_in     = $check;
                 $funcionario->cpf       = $value->cpf;
                 $funcionario->nome      = $value->nome;
                 $funcionario->rg        = $value->rg;
                 $funcionario->matricula = $value->matricula;
-                $funcionario->periodo   = $value->matricula;
+                $funcionario->periodo   = $opt;
                 $funcionario->status    = $value->status;
                 $funcionario->acao      = $acao;
                 $funcionarios[]         = $funcionario;

@@ -33,7 +33,7 @@ $valor_total  = isset($vl_total) && $vl_total != "" ? "R$ ".number_format($vl_to
     <link rel="stylesheet" href="<?= base_url('assets/css/pedido.css') ?>">
 
     <!-- JS Pedido -->
-    <script src="<?= base_url('scripts/js/pedido.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/pedido.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 

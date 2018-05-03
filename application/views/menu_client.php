@@ -99,28 +99,11 @@
             <li>
                 <a href="<?= base_url('./main/dashboard') ?>"><i class="fa fa-dashboard"></i> <span>Quadro de Avisos</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-building" aria-hidden="true"></i> <span>Dados Cadastrais</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./empresa/editar/' . $this->session->userdata('id_client')) ?>"><i class="fa fa-circle-o"></i> Editar Dados Cadastrais</a></li>
-                </ul>
+            <li>
+                <a href="<?= base_url('./empresa/editar/' . $this->session->userdata('id_client')) ?>"><i class="fa fa-building" aria-hidden="true"></i> <span>Dados Cadastrais</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-users" aria-hidden="true"></i> <span>Funcion&aacute;rios</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./funcionario/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar Funcion&aacute;rio</a></li>
-                    <li><a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios Cadastrados</a></li>
-                </ul>
+            <li>
+                <a href="<?= base_url('./funcionario/gerenciar') ?>"><i class="fa fa-users" aria-hidden="true"></i> <span>Funcion&aacute;rios</span></a>
             </li>
             <li class="treeview">
                 <a href="#">
@@ -170,7 +153,10 @@
                     <li><a href="<?= base_url('./pedido/acompanhar') ?>"><i class="fa fa-circle-o"></i> Consulta de Pedidos</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <li>
+                <a href="<?= base_url('./periodo/gerenciar') ?>"><i class="fa fa-calendar" aria-hidden="true"></i> <span>Per&iacute;odos</span></a>
+            </li>
+            <?php /* <li class="treeview">
                 <a href="#">
                     <i class="fa fa-calendar" aria-hidden="true"></i> <span>Per&iacute;odos</span>
                     <span class="pull-right-container">
@@ -181,7 +167,7 @@
                     <li><a href="<?= base_url('./periodo/cadastrar') ?>"><i class="fa fa-circle-o"></i> Cadastrar</a></li>
                     <li><a href="<?= base_url('./periodo/gerenciar') ?>"><i class="fa fa-circle-o"></i> Gerenciar</a></li>
                 </ul>
-            </li>
+            </li> */ ?>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-database" aria-hidden="true"></i> <span>Relat&oacute;rio</span>
@@ -190,10 +176,13 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= base_url('./relatorio/funcionario') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Funcion&aacute;rios</a></li>
-                    <li><a href="<?= base_url('./relatorio/pedido') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Pedidos</a></li>
-                    <li><a href="<?= base_url('./relatorio/inconsistencia') ?>"><i class="fa fa-circle-o"></i> Relat&oacute;rio de Inconsist&ecirc;ncias</a></li>
+                    <li><a href="<?= base_url('./relatorio/funcionario') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios</a></li>
+                    <li><a href="<?= base_url('./relatorio/pedido') ?>"><i class="fa fa-circle-o"></i> Pedidos</a></li>
+                    <li><a href="<?= base_url('./relatorio/inconsistencia') ?>"><i class="fa fa-circle-o"></i> Inconsist&ecirc;ncias</a></li>
                 </ul>
+            </li>
+            <li>
+                <a href="<?= base_url('./recarga/status') ?>"><i class="fa fa-hourglass-half"></i> <span>Status das Recargas</span></a>
             </li>
             <li>
                 <a href="<?= base_url('./main/logoff') ?>"><i class="fa fa-sign-out"></i> <span>Sair</span></a>

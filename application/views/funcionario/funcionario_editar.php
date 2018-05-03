@@ -26,13 +26,13 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
     <link rel="stylesheet" href="<?= base_url('assets/css/beneficio_cartao.css') ?>">
 
     <!-- JS Beneficio/Cartao -->
-    <script src="<?= base_url('scripts/js/beneficio_cartao.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/beneficio_cartao.js?cache=').time() ?>"></script>
 
     <!-- CSS Funcionario -->
     <link rel="stylesheet" href="<?= base_url('assets/css/funcionario.css') ?>">
 
     <!-- JS Funcionario -->
-    <script src="<?= base_url('scripts/js/funcionario.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/funcionario.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -362,7 +362,7 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
                                                                     <tr class="info">
                                                                         <th class="col-xs-4 col-sm-4 col-md-6 col-lg-6">Benef&iacute;cio</th>
                                                                         <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Valor Unit&aacute;rio</th>
-                                                                        <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Qtde Unit&aacute;ria</th>
+                                                                        <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Qtde Di&aacute;ria</th>
                                                                         <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">A&ccedil;&atilde;o</th>
                                                                     </tr>
                                                                 </thead>
@@ -474,7 +474,7 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4">
-                                                    <label for="qtd_dia">Quantidade Unit&aacute;ria<span class="text-danger">*</span></label>
+                                                    <label for="qtd_dia">Quantidade Di&aacute;ria<span class="text-danger">*</span></label>
                                                     <div class="controls">
                                                         <input type="text" class="form-control" id="qtd_dia" name="qtd_dia" placeholder="0" maxlength="2" required="true">
                                                     </div>
@@ -627,7 +627,7 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4">
-                                                    <label for="qtd_dia_edit">Quantidade Unit&aacute;ria<span class="text-danger">*</span></label>
+                                                    <label for="qtd_dia_edit">Quantidade Di&aacute;ria<span class="text-danger">*</span></label>
                                                     <div class="controls">
                                                         <input type="text" class="form-control" id="qtd_dia_edit" name="qtd_dia_edit" placeholder="0" maxlength="2" required="true">
                                                     </div>

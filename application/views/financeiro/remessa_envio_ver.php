@@ -108,7 +108,7 @@
                 "columns": [
                     {data: "dt_emissao"},
                     {data: "arquivo"},
-                    {data: "qtde_linha_arq"},
+                    {data: "qtde_doc_arq"},
                     {data: "vl_total_titulo"},
                     {data: "acao", searchable: false, orderable: false}
                 ],

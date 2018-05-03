@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/pedido.css') ?>">
 
     <!-- JS Pedido -->
-    <script src="<?= base_url('scripts/js/pedido.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/pedido.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -125,7 +125,7 @@
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" class="form-control pull-right" name="periodo" id="periodo" placeholder="dd/mm/aaaa - dd/mm/aaaa" value="" maxlength="23" readonly required="true">
+                                                        <input type="text" class="form-control" name="periodo" id="periodo" placeholder="dd/mm/aaaa - dd/mm/aaaa" value="" maxlength="23" readonly required="true">
                                                     </div>
                                                 </div>
                                             </div>

@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/periodo.css') ?>">
 
     <!-- JS Periodo -->
-    <script src="<?= base_url('scripts/js/periodo.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/periodo.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -32,23 +32,27 @@
                 <div class="row">
 
                     <div class="col-xs-12">
+                        
+                        <div class="box-wrapper-btn">
+                            <button class="btn btn-success" id="btn_cad_periodo">Cadastrar Per&iacute;odo</button>
+                        </div>
 
                         <div class="box box-wrapper-80">
 
                             <div class="box-body">
-
+                                
                                 <table id="tbl_period" class="display" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Per&iacute;odo</th>
-                                            <th>Quantidade Unit&aacute;ria</th>
+                                            <th>Quantidade de Dias</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Per&iacute;odo</th>
-                                            <th>Quantidade Unit&aacute;ria</th>
+                                            <th>Quantidade de Dias</th>
                                             <th>A&ccedil;&atilde;o</th>
                                         </tr>
                                     </tfoot>

@@ -4,7 +4,7 @@
 */
 
 #box-frm-pedido {
-    width: 60%;
+    width: 70%;
 }
 
 .btn-acao {
@@ -30,7 +30,7 @@
 }
 
 .radio-position {
-    margin-top: 5px;
+    margin-top: 1px;
 }
 
 #modal_credito .modal-dialog {

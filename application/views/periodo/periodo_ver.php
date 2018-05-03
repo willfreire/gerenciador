@@ -16,7 +16,7 @@ $qtd_dia = isset($periodo[0]->qtd_dia) ? $periodo[0]->qtd_dia : "";
     <link rel="stylesheet" href="<?= base_url('assets/css/periodo.css') ?>">
 
     <!-- JS Periodo -->
-    <script src="<?= base_url('scripts/js/periodo.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/periodo.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -57,7 +57,7 @@ $qtd_dia = isset($periodo[0]->qtd_dia) ? $periodo[0]->qtd_dia : "";
                                     <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$period?></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Quantidade Unit&aacute;ria</strong></div>
+                                    <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Quantidade de Dias</strong></div>
                                     <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$qtd_dia?></div>
                                 </div>
                                 <div class="row">

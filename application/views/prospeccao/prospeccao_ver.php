@@ -31,7 +31,7 @@ $observacao          = isset($prospeccao[0]->observacao) ? $prospeccao[0]->obser
     <link rel="stylesheet" href="<?= base_url('assets/css/prospeccao.css') ?>">
 
     <!-- JS Mailing -->
-    <script src="<?= base_url('scripts/js/prospeccao.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/prospeccao.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 

@@ -4,7 +4,7 @@
 */
 
 #box-frm-client {
-    width: 70%;
+    width: 90%;
 }
 
 .btn-acao {
@@ -12,8 +12,13 @@
 }
 
 .box-wrapper-80 {
-    width  : 90%;
-    margin : 20px auto;
+    width  : 100%;
+    margin : 10px auto 20px;
+}
+
+.box-wrapper-btn {
+    width  : 100%;
+    margin : 10px auto 0;
 }
 
 .strip_grid {
@@ -25,7 +30,7 @@
 }
 
 .radio-position {
-    margin-top: 5px;
+    margin-top: 1px;
 }
 
 /* Botao XS do Bootstrap */
@@ -42,6 +47,10 @@
         width    : 100%;
         overflow : auto;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 481px) and (max-width: 559px) {
@@ -53,6 +62,10 @@
         width    : 100%;
         overflow : auto;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 600px) and (max-width: 767px) {
@@ -63,25 +76,37 @@
     .box-wrapper-80 {
         width  : 100%;
     }
+    
+    .box-wrapper-btn {
+        width: 100%;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
     #box-frm-client {
-        width: 90%;
+        width: 100%;
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width  : 100%;
+    }
+    
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
     #box-frm-client {
-        width: 80%;
+        width: 90%;
     }
     
     .box-wrapper-80 {
-        width  : 90%;
+        width  : 100%;
+    }
+    
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 

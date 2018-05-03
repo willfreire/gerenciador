@@ -295,8 +295,8 @@ class Pedido extends CI_Controller
             $data['end_entrega'] = $this->db->get('tb_endereco_empresa')->result();
 
             # Sql para tb_beneficio
-            $this->db->select('id_funcionario_pk, cpf, nome');
-            $this->db->from('tb_funcionario');
+            $this->db->select('id_funcionario_pk, cpf, nome, qtd_dia');
+            $this->db->from('vw_funcionario');
             $this->db->where(array('id_empresa_fk' => $data['pedido'][0]->id_empresa_fk, 'id_status_fk' => 1));
             $data['beneficiario'] = $this->db->get()->result();
 
@@ -315,21 +315,25 @@ class Pedido extends CI_Controller
                             $benef['id_grupo_fk'][$i]     = $vl->id_grupo_fk;
                             $benef['id_beneficio_pk'][$i] = $vl->id_beneficio_pk;
                             $benef['vl_unitario'][$i]     = $vl->vl_unitario;
-                            $benef['qtd_diaria'][$i]      = $vl->qtd_diaria;
-                            $benef['vl_total'][$i]        = ($vl->vl_unitario*$vl->qtd_diaria);
-                            $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*($vl->vl_unitario*$vl->qtd_diaria))/100) : 0;
+                            $benef['qtd_diaria'][$i]      = $value->qtd_dia;
+                            if ($vl->id_grupo_fk == "3") {
+                                $benef['vl_total'][$i] = ($vl->vl_unitario*$vl->qtd_diaria);
+                            } else {
+                                $benef['vl_total'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
+                            }
+                            $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*(($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria)))/100) : 0;
                             $benef['vl_rep_func'][$i]     = isset($vl->vl_rep_func) && $vl->vl_rep_func != "" ? $vl->vl_rep_func : 0;
                             # Devidir Grupos para calcular taxas
                             # Grupo Vale Transporte
                             if ($vl->id_grupo_fk == "1") {
-                                $benef['vl_total_vt'][$i] = ($vl->vl_unitario*$vl->qtd_diaria);
+                                $benef['vl_total_vt'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
                             } else {
                                 $benef['vl_total_vt'][$i] = 0;
                             }
 
                             # Grupo Vale Refeição
                             if ($vl->id_grupo_fk == "2") {
-                                $benef['vl_total_cr'][$i] = ($vl->vl_unitario*$vl->qtd_diaria);
+                                $benef['vl_total_cr'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
                             } else {
                                 $benef['vl_total_cr'][$i] = 0;
                             }
@@ -343,7 +347,7 @@ class Pedido extends CI_Controller
 
                             # Grupo Vale Combustivel
                             if ($vl->id_grupo_fk == "4") {
-                                $benef['vl_total_cc'][$i] = ($vl->vl_unitario*$vl->qtd_diaria);
+                                $benef['vl_total_cc'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
                             } else {
                                 $benef['vl_total_cc'][$i] = 0;
                             }
@@ -513,8 +517,8 @@ class Pedido extends CI_Controller
     {
         # Selecionar Pedido
         $this->db->select("id_pedido_pk, id_empresa_fk, id_end_empresa_fk, dt_pgto, DATE_FORMAT(dt_ini_beneficio, '%d/%m/%Y') AS dt_ini_beneficio,
-                           DATE_FORMAT(dt_fin_beneficio, '%d/%m/%Y') AS dt_fin_beneficio, vl_itens, vl_taxa, vl_total, id_status_pedido_fk, boleto_gerado,
-                           dt_hr_solicitacao", FALSE);
+                           DATE_FORMAT(dt_fin_beneficio, '%d/%m/%Y') AS dt_fin_beneficio, vl_itens, vl_taxa, vl_repasse, vl_total, id_status_pedido_fk, 
+                           boleto_gerado, dt_hr_solicitacao", FALSE);
         $this->db->from('tb_pedido');
         $this->db->where('id_pedido_pk', base64_decode($id_pedido));
         $pedido = $this->db->get()->result();
@@ -525,6 +529,7 @@ class Pedido extends CI_Controller
             $dt_ini_benef = !empty($pedido) && $pedido[0]->dt_ini_beneficio != "" ? $pedido[0]->dt_ini_beneficio : NULL;
             $dt_fin_benef = !empty($pedido) && $pedido[0]->dt_fin_beneficio != "" ? $pedido[0]->dt_fin_beneficio : NULL;
             $vl_itens     = !empty($pedido) && $pedido[0]->vl_itens != "" ? $pedido[0]->vl_itens : NULL;
+            $vl_repasse   = !empty($pedido) && $pedido[0]->vl_repasse != "" ? $pedido[0]->vl_repasse : NULL;
             $vl_taxa      = !empty($pedido) && $pedido[0]->vl_taxa != "" ? $pedido[0]->vl_taxa : NULL;
             $vl_total     = !empty($pedido) && $pedido[0]->vl_total != "" ? $pedido[0]->vl_total : NULL;
             $dt_hr_solic  = !empty($pedido) && $pedido[0]->dt_hr_solicitacao != "" ? $pedido[0]->dt_hr_solicitacao : NULL;
@@ -575,14 +580,18 @@ class Pedido extends CI_Controller
                 # Demais clientes usar 0 (zero)
                 'ios' => '0', // Apenas para o Santander
                 # Parâmetros recomendáveis
-                # 'logoPath' => base_url('/assets/imgs/vtcards_logo_100x40.png'), // Logo da sua empresa - #357CA5
+                'logoPath' => base_url('/assets/imgs/logo_vtcards_120x57.jpg'), // Logo da sua empresa - #357CA5
                 # 'contaDv'   => 96,
                 # 'agenciaDv' => 1,
                 'descricaoDemonstrativo' => array(// Até 5
-                    "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef",
+                    "BENEFÍCIOS - PERÍODO: $dt_ini_benef A $dt_fin_benef<br><br>",
+                    "TOTAL DE ITENS: R$ ".number_format($vl_itens, 2, ',', '.')."<br>",
+                    "TOTAL DE REPASSE: R$ ".number_format($vl_repasse, 2, ',', '.')."<br>",
+                    "TOTAL DE TAXAS: R$ ".number_format($vl_taxa, 2, ',', '.')."<br>",
                 ),
                 'instrucoes' => array(// Até 8
-                    'Após o vencimento pagar somente no Banco Santander'
+                    'Não Protestar',
+                    'Não Cobrar Juros de Mora',
                 ),
                 # Parâmetros opcionais
                 # 'resourcePath' => '../resources',
@@ -592,8 +601,8 @@ class Pedido extends CI_Controller
                 # 'contraApresentacao'   => true,
                 # 'pagamentoMinimo'      => 23.00,
                 'aceite'               => 'N',
-                # 'especieDoc'           => 'ABC',
-                # 'numeroDocumento'      => '123.456.789',
+                'especieDoc'           => 'DS',
+                'numeroDocumento'      => str_pad(base64_decode($id_pedido), 7, 0, STR_PAD_LEFT),
                 # 'usoBanco'             => 'Uso banco',
                 # 'layout'               => 'layout.phtml',
                 # 'logoPath'             => 'http://boletophp.com.br/img/opensource-55x48-t.png',
@@ -619,11 +628,11 @@ class Pedido extends CI_Controller
             $date      = date("Ymd");
             $name_file = "boleto_".base64_decode($id_pedido)."_".$date.".pdf";
 
-            /* $converter = new PhantomJS();
+            $converter = new PhantomJS();
             $input     = new TempFile($boleto_html, 'html');
 
             # Convert e Salva no diretorio
-            $converter->convert($input, FILE_PATH.$name_file); */
+            $converter->convert($input, FILE_PATH.$name_file);
 
             # Salvar dados do boleto
             $dados_boleto                          = array();
@@ -649,8 +658,8 @@ class Pedido extends CI_Controller
             $dados_boleto['agencia_dv']            = NULL;
             $dados_boleto['conta']                 = 8544140;
             $dados_boleto['conta_dv']              = 96;
-            $dados_boleto['descr_demostrativo']    = "Benefícios - Per&iacute;odo: $dt_ini_benef a $dt_fin_benef";
-            $dados_boleto['instrucao']             = "Após o vencimento pagar somente no Banco Santander";
+            $dados_boleto['descr_demostrativo']    = "BENEFÍCIOS - PERÍODO: $dt_ini_benef A $dt_fin_benef<br><br>TOTAL DE ITENS: R$ ".number_format($vl_itens, 2, ',', '.')."<br>TOTAL DE REPASSE: R$ ".number_format($vl_repasse, 2, ',', '.')."<br>TOTAL DE TAXAS: R$ ".number_format($vl_taxa, 2, ',', '.')."<br>";
+            $dados_boleto['instrucao']             = "Não Protestar<br>Não Cobrar Juros de Mora";
             $dados_boleto['nome_boleto']           = $name_file;
             $dados_boleto['dt_emissao']            = date("Y-m-d");
             $dados_boleto['id_status_boleto_fk']   = 1;
@@ -735,7 +744,7 @@ class Pedido extends CI_Controller
                 # Demais clientes usar 0 (zero)
                 'ios' => '0', // Apenas para o Santander
                 # Parâmetros recomendáveis
-                # 'logoPath' => base_url('/assets/imgs/vtcards_logo_100x40.png'), // Logo da sua empresa - #357CA5
+                'logoPath' => base_url('/assets/imgs/logo_vtcards_120x57.jpg'), // Logo da sua empresa - #357CA5
                 # 'contaDv'   => 96,
                 # 'agenciaDv' => 1,
                 'descricaoDemonstrativo' => array(
@@ -752,8 +761,8 @@ class Pedido extends CI_Controller
                 # 'contraApresentacao'   => true,
                 # 'pagamentoMinimo'      => 23.00,
                 'aceite'               => 'N',
-                # 'especieDoc'           => 'ABC',
-                # 'numeroDocumento'      => '123.456.789',
+                'especieDoc'           => 'DS',
+                'numeroDocumento'      => str_pad($id_pedido, 7, 0, STR_PAD_LEFT),
                 # 'usoBanco'             => 'Uso banco',
                 # 'layout'               => 'layout.phtml',
                 # 'logoPath'             => 'http://boletophp.com.br/img/opensource-55x48-t.png',

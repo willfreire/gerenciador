@@ -55,7 +55,7 @@ $taxa_adm_cc     = isset($cliente[0]->taxa_adm_cc) ? $cliente[0]->taxa_adm_cc : 
     <link rel="stylesheet" href="<?= base_url('assets/css/cliente.css') ?>">
 
     <!-- JS Cliente -->
-    <script src="<?= base_url('scripts/js/cliente.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/cliente.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -718,3 +718,4 @@ $taxa_adm_cc     = isset($cliente[0]->taxa_adm_cc) ? $cliente[0]->taxa_adm_cc : 
         <?php require_once(APPPATH . '/views/main_footer.php'); ?>
 
     </div>
+

@@ -40,7 +40,7 @@ class Remessa_model extends CI_Model {
         # Dados
         $cod_transmissao  = "08330854414001300081";
         $cod_ag_benef     = "0833";
-        $conta_mov_benef  = "01300081";
+        $conta_mov_benef  = "08544140";
         $conta_cobr_benef = "01300081";
         $complemento      = "96";
         $cod_carteira     = $valores->cod_carteira;
@@ -58,6 +58,8 @@ class Remessa_model extends CI_Model {
         $this->db->insert('tb_remessa', $dados);
 
         if ($this->db->affected_rows() > 0) {
+            # Contador
+            $id_mov = 1;
             # Ultima ID
             $id_remessa = $this->db->insert_id();
 
@@ -67,7 +69,7 @@ class Remessa_model extends CI_Model {
             $head['cod_remessa']       = "1";
             $head['trasmissao']        = "REMESSA";
             $head['cod_servico']       = "01";
-            $head['servico']           = "COBRANCA";
+            $head['servico']           = $this->picturex("COBRANCA", 15);
             $head['cod_transmissao']   = $this->picture9($cod_transmissao, 20);
             $head['nome_beneficiario'] = "VTCARDS COMERCIO E SERVICOS LTDA";
             $head['cod_banco']         = "033";
@@ -82,14 +84,15 @@ class Remessa_model extends CI_Model {
             $head['col_h17']           = "b_34";
             $head['col_h18']           = "b_6";
             $head['num_versao_rem']    = "000";
-            $head['num_reg_arq']       = $this->picture9(1, 6);
+            $head['num_reg_arq']       = $this->picture9($id_mov, 6);
 
             # Grava remessa header
             $this->db->insert('tb_remessa_header', $head);
 
             # Buscar boletos pelo Pedido
-            $id_mov = 0;
             if (is_array($valores->ids)):
+                
+                $cont_doc = 0;
 
                 foreach ($valores->ids as $vl):
 
@@ -97,7 +100,8 @@ class Remessa_model extends CI_Model {
                     $boleto = $this->db->get('tb_boleto')->result();
 
                     if (!empty($boleto)) {
-
+                        # Contadores
+                        $cont_doc++;
                         $id_mov++;
 
                         $id_boleto        = $boleto[0]->id_boleto_pk;
@@ -118,7 +122,7 @@ class Remessa_model extends CI_Model {
                         $benef_cidade     = $boleto[0]->beneficiario_cidade;
                         $benef_uf         = $boleto[0]->beneficiario_uf;
                         $dt_vencimento    = explode("-", $boleto[0]->dt_vencimento);
-                        $dt_venc          = is_array($dt_vencimento) ? $dt_vencimento[1].$dt_vencimento[2].substr($dt_vencimento[0], -2) : date("dmy");
+                        $dt_venc          = is_array($dt_vencimento) ? $dt_vencimento[2].$dt_vencimento[1].substr($dt_vencimento[0], -2) : date("dmy");
                         $valor            = $boleto[0]->valor;
                         $nosso_numero     = $boleto[0]->nosso_numero;
                         $carteira         = $boleto[0]->carteira;
@@ -129,7 +133,7 @@ class Remessa_model extends CI_Model {
                         $descr_demo       = $boleto[0]->descr_demostrativo;
                         $instrucao        = $boleto[0]->instrucao;
                         $dt_emissao       = explode("-", $boleto[0]->dt_emissao);
-                        $dt_emi           = is_array($dt_emissao) ? $dt_emissao[1].$dt_emissao[2].substr($dt_emissao[0], -2) : date("dmy");
+                        $dt_emi           = is_array($dt_emissao) ? $dt_emissao[2].$dt_emissao[1].substr($dt_emissao[0], -2) : date("dmy");
 
                         # Movimentar
                         $mov['id_remessa_fk']           = $id_remessa;
@@ -197,12 +201,13 @@ class Remessa_model extends CI_Model {
             endif;
 
             # Trailler
+            $id_mov++;
             $trail['id_remessa_fk']   = $id_remessa;
             $trail['cod_registro']    = 9;
-            $trail['qtde_linha_arq']  = $id_mov;
+            $trail['qtde_doc_arq']    = $cont_doc;
             $trail['vl_total_titulo'] = $this->picture9($vl_total, 13);
             $trail['col_t4']          = "b_374";
-            $trail['num_reg_arq']     = $this->picture9(1, 6);
+            $trail['num_reg_arq']     = $this->picture9($id_mov, 6);
 
             # Grava remessa trailler
             $this->db->insert('tb_remessa_trailler', $trail);
@@ -499,7 +504,7 @@ class Remessa_model extends CI_Model {
         endif;
 
         # Consultar pedidos
-        $this->db->select("r.id_remessa_pk, DATE_FORMAT(r.dt_emissao, '%d/%m/%Y') AS dt_emissao, r.arquivo, t.qtde_linha_arq, t.vl_total_titulo", FALSE);
+        $this->db->select("r.id_remessa_pk, DATE_FORMAT(r.dt_emissao, '%d/%m/%Y') AS dt_emissao, r.arquivo, t.qtde_doc_arq, t.vl_total_titulo", FALSE);
         $this->db->from('tb_remessa r');
         $this->db->join('tb_remessa_trailler t', 'r.id_remessa_pk = t.id_remessa_fk', 'inner');
         if (!empty($filter)):
@@ -529,7 +534,7 @@ class Remessa_model extends CI_Model {
                 $remessa->id_remessa_pk   = $id_remessa;
                 $remessa->dt_emissao      = $value->dt_emissao;
                 $remessa->arquivo         = $value->arquivo;
-                $remessa->qtde_linha_arq  = (int)$value->qtde_linha_arq;
+                $remessa->qtde_doc_arq    = (int)$value->qtde_doc_arq;
                 $remessa->vl_total_titulo = "R\$ ".number_format($vl_total, 2, ',', '.');
                 $remessa->acao            = $acao;
                 $remessas[]               = $remessa;
@@ -561,12 +566,12 @@ class Remessa_model extends CI_Model {
 
         # Consultar
         $this->db->select("b.id_pedido_fk, b.pagador_cnpj_cpf, b.pagador_nome, b.valor, DATE_FORMAT(b.dt_vencimento, '%d/%m/%Y') AS dt_vencimento, m.id_cod_carteira_fk,
-                           m.cod_ocorrencia_fk, m.especie_doc, m.prim_inst_cobranca, m.seg_inst_cobranca, ca.cod_carteira, co.ocorrencia_mov, ed.especie_doc,
+                           m.cod_ocorrencia, m.especie_doc, m.prim_inst_cobranca, m.seg_inst_cobranca, ca.cod_carteira, co.ocorrencia_mov, ed.especie_doc,
                            pic.inst_cobranca AS p_instrucao, sic.inst_cobranca AS s_instrucao", FALSE);
         $this->db->from('tb_boleto b');
         $this->db->join('tb_remessa_mov m', 'b.id_boleto_pk = m.id_boleto_fk', 'inner');
         $this->db->join('tb_cod_carteira ca', 'm.id_cod_carteira_fk = ca.id_cod_carteira_pk', 'inner');
-        $this->db->join('tb_cod_ocorrencia_mov co', 'm.cod_ocorrencia_fk = co.cod_ocorrencia_mov', 'inner');
+        $this->db->join('tb_cod_ocorrencia_mov co', 'm.cod_ocorrencia = co.cod_ocorrencia_mov', 'inner');
         $this->db->join('tb_especie_doc ed', 'm.especie_doc = ed.cod_especie_doc', 'inner');
         $this->db->join('tb_inst_cobranca pic', 'm.prim_inst_cobranca = pic.cod_inst_cobranca', 'inner');
         $this->db->join('tb_inst_cobranca sic', 'm.seg_inst_cobranca = sic.cod_inst_cobranca', 'left');

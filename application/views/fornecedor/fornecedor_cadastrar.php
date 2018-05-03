@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/fornecedor.css')?>">
 
     <!-- JS Fornecedor -->
-    <script src="<?=base_url('scripts/js/fornecedor.js')?>"></script>
+    <script src="<?=base_url('scripts/js/fornecedor.js?cache=').time()?>"></script>
 
     <div class="wrapper">
 

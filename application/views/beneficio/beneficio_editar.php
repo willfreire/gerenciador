@@ -15,7 +15,7 @@ $id_status     = isset($beneficio[0]->id_status_fk) ? $beneficio[0]->id_status_f
     <link rel="stylesheet" href="<?= base_url('assets/css/beneficio.css') ?>">
 
     <!-- JS Beneficio -->
-    <script src="<?= base_url('scripts/js/beneficio.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/beneficio.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 

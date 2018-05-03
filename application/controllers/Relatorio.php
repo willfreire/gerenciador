@@ -299,7 +299,7 @@ class Relatorio extends CI_Controller
         $footer->addPreserveText(utf8_decode('Rua Voluntários da Pátria, 654, Sala 302'), null, $style_footer);
         $footer->addPreserveText(utf8_decode('CEP 02010-000 - Santana - São Paulo - SP'), null, $style_footer);
         $footer->addPreserveText('www.vtcards.com.br', null, $style_footer);
-        $footer->addPreserveText('Tel: (11) 2089-0757', null, $style_footer);
+        $footer->addPreserveText('Tel: (11) 2389-6905', null, $style_footer);
 
         if (!empty($rows)):
             $cont = count($rows);

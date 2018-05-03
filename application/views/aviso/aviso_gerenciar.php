@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/aviso.css') ?>">
 
     <!-- JS Aviso -->
-    <script src="<?= base_url('scripts/js/aviso.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/aviso.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -32,6 +32,10 @@
                 <div class="row">
 
                     <div class="col-xs-12">
+
+                        <div class="box-wrapper-btn">
+                            <button class="btn btn-success" id="btn_cad_avis">Cadastrar Aviso</button>
+                        </div>
 
                         <div class="box box-wrapper-80">
 
@@ -116,6 +120,6 @@
                     }
                 }
             });
-            
+
         });
     </script>

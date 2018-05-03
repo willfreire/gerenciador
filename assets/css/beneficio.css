@@ -1,10 +1,10 @@
-/* 
+/*
     Created on : 16/11/2016
     Author     : William Freire
 */
 
 #box-frm-benef {
-    width: 60%;
+    width: 80%;
 }
 
 .btn-acao {
@@ -12,8 +12,13 @@
 }
 
 .box-wrapper-80 {
-    width  : 80%;
-    margin : 20px auto;
+    width  : 100%;
+    margin : 10px auto 20px;
+}
+
+.box-wrapper-btn {
+    width  : 100%;
+    margin : 10px auto 0;
 }
 
 .strip_grid {
@@ -25,7 +30,7 @@
 }
 
 .radio-position {
-    margin-top: 5px;
+    margin-top: 1px;
 }
 
 /* Botao XS do Bootstrap */
@@ -37,10 +42,14 @@
     #box-frm-benef {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
         width    : 100%;
         overflow : auto;
+    }
+
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 
@@ -48,10 +57,14 @@
     #box-frm-benef {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
         width    : 100%;
         overflow : auto;
+    }
+
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 
@@ -59,9 +72,13 @@
     #box-frm-benef {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
-        width  : 100%;
+        width: 100%;
+    }
+
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 
@@ -69,9 +86,13 @@
     #box-frm-benef {
         width: 90%;
     }
-    
+
     .box-wrapper-80 {
-        width  : 90%;
+        width: 100%;
+    }
+
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 
@@ -79,9 +100,13 @@
     #box-frm-benef {
         width: 80%;
     }
-    
+
     .box-wrapper-80 {
-        width  : 90%;
+        width: 100%;
+    }
+
+    .box-wrapper-btn {
+        width: 100%;
     }
 }
 

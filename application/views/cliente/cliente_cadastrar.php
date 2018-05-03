@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/cliente.css') ?>">
 
     <!-- JS Cliente -->
-    <script src="<?= base_url('scripts/js/cliente.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/cliente.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -661,6 +661,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>

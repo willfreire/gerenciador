@@ -42,7 +42,7 @@ $end_empr_bai = isset($funcionario[0]->bairro_empr) ? $funcionario[0]->bairro_em
     <link rel="stylesheet" href="<?= base_url('assets/css/funcionario.css') ?>">
 
     <!-- JS Funcionario -->
-    <script src="<?= base_url('scripts/js/funcionario.js') ?>"></script>
+    <script src="<?= base_url('scripts/js/funcionario.js?cache=').time() ?>"></script>
 
     <div class="wrapper">
 
@@ -181,7 +181,7 @@ $end_empr_bai = isset($funcionario[0]->bairro_empr) ? $funcionario[0]->bairro_em
                                                         <tr class="info">
                                                             <th class="col-xs-6 col-sm-6 col-md-8 col-lg-8">Benef&iacute;cio</th>
                                                             <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Valor Unit&aacute;rio</th>
-                                                            <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Qtde Unit&aacute;ria</th>
+                                                            <th class="col-xs-3 col-sm-3 col-md-2 col-lg-2 text-center">Qtde Di&aacute;ria</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>

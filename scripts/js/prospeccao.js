@@ -4,21 +4,11 @@ Prospeccao = {
      * @description Chamada dos principais métodos
      **/
     main: function () {
-
-        var currentLocation = window.location;
-        var parser          = document.createElement('a');
-        // parser.href = "http://example.com:3000/pathname/?search=test#hash";
-        parser.href = currentLocation;
-
-        var protocol = parser.protocol; // => "http:"
-        var host     = parser.host;     // => "example.com:3000"
-        var hostname = parser.hostname; // => "example.com"
-        var port     = parser.port;     // => "3000"
-        var pathname = parser.pathname; // => "/pathname/"
-        var pathproj = pathname.split('/')[1];
-        var hash     = parser.hash;     // => "#hash"
-        var search   = parser.search;   // => "?search=test"
-        var origin   = parser.origin;   // => "http://example.com:3000"
+        // Botao cadastrar
+        $('#btn_cad_prosp').click(function(){
+            var url = ""+protocol+"//"+hostname+"/"+pathproj+"/prospeccao/cadastrar";
+            Prospeccao.redirect(url);
+        });
 
         // Botao voltar
         $('#btn_back').click(function(){
