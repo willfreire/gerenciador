@@ -191,6 +191,8 @@ class Remessa extends CI_Controller
 
                 $movimenta = NULL;
                 foreach ($mov as $vl_mov) {
+                    # Buscar Cod Carteira
+                    $id_cod_cart             = $this->getCodCarteira($vl_mov->id_cod_carteira_fk);
                     $cod_reg_mov             = $vl_mov->cod_registro;
                     $tipo_beneficiario       = $this->Remessa_model->picture9($vl_mov->tipo_beneficiario, 2);
                     $cnpj_cpf                = $this->Remessa_model->picture9($vl_mov->cnpj_cpf, 14);
@@ -207,7 +209,7 @@ class Remessa extends CI_Controller
                     $vl_tit_outra_unid       = $this->Remessa_model->picture9($vl_mov->vl_tit_outra_unid, 13);
                     $col_m15                 = $this->Remessa_model->completeReg(4, "brancos");
                     $dt_cobranca_multa       = $this->Remessa_model->picture9($vl_mov->dt_cobranca_multa, 6);
-                    $id_cod_carteira_fk      = $this->Remessa_model->picture9($vl_mov->id_cod_carteira_fk, 1);
+                    $id_cod_carteira_fk      = !empty($id_cod_cart) && $id_cod_cart != NULL ? $this->Remessa_model->picture9($id_cod_cart[0]->cod_cart_rem, 1) : 0;
                     $cod_ocorrencia          = $this->Remessa_model->picture9($vl_mov->cod_ocorrencia, 2);
                     $seu_numero              = $this->Remessa_model->picturex($vl_mov->seu_numero, 10);
                     $dt_venc_titulo          = $this->Remessa_model->picture9($vl_mov->dt_venc_titulo, 6);
@@ -358,6 +360,25 @@ class Remessa extends CI_Controller
 
         print json_encode($resposta);
     }
+
+    /**
+     * Método para buscar Cod da Carteira por ID
+     *
+     * @method getCodCarteira
+     * @access public
+     * @param Int $id_carteira Id da Carteira
+     * @return obj Cod da Carteira
+     */
+    public function getCodCarteira($id_carteira)
+    {
+        $dados = NULL;
+        if ($id_carteira != ""):
+            $this->db->where("id_cod_carteira_pk", $id_carteira);
+            $dados = $this->db->get("tb_cod_carteira")->result();
+        endif;
+        return $dados;
+    }
+
 }
 
 /* End of file Remessa.php */

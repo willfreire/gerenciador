@@ -7,7 +7,7 @@ Financeiro = {
 
         // Fechar modal remessa
         $("#btn_close").click(function(){
-            $("#modal_remessa").modal('hidden');
+            $("#modal_remessa").modal('hide');
         });
 
         // Buscar Boletos
