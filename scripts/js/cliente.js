@@ -174,6 +174,13 @@ Cliente = {
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
+                plano: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PLANO CONTRATADO</strong>'
+			}
+		    }
+		},
                 importar_prospec: {
 		    validators: {
 			notEmpty: {
@@ -464,6 +471,13 @@ Cliente = {
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
+                plano: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PLANO CONTRATADO</strong>'
+			}
+		    }
+		},
                 tp_empresa: {
 		    validators: {
 			notEmpty: {

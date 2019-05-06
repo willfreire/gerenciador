@@ -21,6 +21,10 @@ Funcionario = {
         $("#cpf").mask('999.999.999-99');
         $("#tel").mask("(99) 9999-99990");
         $("#dt_nasc").mask("99/99/9999");
+        $("#vl_salario").maskMoney({
+            thousands : '.',
+            decimal   : ','
+        });
         $("#dt_exped").mask("99/99/9999");
         Funcionario.onlyNumber('tel');
         $("#tel").blur(function(){
@@ -180,6 +184,68 @@ Funcionario = {
 			}
 		    }
 		},
+                /* cep: {
+                    validators: {
+                        notEmpty: {
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>CEP</strong>'
+                        },
+                        stringLength: {
+                            min: 9,
+                            max: 9,
+                            message: 'Digite um <strong>CEP</strong> v&aacute;lido'
+                        }
+                    }
+                },
+                endereco: {
+                    validators: {
+                        notEmpty: {
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>ENDERE&Ccedil;O</strong>'
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 250,
+                            message: 'O campo <strong>ENDERE&Ccedil;O</strong> deve ter entre <strong>4</strong> e <strong>250</strong> caracteres'
+                        }
+                    }
+                },
+                numero: {
+                    validators: {
+                        notEmpty: {
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>N&Uacute;MERO</strong>'
+                        },
+                        stringLength: {
+                            min: 1,
+                            max: 15,
+                            message: 'O campo <strong>N&Uacute;MERO</strong> deve ter entre <strong>1</strong> e <strong>15</strong> caracteres'
+                        }
+                    }
+                },
+                bairro: {
+                    validators: {
+                        notEmpty: {
+                            message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>BAIRRO</strong>'
+                        },
+                        stringLength: {
+                            min: 2,
+                            max: 25,
+                            message: 'O campo <strong>BAIRRO</strong> deve ter entre <strong>2</strong> e <strong>25</strong> caracteres'
+                        }
+                    }
+                },
+                estado: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>ESTADO</strong>'
+			}
+		    }
+		},
+                cidade: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>CIDADE</strong>'
+			}
+		    }
+		}, */
                 matricula: {
                     validators: {
                         notEmpty: {
@@ -191,6 +257,13 @@ Funcionario = {
 		    validators: {
 			notEmpty: {
 			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>DEPARTAMENTO</strong>'
+			}
+		    }
+		},
+                turno: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>TURNO</strong>'
 			}
 		    }
 		},
@@ -388,6 +461,13 @@ Funcionario = {
 			}
 		    }
 		},
+                turno: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>TURNO</strong>'
+			}
+		    }
+		},
                 cargo: {
 		    validators: {
 			notEmpty: {
@@ -467,6 +547,141 @@ Funcionario = {
         $("#btn_add_benedit").click(function(){
             Funcionario.modalAddBenedit();
         });
+
+        // Adicionar Novo Departamento
+        $("#btn_cad_depto").click(function(){
+            Funcionario.modalAddDepto();
+        });
+
+        // Botao Cancelar Novo Departamento
+        $('#cancel_depto').click(function(){
+            $("#modal_depto").modal('hide');
+        });
+
+        // Novo Departamento Cadastrar
+        $('#frm_cad_depto').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                new_depto: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>NOVO DEPARTAMENTO</strong>'
+			},
+                        stringLength: {
+                            min: 2,
+                            max: 50,
+                            message: 'O campo <strong>NOVO DEPARTAMENTO</strong> deve ter entre <strong>2</strong> e <strong>50</strong> caracteres'
+                        }
+		    }
+		}
+            }
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+            var url = '/'+pathproj+'/funcionario/createNewDepto';
+
+            // Use Ajax to submit form data
+            $.post(url, frm, function (data) {
+                if (data.status === true) {
+                    // Limpar Formulario
+                    $('#frm_cad_depto').each(function () {
+                        this.reset();
+                    });
+                    $('#frm_cad_depto').bootstrapValidator('resetForm', true);
+                    $("#modal_depto").modal('hide');
+                    Funcionario.modalMsg("MENSAGEM", data.msg);
+                    Funcionario.getDeptos(data.id_depto);
+                } else {
+                    Funcionario.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                    if (data.id_depto !== "") {
+                        $('select#depto option[value="'+data.id_depto+'"]').attr('selected', 'selected');
+                        $("#modal_depto").modal('hide');
+                    }
+                }
+                $('#btn_cad_depto').removeAttr('disabled');
+            }, 'json');
+
+        });
+
+        // Adicionar Novo Cargo
+        $("#btn_cad_cargo").click(function(){
+            Funcionario.modalAddCargo();
+        });
+
+        // Botao Cancelar Novo Cargo
+        $('#cancel_cargo').click(function(){
+            $("#modal_cargo").modal('hide');
+        });
+
+        // Novo Cargo Cadastrar
+        $('#frm_cad_cargo').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                new_cargo: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio o preenchimento do campo <strong>NOVO CARGO</strong>'
+			},
+                        stringLength: {
+                            min: 2,
+                            max: 50,
+                            message: 'O campo <strong>NOVO CARGO</strong> deve ter entre <strong>2</strong> e <strong>50</strong> caracteres'
+                        }
+		    }
+		}
+            }
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+            var url = '/'+pathproj+'/funcionario/createNewCargo';
+
+            // Use Ajax to submit form data
+            $.post(url, frm, function (data) {
+                if (data.status === true) {
+                    // Limpar Formulario
+                    $('#frm_cad_cargo').each(function () {
+                        this.reset();
+                    });
+                    $('#frm_cad_cargo').bootstrapValidator('resetForm', true);
+                    $("#modal_cargo").modal('hide');
+                    Funcionario.modalMsg("MENSAGEM", data.msg);
+                    Funcionario.getCargos(data.id_cargo);
+                } else {
+                    Funcionario.modalMsg("Aten&ccedil;&atilde;o", data.msg);
+                    if (data.id_cargo !== "") {
+                        $('select#cargo option[value="'+data.id_cargo+'"]').attr('selected', 'selected');
+                        $("#modal_cargo").modal('hide');
+                    }
+                }
+                $('#btn_cad_cargo').removeAttr('disabled');
+            }, 'json');
+
+        });
+
     },
 
     /*!
@@ -585,6 +800,44 @@ Funcionario = {
     },
 
     /*!
+     * @description Método para buscar os Departamentos
+     * @param {int} id_depto Id do Departamento
+     **/
+    getDeptos: function(id_depto) {
+        $.post('/'+pathproj+'/funcionario/getDeptos', function(data){
+            if (data.status === true) {
+                var option = "<option value=''>Selecione</option>";
+                $.each(data.dados, function(key, value){
+                    let sel = value.id_departamento_pk == id_depto ? 'selected' : '';
+                    option += "<option value='"+value.id_departamento_pk+"' "+sel+">"+value.departamento+"</option>";
+                });
+            } else {
+                option += "<option value=''>Erro ao carregar os Departamentos!</option>";
+            }
+            $("#depto").html(option);
+        }, 'json');
+    },
+
+    /*!
+     * @description Método para buscar os Cargos
+     * @param {int} id_cargo Id do Cargo
+     **/
+    getCargos: function(id_cargo) {
+        $.post('/'+pathproj+'/funcionario/getCargos', function(data){
+            if (data.status === true) {
+                var option = "<option value=''>Selecione</option>";
+                $.each(data.dados, function(key, value){
+                    let sel = value.id_cargo_pk == id_cargo ? 'selected' : '';
+                    option += "<option value='"+value.id_cargo_pk+"' "+sel+">"+value.cargo+"</option>";
+                });
+            } else {
+                option += "<option value=''>Erro ao carregar os Cargos!</option>";
+            }
+            $("#cargo").html(option);
+        }, 'json');
+    },
+
+    /*!
      * @description Método para abrir modal de cadastro de Beneficio
      **/
     modalAddBenef: function() {
@@ -596,6 +849,20 @@ Funcionario = {
      **/
     modalAddBenedit: function() {
         $("#modal_benedit").modal('show');
+    },
+
+    /*!
+     * @description Método para abrir modal de cadastro de Departamento
+     **/
+    modalAddDepto: function() {
+        $("#modal_depto").modal('show');
+    },
+
+    /*!
+     * @description Método para abrir modal de cadastro de Cargo
+     **/
+    modalAddCargo: function() {
+        $("#modal_cargo").modal('show');
     },
 
     /*!

@@ -46,6 +46,7 @@
                                         <tr>
                                             <th>CNPJ</th>
                                             <th>Raz&atilde;o Social</th>
+                                            <th>Plano</th>
                                             <th>Telefone</th>
                                             <th>E-mail</th>
                                             <th>Status</th>
@@ -56,6 +57,7 @@
                                         <tr>
                                             <th>CNPJ</th>
                                             <th>Raz&atilde;o Social</th>
+                                            <th>Plano</th>
                                             <th>Telefone</th>
                                             <th>E-mail</th>
                                             <th>Status</th>
@@ -87,6 +89,7 @@
                 "columns": [
                     {data: "cnpj"},
                     {data: "nome_razao"},
+                    {data: "plano"},
                     {data: "telefone"},
                     {data: "email"},
                     {data: "status"},

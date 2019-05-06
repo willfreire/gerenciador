@@ -1,6 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Remessa_model extends CI_Model {
 
@@ -14,11 +12,6 @@ class Remessa_model extends CI_Model {
     public $columns;
     public $recordsTotal;
     public $recordsFiltered;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Método responsável pelo cadastro da Remessa
@@ -91,7 +84,7 @@ class Remessa_model extends CI_Model {
 
             # Buscar boletos pelo Pedido
             if (is_array($valores->ids)):
-                
+
                 $cont_doc = 0;
 
                 foreach ($valores->ids as $vl):
@@ -160,7 +153,7 @@ class Remessa_model extends CI_Model {
                         $mov['dt_venc_titulo']          = $this->picture9($dt_venc, 6);
                         $mov['vl_titulo']               = $this->picture9($this->removeAcento($valor), 13);
                         $mov['num_banco_cobrador']      = "033";
-                        $mov['cod_ag_cobradora']        = $cod_carteira == 4 ? $this->picture9("0833", 5) : $this->picture9("0", 5);
+                        $mov['cod_ag_cobradora']        = $cod_carteira == 4 ? $this->picture9("08338", 5) : $this->picture9("0", 5);
                         $mov['especie_doc']             = $this->picture9($especie_doc, 2);
                         $mov['tipo_aceite']             = "N";
                         $mov['dt_emissao_titulo']       = $this->picture9($dt_emi, 6);
@@ -380,7 +373,8 @@ class Remessa_model extends CI_Model {
                     'l', '?', '?', 'L', 'l', 'N', 'n', 'N', 'n', 'N', 'n', '?', 'O', 'o', 'O', 'o', 'O', 'o', 'Œ', 'œ', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's',
                     'S', 's', 'Š', 'š', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Ÿ', 'Z', 'z', 'Z',
                     'z', 'Ž', 'ž', '?', 'ƒ', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', '?', '?', '?', '?', '?',
-                    '?', 'ç', 'Ç', "'", ".", "/", "-", "º", "ª"
+                    '?', 'ç', 'Ç', "'", ".", "/", "-", "º", "ª", "´", ";", "(", ")", "¹", "~", "+", "*", "[", "]", "²", "^", "<", ">", "³", ",", "=", "{", "}", ":", "_",
+                    "£", "¢", "%", "|", "§", "&", "`", "\\", "¬"
             );
         $b = array(
                     'A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's',
@@ -390,7 +384,9 @@ class Remessa_model extends CI_Model {
                     'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's',
                     'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z',
                     'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O',
-                    'o', 'c', 'C', " ", "", "", "", " ", " ");
+                    'o', 'c', 'C', " ", "", "", "", " ", " ", "", "", "", "", "1", " ", " ", " ", "", "", "2", " ", "", "", "3", " ", " ", "", "", "", " ",
+                    "L", "C", " ", " ", " ", "e", "", "", " "
+            );
         return str_replace($a, $b, $str);
     }
 
@@ -528,7 +524,10 @@ class Remessa_model extends CI_Model {
                 $vl_total      = $vl_total_int.'.'.$vl_total_cent;
                 $url_remessa   = base_url('/remessa/createRemessa/'.$id_remessa);
                 $acao          = '<button type="button" id="btn_remit_rem" class="btn btn-success btn-xs btn-acao" title="Remitir Remessa" onclick="Financeiro.openWindow(\''.$url_remessa.'\', \'_blank\')"><i class="glyphicon glyphicon-file" aria-hidden="true"></i></button>';
-                $acao         .= "<button type='button' class='btn btn-primary btn-xs btn-acao' title='Visualizar Boletos Indexados' onclick='Financeiro.abrirRemessa(\"$id_remessa\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
+                $acao         .= "<button type='button' id='btn_ver_boleto' class='btn btn-primary btn-xs btn-acao' title='Visualizar Boletos Indexados' onclick='Financeiro.abrirRemessa(\"$id_remessa\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
+                if ($this->session->userdata('id_perfil_vt') == "1"):
+                    $acao .= "<button type='button' id='btn_rem_del' class='btn btn-danger btn-xs btn-acao' title='Excluir Remessa' onclick='Financeiro.del(\"$id_remessa\")'><i class='glyphicon glyphicon-remove' aria-hidden='true'></i></button>";
+                endif;
 
                 $remessa                  = new stdClass();
                 $remessa->id_remessa_pk   = $id_remessa;
@@ -603,6 +602,35 @@ class Remessa_model extends CI_Model {
             $retorno->msg    = "Nenhum Boleto Encontrado!";
         endif;
 
+        return $retorno;
+    }
+
+        /**
+     * Método de exclusão de um Pedido
+     *
+     * @method delRemessa
+     * @access public
+     * @param integer $id Id do registro a ser excluído
+     * @return obj Status da ação
+     */
+    public function delRemessa($id)
+    {
+        # Atribuir vars
+        $retorno = new stdClass();
+
+        # SQL
+        $this->db->where('id_remessa_pk', $id);
+        $this->db->delete('tb_remessa');
+
+        if ($this->db->affected_rows() > 0) {
+            $retorno->status = TRUE;
+            $retorno->msg    = "Exclus&atilde;o realizada com Sucesso!";
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao Excluir! Tente novamente...";
+        }
+
+        # retornar
         return $retorno;
     }
 

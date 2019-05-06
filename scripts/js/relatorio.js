@@ -24,8 +24,25 @@ Relatorio = {
                         $("#id_pedido").html(option).removeAttr('disabled');
                     } else {
                         Relatorio.boxMsg("ATEN&Ccedil;&Atilde;O", data.msg, null, null);
-                        var option = '<option value="">Selecione Primeiramente o Cliente</option>';
+                        var option = '<option value="">Selecione o Cliente</option>';
                         $("#id_pedido").html(option).attr('disabled');
+                    }
+                }, 'json');
+
+                // Buscar Departamentos
+                $.post("./getIdDeptoCliente", {
+                    id: id_cliente
+                }, function(resp) {
+                    if (resp.status === true) {
+                        var option = '<option value="">Selecione</option>';
+                        $.each(resp.dados, function(key, value){
+                            option += '<option value="'+value.id_departamento_pk+'">'+value.departamento+'</option>';
+                        });
+                        $("#id_depto").html(option).removeAttr('disabled');
+                    } else {
+                        Relatorio.boxMsg("ATEN&Ccedil;&Atilde;O", resp.msg, null, null);
+                        var option = '<option value="">Selecione o Cliente</option>';
+                        $("#id_depto").html(option).attr('disabled');
                     }
                 }, 'json');
             }
@@ -670,6 +687,203 @@ Relatorio = {
                     // Fecha modal
                     $('#msg_modal').modal('hide');
                     $("#btn_rel_incons").removeAttr("disabled");
+
+                    // Gerar excel
+                    Relatorio.createExcel(name, table);
+                } else {
+                    Relatorio.boxMsg("ATEN&Ccedil;&Atilde;O", data.msg, null, null);
+                }
+
+            }, 'json');
+
+        });
+        
+        // Relatorio Descontos
+        $('#frm_rel_desc').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                id_pedido: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PEDIDO</strong>'
+			}
+		    }
+		}
+            }
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+
+            // Atribuir valores
+            var link      = ""+protocol+"//"+hostname+"/"+pathproj+"/relatorio/exportDescontosXls";
+            var table     = '';
+            var name      = '';
+            var id_pedido = $("#id_pedido").val();
+
+            // Msg de exportação
+            Relatorio.modalMsg("Exportar Excel", "Aguarde, Processando...");
+
+            $.post(link, {id: id_pedido}, function(data){
+
+                if (data.status === true) {
+                    name = "Descontos de VT";
+
+                    table += '<table border="1" bordercolor="000" cellspacing="0" cellpadding="0">';
+                    table +=    '<tr bgcolor="#CCCCCC">';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Matrícula</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Nome do Funcionário</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Salário</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor a Receber de Vale Transporte</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor a Descontar</strong>';
+                    table +=        '</td>';
+                    table +=    '</tr>';
+                    $.each(data.dados, function (key, value) {
+                        table += '<tr>';
+                        table +=    '<td align="center"> ';
+                        table +=        (value.matricula) ? value.matricula : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.nome) ? value.nome : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.salario) ? value.salario : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_transporte) ? value.vl_transporte : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_desconto) ? value.vl_desconto : '';
+                        table +=    '</td>';
+                        table += '</tr>';
+                    });
+                    table += '</table>';
+
+                    // Fecha modal
+                    $('#msg_modal').modal('hide');
+                    $("#btn_rel_desc").removeAttr("disabled");
+
+                    // Gerar excel
+                    Relatorio.createExcel(name, table);
+                } else {
+                    Relatorio.boxMsg("ATEN&Ccedil;&Atilde;O", data.msg, null, null);
+                }
+
+            }, 'json');
+
+        });
+        
+        // Relatorio Descontos de VT
+        $('#frm_rel_desc_vt').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                id_cliente: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>CLIENTE</strong>'
+			}
+		    }
+		},
+                id_pedido: {
+		    validators: {
+			notEmpty: {
+			    message: '&Eacute; obrigat&oacute;rio a sele&ccedil;&atilde;o do campo <strong>PEDIDO</strong>'
+			}
+		    }
+		}
+            }
+        }).on('success.form.bv', function (e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            var frm = $form.serialize();
+
+            // Atribuir valores
+            var link      = ""+protocol+"//"+hostname+"/"+pathproj+"/relatorio/exportDescontosXls";
+            var table     = '';
+            var name      = '';
+            var id_pedido = $("#id_pedido").val();
+
+            // Msg de exportação
+            Relatorio.modalMsg("Exportar Excel", "Aguarde, Processando...");
+
+            $.post(link, {id: id_pedido}, function(data){
+
+                if (data.status === true) {
+                    name = "Descontos de VT";
+
+                    table += '<table border="1" bordercolor="000" cellspacing="0" cellpadding="0">';
+                    table +=    '<tr bgcolor="#CCCCCC">';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Matrícula</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Nome do Funcionário</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Salário</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor a Receber de Vale Transporte</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor a Descontar</strong>';
+                    table +=        '</td>';
+                    table +=    '</tr>';
+                    $.each(data.dados, function (key, value) {
+                        table += '<tr>';
+                        table +=    '<td align="center"> ';
+                        table +=        (value.matricula) ? value.matricula : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.nome) ? value.nome : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.salario) ? value.salario : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_transporte) ? value.vl_transporte : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_desconto) ? value.vl_desconto : '';
+                        table +=    '</td>';
+                        table += '</tr>';
+                    });
+                    table += '</table>';
+
+                    // Fecha modal
+                    $('#msg_modal').modal('hide');
+                    $("#btn_rel_desc").removeAttr("disabled");
 
                     // Gerar excel
                     Relatorio.createExcel(name, table);

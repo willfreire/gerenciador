@@ -113,6 +113,7 @@ class Cliente extends CI_Controller
         $retorno  = new stdClass();
         $resposta = "";
 
+        $cliente->id_plano          = $this->input->post('plano');
         $cliente->tp_empresa        = $this->input->post('tp_empresa');
         $cliente->matriz            = $this->input->post('matriz');
         $cliente->cnpj              = $this->input->post('cnpj');
@@ -153,10 +154,10 @@ class Cliente extends CI_Controller
         $cliente->taxa_adm_ca       = $this->input->post('taxa_adm_ca');
         $cliente->taxa_adm_cc       = $this->input->post('taxa_adm_cc');
 
-        if ($cliente->tp_empresa != NULL && $cliente->cnpj != NULL && $cliente->razao_social != NULL && $cliente->atividade != NULL && $cliente->email != NULL && $cliente->tel != NULL &&
-            $cliente->senha != NULL && $cliente->status != NULL && $cliente->tp_endereco != NULL && $cliente->cep != NULL && $cliente->endereco != NULL && $cliente->numero != NULL &&
-            $cliente->bairro != NULL && $cliente->estado != NULL && $cliente->cidade != NULL && $cliente->resp_receb != NULL && $cliente->nome_contato != NULL && $cliente->depto != NULL &&
-            $cliente->cargo != NULL && $cliente->sexo != NULL && $cliente->dt_nasc != NULL && $cliente->resp_compra != NULL && $cliente->email_pri_contato != NULL) {
+        if ($cliente->id_plano != NULL && $cliente->tp_empresa != NULL && $cliente->cnpj != NULL && $cliente->razao_social != NULL && $cliente->atividade != NULL && $cliente->email != NULL && 
+            $cliente->tel != NULL && $cliente->senha != NULL && $cliente->status != NULL && $cliente->tp_endereco != NULL && $cliente->cep != NULL && $cliente->endereco != NULL && 
+            $cliente->numero != NULL && $cliente->bairro != NULL && $cliente->estado != NULL && $cliente->cidade != NULL && $cliente->resp_receb != NULL && $cliente->nome_contato != NULL && 
+            $cliente->depto != NULL && $cliente->cargo != NULL && $cliente->sexo != NULL && $cliente->dt_nasc != NULL && $cliente->resp_compra != NULL && $cliente->email_pri_contato != NULL) {
             $resposta = $this->Cliente_model->setCliente($cliente);
         } else {
             $retorno->status = FALSE;
@@ -256,6 +257,7 @@ class Cliente extends CI_Controller
         $resposta = "";
 
         $cliente->id                = $this->input->post('id_cliente');
+        $cliente->id_plano          = $this->input->post('plano');
         $cliente->id_filial         = $this->input->post('id_filial');
         $cliente->id_cond_com       = $this->input->post('id_cond_com');
         $cliente->tp_empresa        = $this->input->post('tp_empresa');
@@ -299,10 +301,10 @@ class Cliente extends CI_Controller
         $cliente->taxa_adm_cc       = $this->input->post('taxa_adm_cc');
         $cliente->alt_pwd           = $this->input->post('alt_senha');
 
-        if ($cliente->id != NULL && $cliente->tp_empresa != NULL && $cliente->cnpj != NULL && $cliente->razao_social != NULL && $cliente->atividade != NULL && $cliente->email != NULL &&
-            $cliente->tel != NULL && $cliente->status != NULL && $cliente->tp_endereco != NULL && $cliente->cep != NULL && $cliente->endereco != NULL && $cliente->numero != NULL && 
-            $cliente->bairro != NULL && $cliente->estado != NULL && $cliente->cidade != NULL && $cliente->resp_receb != NULL && $cliente->nome_contato != NULL && $cliente->depto != NULL && 
-            $cliente->cargo != NULL && $cliente->sexo != NULL && $cliente->dt_nasc[0] != NULL && $cliente->resp_compra != NULL && $cliente->email_pri_contato != NULL) {
+        if ($cliente->id != NULL && $cliente->id_plano != NULL && $cliente->tp_empresa != NULL && $cliente->cnpj != NULL && $cliente->razao_social != NULL && $cliente->atividade != NULL && 
+            $cliente->email != NULL && $cliente->tel != NULL && $cliente->status != NULL && $cliente->tp_endereco != NULL && $cliente->cep != NULL && $cliente->endereco != NULL && 
+            $cliente->numero != NULL && $cliente->bairro != NULL && $cliente->estado != NULL && $cliente->cidade != NULL && $cliente->resp_receb != NULL && $cliente->nome_contato != NULL && 
+            $cliente->depto != NULL && $cliente->cargo != NULL && $cliente->sexo != NULL && $cliente->dt_nasc[0] != NULL && $cliente->resp_compra != NULL && $cliente->email_pri_contato != NULL) {
             $resposta = $this->Cliente_model->setCliente($cliente);
         } else {
             $retorno->status = FALSE;

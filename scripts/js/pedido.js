@@ -12,6 +12,109 @@ Pedido = {
             Pedido.redirect('../gerenciar');
         });
 
+        // Visualizar o Pedido Antes de Gerar
+        $('#btn_ver_pedido').click(function(){
+            let frm   = $("#frm_edit_pedido").serialize();
+            let url   = "../verPedidoXls";
+            let table = '';
+            $("#btn_ver_pedido").attr("disabled");
+
+            // Msg de exportação
+            Pedido.modalMsg("Visualizar Pedido em Excel", "Aguarde, Processando...");
+
+            // Use Ajax to submit form data
+            $.post(url, frm, function (data) {
+                if (data.status === true) {
+                    let name = "Lista de Pedido";
+
+                    table += '<table border="1" bordercolor="000" cellspacing="0" cellpadding="0">';
+                    table +=    '<tr bgcolor="#CCCCCC">';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>CNPJ</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Nome da Empresa</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>CPF</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>RG</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Nome do Funcionário</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Código do Benefício</strong>';
+                    table +=        '</td>';
+                    table +=        '<td>';
+                    table +=            '<strong>Descrição do Benefício</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Quantidade</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Valor Total</strong>';
+                    table +=        '</td>';
+                    table +=        '<td align="center">';
+                    table +=            '<strong>Número do Cartão</strong>';
+                    table +=        '</td>';
+
+                    table +=    '</tr>';
+                    $.each(data.dados, function (key, value) {
+                        table += '<tr>';
+                        table +=    '<td align="center"> ';
+                        table +=        (value.cnpj) ? value.cnpj : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.nome_razao) ? value.nome_razao : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.cpf) ? value.cpf : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.rg) ? value.rg : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.nome) ? value.nome : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.cod_benefico) ? value.cod_benefico : '';
+                        table +=    '</td>';
+                        table +=    '<td>';
+                        table +=        (value.desc_benefico) ? value.desc_benefico : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_unitario) ? value.vl_unitario : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.qtd_unitaria) ? value.qtd_unitaria : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.vl_total) ? value.vl_total : '';
+                        table +=    '</td>';
+                        table +=    '<td align="center">';
+                        table +=        (value.num_cartao) ? value.num_cartao : 'Não Possui';
+                        table +=    '</td>';
+                        table += '</tr>';
+                    });
+                    table += '</table>';
+
+                    // Fecha modal
+                    $('#msg_modal').modal('hide');
+                    $("#btn_ver_pedido").removeAttr("disabled");
+
+                    // Gerar excel
+                    Pedido.createExcel(name, table);
+                } else {
+                    Pedido.boxMsg("ATEN&Ccedil;&Atilde;O", data.msg, null, null);
+                }
+            }, 'json');
+        });
+
         // Mascara
         $("#dt_pgto").mask("99/99/9999");
         $(".select2").select2();
@@ -66,13 +169,13 @@ Pedido = {
             e.preventDefault();
 
             // Get the form instance
-            var $form = $(e.target);
+            let $form = $(e.target);
 
             // Get the BootstrapValidator instance
-            var bv = $form.data('bootstrapValidator');
+            let bv = $form.data('bootstrapValidator');
 
-            var frm = $form.serialize();
-            var url = "./selCliente";
+            let frm = $form.serialize();
+            let url = "./selCliente";
 
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
@@ -153,13 +256,13 @@ Pedido = {
             e.preventDefault();
 
             // Get the form instance
-            var $form = $(e.target);
+            let $form = $(e.target);
 
             // Get the BootstrapValidator instance
-            var bv = $form.data('bootstrapValidator');
+            let bv = $form.data('bootstrapValidator');
 
-            var frm = $form.serialize();
-            var url = "./create";
+            let frm = $form.serialize();
+            let url = "./create";
 
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
@@ -214,18 +317,18 @@ Pedido = {
             e.preventDefault();
 
             // Get the form instance
-            var $form = $(e.target);
+            let $form = $(e.target);
 
             // Get the BootstrapValidator instance
-            var bv = $form.data('bootstrapValidator');
+            let bv = $form.data('bootstrapValidator');
 
-            var frm = $form.serialize();
-            var url = "../update";
+            let frm = $form.serialize();
+            let url = "../update";
 
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
                 if (data.status === true) {
-                    var url_boleto = ''+protocol+'//'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido+'';
+                    let url_boleto = ''+protocol+'//'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido+'';
                     Pedido.modalMsg("MENSAGEM", data.msg, false, url_boleto);
                     // Pedido.openWindow(''+protocol+'//'+hostname+'/'+pathproj+'/pedido/gerarboleto/'+data.id_pedido, '_blank');
                 } else {
@@ -266,13 +369,13 @@ Pedido = {
             e.preventDefault();
 
             // Get the form instance
-            var $form = $(e.target);
+            let $form = $(e.target);
 
             // Get the BootstrapValidator instance
-            var bv = $form.data('bootstrapValidator');
+            let bv = $form.data('bootstrapValidator');
 
-            var frm = $form.serialize();
-            var url = "./alterStatusPedido";
+            let frm = $form.serialize();
+            let url = "./alterStatusPedido";
 
             // Use Ajax to submit form data
             $.post(url, frm, function (data) {
@@ -326,9 +429,9 @@ Pedido = {
     /*!
      * @description Ver Boleto
      **/
-    verBoleto: function (id_pedido) {
-        var url_boleto = ""+protocol+"//"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
-        //var url_boleto = ""+protocol+"//"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
+    verBoleto: function (url_boleto) {
+        // let url_boleto = ""+protocol+"//"+hostname+"/"+pathproj+"/pedido/remitirboletohtml/"+id_pedido;
+        // let url_boleto = ""+protocol+"//"+hostname+"/"+pathproj+"/assets/boletos/"+nome;
         Pedido.openWindow(url_boleto, "_blank");
     },
 
@@ -337,9 +440,9 @@ Pedido = {
      **/
     exportPedido: function(id_pedido) {
         // Atribuir valores
-        var link  = ""+protocol+"//"+hostname+"/"+pathproj+"/pedido/exportPedidoXls";
-        var table = '';
-        var name  = '';
+        let link  = ""+protocol+"//"+hostname+"/"+pathproj+"/pedido/exportPedidoXls";
+        let table = '';
+        let name  = '';
 
         // Msg de exportação
         Pedido.modalMsg("Exportar Excel", "Aguarde, Processando...");
@@ -565,9 +668,9 @@ Pedido = {
             id: id_pedido
         }, function(data){
             if (data.status === true){
-                var link_valida = '(<a href="javascript:void()" onclick="Pedido.validaAllCredit(\'2\', \''+id_pedido+'\')">Habilitados</a> | <a href="javascript:void()" onclick="Pedido.validaAllCredit(\'3\', \''+id_pedido+'\')">Cancelados</a>)';
+                let link_valida = '(<a href="javascript:void()" onclick="Pedido.validaAllCredit(\'2\', \''+id_pedido+'\')">Habilitados</a> | <a href="javascript:void()" onclick="Pedido.validaAllCredit(\'3\', \''+id_pedido+'\')">Cancelados</a>)';
                 $("#link_valida").html(link_valida);
-                var html = '';
+                let html = '';
                 $.each(data.dados, function(key, value){
                     html += '<tr>';
                     html +=     '<td>'+value.cpf+'</td>';
@@ -637,7 +740,7 @@ Pedido = {
         // Atribuir Dados
         $('#id_pedido_pk').val(id_pedido);
 
-        var sel_status = '<option value="">Selecione</option>';
+        let sel_status = '<option value="">Selecione</option>';
 
         if (id_status === "1") {
             sel_status += '<option value="1" selected="selected">Solicitado</option>';
@@ -678,10 +781,10 @@ Pedido = {
     createExcel: function (txt_name, html_table)
     {
         // Iniciar variaveis
-        var name = txt_name;
-        var table = html_table;
+        let name = txt_name;
+        let table = html_table;
 
-        var uri = 'data:application/vnd.ms-excel;base64,',
+        let uri = 'data:application/vnd.ms-excel;base64,',
                 template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>{table}</body></html>',
                 base64 = function (s) {
                     return Pedido.base64_encode(s);
@@ -692,7 +795,7 @@ Pedido = {
                     });
                 };
 
-        var ctx = {worksheet: name || 'Worksheet', table: table};
+        let ctx = {worksheet: name || 'Worksheet', table: table};
         window.location.href = uri + base64(format(template, ctx));
     },
 
@@ -701,8 +804,8 @@ Pedido = {
      **/
     base64_encode: function (data)
     {
-        var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-        var o1, o2, o3, h1, h2, h3, h4, bits, i = 0,
+        let b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        let o1, o2, o3, h1, h2, h3, h4, bits, i = 0,
                 ac = 0,
                 enc = "",
                 tmp_arr = [];
@@ -729,7 +832,7 @@ Pedido = {
 
         enc = tmp_arr.join('');
 
-        var r = data.length % 3;
+        let r = data.length % 3;
 
         return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
     }

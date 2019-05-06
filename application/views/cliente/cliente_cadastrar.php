@@ -59,6 +59,22 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
+                                                            <label for="plano">Plano Contratado<span class="text-danger">*</span></label>
+                                                            <div class="controls">
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="plano" id="plano" value="1"> <div class="radio-position">Plano Plus</div>
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="plano" id="plano" value="2"> <div class="radio-position">Plano Plus + Roteiriza&ccedil;&atilde;o</div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
                                                             <label for="importar_prospec">Importar Dados da Prospec&ccedil;&atilde;o?<span class="text-danger">*</span></label>
                                                             <div class="controls">
                                                                 <label class="radio-inline">

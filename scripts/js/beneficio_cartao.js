@@ -23,7 +23,7 @@ Bencard = {
         $('#cancel_benedit_func').click(function(){
             $("#modal_benedit_func").modal('hide');
         });
-        
+
         $('#modal_benedit_func').on('hidden.bs.modal', function(e) {
             $("#grp_edit").val('');
             $("#beneficio_edit").val('');
@@ -628,7 +628,7 @@ Bencard = {
             }, 'json');
 
         });
-        
+
         // Listar Beneficios
         Bencard.getBeneficio();
 
@@ -674,7 +674,7 @@ Bencard = {
     /*!
      * @description Método para buscar Beneficio
      **/
-    getBeneficio: function() {        
+    getBeneficio: function() {
         var id_func = $("#id_func").val();
         if (id_func) {
             $.post('/'+pathproj+'/beneficiocartao/buscarBeneficios', {id_func: id_func}, function (data) {
@@ -814,7 +814,7 @@ Bencard = {
             parser.href     = currentLocation;
         var pathname        = parser.pathname;
         var pathproj        = pathname.split('/')[1];
-        
+
         bootbox.dialog({
             message: "<i class='fa fa-exclamation-triangle'></i> Deseja realmente <strong>Excluir</strong> esse Benef&iacute;cio?",
             title: "ATEN&Ccedil;&Atilde;O",

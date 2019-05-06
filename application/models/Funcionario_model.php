@@ -1,6 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Funcionario_model extends CI_Model {
 
@@ -14,11 +12,6 @@ class Funcionario_model extends CI_Model {
     public $columns;
     public $recordsTotal;
     public $recordsFiltered;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Método responsável por cadastrar / editar um funcionario
@@ -40,6 +33,7 @@ class Funcionario_model extends CI_Model {
         $funcionario['cpf']                    = $valores->cpf;
         $funcionario['nome']                   = $valores->nome_func;
         $funcionario['dt_nasc']                = is_array($valores->dt_nasc) ? $valores->dt_nasc[2].'-'.$valores->dt_nasc[1].'-'.$valores->dt_nasc[0] : NULL;
+        $funcionario['salario']                = str_replace(',', '.', str_replace('.', '', $valores->vl_salario));
         $funcionario['sexo']                   = $valores->sexo;
         $funcionario['id_estado_civil_fk']     = $valores->estado_civil;
         $funcionario['rg']                     = $valores->rg;
@@ -78,6 +72,7 @@ class Funcionario_model extends CI_Model {
                     $dados_pro['matricula']              = $valores->matricula;
                     $dados_pro['id_cargo_fk']            = $valores->cargo;
                     $dados_pro['id_departamento_fk']     = $valores->depto;
+                    $dados_pro['id_turno_fk']            = $valores->turno;
                     $dados_pro['id_periodo_pk']          = $valores->periodo;
                     $dados_pro['email']                  = $valores->email;
                     $dados_pro['id_endereco_empresa_fk'] = $valores->ender_empresa;
@@ -127,6 +122,7 @@ class Funcionario_model extends CI_Model {
                     $dados_pro['matricula']              = $valores->matricula;
                     $dados_pro['id_cargo_fk']            = $valores->cargo;
                     $dados_pro['id_departamento_fk']     = $valores->depto;
+                    $dados_pro['id_turno_fk']            = $valores->turno;
                     $dados_pro['id_periodo_pk']          = $valores->periodo;
                     $dados_pro['email']                  = $valores->email;
                     $dados_pro['id_endereco_empresa_fk'] = $valores->ender_empresa;
@@ -337,6 +333,94 @@ class Funcionario_model extends CI_Model {
             $retorno->status = FALSE;
             $retorno->msg    = "Houve um erro ao Excluir! Tente novamente...";
         }
+
+        # retornar
+        return $retorno;
+    }
+
+    /**
+     * Método responsável por cadastrar um novo departamento
+     *
+     * @method setDepto
+     * @param obj $valores Dados para cadastro
+     * @access public
+     * @return obj Status de ação
+     */
+    public function setDepto($valores)
+    {
+        # Atribuir vars
+        $retorno = new stdClass();
+        $depto   = array();
+
+        # Verificar se Departamento ja existe
+        $this->db->select("id_departamento_pk, departamento");
+        $this->db->from("tb_departamento");
+        $this->db->where("departamento", $valores->depto);
+        $resp = $this->db->get()->result();
+
+        if (!empty($resp)):
+            $retorno->status   = FALSE;
+            $retorno->msg      = "Departamento Informado j&aacute; Existe!";
+            $retorno->id_depto = $resp[0]->id_departamento_pk;
+        else:
+            $depto['departamento'] = $valores->depto;
+
+            # Grava Departamento
+            $this->db->insert('tb_departamento', $depto);
+
+            if ($this->db->affected_rows() > 0) {
+                $retorno->status   = TRUE;
+                $retorno->msg      = "Novo Departamento cadastrado com Sucesso!";
+                $retorno->id_depto = $this->db->insert_id();
+            } else {
+                $retorno->status = FALSE;
+                $retorno->msg    = "Houve um erro ao cadastrar o Novo Departamento! Tente novamente...";
+            }
+        endif;
+
+        # retornar
+        return $retorno;
+    }
+
+    /**
+     * Método responsável por cadastrar um novo cargo
+     *
+     * @method setCargo
+     * @param obj $valores Dados para cadastro
+     * @access public
+     * @return obj Status de ação
+     */
+    public function setCargo($valores)
+    {
+        # Atribuir vars
+        $retorno = new stdClass();
+        $cargo   = array();
+
+        # Verificar se Cargo ja existe
+        $this->db->select("id_cargo_pk, cargo");
+        $this->db->from("tb_cargo");
+        $this->db->where("cargo", $valores->cargo);
+        $resp = $this->db->get()->result();
+
+        if (!empty($resp)):
+            $retorno->status   = FALSE;
+            $retorno->msg      = "Cargo Informado j&aacute; Existe!";
+            $retorno->id_cargo = $resp[0]->id_cargo_pk;
+        else:
+            $cargo['cargo'] = $valores->cargo;
+
+            # Grava Cargo
+            $this->db->insert('tb_cargo', $cargo);
+
+            if ($this->db->affected_rows() > 0) {
+                $retorno->status   = TRUE;
+                $retorno->msg      = "Novo Cargo cadastrado com Sucesso!";
+                $retorno->id_cargo = $this->db->insert_id();
+            } else {
+                $retorno->status = FALSE;
+                $retorno->msg    = "Houve um erro ao cadastrar o Novo Cargo! Tente novamente...";
+            }
+        endif;
 
         # retornar
         return $retorno;

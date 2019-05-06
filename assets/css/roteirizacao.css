@@ -1,0 +1,147 @@
+/*
+    Created on : 16/02/2019
+    Author     : William Freire
+*/
+
+#box-frm-roteiriza {
+    width: 80%;
+}
+
+.btn-acao {
+    margin: 3px;
+}
+
+.box-wrapper-80 {
+    width  : 80%;
+    margin : 10px auto 20px;
+}
+
+.box-wrapper-90 {
+    width  : 90%;
+    margin : 10px auto 20px;
+}
+
+.box-wrapper-btn {
+    width  : 80%;
+    margin : 10px auto 0;
+}
+
+.strip_grid {
+    background-color: #f9f9f9;
+}
+
+.strip_grid_none {
+    background-color: #FFFFFF;
+}
+
+/* Botao XS do Bootstrap */
+.btn-group-xs > .btn, .btn-xs {
+    padding: 3px 5px 5px 6px;
+}
+
+#div_anexo {
+    display: none;
+}
+
+#anexo {
+    height         : 35px;
+    padding-bottom : 40px;
+}
+
+@media (max-width: 480px) {
+    #box-frm-roteiriza {
+        width: 100%;
+    }
+
+    .box-wrapper-80 {
+        width    : 100%;
+        overflow : auto;
+    }
+
+    .box-wrapper-90 {
+        width    : 100%;
+        overflow : auto;
+    }
+
+    .box-wrapper-btn {
+        width  : 100%;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 559px) {
+    #box-frm-roteiriza {
+        width: 100%;
+    }
+
+    .box-wrapper-80 {
+        width    : 100%;
+        overflow : auto;
+    }
+
+    .box-wrapper-90 {
+        width    : 100%;
+        overflow : auto;
+    }
+
+    .box-wrapper-btn {
+        width  : 100%;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 767px) {
+    #box-frm-roteiriza {
+        width: 100%;
+    }
+
+    .box-wrapper-80 {
+        width  : 100%;
+    }
+
+    .box-wrapper-90 {
+        width  : 100%;
+    }
+
+    .box-wrapper-btn {
+        width  : 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    #box-frm-roteiriza {
+        width: 90%;
+    }
+
+    .box-wrapper-80 {
+        width  : 90%;
+    }
+
+    .box-wrapper-90 {
+        width  : 100%;
+    }
+
+    .box-wrapper-btn {
+        width  : 90%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    #box-frm-roteiriza {
+        width: 80%;
+    }
+
+    .box-wrapper-80 {
+        width  : 90%;
+    }
+
+    .box-wrapper-90 {
+        width  : 100%;
+    }
+
+    .box-wrapper-btn {
+        width  : 90%;
+    }
+}
+
+@media (min-width: 1200px) {
+
+}

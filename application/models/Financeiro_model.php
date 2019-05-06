@@ -1,6 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Financeiro_model extends CI_Model {
 
@@ -14,11 +12,6 @@ class Financeiro_model extends CI_Model {
     public $columns;
     public $recordsTotal;
     public $recordsFiltered;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Método responsável por pesquisar e buscar Boletos
@@ -68,7 +61,7 @@ class Financeiro_model extends CI_Model {
         endif;
 
         # Consultar
-        $this->db->select("b.id_boleto_pk, b.id_pedido_fk, b.pagador_cnpj_cpf, b.pagador_nome, b.valor, b.dt_vencimento, 
+        $this->db->select("b.id_boleto_pk, b.id_pedido_fk, b.pagador_cnpj_cpf, b.pagador_nome, b.valor, b.dt_vencimento,
                            b.dt_pgto, b.id_status_boleto_fk, sb.status_boleto, b.nome_boleto");
         $this->db->from('tb_boleto b');
         $this->db->join('tb_status_boleto sb', 'b.id_status_boleto_fk = sb.id_status_boleto_pk', 'inner');
@@ -93,17 +86,17 @@ class Financeiro_model extends CI_Model {
                 $ver         = "<button type='button' class='btn btn-success btn-xs btn-acao' title='Visualizar Boleto' onclick='Financeiro.verBoleto(\"$value->id_pedido_fk\")'><i class='glyphicon glyphicon-barcode' aria-hidden='true'></i></button>";
                 $valor       = isset($value->valor) && $value->valor != "0.00" ? "R\$ ".number_format($value->valor, 2, ',', '.') : "R\$ 0,00";
                 $dt_pgto     = isset($value->dt_pgto) ? date('d/m/Y', strtotime($value->dt_pgto)) : "Sem Data";
-                
-                $boleto                  = new stdClass();
-                $boleto->id_pedido_fk    = $value->id_pedido_fk;
-                $boleto->sacado_cnpj_cpf = $value->pagador_cnpj_cpf;
-                $boleto->sacado_nome     = $value->pagador_nome;
-                $boleto->valor           = $valor;
-                $boleto->dt_vencimento   = date('d/m/Y', strtotime($value->dt_vencimento));
-                $boleto->dt_pgto         = $dt_pgto;
-                $boleto->status_boleto   = $value->status_boleto;
-                $boleto->ver             = $ver;
-                $boletos[]               = $boleto;
+
+                $boleto                   = new stdClass();
+                $boleto->id_pedido_fk     = $value->id_pedido_fk;
+                $boleto->pagador_cnpj_cpf = $value->pagador_cnpj_cpf;
+                $boleto->pagador_nome     = $value->pagador_nome;
+                $boleto->valor            = $valor;
+                $boleto->dt_vencimento    = date('d/m/Y', strtotime($value->dt_vencimento));
+                $boleto->dt_pgto          = $dt_pgto;
+                $boleto->status_boleto    = $value->status_boleto;
+                $boleto->ver              = $ver;
+                $boletos[]                = $boleto;
             endforeach;
 
         endif;

@@ -194,6 +194,7 @@ $valor_total  = isset($vl_total) && $vl_total != "" ? "R$ ".number_format($vl_to
                                     <input type="hidden" id="id_cliente" name="id_cliente" value="<?=$id_cliente?>">
                                     <button type="submit" id="btn_edit_pedido" name="btn_edit_pedido" class="btn btn-success">Finalizar</button>
                                     <button type="button" id="btn_cancel" name="btn_cancel" class="btn btn-primary" onclick="Pedido.delBtnCancel('<?=$id?>')">Cancelar</button>
+                                    <button type="button" id="btn_ver_pedido" name="btn_ver_pedido" class="btn btn-primary">Visualizar Pedido</button>
                                 </div>
 
                             </form>

@@ -1,6 +1,7 @@
 <?php
 # Dados do empresa
 $id              = isset($empresa[0]->id_empresa_pk) ? $empresa[0]->id_empresa_pk : "";
+$plano           = isset($empresa[0]->plano) ? $empresa[0]->plano : "";
 $id_tp_empresa   = isset($empresa[0]->id_tipo_empresa_fk) ? $empresa[0]->id_tipo_empresa_fk : "";
 $tp_empresa      = isset($empresa[0]->tipo_empresa) ? $empresa[0]->tipo_empresa : "";
 $cnpj            = isset($empresa[0]->cnpj) ? $empresa[0]->cnpj : "";
@@ -86,7 +87,7 @@ $cargo           = isset($empresa[0]->cargo) ? $empresa[0]->cargo : "";
 
                     <div class="col-xs-12">
 
-                        <div class="nav-tabs-custom box-wrapper-80">
+                        <div class="nav-tabs-custom box-wrapper-90">
 
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#empresa" data-toggle="tab"><strong>Dados do Empresa</strong></a></li>
@@ -97,9 +98,13 @@ $cargo           = isset($empresa[0]->cargo) ? $empresa[0]->cargo : "";
                             <div class="tab-content">
 
                                 <div class="tab-pane active" id="empresa">
-                                    <div class="box box-wrapper-80">
+                                    <div class="box box-wrapper-90">
                                         <!-- /.box-header -->
                                         <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Plano Contratado</strong></div>
+                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$plano?></div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Tipo de Empresa</strong></div>
                                                 <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$tp_empresa?></div>
@@ -158,7 +163,7 @@ $cargo           = isset($empresa[0]->cargo) ? $empresa[0]->cargo : "";
                                 </div>
 
                                 <div class="tab-pane" id="ender">
-                                    <div class="box box-wrapper-80">
+                                    <div class="box box-wrapper-90">
                                         <div class="box-body">
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Tipo de Endere&ccedil;o</strong></div>
@@ -201,7 +206,7 @@ $cargo           = isset($empresa[0]->cargo) ? $empresa[0]->cargo : "";
                                 </div>
 
                                 <div class="tab-pane" id="contato">
-                                    <div class="box box-wrapper-80">
+                                    <div class="box box-wrapper-90">
                                         <div class="box-body">
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Nome do Contato</strong></div>

@@ -178,7 +178,20 @@
                 <ul class="treeview-menu">
                     <li><a href="<?= base_url('./relatorio/funcionario') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios</a></li>
                     <li><a href="<?= base_url('./relatorio/pedido') ?>"><i class="fa fa-circle-o"></i> Pedidos</a></li>
+                    <li><a href="<?= base_url('./relatorio/descontos') ?>"><i class="fa fa-circle-o"></i> Descontos de VT</a></li>
                     <li><a href="<?= base_url('./relatorio/inconsistencia') ?>"><i class="fa fa-circle-o"></i> Inconsist&ecirc;ncias</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-map" aria-hidden="true"></i> <span>Roteiriza&ccedil;&atilde;o</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?= base_url('./roteirizacao/gerar') ?>"><i class="fa fa-circle-o"></i> Nova Roteiriza&ccedil;&atilde;o</a></li>
+                    <li><a href="<?= base_url('./roteirizacao/consultar') ?>"><i class="fa fa-circle-o"></i> Consultar</a></li>
                 </ul>
             </li>
             <li>

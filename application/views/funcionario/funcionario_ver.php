@@ -4,6 +4,7 @@ $id           = isset($funcionario[0]->id_funcionario_pk) ? $funcionario[0]->id_
 $cpf          = isset($funcionario[0]->cpf) ? $funcionario[0]->cpf : "";
 $nome         = isset($funcionario[0]->nome) ? $funcionario[0]->nome : "";
 $dt_nasc      = isset($funcionario[0]->dt_nasc) ? explode("-", $funcionario[0]->dt_nasc) : "";
+$vl_salario   = isset($funcionario[0]->salario) ? number_format($funcionario[0]->salario, 2, ',', '.') : "0,00";
 $sexo         = isset($funcionario[0]->sexo) ? $funcionario[0]->sexo : "";
 $est_civil    = isset($funcionario[0]->estado_civil) ? $funcionario[0]->estado_civil : "";
 $rg           = isset($funcionario[0]->rg) ? $funcionario[0]->rg : "";
@@ -22,6 +23,7 @@ $cidade       = isset($funcionario[0]->cidade) ? $funcionario[0]->cidade : "";
 $estado       = isset($funcionario[0]->estado_end) ? $funcionario[0]->estado_end : "";
 $matricula    = isset($funcionario[0]->matricula) ? $funcionario[0]->matricula : "";
 $depto        = isset($funcionario[0]->departamento) ? $funcionario[0]->departamento : "";
+$turno        = isset($funcionario[0]->turno) ? $funcionario[0]->turno : "";
 $cargo        = isset($funcionario[0]->cargo) ? $funcionario[0]->cargo : "";
 $periodo      = isset($funcionario[0]->periodo) ? $funcionario[0]->periodo : "";
 $email        = isset($funcionario[0]->email) ? $funcionario[0]->email : "";
@@ -101,6 +103,10 @@ $end_empr_bai = isset($funcionario[0]->bairro_empr) ? $funcionario[0]->bairro_em
                                                 <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=is_array($dt_nasc) ? $dt_nasc[2].'/'.$dt_nasc[1].'/'.$dt_nasc[0] : ''?></div>
                                             </div>
                                             <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Sal&aacute;rio</strong></div>
+                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10">R$ <?=$vl_salario?></div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Sexo</strong></div>
                                                 <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=($sexo == "f" ? "Feminino" : "Masculino")?></div>
                                             </div>
@@ -151,6 +157,10 @@ $end_empr_bai = isset($funcionario[0]->bairro_empr) ? $funcionario[0]->bairro_em
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Departamento</strong></div>
                                                 <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$depto?></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Turno</strong></div>
+                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$turno?></div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Cargo</strong></div>

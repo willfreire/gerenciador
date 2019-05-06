@@ -1,6 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Beneficio_model extends CI_Model {
 
@@ -14,11 +12,6 @@ class Beneficio_model extends CI_Model {
     public $columns;
     public $recordsTotal;
     public $recordsFiltered;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Método responsável por cadastrar / editar uma beneficio

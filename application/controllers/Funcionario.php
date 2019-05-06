@@ -121,6 +121,9 @@ class Funcionario extends CI_Controller
         $this->db->order_by('departamento');
         $data['dpto'] = $this->db->get('tb_departamento')->result();
 
+        # Sql para Turno
+        $data['turno'] = $this->db->get('tb_turno')->result();
+
         # Sql para Cargo
         $this->db->order_by('cargo');
         $data['cargo'] = $this->db->get('tb_cargo')->result();
@@ -172,6 +175,7 @@ class Funcionario extends CI_Controller
         $funcionario->nome_func     = $this->input->post('nome_func');
         $funcionario->dt_nasc       = isset($_POST['dt_nasc']) && $_POST['dt_nasc'] != "" ? explode('/', $_POST['dt_nasc']) : NULL;
         $funcionario->sexo          = $this->input->post('sexo');
+        $funcionario->vl_salario    = $this->input->post('vl_salario');
         $funcionario->estado_civil  = $this->input->post('estado_civil');
         $funcionario->rg            = $this->input->post('rg');
         $funcionario->dt_exped      = isset($_POST['dt_exped']) && $_POST['dt_exped'] != "" ? explode('/', $_POST['dt_exped']) : NULL;
@@ -182,6 +186,7 @@ class Funcionario extends CI_Controller
         $funcionario->status        = $this->input->post('status');
         $funcionario->matricula     = $this->input->post('matricula');
         $funcionario->depto         = $this->input->post('depto');
+        $funcionario->turno         = $this->input->post('turno');
         $funcionario->cargo         = $this->input->post('cargo');
         $funcionario->periodo       = $this->input->post('periodo');
         $funcionario->email         = $this->input->post('email_func');
@@ -189,8 +194,8 @@ class Funcionario extends CI_Controller
 
         if ($funcionario->cpf != NULL && $funcionario->nome_func != NULL && $funcionario->dt_nasc[0] != NULL && $funcionario->sexo != NULL && $funcionario->estado_civil != NULL &&
             $funcionario->rg != NULL && $funcionario->dt_exped[0]!= NULL &&  $funcionario->orgao_exped != NULL && $funcionario->uf_exped != NULL && $funcionario->nome_mae != NULL &&
-            $funcionario->status != NULL && $funcionario->matricula != NULL && $funcionario->depto != NULL && $funcionario->cargo != NULL && $funcionario->periodo != NULL &&
-            $funcionario->ender_empresa != NULL) {
+            $funcionario->status != NULL && $funcionario->matricula != NULL && $funcionario->depto != NULL && $funcionario->turno != NULL && $funcionario->cargo != NULL && 
+            $funcionario->periodo != NULL && $funcionario->ender_empresa != NULL) {
             $resposta = $this->Funcionario_model->setFuncionario($funcionario);
         } else {
             $retorno->status = FALSE;
@@ -261,6 +266,9 @@ class Funcionario extends CI_Controller
         $this->db->order_by('departamento');
         $data['dpto'] = $this->db->get('tb_departamento')->result();
 
+        # Sql para Turno
+        $data['turno'] = $this->db->get('tb_turno')->result();
+
         # Sql para Cargo
         $this->db->order_by('cargo');
         $data['cargo'] = $this->db->get('tb_cargo')->result();
@@ -311,6 +319,7 @@ class Funcionario extends CI_Controller
         $funcionario->cpf           = $this->input->post('cpf');
         $funcionario->nome_func     = $this->input->post('nome_func');
         $funcionario->dt_nasc       = isset($_POST['dt_nasc']) && $_POST['dt_nasc'] != "" ? explode('/', $_POST['dt_nasc']) : NULL;
+        $funcionario->vl_salario    = $this->input->post('vl_salario');
         $funcionario->sexo          = $this->input->post('sexo');
         $funcionario->estado_civil  = $this->input->post('estado_civil');
         $funcionario->rg            = $this->input->post('rg');
@@ -322,6 +331,7 @@ class Funcionario extends CI_Controller
         $funcionario->status        = $this->input->post('status');
         $funcionario->matricula     = $this->input->post('matricula');
         $funcionario->depto         = $this->input->post('depto');
+        $funcionario->turno         = $this->input->post('turno');
         $funcionario->cargo         = $this->input->post('cargo');
         $funcionario->periodo       = $this->input->post('periodo');
         $funcionario->email         = $this->input->post('email_func');
@@ -329,8 +339,8 @@ class Funcionario extends CI_Controller
 
         if ($funcionario->id != NULL && $funcionario->cpf != NULL && $funcionario->nome_func != NULL && $funcionario->dt_nasc[0] != NULL && $funcionario->sexo != NULL &&
             $funcionario->estado_civil != NULL && $funcionario->rg != NULL && $funcionario->dt_exped[0]!= NULL &&  $funcionario->orgao_exped != NULL && $funcionario->uf_exped != NULL &&
-            $funcionario->nome_mae != NULL &&  $funcionario->status != NULL && $funcionario->matricula != NULL && $funcionario->depto != NULL && $funcionario->cargo != NULL &&
-            $funcionario->periodo != NULL && $funcionario->ender_empresa != NULL) {
+            $funcionario->nome_mae != NULL &&  $funcionario->status != NULL && $funcionario->matricula != NULL && $funcionario->depto != NULL && $funcionario->turno != NULL && 
+            $funcionario->cargo != NULL && $funcionario->periodo != NULL && $funcionario->ender_empresa != NULL) {
             $resposta = $this->Funcionario_model->setFuncionario($funcionario);
         } else {
             $retorno->status = FALSE;
@@ -623,6 +633,109 @@ class Funcionario extends CI_Controller
         print json_encode($retorno);
     }
 
+    /**
+     * Método de criar novo departamento
+     *
+     * @method createNewDepto
+     * @access public
+     * @return obj Status da ação
+     */
+    public function createNewDepto()
+    {
+        $depto    = new stdClass();
+        $retorno  = new stdClass();
+        $resposta = "";
+
+        $depto->depto = trim($this->input->post('new_depto', TRUE));
+
+        if ($depto->depto != NULL) {
+            $resposta = $this->Funcionario_model->setDepto($depto);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao cadastrar o Novo Departamento! Tente novamente...";
+            $resposta        = $retorno;
+        }
+
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método para retornar todos os departamentos
+     *
+     * @method getDeptos
+     * @access public
+     * @return obj Status da ação
+     */
+    public function getDeptos()
+    {
+        $retorno = new stdClass();
+
+        # Consultar Departamentos
+        $this->db->order_by('departamento');
+        $deptos = $this->db->get('tb_departamento')->result();
+
+        if (!empty($deptos)):
+            $retorno->status = TRUE;
+            $retorno->dados  = $deptos;
+        else:
+            $retorno->status = FALSE;
+        endif;
+
+        print json_encode($retorno);
+    }
+
+    /**
+     * Método de criar novo cargo
+     *
+     * @method createNewCargo
+     * @access public
+     * @return obj Status da ação
+     */
+    public function createNewCargo()
+    {
+        $cargo    = new stdClass();
+        $retorno  = new stdClass();
+        $resposta = "";
+
+        $cargo->cargo = trim($this->input->post('new_cargo', TRUE));
+
+        if ($cargo->cargo != NULL) {
+            $resposta = $this->Funcionario_model->setCargo($cargo);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao cadastrar o Novo Cargo! Tente novamente...";
+            $resposta        = $retorno;
+        }
+
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método para retornar todos os cargos
+     *
+     * @method getCargos
+     * @access public
+     * @return obj Status da ação
+     */
+    public function getCargos()
+    {
+        $retorno = new stdClass();
+
+        # Consultar cargos
+        $this->db->order_by('cargo');
+        $cargos = $this->db->get('tb_cargo')->result();
+
+        if (!empty($cargos)):
+            $retorno->status = TRUE;
+            $retorno->dados  = $cargos;
+        else:
+            $retorno->status = FALSE;
+        endif;
+
+        print json_encode($retorno);
+    }
 }
 
 /* End of file Funcionario.php */

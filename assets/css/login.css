@@ -67,9 +67,9 @@ body {
     }
 }
 
-@media (min-width: 1200px) and (min-width: 1399px) {
+@media (min-width: 1200px) and (max-width: 1399px) {
     .login-box {
-        width: 40%;
+        width: 60%;
     }
 }
 

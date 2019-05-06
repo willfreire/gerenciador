@@ -8,7 +8,7 @@
 }
 
 .btn-acao {
-    margin: 3px;
+    margin: 2px 1px;
 }
 
 .box-wrapper-80 {
@@ -43,10 +43,17 @@
 }
 /* Fim Select2 */
 
+/* Font Datatable */
+table.dataTable {
+    font-size: 12px
+}
+/* End Font Datatable */
+
 /* Botao XS do Bootstrap */
 .btn-group-xs > .btn, .btn-xs {
-    padding: 3px 5px 5px 6px;
+    padding: 3px;
 }
+/* End Botao XS do Bootstrap */
 
 @media (max-width: 480px) {
     #box-frm-pedido {

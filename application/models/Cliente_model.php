@@ -1,6 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cliente_model extends CI_Model {
 
@@ -14,11 +12,6 @@ class Cliente_model extends CI_Model {
     public $columns;
     public $recordsTotal;
     public $recordsFiltered;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Método responsável por cadastrar / editar um cliente
@@ -42,6 +35,7 @@ class Cliente_model extends CI_Model {
         $timestamp = "%Y-%m-%d %H:%i:%s";
         $data      = time();
 
+        $empresa['id_plano_fk']        = $valores->id_plano;
         $empresa['id_tipo_empresa_fk'] = $valores->tp_empresa;
         $empresa['cnpj']               = $valores->cnpj;
         $empresa['nome_razao']         = $valores->razao_social;
@@ -280,7 +274,8 @@ class Cliente_model extends CI_Model {
         # Contar total de registros
         $this->db->select('COUNT(e.id_empresa_pk) AS total');
         $this->db->from('tb_empresa e');
-        $this->db->join('tb_status s', 'e.id_status_fk = s.id_status_pk');
+        $this->db->join('tb_status s', 'e.id_status_fk = s.id_status_pk', 'inner');
+        $this->db->join('tb_plano p', 'e.id_plano_fk = p.id_plano_pk', 'inner');
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
             $this->db->where($where);
@@ -294,9 +289,10 @@ class Cliente_model extends CI_Model {
         endif;
 
         # Consultar clientes
-        $this->db->select('e.id_empresa_pk, e.cnpj, e.nome_razao, e.telefone, e.email, s.status');
+        $this->db->select('e.id_empresa_pk, e.cnpj, e.nome_razao, p.plano, e.telefone, e.email, s.status');
         $this->db->from('tb_empresa e');
-        $this->db->join('tb_status s', 'e.id_status_fk = s.id_status_pk');
+        $this->db->join('tb_status s', 'e.id_status_fk = s.id_status_pk', 'inner');
+        $this->db->join('tb_plano p', 'e.id_plano_fk = p.id_plano_pk', 'inner');
         if (!empty($filter)):
             $where = implode(" OR ", $filter);
             $this->db->where($where);
@@ -324,6 +320,7 @@ class Cliente_model extends CI_Model {
                 $cliente             = new stdClass();
                 $cliente->cnpj       = $value->cnpj;
                 $cliente->nome_razao = $value->nome_razao;
+                $cliente->plano      = $value->plano;
                 $cliente->telefone   = $value->telefone;
                 $cliente->email      = $value->email;
                 $cliente->status     = $value->status;
@@ -364,7 +361,7 @@ class Cliente_model extends CI_Model {
             $data      = time();
             $empr_log  = array();
 
-            $empr_log['id_acao_pk']    = 3;
+            $empr_log['id_acao_fk']    = 3;
             $empr_log['id_usuario_fk'] = $this->session->userdata('id_vt');
             $empr_log['id_empresa_fk'] = $id;
             $empr_log['dt_hr']         = mdate($timestamp, $data);

@@ -1,6 +1,7 @@
 <?php
 # Dados do empresa
 $id              = isset($empresa[0]->id_empresa_pk) ? $empresa[0]->id_empresa_pk : "";
+$plano           = isset($empresa[0]->plano) ? $empresa[0]->plano : "";
 $id_tp_empresa   = isset($empresa[0]->id_tipo_empresa_fk) ? $empresa[0]->id_tipo_empresa_fk : "";
 $cnpj            = isset($empresa[0]->cnpj) ? $empresa[0]->cnpj : "";
 $nome_razao      = isset($empresa[0]->nome_razao) ? $empresa[0]->nome_razao : "";
@@ -99,6 +100,17 @@ $taxa_entrega    = isset($empresa[0]->taxa_entrega) ? number_format($empresa[0]-
 
                                         <div class="tab-pane active" id="empresa">
                                             <div class="box-body">
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5">
+                                                            <label for="plano">Plano Contratado</label>
+                                                            <div class="controls">
+                                                                <?=$plano?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group">
                                                     <div class="row">

@@ -319,21 +319,21 @@ class Pedido extends CI_Controller
                             if ($vl->id_grupo_fk == "3") {
                                 $benef['vl_total'][$i] = ($vl->vl_unitario*$vl->qtd_diaria);
                             } else {
-                                $benef['vl_total'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
+                                $benef['vl_total'][$i] = ($vl->vl_unitario*($value->qtd_dia*$vl->qtd_diaria));
                             }
-                            $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*(($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria)))/100) : 0;
+                            $benef['vl_repasse'][$i]      = isset($vl->vl_repasse) && $vl->vl_repasse != "" ? (($vl->vl_repasse*(($vl->vl_unitario*($value->qtd_dia*$vl->qtd_diaria))))/100) : 0;
                             $benef['vl_rep_func'][$i]     = isset($vl->vl_rep_func) && $vl->vl_rep_func != "" ? $vl->vl_rep_func : 0;
                             # Devidir Grupos para calcular taxas
                             # Grupo Vale Transporte
                             if ($vl->id_grupo_fk == "1") {
-                                $benef['vl_total_vt'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
+                                $benef['vl_total_vt'][$i] = ($vl->vl_unitario*($value->qtd_dia*$vl->qtd_diaria));
                             } else {
                                 $benef['vl_total_vt'][$i] = 0;
                             }
 
                             # Grupo Vale Refeição
                             if ($vl->id_grupo_fk == "2") {
-                                $benef['vl_total_cr'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
+                                $benef['vl_total_cr'][$i] = ($vl->vl_unitario*($value->qtd_dia*$vl->qtd_diaria));
                             } else {
                                 $benef['vl_total_cr'][$i] = 0;
                             }
@@ -347,7 +347,7 @@ class Pedido extends CI_Controller
 
                             # Grupo Vale Combustivel
                             if ($vl->id_grupo_fk == "4") {
-                                $benef['vl_total_cc'][$i] = ($vl->vl_unitario*$value->qtd_dia*$vl->qtd_diaria);
+                                $benef['vl_total_cc'][$i] = ($vl->vl_unitario*($value->qtd_dia*$vl->qtd_diaria));
                             } else {
                                 $benef['vl_total_cc'][$i] = 0;
                             }
@@ -425,6 +425,45 @@ class Pedido extends CI_Controller
             $resposta        = $retorno;
         }
 
+        # retornar resultado
+        print json_encode($resposta);
+    }
+
+    /**
+     * Método de visualizar o pedido antes de finalizar
+     *
+     * @method verPedidoXls
+     * @access public
+     * @return obj Itens do Pedido
+     */
+    public function verPedidoXls()
+    {        
+        $pedido   = new stdClass();
+        $retorno  = new stdClass();
+        $resposta = "";
+
+        $pedido->id           = $this->input->post('id_pedido');
+        $pedido->dt_pgto      = isset($_POST['dt_pgto']) && $_POST['dt_pgto'] != "" ? explode('/', $_POST['dt_pgto']) : NULL;
+        $pedido->periodo      = isset($_POST['periodo']) && $_POST['periodo'] != "" ? explode(' - ', $_POST['periodo']) : NULL;
+        $pedido->id_func      = $this->input->post('id_funcionario');
+        $pedido->taxa_adm     = $this->input->post('taxa_adm');
+        $pedido->taxa_entrega = $this->input->post('taxa_entrega');
+        $pedido->taxa_repasse = $this->input->post('taxa_repasse');
+        $pedido->taxa_fx_perc = $this->input->post('taxa_fixa_perc');
+        $pedido->taxa_fx_real = $this->input->post('taxa_fixa_real');
+        $pedido->taxa_adm_cr  = $this->input->post('taxa_adm_cr');
+        $pedido->taxa_adm_ca  = $this->input->post('taxa_adm_ca');
+        $pedido->taxa_adm_cc  = $this->input->post('taxa_adm_cc');
+        $pedido->id_cliente   = $this->input->post('id_cliente');
+
+        if ($pedido->id != NULL && $pedido->dt_pgto != NULL && $pedido->periodo != NULL && $pedido->id_func != NULL) {
+            $resposta = $this->Pedido_model->exportVerPedido($pedido);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao Exportar a Visualiza&ccedil;&atilde;o do Pedido! Tente novamente...";
+            $resposta        = $retorno;
+        }
+        
         # retornar resultado
         print json_encode($resposta);
     }
@@ -556,10 +595,10 @@ class Pedido extends CI_Controller
             $cidade     = !empty($cliente) && $cliente[0]->cidade != "" ? $cliente[0]->cidade : NULL;
             $endfull    = $lograd.$numero.$compl.$bairro;
             $endfull_m  = $lograd.$numero.$compl;
-            $benef_nome = "VTCARDS COMERCIO E SERVICOS LTDA";
+            $benef_nome = "VTCARDS COMERCIO E SERVICOS LTDA EPP";
             $benef_cnpj = "25.533.823/0001-03";
-            $benef_end  = "Rua Voluntários da Pátria, 654, Sala 302, Santana";
-            $benef_cep  = "02010-000";
+            $benef_end  = "Rua Vale-Verde, 29, Vila Roque";
+            $benef_cep  = "02473-060";
             $benef_cid  = "São Paulo";
             $benef_uf   = "SP";
 
@@ -628,11 +667,11 @@ class Pedido extends CI_Controller
             $date      = date("Ymd");
             $name_file = "boleto_".base64_decode($id_pedido)."_".$date.".pdf";
 
-            $converter = new PhantomJS();
+            /* $converter = new PhantomJS();
             $input     = new TempFile($boleto_html, 'html');
 
             # Convert e Salva no diretorio
-            $converter->convert($input, FILE_PATH.$name_file);
+            $converter->convert($input, FILE_PATH.$name_file); */
 
             # Salvar dados do boleto
             $dados_boleto                          = array();

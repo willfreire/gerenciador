@@ -142,7 +142,20 @@
                 <ul class="treeview-menu">
                     <li><a href="<?= base_url('./relatorio/funcionario_vt') ?>"><i class="fa fa-circle-o"></i> Funcion&aacute;rios</a></li>
                     <li><a href="<?= base_url('./relatorio/pedido_vt') ?>"><i class="fa fa-circle-o"></i> Pedidos</a></li>
+                    <li><a href="<?= base_url('./relatorio/descontos_vt') ?>"><i class="fa fa-circle-o"></i> Descontos de VT</a></li>
                     <li><a href="<?= base_url('./relatorio/inconsistencia_vt') ?>"><i class="fa fa-circle-o"></i> Inconsist&ecirc;ncias</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-map" aria-hidden="true"></i> <span>Roteiriza&ccedil;&atilde;o</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?= base_url('./roteirizacao/solicitadas') ?>"><i class="fa fa-circle-o"></i> Solicitadas</a></li>
+                    <li><a href="<?= base_url('./roteirizacao/historico') ?>"><i class="fa fa-circle-o"></i> Hist&oacute;rico</a></li>
                 </ul>
             </li>
             <?php if ($this->session->userdata('id_perfil_vt') == "1"): ?>

@@ -87,8 +87,8 @@
             $('#tbl_boleto_vt').DataTable({
                 "columns": [
                     {data: "id_pedido_fk"},
-                    {data: "sacado_cnpj_cpf"},
-                    {data: "sacado_nome"},
+                    {data: "pagador_cnpj_cpf"},
+                    {data: "pagador_nome"},
                     {data: "valor"},
                     {data: "dt_vencimento"},
                     {data: "dt_pgto"},

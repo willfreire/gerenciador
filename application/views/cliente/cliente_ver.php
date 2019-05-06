@@ -2,6 +2,7 @@
 # Dados do cliente
 $id              = isset($cliente[0]->id_empresa_pk) ? $cliente[0]->id_empresa_pk : "";
 $id_tp_empresa   = isset($cliente[0]->id_tipo_empresa_fk) ? $cliente[0]->id_tipo_empresa_fk : "";
+$plano           = isset($cliente[0]->plano) ? $cliente[0]->plano : "";
 $tp_empresa      = isset($cliente[0]->tipo_empresa) ? $cliente[0]->tipo_empresa : "";
 $cnpj            = isset($cliente[0]->cnpj) ? $cliente[0]->cnpj : "";
 $nome_razao      = isset($cliente[0]->nome_razao) ? $cliente[0]->nome_razao : "";
@@ -110,6 +111,10 @@ $taxa_adm_cc     = isset($cliente[0]->taxa_adm_cc) ? $cliente[0]->taxa_adm_cc : 
                                     <div class="box box-wrapper-80">
                                         <!-- /.box-header -->
                                         <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Plano Contratado</strong></div>
+                                                <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$plano?></div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2"><strong>Tipo de Empresa</strong></div>
                                                 <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10"><?=$tp_empresa?></div>

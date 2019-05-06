@@ -127,7 +127,7 @@ class Main extends CI_Controller
             $onde = implode(" AND ", $where);
         endif;
 
-        $this->db->select('e.id_empresa_pk, e.id_tipo_empresa_fk, t.tipo_empresa, e.cnpj, e.nome_razao, DATE_FORMAT(el.dt_hr, \'%d/%m/%Y\') AS dt_cad');
+        $this->db->select('e.id_empresa_pk, e.id_plano_fk, e.id_tipo_empresa_fk, t.tipo_empresa, e.cnpj, e.nome_razao, DATE_FORMAT(el.dt_hr, \'%d/%m/%Y\') AS dt_cad');
         $this->db->from('tb_empresa e');
         $this->db->join('tb_tipo_empresa t', 'e.id_tipo_empresa_fk = t.id_tipo_empresa_pk', 'inner');
         $this->db->join('tb_empresa_log el', 'e.id_empresa_pk = el.id_empresa_fk', 'inner');
@@ -166,6 +166,7 @@ class Main extends CI_Controller
             # Vars
             $first_name     = explode(" ", $client[0]->nome_razao);
             $id_empresa     = $client[0]->id_empresa_pk;
+            $id_plano       = $client[0]->id_plano_fk;
             $user_client    = $client[0]->nome_razao;
             $user_st_client = is_array($first_name) ? $first_name[0] : $client[0]->nome_razao;
             $cnpj_client    = $client[0]->cnpj;
@@ -176,6 +177,7 @@ class Main extends CI_Controller
             # Matriz
             $matriz_vt                 = new stdClass();
             $matriz_vt->id_client      = $id_empresa;
+            $matriz_vt->id_plano       = $id_plano;
             $matriz_vt->user_client    = $user_client;
             $matriz_vt->user_st_client = $user_st_client;
             $matriz_vt->cnpj_client    = $cnpj_client;
@@ -186,6 +188,7 @@ class Main extends CI_Controller
             # Setar Sessao
             $dados = array(
                 'id_client'      => $id_empresa,
+                'id_plano'       => $id_plano,
                 'user_client'    => $user_client,
                 'user_st_client' => $user_st_client,
                 'cnpj_client'    => $cnpj_client,

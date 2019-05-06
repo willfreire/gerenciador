@@ -1,10 +1,10 @@
-/* 
+/*
     Created on : 16/11/2016
     Author     : William Freire
 */
 
 #box-frm-client {
-    width: 60%;
+    width: 80%;
 }
 
 .btn-acao {
@@ -13,6 +13,11 @@
 
 .box-wrapper-80 {
     width  : 80%;
+    margin : 20px auto;
+}
+
+.box-wrapper-90 {
+    width  : 90%;
     margin : 20px auto;
 }
 
@@ -37,7 +42,7 @@
     #box-frm-client {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
         width    : 100%;
         overflow : auto;
@@ -48,8 +53,13 @@
     #box-frm-client {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
+        width    : 100%;
+        overflow : auto;
+    }
+
+    .box-wrapper-90 {
         width    : 100%;
         overflow : auto;
     }
@@ -59,9 +69,13 @@
     #box-frm-client {
         width: 100%;
     }
-    
+
     .box-wrapper-80 {
         width  : 100%;
+    }
+
+    .box-wrapper-90 {
+        width    : 100%;
     }
 }
 
@@ -69,19 +83,27 @@
     #box-frm-client {
         width: 90%;
     }
-    
+
     .box-wrapper-80 {
         width  : 90%;
+    }
+
+    .box-wrapper-90 {
+        width    : 100%;
     }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
     #box-frm-client {
-        width: 80%;
+        width: 90%;
     }
-    
+
     .box-wrapper-80 {
         width  : 90%;
+    }
+
+    .box-wrapper-90 {
+        width    : 100%;
     }
 }
 

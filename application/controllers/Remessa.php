@@ -180,7 +180,7 @@ class Remessa extends CI_Controller
                 $num_ver_rem  = $this->Remessa_model->picture9($head[0]->num_versao_rem, 3);
                 $num_reg_arq  = $this->Remessa_model->picture9($head[0]->num_reg_arq, 6);
 
-                $header = $cod_reg_head.$cod_rem_head.$trasmissao.$cod_servico.$servico.$cod_trans_h.$nome_benef.$cod_banco.$nome_banco.$dt_gravacao.$col_h11.$col_h12.$col_h13.$col_h14.$col_h15.$col_h16.$col_h17.$col_h18.$num_ver_rem.$num_reg_arq.chr(13);
+                $header = $cod_reg_head.$cod_rem_head.$trasmissao.$cod_servico.$servico.$cod_trans_h.$nome_benef.$cod_banco.$nome_banco.$dt_gravacao.$col_h11.$col_h12.$col_h13.$col_h14.$col_h15.$col_h16.$col_h17.$col_h18.$num_ver_rem.$num_reg_arq.chr(13).chr(10);
 
                 # Buscar Movimentacao
                 $this->db->where("id_remessa_fk", $id_remessa);
@@ -379,6 +379,30 @@ class Remessa extends CI_Controller
         return $dados;
     }
 
+    /**
+     * Método responsável pela exclusão de um registro
+     *
+     * @method delete
+     * @access public
+     * @return obj Status da ação
+     */
+    public function delete()
+    {
+        $retorno    =  new stdClass();
+        $resposta   = "";
+        $id_remessa = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
+
+        if ($id_remessa !== NULL) {
+            $resposta = $this->Remessa_model->delRemessa($id_remessa);
+        } else {
+            $retorno->status = FALSE;
+            $retorno->msg    = "Houve um erro ao Excluir! Tente novamente...";
+            $resposta        = $retorno;
+        }
+
+        # retornar resultado
+        print json_encode($resposta);
+    }    
 }
 
 /* End of file Remessa.php */

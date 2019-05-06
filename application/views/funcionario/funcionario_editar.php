@@ -4,6 +4,7 @@ $id           = isset($funcionario[0]->id_funcionario_pk) ? $funcionario[0]->id_
 $cpf          = isset($funcionario[0]->cpf) ? $funcionario[0]->cpf : "";
 $nome         = isset($funcionario[0]->nome) ? $funcionario[0]->nome : "";
 $dt_nasc      = isset($funcionario[0]->dt_nasc) ? explode("-", $funcionario[0]->dt_nasc) : "";
+$vl_salario   = isset($funcionario[0]->salario) ? number_format($funcionario[0]->salario, 2, ',', '.') : "0,00";
 $sexo         = isset($funcionario[0]->sexo) ? $funcionario[0]->sexo : "";
 $id_est_civil = isset($funcionario[0]->id_estado_civil_fk) ? $funcionario[0]->id_estado_civil_fk : "";
 $rg           = isset($funcionario[0]->rg) ? $funcionario[0]->rg : "";
@@ -15,6 +16,7 @@ $nome_pai     = isset($funcionario[0]->nome_pai) ? $funcionario[0]->nome_pai : "
 $id_status    = isset($funcionario[0]->id_status_fk) ? $funcionario[0]->id_status_fk : "";
 $matricula    = isset($funcionario[0]->matricula) ? $funcionario[0]->matricula : "";
 $id_depto     = isset($funcionario[0]->id_departamento_fk) ? $funcionario[0]->id_departamento_fk : "";
+$id_turno     = isset($funcionario[0]->id_turno_fk) ? $funcionario[0]->id_turno_fk : "";
 $id_cargo     = isset($funcionario[0]->id_cargo_fk) ? $funcionario[0]->id_cargo_fk : "";
 $id_periodo   = isset($funcionario[0]->id_periodo_pk) ? $funcionario[0]->id_periodo_pk : "";
 $email        = isset($funcionario[0]->email) ? $funcionario[0]->email : "";
@@ -111,6 +113,20 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
                                                             <label for="dt_nasc">Data de Nascimento<span class="text-danger">*</span></label>
                                                             <div class="controls">
                                                                 <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_nasc" id="dt_nasc" placeholder="dd/mm/aaaa" value="<?=is_array($dt_nasc) ? $dt_nasc[2].'/'.$dt_nasc[1].'/'.$dt_nasc[0] : ''?>" maxlength="10" required="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4">
+                                                            <label for="vl_salario">Sal&aacute;rio</label>
+                                                            <div class="controls">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><strong>R$</strong></span>
+                                                                    <input type="text" class="form-control" id="vl_salario" name="vl_salario" placeholder="0,00" maxlength="10" value="<?=$vl_salario?>">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -256,6 +272,7 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
                                                             <label for="depto">Departamento<span class="text-danger">*</span></label>
+                                                            <button type="button" id="btn_cad_depto" class="btn btn-primary btn-xs"><i class="fa fa-plus-circle"></i> Adicionar</button>
                                                             <div class="controls">
                                                                 <select class="form-control" name="depto" id="depto" required="true">
                                                                     <option value="">Selecione</option>
@@ -275,8 +292,30 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
 
                                                 <div class="form-group">
                                                     <div class="row">
+                                                        <div class="col-xs-12 col-sm-7 col-md-5 col-lg-3">
+                                                            <label for="turno">Turno<span class="text-danger">*</span></label>
+                                                            <div class="controls">
+                                                                <select class="form-control" name="turno" id="turno" required="true">
+                                                                    <option value="">Selecione</option>
+                                                                    <?php
+                                                                    if (is_array($turno)):
+                                                                        foreach ($turno as $value):
+                                                                            $sel = $id_turno == $value->id_turno_pk ? "selected='selected'" : "";
+                                                                            echo "<option value='$value->id_turno_pk' $sel>$value->turno</option>";
+                                                                        endforeach;
+                                                                    endif;
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
                                                             <label for="cargo">Cargo<span class="text-danger">*</span></label>
+                                                            <button type="button" id="btn_cad_cargo" class="btn btn-primary btn-xs"><i class="fa fa-plus-circle"></i> Adicionar</button>
                                                             <div class="controls">
                                                                 <select class="form-control" name="cargo" id="cargo" required="true">
                                                                     <option value="">Selecione</option>
@@ -705,6 +744,80 @@ $id_end_empr  = isset($funcionario[0]->id_endereco_empresa_fk) ? $funcionario[0]
 
         </div>
         <!-- /.content-wrapper -->
+
+        <!-- Modal Add Departamento -->
+        <div class="modal fade" id="modal_depto">
+            <div class="modal-dialog" id="modal-dialog-depto">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                        <h4 class="modal-title">Adicionar Novo Departamento</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid box box-primary" id="box-frm-bencard-func">
+                            <div class="box-header with-border">
+                                <span class="text-danger">*</span> Campo com preenchimento obrigat&oacute;rio
+                            </div>
+                            <form role="form" name="frm_cad_depto" id="frm_cad_depto">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <label for="new_depto">Novo Departamento<span class="text-danger">*</span></label>
+                                                <div class="controls">
+                                                    <input type="text" class="form-control" id="new_depto" name="new_depto" placeholder="Novo Departamento" maxlength="50" value="" required="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" id="btn_cad_depto" name="btn_cad_depto" class="btn btn-success">Cadastrar</button>
+                                    <button type="reset" id="cancel_depto" name="cancel_depto" class="btn btn-primary">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Add Cargo -->
+        <div class="modal fade" id="modal_cargo">
+            <div class="modal-dialog" id="modal-dialog-cargo">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                        <h4 class="modal-title">Adicionar Novo Cargo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid box box-primary" id="box-frm-bencard-func">
+                            <div class="box-header with-border">
+                                <span class="text-danger">*</span> Campo com preenchimento obrigat&oacute;rio
+                            </div>
+                            <form role="form" name="frm_cad_cargo" id="frm_cad_cargo">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <label for="new_cargo">Novo Cargo<span class="text-danger">*</span></label>
+                                                <div class="controls">
+                                                    <input type="text" class="form-control" id="new_cargo" name="new_cargo" placeholder="Novo Cargo" maxlength="20" value="" required="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" id="btn_cad_cargo" name="btn_cad_cargo" class="btn btn-success">Cadastrar</button>
+                                    <button type="reset" id="cancel_cargo" name="cancel_cargo" class="btn btn-primary">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Main Footer -->
         <?php require_once(APPPATH . '/views/main_footer.php'); ?>

@@ -53,6 +53,7 @@
                                 <div class="nav-tabs-custom">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a href="#func" data-toggle="tab"><strong>Dados do Funcion&aacute;rio</strong></a></li>
+                                        <!-- <li><a href="#ender" data-toggle="tab"><strong>Endere&ccedil;o do Funcion&aacute;rio</strong></a></li> -->
                                         <li><a href="#dados" data-toggle="tab"><strong>Dados Profissionais</strong></a></li>
                                         <li><a href="#benef" data-toggle="tab"><strong>Benef&iacute;cios do Funcion&aacute;rio</strong></a></li>
                                     </ul>
@@ -89,6 +90,20 @@
                                                             <label for="dt_nasc">Data de Nascimento<span class="text-danger">*</span></label>
                                                             <div class="controls">
                                                                 <input type="text" class="datepicker form-control" data-date-format="dd/mm/yyyy" name="dt_nasc" id="dt_nasc" placeholder="dd/mm/aaaa" value="" maxlength="10" required="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-8 col-sm-6 col-md-5 col-lg-4">
+                                                            <label for="vl_salario">Sal&aacute;rio</label>
+                                                            <div class="controls">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><strong>R$</strong></span>
+                                                                    <input type="text" class="form-control" id="vl_salario" name="vl_salario" placeholder="0,00" maxlength="10" value="0,00">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -214,6 +229,109 @@
                                             </div>
                                         </div>
 
+                                        <!-- <div class="tab-pane" id="ender">
+                                            <div class="box-body">
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-7 col-sm-5 col-md-5 col-lg-4">
+                                                            <label for="cep">CEP<span class="text-danger">*</span></label>
+                                                            <div class="controls">
+                                                                <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP" maxlength="9" required="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                            <label for="endereco">Endere&ccedil;o<span class="text-danger">*</span></label>
+                                                            <div class="controls">
+                                                                <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Endere&ccedil;o" maxlength="250" required="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-7 col-sm-5 col-md-5 col-lg-4">
+                                                            <label for="numero">N&uacute;mero<span class="text-danger">*</span></label>
+                                                            <div class="controls">
+                                                                <input type="text" class="form-control" id="numero" name="numero" placeholder="N&uacute;mero" maxlength="15" required="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6">
+                                                            <label for="complemento">Complemento</label>
+                                                            <div class="controls">
+                                                                <input type="text" class="form-control" id="complemento" name="complemento" placeholder="Complemento" maxlength="50">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6">
+                                                            <label for="bairro">Bairro<span class="text-danger">*</span></label>
+                                                            <div class="controls">
+                                                                <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" maxlength="25">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
+                                                            <label for="estado">Estado<span class="text-danger">*</span></label>
+                                                            <div class="controls">
+                                                                <select class="form-control" name="estado" id="estado" required="true">
+                                                                    <option value="">Selecione</option>
+                                                                    < ?php
+                                                                    if (is_array($estado)):
+                                                                        foreach ($estado as $value):
+                                                                            $sel = $value->id_estado_pk == 26 ? "selected='selected'" : "";
+                                                                            echo "<option value='$value->id_estado_pk' $sel>$value->estado</option>";
+                                                                        endforeach;
+                                                                    endif;
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
+                                                            <label for="cidade">Cidade<span class="text-danger">*</span></label>
+                                                            <div class="controls">
+                                                                <select class="form-control" name="cidade" id="cidade" required="true">
+                                                                    <option value="">Selecione</option>
+                                                                    < ?php
+                                                                    if (is_array($cidade)):
+                                                                        foreach ($cidade as $value):
+                                                                            $sel = $value->id_cidade_pk == 5346 ? "selected='selected'" : "";
+                                                                            echo "<option value='$value->id_cidade_pk' $sel>$value->cidade</option>";
+                                                                        endforeach;
+                                                                    endif;
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div> -->
+
                                         <div class="tab-pane" id="dados">
                                             <div class="box-body">
 
@@ -232,6 +350,7 @@
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
                                                             <label for="depto">Departamento<span class="text-danger">*</span></label>
+                                                            <button type="button" id="btn_cad_depto" class="btn btn-primary btn-xs"><i class="fa fa-plus-circle"></i> Adicionar</button>
                                                             <div class="controls">
                                                                 <select class="form-control" name="depto" id="depto" required="true">
                                                                     <option value="">Selecione</option>
@@ -250,8 +369,29 @@
 
                                                 <div class="form-group">
                                                     <div class="row">
+                                                        <div class="col-xs-12 col-sm-7 col-md-5 col-lg-3">
+                                                            <label for="turno">Turno<span class="text-danger">*</span></label>
+                                                            <div class="controls">
+                                                                <select class="form-control" name="turno" id="turno" required="true">
+                                                                    <option value="">Selecione</option>
+                                                                    <?php
+                                                                    if (is_array($turno)):
+                                                                        foreach ($turno as $value):
+                                                                            echo "<option value='$value->id_turno_pk'>$value->turno</option>";
+                                                                        endforeach;
+                                                                    endif;
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
                                                             <label for="cargo">Cargo<span class="text-danger">*</span></label>
+                                                            <button type="button" id="btn_cad_cargo" class="btn btn-primary btn-xs"><i class="fa fa-plus-circle"></i> Adicionar</button>
                                                             <div class="controls">
                                                                 <select class="form-control" name="cargo" id="cargo" required="true">
                                                                     <option value="">Selecione</option>
@@ -524,6 +664,80 @@
 
         </div>
         <!-- /.content-wrapper -->
+
+        <!-- Modal Add Departamento -->
+        <div class="modal fade" id="modal_depto">
+            <div class="modal-dialog" id="modal-dialog-depto">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                        <h4 class="modal-title">Adicionar Novo Departamento</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid box box-primary" id="box-frm-bencard-func">
+                            <div class="box-header with-border">
+                                <span class="text-danger">*</span> Campo com preenchimento obrigat&oacute;rio
+                            </div>
+                            <form role="form" name="frm_cad_depto" id="frm_cad_depto">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <label for="new_depto">Novo Departamento<span class="text-danger">*</span></label>
+                                                <div class="controls">
+                                                    <input type="text" class="form-control" id="new_depto" name="new_depto" placeholder="Novo Departamento" maxlength="50" value="" required="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" id="btn_cad_depto" name="btn_cad_depto" class="btn btn-success">Cadastrar</button>
+                                    <button type="reset" id="cancel_depto" name="cancel_depto" class="btn btn-primary">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Add Cargo -->
+        <div class="modal fade" id="modal_cargo">
+            <div class="modal-dialog" id="modal-dialog-cargo">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                        <h4 class="modal-title">Adicionar Novo Cargo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid box box-primary" id="box-frm-bencard-func">
+                            <div class="box-header with-border">
+                                <span class="text-danger">*</span> Campo com preenchimento obrigat&oacute;rio
+                            </div>
+                            <form role="form" name="frm_cad_cargo" id="frm_cad_cargo">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <label for="new_cargo">Novo Cargo<span class="text-danger">*</span></label>
+                                                <div class="controls">
+                                                    <input type="text" class="form-control" id="new_cargo" name="new_cargo" placeholder="Novo Cargo" maxlength="20" value="" required="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" id="btn_cad_cargo" name="btn_cad_cargo" class="btn btn-success">Cadastrar</button>
+                                    <button type="reset" id="cancel_cargo" name="cancel_cargo" class="btn btn-primary">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Main Footer -->
         <?php require_once(APPPATH . '/views/main_footer.php'); ?>
